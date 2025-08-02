@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from openai import OpenAI
-from .ai_config import OPENAI_API_KEY, AI_MODEL, AI_MAX_TOKENS, AI_TEMPERATURE, AI_TOP_P, FALLBACK_RESPONSES
+from .ai_config import  AI_MODEL, AI_MAX_TOKENS, AI_TEMPERATURE, AI_TOP_P, FALLBACK_RESPONSES
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -23,7 +23,7 @@ class CoffeeExpertAI:
     def __init__(self):
         # Initialize OpenAI client
         try:
-            self.client = OpenAI(api_key=OPENAI_API_KEY)
+            self.client = OpenAI(api_key="")
             self.client.models.list()
             self.is_available = True
             logger.info("AI Assistant initialized successfully")
