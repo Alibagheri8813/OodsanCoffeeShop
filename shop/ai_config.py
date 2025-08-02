@@ -2,7 +2,7 @@ import os
 from django.conf import settings
 
 # AI Assistant Configuration
-# Use environment variable for security - set OPENAI_API_KEY in your environment
+# Use environment variable for security - set  in your environment
 
 
 # AI Configuration - Using GPT-3.5-turbo for cost efficiency
