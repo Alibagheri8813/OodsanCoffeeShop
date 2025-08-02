@@ -1,0 +1,639 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}داشبورد تحلیلات - کافه شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .analytics-container {
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 80vh;
+    }
+    
+    .analytics-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .metric-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-label {
+        color: #6c757d;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-change {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    .metric-change.positive {
+        color: #28a745;
+    }
+    
+    .metric-change.negative {
+        color: #dc3545;
+    }
+    
+    .metric-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+        opacity: 0.1;
+    }
+    
+    .chart-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .chart-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .chart-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .chart-btn {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .chart-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+    }
+    
+    .table-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    
+    .table-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .table-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+    
+    .analytics-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .analytics-table th {
+        background: #f8f9fa;
+        padding: 1rem;
+        text-align: right;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .analytics-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        color: #6c757d;
+    }
+    
+    .analytics-table tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .status-badge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .status-delivered {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .segment-badge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .segment-vip {
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        color: #856404;
+    }
+    
+    .segment-regular {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+    }
+    
+    .segment-new {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #dee2e6;
+    }
+    
+    .loading-spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .refresh-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .refresh-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .metric-value {
+            font-size: 2rem;
+        }
+        
+        .chart-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .analytics-table {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-container">
+    <div class="container">
+        <!-- Analytics Header -->
+        <div class="analytics-header">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-chart-line"></i>
+                داشبورد تحلیلات
+            </h1>
+            <p class="lead">
+                آمار و اطلاعات زنده فروشگاه
+            </p>
+            <button class="refresh-btn" onclick="refreshAnalytics()">
+                <i class="fas fa-sync-alt"></i>
+                بروزرسانی
+            </button>
+        </div>
+        
+        <!-- Key Metrics -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <i class="fas fa-dollar-sign metric-icon"></i>
+                    <div class="metric-value">{{ total_revenue|floatformat:0 }}</div>
+                    <div class="metric-label">درآمد کل (تومان)</div>
+                    <div class="metric-change {% if revenue_change >= 0 %}positive{% else %}negative{% endif %}">
+                        <i class="fas fa-{% if revenue_change >= 0 %}arrow-up{% else %}arrow-down{% endif %}"></i>
+                        {{ revenue_change|floatformat:1 }}% از ماه گذشته
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <i class="fas fa-shopping-cart metric-icon"></i>
+                    <div class="metric-value">{{ total_orders }}</div>
+                    <div class="metric-label">تعداد سفارشات</div>
+                    <div class="metric-change {% if orders_change >= 0 %}positive{% else %}negative{% endif %}">
+                        <i class="fas fa-{% if orders_change >= 0 %}arrow-up{% else %}arrow-down{% endif %}"></i>
+                        {{ orders_change|floatformat:1 }}% از ماه گذشته
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <i class="fas fa-users metric-icon"></i>
+                    <div class="metric-value">{{ active_users }}</div>
+                    <div class="metric-label">کاربران فعال</div>
+                    <div class="metric-change {% if users_change >= 0 %}positive{% else %}negative{% endif %}">
+                        <i class="fas fa-{% if users_change >= 0 %}arrow-up{% else %}arrow-down{% endif %}"></i>
+                        {{ users_change|floatformat:1 }}% از ماه گذشته
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <i class="fas fa-box metric-icon"></i>
+                    <div class="metric-value">{{ low_stock_products }}</div>
+                    <div class="metric-label">محصولات کم موجودی</div>
+                    <div class="metric-change">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        نیاز به بررسی
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts and Tables -->
+        <div class="row">
+            <!-- Revenue Chart -->
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">
+                            <i class="fas fa-chart-area"></i>
+                            درآمد ماهانه
+                        </h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn active" onclick="setChartPeriod('month')">ماهانه</button>
+                            <button class="chart-btn" onclick="setChartPeriod('week')">هفتگی</button>
+                        </div>
+                    </div>
+                    <div id="revenueChart" style="height: 300px;">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Products -->
+            <div class="col-md-6">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">
+                            <i class="fas fa-star"></i>
+                            محصولات پرفروش
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>محصول</th>
+                                    <th>دسته‌بندی</th>
+                                    <th>فروش</th>
+                                    <th>درآمد</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in top_products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.category.name }}</td>
+                                    <td>{{ product.sales_count }}</td>
+                                    <td>{{ product.total_revenue|floatformat:0 }} تومان</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">هیچ محصولی یافت نشد</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Recent Orders -->
+            <div class="col-md-6">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">
+                            <i class="fas fa-clock"></i>
+                            سفارشات اخیر
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>شماره سفارش</th>
+                                    <th>مشتری</th>
+                                    <th>مبلغ</th>
+                                    <th>وضعیت</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td>#{{ order.id }}</td>
+                                    <td>{{ order.user.username }}</td>
+                                    <td>{{ order.total_amount|floatformat:0 }} تومان</td>
+                                    <td>
+                                        <span class="status-badge status-{{ order.status }}">
+                                            {{ order.get_status_display }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">هیچ سفارشی یافت نشد</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customer Segments -->
+            <div class="col-md-6">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">
+                            <i class="fas fa-users"></i>
+                            بخش‌بندی مشتریان
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>بخش</th>
+                                    <th>تعداد</th>
+                                    <th>درصد</th>
+                                    <th>میانگین خرید</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for segment in customer_segments %}
+                                <tr>
+                                    <td>
+                                        <span class="segment-badge segment-{{ segment.segment_type|lower }}">
+                                            {{ segment.get_segment_type_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ segment.count }}</td>
+                                    <td>{{ segment.percentage|floatformat:1 }}%</td>
+                                    <td>{{ segment.avg_order_value|floatformat:0 }} تومان</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">هیچ بخش‌بندی یافت نشد</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Analytics -->
+        <div class="row">
+            <div class="col-12">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">
+                            <i class="fas fa-search"></i>
+                            جستجوهای محبوب
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>عبارت جستجو</th>
+                                    <th>تعداد جستجو</th>
+                                    <th>نتایج متوسط</th>
+                                    <th>آخرین جستجو</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for search in popular_searches %}
+                                <tr>
+                                    <td>{{ search.query }}</td>
+                                    <td>{{ search.search_count }}</td>
+                                    <td>{{ search.avg_results|floatformat:0 }}</td>
+                                    <td>{{ search.last_searched|date:"Y/m/d H:i" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">هیچ جستجویی یافت نشد</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let revenueChart = null;
+
+// Initialize charts
+document.addEventListener('DOMContentLoaded', function() {
+    initializeRevenueChart();
+});
+
+function initializeRevenueChart() {
+    const ctx = document.getElementById('revenueChart');
+    if (!ctx) return;
+    
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    ctx.innerHTML = '';
+    ctx.appendChild(canvas);
+    
+    revenueChart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: {{ revenue_labels|safe }},
+            datasets: [{
+                label: 'درآمد (تومان)',
+                data: {{ revenue_data|safe }},
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return new Intl.NumberFormat('fa-IR').format(value) + ' تومان';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function setChartPeriod(period) {
+    // Update active button
+    document.querySelectorAll('.chart-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Reload chart data
+    fetch(`/shop/api/analytics/?period=${period}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && revenueChart) {
+                revenueChart.data.labels = data.revenue_labels;
+                revenueChart.data.datasets[0].data = data.revenue_data;
+                revenueChart.update();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading chart data:', error);
+        });
+}
+
+function refreshAnalytics() {
+    // Show loading state
+    const refreshBtn = event.target;
+    const originalText = refreshBtn.innerHTML;
+    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> بروزرسانی...';
+    refreshBtn.disabled = true;
+    
+    // Reload page after a short delay
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+}
+
+// Auto-refresh every 5 minutes
+setInterval(() => {
+    // Only refresh if user is on analytics page
+    if (window.location.pathname.includes('/analytics/')) {
+        location.reload();
+    }
+}, 300000); // 5 minutes
+</script>
+{% endblock %} 

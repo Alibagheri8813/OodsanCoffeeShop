@@ -1,0 +1,585 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}جستجوی محصولات - {{ query }}{% endblock %}
+
+{% block content %}
+<div class="search-results-container">
+    <div class="search-header">
+        <h1>نتایج جستجو</h1>
+        {% if query %}
+            <p>نتایج جستجو برای: "{{ query }}"</p>
+        {% endif %}
+    </div>
+
+    <!-- Search Filters -->
+    <div class="search-filters">
+        <form method="GET" class="filter-form">
+            <div class="filter-group">
+                <input type="text" name="q" value="{{ query }}" placeholder="جستجو در محصولات..." class="search-input">
+            </div>
+            
+            <div class="filter-group">
+                <select name="category" class="filter-select">
+                    <option value="">همه دسته‌بندی‌ها</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <input type="number" name="min_price" value="{{ min_price }}" placeholder="حداقل قیمت" class="price-input">
+                <input type="number" name="max_price" value="{{ max_price }}" placeholder="حداکثر قیمت" class="price-input">
+            </div>
+            
+            <div class="filter-group">
+                <select name="sort" class="filter-select">
+                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>مرتب‌سازی بر اساس نام</option>
+                    <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>کمترین قیمت</option>
+                    <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>بیشترین قیمت</option>
+                    <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>جدیدترین</option>
+                    <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>محبوب‌ترین</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="filter-btn">اعمال فیلتر</button>
+        </form>
+    </div>
+
+    <!-- Results -->
+    <div class="search-results">
+        {% if products %}
+            <div class="results-count">
+                <p>{{ products.paginator.count }} محصول یافت شد</p>
+            </div>
+            
+            <div class="products-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        <div class="product-image">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <div class="no-image">بدون تصویر</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="product-info">
+                            <h3 class="product-name">{{ product.name }}</h3>
+                            <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+                            <div class="product-price">{{ product.price|floatformat:0 }} تومان</div>
+                            
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" data-product-id="{{ product.id }}">
+                                    افزودن به سبد خرید
+                                </button>
+                                <button class="like-btn" data-product-id="{{ product.id }}">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="favorite-btn" data-product-id="{{ product.id }}">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if products.has_other_pages %}
+                <div class="pagination">
+                    {% if products.has_previous %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if min_price %}min_price={{ min_price }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{% if sort_by %}sort={{ sort_by }}&{% endif %}page={{ products.previous_page_number }}" class="page-link">قبلی</a>
+                    {% endif %}
+                    
+                    {% for num in products.paginator.page_range %}
+                        {% if products.number == num %}
+                            <span class="page-link active">{{ num }}</span>
+                        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if min_price %}min_price={{ min_price }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{% if sort_by %}sort={{ sort_by }}&{% endif %}page={{ num }}" class="page-link">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if products.has_next %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}{% if min_price %}min_price={{ min_price }}&{% endif %}{% if max_price %}max_price={{ max_price }}&{% endif %}{% if sort_by %}sort={{ sort_by }}&{% endif %}page={{ products.next_page_number }}" class="page-link">بعدی</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="no-results">
+                <h3>نتیجه‌ای یافت نشد</h3>
+                <p>متأسفانه هیچ محصولی با معیارهای جستجوی شما یافت نشد.</p>
+                <a href="{% url 'product_list' %}" class="btn-primary">مشاهده همه محصولات</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.search-results-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-header h1 {
+    color: #2c1810;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.search-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.search-filters {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.search-input, .filter-select, .price-input {
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus, .filter-select:focus, .price-input:focus {
+    border-color: #8b4513;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.results-count {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.product-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    color: #2c1810;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.product-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.product-price {
+    font-size: 1.3rem;
+    color: #8b4513;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.product-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.add-to-cart-btn {
+    flex: 1;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.like-btn, .favorite-btn {
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.like-btn:hover, .favorite-btn:hover {
+    background: #e9ecef;
+    border-color: #8b4513;
+    color: #8b4513;
+}
+
+.like-btn.active, .favorite-btn.active {
+    background: #8b4513;
+    border-color: #8b4513;
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.page-link {
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    border-color: #8b4513;
+    color: #8b4513;
+}
+
+.page-link.active {
+    background: #8b4513;
+    border-color: #8b4513;
+    color: white;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-results h3 {
+    color: #2c1810;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+@media (max-width: 768px) {
+    .search-results-container {
+        padding: 1rem;
+    }
+    
+    .filter-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .search-header h1 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            addToCart(productId, 1);
+        });
+    });
+
+    // Like functionality
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            toggleLike(productId);
+        });
+    });
+
+    // Favorite functionality
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            toggleFavorite(productId);
+        });
+    });
+});
+
+function addToCart(productId, quantity) {
+    fetch('/shop/cart/add/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, 'success');
+            updateCartCount(data.cart_count);
+        } else {
+            showNotification(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطا در افزودن به سبد خرید', 'error');
+    });
+}
+
+function toggleLike(productId) {
+    fetch('/shop/like/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            product_id: productId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const button = document.querySelector(`[data-product-id="${productId}"].like-btn`);
+            if (data.is_liked) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        }
+    })
+    .catch(error => {
+        showNotification('خطا در ثبت پسند', 'error');
+    });
+}
+
+function toggleFavorite(productId) {
+    fetch('/shop/favorite/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            product_id: productId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const button = document.querySelector(`[data-product-id="${productId}"].favorite-btn`);
+            if (data.is_favorited) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        }
+    })
+    .catch(error => {
+        showNotification('خطا در ثبت علاقه‌مندی', 'error');
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    if (type === 'success') {
+        notification.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+    } else {
+        notification.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+function updateCartCount(count) {
+    const cartCountElement = document.querySelector('.cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+}
+</script>
+
+<style>
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+</style>
+{% endblock %} 

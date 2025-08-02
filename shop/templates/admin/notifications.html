@@ -1,0 +1,294 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'shop/admin.css' %}">
+<style>
+    .notifications-container {
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+    
+    .notifications-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .notifications-title {
+        font-size: 2rem;
+        color: #333;
+        margin: 0;
+    }
+    
+    .notifications-actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .action-btn {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .action-btn.danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+    
+    .notifications-list {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .notification-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        transition: background 0.2s;
+    }
+    
+    .notification-item:hover {
+        background: #f8f9fa;
+    }
+    
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+    
+    .notification-item.unread {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+    }
+    
+    .notification-content {
+        flex: 1;
+    }
+    
+    .notification-title {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+    
+    .notification-message {
+        color: #666;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+    
+    .notification-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.9rem;
+        color: #999;
+    }
+    
+    .notification-type {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    .type-order_new { background: #007bff; color: white; }
+    .type-order_status { background: #17a2b8; color: white; }
+    .type-low_stock { background: #ffc107; color: #212529; }
+    .type-feedback_new { background: #28a745; color: white; }
+    .type-user_new { background: #6f42c1; color: white; }
+    .type-system { background: #6c757d; color: white; }
+    
+    .notification-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn-small {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+    
+    .empty-state h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="notifications-container">
+    <!-- Header -->
+    <div class="notifications-header">
+        <h1 class="notifications-title">اعلانات مدیریتی</h1>
+        <div class="notifications-actions">
+            <button class="action-btn" onclick="markAllRead()">علامت‌گذاری همه به عنوان خوانده شده</button>
+            <a href="{% url 'admin_dashboard' %}" class="action-btn">بازگشت به داشبورد</a>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-number">{{ notifications.count }}</div>
+            <div class="stat-label">کل اعلانات</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ unread_count }}</div>
+            <div class="stat-label">اعلانات نخوانده</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ notifications.count|add:"-1"|add:unread_count }}</div>
+            <div class="stat-label">اعلانات خوانده شده</div>
+        </div>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="notifications-list">
+        {% if notifications %}
+            {% for notification in notifications %}
+            <div class="notification-item {% if not notification.is_read %}unread{% endif %}" id="notification-{{ notification.id }}">
+                <div class="notification-content">
+                    <div class="notification-title">{{ notification.title }}</div>
+                    <div class="notification-message">{{ notification.message }}</div>
+                    <div class="notification-meta">
+                        <span class="notification-type type-{{ notification.notification_type }}">
+                            {{ notification.get_notification_type_display }}
+                        </span>
+                        <span>{{ notification.created_at|date:"Y/m/d H:i" }}</span>
+                        {% if not notification.is_read %}
+                        <span style="color: #dc3545; font-weight: bold;">نخوانده</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="notification-actions">
+                    {% if not notification.is_read %}
+                    <button class="action-btn btn-small" onclick="markAsRead({{ notification.id }})">خوانده شد</button>
+                    {% endif %}
+                    <button class="action-btn btn-small danger" onclick="deleteNotification({{ notification.id }})">حذف</button>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <h3>هیچ اعلانی یافت نشد</h3>
+                <p>وقتی اعلان جدیدی دریافت کنید، اینجا نمایش داده خواهد شد.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function markAsRead(notificationId) {
+    fetch(`/admin/notifications/mark-read/${notificationId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const notification = document.getElementById(`notification-${notificationId}`);
+            notification.classList.remove('unread');
+            location.reload();
+        }
+    });
+}
+
+function markAllRead() {
+    fetch('/admin/notifications/mark-all-read/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function deleteNotification(notificationId) {
+    if (confirm('آیا مطمئن هستید که می‌خواهید این اعلان را حذف کنید؟')) {
+        fetch(`/admin/notifications/delete/${notificationId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const notification = document.getElementById(`notification-${notificationId}`);
+                notification.remove();
+                location.reload();
+            }
+        });
+    }
+}
+
+// Auto-refresh every 30 seconds
+setTimeout(function() {
+    location.reload();
+}, 30000);
+</script>
+{% endblock %} 

@@ -1,0 +1,392 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}مدیریت سفارشات{% endblock %}
+
+{% block extrastyle %}
+<style>
+    .order-list-container {
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+    
+    .header-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .stat-card.pending { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%); color: #212529; }
+    .stat-card.processing { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); }
+    .stat-card.shipped { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); }
+    .stat-card.delivered { background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .filters-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .filter-form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-form input,
+    .filter-form select {
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+    
+    .filter-form button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .orders-table {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-header {
+        background: #f8f9fa;
+        padding: 15px;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .order-row {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        display: grid;
+        grid-template-columns: 80px 2fr 1fr 1fr 1fr 1fr 120px;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .order-row:hover {
+        background: #f8f9fa;
+    }
+    
+    .order-row:last-child {
+        border-bottom: none;
+    }
+    
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .status-pending { background: #ffc107; color: #212529; }
+    .status-processing { background: #17a2b8; color: white; }
+    .status-shipped { background: #007bff; color: white; }
+    .status-delivered { background: #28a745; color: white; }
+    .status-cancelled { background: #dc3545; color: white; }
+    
+    .action-buttons {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .btn {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    
+    .btn-primary { background: #007bff; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-warning { background: #ffc107; color: #212529; }
+    
+    .bulk-actions {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bulk-form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .bulk-form select {
+        padding: 8px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    
+    .bulk-form button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+    }
+    
+    .page-link {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #007bff;
+    }
+    
+    .page-link.active {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="order-list-container">
+    <!-- Header -->
+    <div class="header-section">
+        <h1 style="margin: 0 0 20px 0; color: #333;">مدیریت سفارشات</h1>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_orders }}</div>
+                <div class="stat-label">کل سفارشات</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-number">{{ pending_count }}</div>
+                <div class="stat-label">در انتظار</div>
+            </div>
+            <div class="stat-card processing">
+                <div class="stat-number">{{ processing_count }}</div>
+                <div class="stat-label">در حال آماده سازی</div>
+            </div>
+            <div class="stat-card shipped">
+                <div class="stat-number">{{ shipped_count }}</div>
+                <div class="stat-label">ارسال شده</div>
+            </div>
+            <div class="stat-card delivered">
+                <div class="stat-number">{{ delivered_count }}</div>
+                <div class="stat-label">تحویل داده شده</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-section">
+        <h3 style="margin-bottom: 15px; color: #333;">فیلترها</h3>
+        <form method="get" class="filter-form">
+            <input type="text" name="search" placeholder="جستجو بر اساس شماره سفارش، نام کاربری یا ایمیل" 
+                   value="{{ search_query }}" style="flex: 1; min-width: 300px;">
+            <select name="status">
+                <option value="">همه وضعیت‌ها</option>
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">اعمال فیلتر</button>
+            <a href="{% url 'admin_order_list' %}" style="color: #666; text-decoration: none;">پاک کردن فیلترها</a>
+        </form>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="bulk-actions">
+        <h3 style="margin-bottom: 15px; color: #333;">عملیات گروهی</h3>
+        <form method="post" action="{% url 'admin_bulk_order_status' %}" class="bulk-form">
+            {% csrf_token %}
+            <select name="status" required>
+                <option value="">انتخاب وضعیت جدید</option>
+                {% for value, label in status_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">تغییر وضعیت سفارشات انتخاب شده</button>
+        </form>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="orders-table">
+        <div class="table-header" style="display: grid; grid-template-columns: 80px 2fr 1fr 1fr 1fr 1fr 120px; gap: 15px;">
+            <div>انتخاب</div>
+            <div>مشتری</div>
+            <div>شماره سفارش</div>
+            <div>تاریخ</div>
+            <div>مبلغ</div>
+            <div>وضعیت</div>
+            <div>عملیات</div>
+        </div>
+        
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order-row">
+                <div>
+                    <input type="checkbox" name="order_ids" value="{{ order.id }}" form="bulk-form">
+                </div>
+                <div>
+                    <strong>{{ order.user.username }}</strong>
+                    <br>
+                    <small style="color: #666;">{{ order.user.email }}</small>
+                </div>
+                <div>
+                    <strong>#{{ order.id }}</strong>
+                    <br>
+                    <small style="color: #666;">{{ order.items.count }} آیتم</small>
+                </div>
+                <div>
+                    {{ order.created_at|date:"Y/m/d" }}
+                    <br>
+                    <small style="color: #666;">{{ order.created_at|date:"H:i" }}</small>
+                </div>
+                <div>
+                    <strong>{{ order.total_amount|floatformat:0 }} تومان</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-{{ order.status }}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+                <div class="action-buttons">
+                    <a href="{% url 'admin_order_detail' order.id %}" class="btn btn-primary">جزئیات</a>
+                    {% if order.feedback %}
+                    <a href="{% url 'admin:shop_orderfeedback_change' order.feedback.id %}" class="btn btn-warning">بازخورد</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <h3>هیچ سفارشی یافت نشد</h3>
+                <p>با تغییر فیلترها سفارشات بیشتری را مشاهده کنید.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if orders.has_other_pages %}
+    <div class="pagination">
+        {% if orders.has_previous %}
+            <a href="?page={{ orders.previous_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="page-link">قبلی</a>
+        {% endif %}
+        
+        {% for num in orders.paginator.page_range %}
+            {% if orders.number == num %}
+                <span class="page-link active">{{ num }}</span>
+            {% elif num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                <a href="?page={{ num }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if orders.has_next %}
+            <a href="?page={{ orders.next_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}" class="page-link">بعدی</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit bulk form when status changes
+    const bulkStatusSelect = document.querySelector('select[name="status"]');
+    const bulkForm = document.querySelector('.bulk-form form');
+    
+    bulkStatusSelect.addEventListener('change', function() {
+        if (this.value) {
+            const checkedBoxes = document.querySelectorAll('input[name="order_ids"]:checked');
+            if (checkedBoxes.length > 0) {
+                if (confirm(`آیا می‌خواهید وضعیت ${checkedBoxes.length} سفارش را تغییر دهید؟`)) {
+                    bulkForm.submit();
+                }
+            } else {
+                alert('لطفاً حداقل یک سفارش را انتخاب کنید.');
+            }
+        }
+    });
+    
+    // Select all checkbox
+    const selectAllCheckbox = document.createElement('input');
+    selectAllCheckbox.type = 'checkbox';
+    selectAllCheckbox.id = 'select-all';
+    selectAllCheckbox.style.marginRight = '5px';
+    
+    const tableHeader = document.querySelector('.table-header div:first-child');
+    tableHeader.innerHTML = '';
+    tableHeader.appendChild(selectAllCheckbox);
+    tableHeader.appendChild(document.createTextNode('انتخاب'));
+    
+    selectAllCheckbox.addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[name="order_ids"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+});
+</script>
+{% endblock %} 

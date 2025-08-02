@@ -1,0 +1,389 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}جزئیات سفارش #{{ order.id }}{% endblock %}
+
+{% block extrastyle %}
+<style>
+    .order-detail-container {
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        color: #333; /* Ensure all text is dark */
+    }
+    
+    .order-header {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #007bff;
+        color: #333;
+    }
+    
+    .order-header h1 {
+        color: #333 !important;
+    }
+    
+    .order-header p {
+        color: #666 !important;
+    }
+    
+    .order-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+    
+    .info-card h3 {
+        color: #333 !important;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        color: #333;
+    }
+    
+    .info-item span {
+        color: #333 !important;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+    }
+    
+    .status-pending { background: #ffc107; color: #212529; }
+    .status-processing { background: #17a2b8; color: white; }
+    .status-shipped { background: #007bff; color: white; }
+    .status-delivered { background: #28a745; color: white; }
+    .status-cancelled { background: #dc3545; color: white; }
+    
+    .order-items {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+    
+    .order-items h3 {
+        color: #333 !important;
+    }
+    
+    .item-row {
+        display: grid;
+        grid-template-columns: 50px 2fr 1fr 1fr 1fr;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+        color: #333;
+    }
+    
+    .item-row strong {
+        color: #333 !important;
+    }
+    
+    .item-row small {
+        color: #666 !important;
+    }
+    
+    .item-row:last-child {
+        border-bottom: none;
+    }
+    
+    .item-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .status-form {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+    
+    .status-form h3 {
+        color: #333 !important;
+    }
+    
+    .status-form select {
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-right: 10px;
+        color: #333;
+        background: white;
+    }
+    
+    .status-form button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    
+    .status-form button:hover {
+        background: #0056b3;
+    }
+    
+    .action-buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+    
+    .btn-primary { background: #007bff; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-warning { background: #ffc107; color: #212529; }
+    .btn-danger { background: #dc3545; color: white; }
+    
+    .btn:hover {
+        opacity: 0.8;
+        text-decoration: none;
+    }
+    
+    .total-section {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        color: #333;
+    }
+    
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .total-row span {
+        color: #333 !important;
+    }
+    
+    .total-row.final {
+        border-top: 2px solid #007bff;
+        margin-top: 10px;
+        padding-top: 10px;
+        font-size: 18px;
+        color: #007bff !important;
+    }
+    
+    /* Ensure all text in the admin interface is visible */
+    .order-detail-container * {
+        color: inherit;
+    }
+    
+    /* Override any admin styles that might be making text white */
+    .order-detail-container h1,
+    .order-detail-container h2,
+    .order-detail-container h3,
+    .order-detail-container h4,
+    .order-detail-container h5,
+    .order-detail-container h6 {
+        color: #333 !important;
+    }
+    
+    .order-detail-container p {
+        color: #333 !important;
+    }
+    
+    .order-detail-container div {
+        color: #333 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="order-detail-container">
+    <!-- Header -->
+    <div class="order-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="margin: 0; color: #333 !important;">سفارش #{{ order.id }}</h1>
+            <span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span>
+        </div>
+        <p style="margin: 10px 0 0 0; color: #666 !important;">تاریخ سفارش: {{ order.created_at|date:"Y/m/d H:i" }}</p>
+    </div>
+
+    <!-- Order Information -->
+    <div class="order-info">
+        <!-- Customer Information -->
+        <div class="info-card">
+            <h3 style="color: #333 !important;">اطلاعات مشتری</h3>
+            <div class="info-item">
+                <span style="color: #333 !important;">نام کاربری:</span>
+                <span style="color: #333 !important;">{{ order.user.username }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">ایمیل:</span>
+                <span style="color: #333 !important;">{{ order.user.email }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">تاریخ عضویت:</span>
+                <span style="color: #333 !important;">{{ order.user.date_joined|date:"Y/m/d" }}</span>
+            </div>
+        </div>
+
+        <!-- Shipping Information -->
+        <div class="info-card">
+            <h3 style="color: #333 !important;">اطلاعات ارسال</h3>
+            <div class="info-item">
+                <span style="color: #333 !important;">روش ارسال:</span>
+                <span style="color: #333 !important;">{{ order.get_delivery_method_display }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">آدرس:</span>
+                <span style="color: #333 !important;">{{ order.shipping_address|default:"ثبت نشده" }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">کد پستی:</span>
+                <span style="color: #333 !important;">{{ order.postal_code|default:"ثبت نشده" }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">شماره تلفن:</span>
+                <span style="color: #333 !important;">{{ order.phone_number|default:"ثبت نشده" }}</span>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="info-card">
+            <h3 style="color: #333 !important;">خلاصه سفارش</h3>
+            <div class="info-item">
+                <span style="color: #333 !important;">تعداد آیتم‌ها:</span>
+                <span style="color: #333 !important;">{{ order.items.count }}</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">مبلغ کل:</span>
+                <span style="color: #333 !important;">{{ order.total_amount|floatformat:0 }} تومان</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">هزینه ارسال:</span>
+                <span style="color: #333 !important;">{{ order.delivery_fee|floatformat:0 }} تومان</span>
+            </div>
+            <div class="info-item">
+                <span style="color: #333 !important;">وضعیت پرداخت:</span>
+                <span style="color: #333 !important;">{% if order.status == 'delivered' %}پرداخت شده{% else %}در انتظار{% endif %}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items">
+        <h3 style="margin-bottom: 20px; color: #333 !important;">محصولات سفارش</h3>
+        
+        <div class="item-row" style="font-weight: bold; color: #666 !important; border-bottom: 2px solid #007bff;">
+            <div style="color: #666 !important;">تصویر</div>
+            <div style="color: #666 !important;">نام محصول</div>
+            <div style="color: #666 !important;">قیمت واحد</div>
+            <div style="color: #666 !important;">تعداد</div>
+            <div style="color: #666 !important;">قیمت کل</div>
+        </div>
+        
+        {% for item in order.items.all %}
+        <div class="item-row">
+            <div>
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                {% else %}
+                    <div style="width: 50px; height: 50px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        <i class="fas fa-image"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <strong style="color: #333 !important;">{{ item.product.name }}</strong>
+                <br>
+                <small style="color: #666 !important;">{{ item.product.category.name }}</small>
+            </div>
+            <div style="color: #333 !important;">{{ item.price|floatformat:0 }} تومان</div>
+            <div style="color: #333 !important;">{{ item.quantity }}</div>
+            <div style="color: #333 !important;">{{ item.get_total_price|floatformat:0 }} تومان</div>
+        </div>
+        {% endfor %}
+        
+        <div class="total-section">
+            <div class="total-row">
+                <span style="color: #333 !important;">جمع کل:</span>
+                <span style="color: #333 !important;">{{ order.subtotal|floatformat:0 }} تومان</span>
+            </div>
+            <div class="total-row">
+                <span style="color: #333 !important;">هزینه ارسال:</span>
+                <span style="color: #333 !important;">{{ order.delivery_fee|floatformat:0 }} تومان</span>
+            </div>
+            <div class="total-row final">
+                <span style="color: #007bff !important;">مبلغ نهایی:</span>
+                <span style="color: #007bff !important;">{{ order.total_amount|floatformat:0 }} تومان</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Management -->
+    <div class="status-form">
+        <h3 style="margin-bottom: 20px; color: #333 !important;">تغییر وضعیت سفارش</h3>
+        <form method="post">
+            {% csrf_token %}
+            <select name="status" required style="color: #333; background: white;">
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if order.status == value %}selected{% endif %} style="color: #333;">
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">تغییر وضعیت</button>
+        </form>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'admin_order_list' %}" class="btn btn-primary">بازگشت به لیست سفارشات</a>
+        <a href="{% url 'admin:shop_order_changelist' %}" class="btn btn-success">مدیریت سفارشات</a>
+        {% if order.feedback %}
+        <a href="{% url 'admin:shop_orderfeedback_change' order.feedback.id %}" class="btn btn-warning">مشاهده بازخورد</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

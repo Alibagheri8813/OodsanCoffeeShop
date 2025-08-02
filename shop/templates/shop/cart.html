@@ -1,0 +1,502 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}سبد خرید - کافی شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .cart-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    
+    .cart-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .cart-header {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .cart-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .cart-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin: 10px 0 0 0;
+    }
+    
+    .cart-items {
+        padding: 30px;
+    }
+    
+    .cart-item {
+        display: grid;
+        grid-template-columns: 100px 2fr 1fr 1fr 1fr auto;
+        gap: 20px;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .cart-item:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+    
+    .item-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .item-details h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0 0 5px 0;
+    }
+    
+    .item-details p {
+        color: #6c757d;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+    
+    .item-price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #28a745;
+    }
+    
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .quantity-btn {
+        width: 35px;
+        height: 35px;
+        border: none;
+        border-radius: 8px;
+        background: #007bff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .quantity-btn:hover {
+        background: #0056b3;
+        transform: scale(1.1);
+    }
+    
+    .quantity-input {
+        width: 60px;
+        height: 35px;
+        text-align: center;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    .remove-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .remove-btn:hover {
+        background: #c82333;
+        transform: scale(1.05);
+    }
+    
+    .cart-summary {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .summary-row:last-child {
+        border-bottom: none;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    
+    .checkout-btn {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+    
+    .empty-cart {
+        text-align: center;
+        padding: 60px 30px;
+        color: #6c757d;
+    }
+    
+    .empty-cart i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+    
+    .empty-cart h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: #495057;
+    }
+    
+    .empty-cart p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+    
+    .continue-shopping {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    
+    .continue-shopping:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .cart-item {
+            grid-template-columns: 1fr;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .quantity-controls {
+            justify-content: center;
+        }
+        
+        .cart-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <div class="container">
+        <div class="cart-card">
+            <div class="cart-header">
+                <h1><i class="fas fa-shopping-cart"></i> سبد خرید</h1>
+                <p>مدیریت محصولات انتخابی شما</p>
+            </div>
+            
+            <div class="cart-items">
+                {% if cart_items %}
+                    <div id="cart-messages"></div>
+                    
+                    {% for item in cart_items %}
+                    <div class="cart-item" data-item-id="{{ item.id }}">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                        
+                        <div class="item-details">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>{{ item.product.category.name }}</p>
+                        </div>
+                        
+                        <div class="item-price">
+                            {{ item.product.price }} تومان
+                        </div>
+                        
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)">-</button>
+                            <input type="number" class="quantity-input" value="{{ item.quantity }}" 
+                                   min="1" max="{{ item.product.stock }}" 
+                                   onchange="updateQuantity({{ item.id }}, this.value, true)">
+                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)">+</button>
+                        </div>
+                        
+                        <div class="item-total">
+                            <strong>{{ item.get_total_price }} تومان</strong>
+                        </div>
+                        
+                        <button class="remove-btn" onclick="removeItem({{ item.id }})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>سبد خرید شما خالی است</h2>
+                        <p>محصولات مورد نظر خود را به سبد خرید اضافه کنید</p>
+                        <a href="{% url 'product_list' %}" class="continue-shopping">
+                            <i class="fas fa-arrow-left"></i> ادامه خرید
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            
+            {% if not is_cart_empty %}
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>جمع کل:</span>
+                    <span id="subtotal">{{ subtotal }} تومان</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>هزینه ارسال:</span>
+                    <span id="delivery-fee">{{ delivery_fee }} تومان</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>مجموع نهایی:</span>
+                    <span id="total">{{ total }} تومان</span>
+                </div>
+                
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    <i class="fas fa-credit-card"></i> ادامه خرید
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Real-time cart updates
+function updateQuantity(itemId, change, isDirectInput = false) {
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    const quantityInput = itemElement.querySelector('.quantity-input');
+    
+    let newQuantity;
+    if (isDirectInput) {
+        newQuantity = parseInt(change);
+    } else {
+        newQuantity = parseInt(quantityInput.value) + parseInt(change);
+    }
+    
+    if (newQuantity < 1) {
+        showMessage('تعداد نمی‌تواند کمتر از 1 باشد', 'error');
+        return;
+    }
+    
+    // Show loading state
+    itemElement.classList.add('loading');
+    
+    fetch('{% url "update_cart_item" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            item_id: itemId,
+            quantity: newQuantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            quantityInput.value = newQuantity;
+            updateCartTotals(data);
+            updateCartCount(data.cart_count);
+            
+            if (newQuantity === 0) {
+                itemElement.remove();
+                checkEmptyCart();
+            }
+            
+            showMessage('سبد خرید به‌روزرسانی شد', 'success');
+        } else {
+            showMessage(data.message, 'error');
+            quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
+        }
+    })
+    .catch(error => {
+        showMessage('خطا در به‌روزرسانی سبد خرید', 'error');
+    })
+    .finally(() => {
+        itemElement.classList.remove('loading');
+    });
+}
+
+function removeItem(itemId) {
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    
+    if (!confirm('آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟')) {
+        return;
+    }
+    
+    itemElement.classList.add('loading');
+    
+    fetch('{% url "remove_from_cart" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            item_id: itemId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            itemElement.remove();
+            updateCartTotals(data);
+            updateCartCount(data.cart_count);
+            checkEmptyCart();
+            showMessage('محصول از سبد خرید حذف شد', 'success');
+        } else {
+            showMessage(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showMessage('خطا در حذف محصول', 'error');
+    })
+    .finally(() => {
+        itemElement.classList.remove('loading');
+    });
+}
+
+function updateCartTotals(data) {
+    document.getElementById('subtotal').textContent = data.cart_total + ' تومان';
+    document.getElementById('total').textContent = (data.cart_total + {{ delivery_fee }}) + ' تومان';
+}
+
+function updateCartCount(count) {
+    // Update cart count in header if it exists
+    const cartBadge = document.querySelector('.cart-badge');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+    }
+}
+
+function checkEmptyCart() {
+    const cartItems = document.querySelectorAll('.cart-item');
+    if (cartItems.length === 0) {
+        location.reload(); // Reload to show empty cart message
+    }
+}
+
+function proceedToCheckout() {
+    window.location.href = '{% url "checkout" %}';
+}
+
+function showMessage(message, type) {
+    const messagesContainer = document.getElementById('cart-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    messageDiv.textContent = message;
+    
+    messagesContainer.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Auto-update cart count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('{% url "cart_count" %}')
+        .then(response => response.json())
+        .then(data => {
+            updateCartCount(data.count);
+        });
+});
+</script>
+{% endblock %} 

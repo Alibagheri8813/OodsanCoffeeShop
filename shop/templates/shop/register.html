@@ -1,0 +1,451 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}ثبت نام - کافی شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .register-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .register-header {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .register-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .register-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin: 10px 0 0 0;
+    }
+    
+    .register-form {
+        padding: 40px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #4B2E2B;
+        box-shadow: 0 0 0 3px rgba(75, 46, 43, 0.1);
+        background: white;
+    }
+    
+    .form-control.error {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .password-requirements {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .password-requirements h4 {
+        margin: 0 0 10px 0;
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+    
+    .requirement {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+    
+    .requirement.valid {
+        color: #28a745;
+    }
+    
+    .requirement.invalid {
+        color: #dc3545;
+    }
+    
+    .requirement i {
+        font-size: 0.8rem;
+    }
+    
+    .register-btn {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .register-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+    
+    .register-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #6c757d;
+    }
+    
+    .login-link a {
+        color: #4B2E2B;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .login-link a:hover {
+        color: #7B3F00;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .alert-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .register-container {
+            padding: 20px;
+        }
+        
+        .register-header h1 {
+            font-size: 2rem;
+        }
+        
+        .register-form {
+            padding: 30px 20px;
+        }
+        
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h1><i class="fas fa-user-plus"></i> ثبت نام</h1>
+            <p>حساب کاربری جدید ایجاد کنید</p>
+        </div>
+        
+        <div class="register-form">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{% if message.tags == 'success' %}success-message{% else %}alert-message{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="POST" id="register-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="username">نام کاربری *</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="نام کاربری خود را وارد کنید" required>
+                    {% if form.username.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.username.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">ایمیل *</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="ایمیل خود را وارد کنید" required>
+                    {% if form.email.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.email.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password1">رمز عبور *</label>
+                        <input type="password" name="password1" id="password1" class="form-control" placeholder="رمز عبور" required>
+                        {% if form.password1.errors %}
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.password1.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password2">تکرار رمز عبور *</label>
+                        <input type="password" name="password2" id="password2" class="form-control" placeholder="تکرار رمز عبور" required>
+                        {% if form.password2.errors %}
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.password2.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="password-requirements" id="password-requirements" style="display: none;">
+                    <h4>نیازمندی‌های رمز عبور:</h4>
+                    <div class="requirement" id="length-req">
+                        <i class="fas fa-circle"></i>
+                        <span>حداقل 8 کاراکتر</span>
+                    </div>
+                    <div class="requirement" id="number-req">
+                        <i class="fas fa-circle"></i>
+                        <span>شامل عدد</span>
+                    </div>
+                    <div class="requirement" id="letter-req">
+                        <i class="fas fa-circle"></i>
+                        <span>شامل حرف</span>
+                    </div>
+                    <div class="requirement" id="match-req">
+                        <i class="fas fa-circle"></i>
+                        <span>تطبیق رمز عبور</span>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone_number">شماره تلفن</label>
+                        <input type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="شماره تلفن (اختیاری)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">شهر</label>
+                        <input type="text" name="city" id="city" class="form-control" placeholder="شهر">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="province">استان</label>
+                    <input type="text" name="province" id="province" class="form-control" placeholder="استان">
+                </div>
+                
+                <button type="submit" class="register-btn" id="submit-btn">
+                    <i class="fas fa-user-plus"></i> ثبت نام
+                </button>
+            </form>
+            
+            <div class="login-link">
+                قبلاً حساب کاربری دارید؟ 
+                <a href="{% url 'login' %}">ورود به حساب</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password validation
+const password1 = document.getElementById('password1');
+const password2 = document.getElementById('password2');
+const requirements = document.getElementById('password-requirements');
+
+function validatePassword() {
+    const password = password1.value;
+    const confirmPassword = password2.value;
+    
+    // Show requirements when password field is focused
+    if (password.length > 0) {
+        requirements.style.display = 'block';
+    } else {
+        requirements.style.display = 'none';
+        return;
+    }
+    
+    // Check length
+    const lengthReq = document.getElementById('length-req');
+    if (password.length >= 8) {
+        lengthReq.classList.add('valid');
+        lengthReq.classList.remove('invalid');
+        lengthReq.querySelector('i').className = 'fas fa-check-circle';
+    } else {
+        lengthReq.classList.add('invalid');
+        lengthReq.classList.remove('valid');
+        lengthReq.querySelector('i').className = 'fas fa-times-circle';
+    }
+    
+    // Check for number
+    const numberReq = document.getElementById('number-req');
+    if (/\d/.test(password)) {
+        numberReq.classList.add('valid');
+        numberReq.classList.remove('invalid');
+        numberReq.querySelector('i').className = 'fas fa-check-circle';
+    } else {
+        numberReq.classList.add('invalid');
+        numberReq.classList.remove('valid');
+        numberReq.querySelector('i').className = 'fas fa-times-circle';
+    }
+    
+    // Check for letter
+    const letterReq = document.getElementById('letter-req');
+    if (/[a-zA-Z]/.test(password)) {
+        letterReq.classList.add('valid');
+        letterReq.classList.remove('invalid');
+        letterReq.querySelector('i').className = 'fas fa-check-circle';
+    } else {
+        letterReq.classList.add('invalid');
+        letterReq.classList.remove('valid');
+        letterReq.querySelector('i').className = 'fas fa-times-circle';
+    }
+    
+    // Check password match
+    const matchReq = document.getElementById('match-req');
+    if (password === confirmPassword && password.length > 0) {
+        matchReq.classList.add('valid');
+        matchReq.classList.remove('invalid');
+        matchReq.querySelector('i').className = 'fas fa-check-circle';
+    } else {
+        matchReq.classList.add('invalid');
+        matchReq.classList.remove('valid');
+        matchReq.querySelector('i').className = 'fas fa-times-circle';
+    }
+}
+
+password1.addEventListener('input', validatePassword);
+password2.addEventListener('input', validatePassword);
+
+// Form submission
+document.getElementById('register-form').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ثبت نام...';
+    
+    // Basic validation
+    const password = password1.value;
+    const confirmPassword = password2.value;
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('رمز عبور و تکرار آن مطابقت ندارند');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> ثبت نام';
+        return;
+    }
+    
+    if (password.length < 8) {
+        e.preventDefault();
+        alert('رمز عبور باید حداقل 8 کاراکتر باشد');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> ثبت نام';
+        return;
+    }
+    
+    if (!/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
+        e.preventDefault();
+        alert('رمز عبور باید شامل حرف و عدد باشد');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> ثبت نام';
+        return;
+    }
+});
+
+// Real-time validation feedback
+document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('blur', function() {
+        if (this.value.trim() === '' && this.hasAttribute('required')) {
+            this.classList.add('error');
+        } else {
+            this.classList.remove('error');
+        }
+    });
+    
+    input.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            this.classList.remove('error');
+        }
+    });
+});
+</script>
+{% endblock %} 

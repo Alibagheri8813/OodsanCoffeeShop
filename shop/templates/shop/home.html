@@ -1,0 +1,552 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}خانه | کافی شاپ{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Modern Hero Section with Parallax Effect */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 0; /* Fixed navbar overlap issue */
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="coffee" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(255,248,240,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23coffee)"/></svg>');
+    opacity: 0.3;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.hero-content {
+    text-align: center;
+    color: #FFF8F0;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 2rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(45deg, #FFF8F0, #F3E9DC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.hero-btn-primary {
+    background: linear-gradient(45deg, #FFF8F0, #F3E9DC);
+    color: #4B2E2B;
+    box-shadow: 0 4px 15px rgba(255,248,240,0.3);
+}
+
+.hero-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255,248,240,0.4);
+}
+
+.hero-btn-secondary {
+    background: transparent;
+    color: #FFF8F0;
+    border-color: #FFF8F0;
+}
+
+.hero-btn-secondary:hover {
+    background: #FFF8F0;
+    color: #4B2E2B;
+    transform: translateY(-3px);
+}
+
+/* Floating Coffee Beans Animation */
+.floating-beans {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.bean {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,248,240,0.2);
+    border-radius: 50%;
+    animation: floatBean 8s infinite linear;
+}
+
+.bean:nth-child(1) { left: 10%; animation-delay: 0s; }
+.bean:nth-child(2) { left: 20%; animation-delay: 2s; }
+.bean:nth-child(3) { left: 30%; animation-delay: 4s; }
+.bean:nth-child(4) { left: 40%; animation-delay: 6s; }
+.bean:nth-child(5) { left: 50%; animation-delay: 1s; }
+.bean:nth-child(6) { left: 60%; animation-delay: 3s; }
+.bean:nth-child(7) { left: 70%; animation-delay: 5s; }
+.bean:nth-child(8) { left: 80%; animation-delay: 7s; }
+
+@keyframes floatBean {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Enhanced Category Section */
+.category-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #FFF8F0 0%, #F3E9DC 100%);
+}
+
+.category-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    color: #4B2E2B;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #C97C5D, #7B3F00);
+    border-radius: 2px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.category-card {
+    background: #FFF8F0;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    text-decoration: none;
+    color: #4B2E2B;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px rgba(75,46,43,0.1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,248,240,0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.category-card:hover::before {
+    left: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(75,46,43,0.2);
+    border-color: #C97C5D;
+}
+
+.category-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #4B2E2B;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+    background: #FFF8F0;
+}
+
+.category-card:hover .category-image {
+    border-color: #C97C5D;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.category-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #4B2E2B;
+}
+
+.category-description {
+    font-size: 0.95rem;
+    color: #7B3F00;
+    line-height: 1.5;
+}
+
+/* Features Section */
+.features-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+    color: #FFF8F0;
+}
+
+.features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255,248,240,0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,248,240,0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,248,240,0.15);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #C97C5D;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.feature-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #F3E9DC 0%, #FFF8F0 100%);
+    text-align: center;
+}
+
+.cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    color: #4B2E2B;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: #7B3F00;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: linear-gradient(45deg, #4B2E2B, #7B3F00);
+    color: #FFF8F0;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(75,46,43,0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(75,46,43,0.4);
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+    }
+}
+
+/* Smooth Scroll Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading Animation */
+.loading-animation {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-background"></div>
+    <div class="floating-beans">
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+    </div>
+    
+    <div class="hero-content loading-animation">
+        <h1 class="hero-title">قهوه‌ای که عاشقش می‌شوید</h1>
+        <p class="hero-subtitle">بهترین دانه‌های قهوه، تجهیزات حرفه‌ای و تجربه‌ای منحصر به فرد در دنیای قهوه</p>
+        <div class="hero-buttons">
+            <a href="{% url 'product_list' %}" class="hero-btn hero-btn-primary">مشاهده محصولات</a>
+            <a href="#categories" class="hero-btn hero-btn-secondary">دسته‌بندی‌ها</a>
+        </div>
+    </div>
+</section>
+
+<!-- Category Section -->
+<section id="categories" class="category-section">
+    <div class="category-container">
+        <h2 class="section-title">دسته‌بندی‌های ما</h2>
+        <div class="category-grid">
+            {% for category in categories %}
+            <a href="{% url 'category_detail' category.id %}" class="category-card">
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                {% else %}
+                    <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="{{ category.name }}" class="category-image">
+                {% endif %}
+                <h3 class="category-name">{{ category.name }}</h3>
+                <p class="category-description">
+                    {% if category.description %}
+                        {{ category.description }}
+                    {% else %}
+                        محصولات با کیفیت و متنوع در این دسته‌بندی
+                    {% endif %}
+                </p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="features-container">
+        <h2 class="section-title" style="color: #FFF8F0;">چرا کافی شاپ ما؟</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">☕</div>
+                <h3 class="feature-title">قهوه تازه برشته</h3>
+                <p class="feature-description">دانه‌های قهوه ما روزانه برشته می‌شوند تا تازگی و عطر بی‌نظیری داشته باشند.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3 class="feature-title">ارسال سریع</h3>
+                <p class="feature-description">محصولات شما در کمترین زمان ممکن به درب منزلتان تحویل داده می‌شود.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3 class="feature-title">کیفیت تضمینی</h3>
+                <p class="feature-description">تمام محصولات ما با بالاترین استانداردهای کیفیت انتخاب و عرضه می‌شوند.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💝</div>
+                <h3 class="feature-title">پشتیبانی 24/7</h3>
+                <p class="feature-description">تیم پشتیبانی ما در تمام ساعات شبانه‌روز آماده خدمت‌رسانی به شماست.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <h3 class="feature-title">تخفیف‌های ویژه</h3>
+                <p class="feature-description">از تخفیف‌های ویژه و پیشنهادات جذاب ما بهره‌مند شوید.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <h3 class="feature-title">محصولات ارگانیک</h3>
+                <p class="feature-description">بخش بزرگی از محصولات ما ارگانیک و دوستدار محیط زیست هستند.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2 class="cta-title">آماده شروع سفر قهوه‌ای خود هستید؟</h2>
+        <p class="cta-description">همین حالا عضو شوید و از تخفیف 20% اولین خرید خود بهره‌مند شوید</p>
+        <a href="{% url 'product_list' %}" class="cta-button">شروع خرید</a>
+    </div>
+</section>
+
+<script>
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add loading animation to elements as they come into view
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('loading-animation');
+        }
+    });
+}, observerOptions);
+
+// Observe all sections
+document.querySelectorAll('.category-card, .feature-card').forEach(el => {
+    observer.observe(el);
+});
+
+// Parallax effect for hero background
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroBackground = document.querySelector('.hero-background');
+    if (heroBackground) {
+        heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+});
+</script>
+{% endblock %}

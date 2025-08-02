@@ -1,0 +1,398 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کافی شاپ - خوش آمدید</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: #2C1810;
+            overflow: hidden;
+        }
+        
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2C1810;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .skip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 248, 240, 0.9);
+            color: #2C1810;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .skip-button:hover {
+            background: #FFF8F0;
+            transform: scale(1.05);
+        }
+        
+        .loading-text {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FFF8F0;
+            font-size: 16px;
+            font-family: 'Vazirmatn', sans-serif;
+            z-index: 1000;
+        }
+        
+        /* Ending Animation Styles */
+        .ending-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #2C1810 0%, #4B2E2B 20%, #6B4C3A 40%, #8B5A3A 60%, #A66B4A 80%, #C67B5A 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            overflow: hidden;
+        }
+        
+        /* Flame particles */
+        .flame-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #FFD700, #FF6B6B, #FF4500);
+            border-radius: 50%;
+            animation: flameFloat 3s ease-in-out infinite;
+            opacity: 0.8;
+        }
+        
+        .flame-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .flame-particle:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .flame-particle:nth-child(3) { left: 30%; animation-delay: 1s; }
+        .flame-particle:nth-child(4) { left: 40%; animation-delay: 1.5s; }
+        .flame-particle:nth-child(5) { left: 50%; animation-delay: 2s; }
+        .flame-particle:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+        .flame-particle:nth-child(7) { left: 70%; animation-delay: 0.3s; }
+        .flame-particle:nth-child(8) { left: 80%; animation-delay: 0.8s; }
+        .flame-particle:nth-child(9) { left: 90%; animation-delay: 1.3s; }
+        .flame-particle:nth-child(10) { left: 95%; animation-delay: 1.8s; }
+        
+        /* Phoenix wings effect */
+        .phoenix-wing {
+            position: absolute;
+            width: 100px;
+            height: 60px;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B, #FF4500);
+            border-radius: 50% 50% 0 50%;
+            opacity: 0.3;
+            animation: wingFlap 2s ease-in-out infinite;
+        }
+        
+        .phoenix-wing.left {
+            left: -50px;
+            top: 20%;
+            transform: rotate(-45deg);
+            animation-delay: 0s;
+        }
+        
+        .phoenix-wing.right {
+            right: -50px;
+            top: 60%;
+            transform: rotate(45deg) scaleX(-1);
+            animation-delay: 1s;
+        }
+        
+        .ending-content {
+            text-align: center;
+            color: #FFF8F0;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        .ending-logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            color: #FFD700;
+            text-shadow: 0 2px 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 107, 107, 0.4);
+        }
+        
+        .ending-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            color: #FF6B6B;
+            text-shadow: 0 1px 8px rgba(255, 107, 107, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .ending-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1.5s forwards;
+            color: #FFF8F0;
+            text-shadow: 0 1px 5px rgba(255, 248, 240, 0.4), 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .ending-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 248, 240, 0.2);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 2s forwards;
+        }
+        
+        .ending-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF6B6B, #FF4500);
+            width: 0%;
+            transition: width 3s ease-in-out;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .coffee-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: phoenixRise 3s ease-in-out 0.5s infinite;
+            color: #FFD700;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes flameFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes wingFlap {
+            0%, 100% {
+                transform: rotate(-45deg) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: rotate(-30deg) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+        
+        @keyframes phoenixRise {
+            0% {
+                transform: translateY(20px) scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-15px) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20px) scale(0.8);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .ending-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .ending-logo {
+                font-size: 2.5rem;
+            }
+            
+            .ending-title {
+                font-size: 1.5rem;
+            }
+            
+            .ending-subtitle {
+                font-size: 1rem;
+            }
+            
+            .coffee-icon {
+                font-size: 2rem;
+            }
+            
+            .ending-progress {
+                width: 150px;
+            }
+            
+            .skip-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+            
+            .loading-text {
+                bottom: 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video class="video-player" autoplay muted>
+            <source src="{% static 'shop/videos/intro.mp4' %}?v={{ timestamp }}" type="video/mp4">
+            مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+        </video>
+        
+        <button class="skip-button" onclick="skipVideo()">رد کردن</button>
+        
+        <!-- Direct link to home page -->
+        <a href="/home/" class="skip-button" style="top: 70px; text-decoration: none; display: inline-block;">رفتن به صفحه اصلی</a>
+        
+        <!-- <div class="loading-text">
+            <span id="countdown">6</span> ثانیه تا ورود به سایت
+        </div> -->
+    </div>
+    
+    <!-- Ending Animation Overlay -->
+    <div class="ending-overlay" id="endingOverlay">
+        <!-- Flame particles -->
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        <div class="flame-particle"></div>
+        
+        <!-- Phoenix wings -->
+        <div class="phoenix-wing left"></div>
+        <div class="phoenix-wing right"></div>
+        
+        <div class="ending-content">
+            <div class="coffee-icon">🔥</div>
+            <div class="ending-logo">لودسان کافی</div>
+            <div class="ending-title">از خاکستر به آتش</div>
+            <div class="ending-subtitle">به دنیای طعم‌های بی‌نظیر خوش آمدید</div>
+            <div class="ending-progress">
+                <div class="ending-progress-bar" id="endingProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let countdown = 6;
+        const countdownElement = document.getElementById('countdown');
+        const endingOverlay = document.getElementById('endingOverlay');
+        const endingProgress = document.getElementById('endingProgress');
+        
+        // Countdown timer
+        const timer = setInterval(() => {
+            countdown--;
+            // countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                showEndingAnimation();
+            }
+        }, 1000);
+        
+        // Skip video function
+        function skipVideo() {
+            clearInterval(timer);
+            showEndingAnimation();
+        }
+        
+        // Show ending animation
+        function showEndingAnimation() {
+            // Hide video container
+            document.querySelector('.video-container').style.display = 'none';
+            
+            // Show ending overlay
+            endingOverlay.classList.add('show');
+            
+            // Start progress bar animation
+            setTimeout(() => {
+                endingProgress.style.width = '100%';
+            }, 500);
+            
+            // Redirect to homepage after 4 seconds
+            setTimeout(() => {
+                window.location.href = '/home/';
+            }, 4000);
+        }
+        
+        // Auto redirect after video ends (if video is shorter than 6 seconds)
+        const video = document.querySelector('.video-player');
+        video.addEventListener('ended', function() {
+            clearInterval(timer);
+            showEndingAnimation();
+        });
+    </script>
+</body>
+</html>

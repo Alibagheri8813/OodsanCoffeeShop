@@ -1,0 +1,501 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}تماس با ما - کافه شاپ{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <div class="contact-header">
+        <h1>تماس با ما</h1>
+        <p>ما آماده پاسخگویی به سوالات و پیشنهادات شما هستیم</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-info">
+            <h2>اطلاعات تماس</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>آدرس</h3>
+                    <p>تهران، خیابان ولیعصر، پلاک ۱۲۳</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>تلفن</h3>
+                    <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
+                    <p>۰۹۱۲-۱۲۳۴۵۶۷</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>ایمیل</h3>
+                    <p>info@cafeshop.com</p>
+                    <p>support@cafeshop.com</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>ساعات کاری</h3>
+                    <p>شنبه تا چهارشنبه: ۸ صبح تا ۸ شب</p>
+                    <p>پنجشنبه: ۸ صبح تا ۶ عصر</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-section">
+            <h2>فرم تماس</h2>
+            <form class="contact-form" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">نام و نام خانوادگی *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">ایمیل *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">شماره تلفن</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">موضوع *</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">انتخاب کنید</option>
+                        <option value="سوال">سوال</option>
+                        <option value="پیشنهاد">پیشنهاد</option>
+                        <option value="شکایت">شکایت</option>
+                        <option value="همکاری">درخواست همکاری</option>
+                        <option value="سایر">سایر</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">پیام *</label>
+                    <textarea id="message" name="message" rows="6" required placeholder="پیام خود را اینجا بنویسید..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">ارسال پیام</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="map-section">
+        <h2>موقعیت ما</h2>
+        <div class="map-placeholder">
+            <i class="fas fa-map"></i>
+            <p>نقشه موقعیت کافه شاپ</p>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <h2>سوالات متداول</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>چگونه می‌توانم سفارش خود را پیگیری کنم؟</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>شما می‌توانید از طریق پنل کاربری خود و بخش "سفارشات من" وضعیت سفارش خود را پیگیری کنید.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>آیا امکان بازگشت محصول وجود دارد؟</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>بله، در صورت عدم رضایت از محصول، تا ۷ روز پس از دریافت امکان بازگشت وجود دارد.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>هزینه ارسال چقدر است؟</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>برای سفارشات بالای ۵۰۰ هزار تومان، ارسال رایگان است. در غیر این صورت، هزینه ارسال ۳۰ هزار تومان می‌باشد.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>آیا امکان پرداخت در محل وجود دارد؟</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>بله، علاوه بر پرداخت آنلاین، امکان پرداخت در محل نیز فراهم است.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+}
+
+.contact-header h1 {
+    color: #2c1810;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.contact-header p {
+    color: #666;
+    font-size: 1.3rem;
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.contact-info h2,
+.contact-form-section h2 {
+    color: #2c1810;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.info-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.info-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.info-card h3 {
+    color: #2c1810;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #2c1810;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #8b4513;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.map-section {
+    margin-bottom: 4rem;
+}
+
+.map-section h2 {
+    color: #2c1810;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.map-placeholder p {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.faq-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 3rem;
+    border-radius: 20px;
+}
+
+.faq-section h2 {
+    color: #2c1810;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background: #f8f9fa;
+}
+
+.faq-question h3 {
+    color: #2c1810;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.faq-question i {
+    color: #8b4513;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    color: #666;
+    line-height: 1.6;
+    display: none;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 1rem;
+    }
+    
+    .contact-header h1 {
+        font-size: 2rem;
+    }
+    
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .faq-section {
+        padding: 2rem 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // FAQ functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            const isActive = item.classList.contains('active');
+            
+            // Close all other FAQ items
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
+            
+            // Toggle current item
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+    
+    // Form submission
+    const contactForm = document.querySelector('.contact-form');
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        // Show success message
+        showNotification('پیام شما با موفقیت ارسال شد. در اسرع وقت با شما تماس خواهیم گرفت.', 'success');
+        
+        // Reset form
+        this.reset();
+    });
+});
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    if (type === 'success') {
+        notification.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+    } else {
+        notification.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+</script>
+
+<style>
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+</style>
+{% endblock %} 

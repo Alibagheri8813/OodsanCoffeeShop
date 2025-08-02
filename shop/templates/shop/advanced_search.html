@@ -1,0 +1,675 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}جستجوی پیشرفته - کافه شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .search-container {
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 80vh;
+    }
+    
+    .search-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .search-form {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .search-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .filter-tag {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .filter-tag .remove {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .results-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .results-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .results-count {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .sort-options {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .sort-btn {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .sort-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+    }
+    
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+    
+    .product-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    .product-image {
+        height: 200px;
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover .product-image img {
+        transform: scale(1.1);
+    }
+    
+    .product-info {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+    
+    .product-category {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #e74c3c;
+        margin-bottom: 1rem;
+    }
+    
+    .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stars {
+        color: #ffc107;
+    }
+    
+    .rating-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .empty-results {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .empty-results i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #dee2e6;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 2rem;
+    }
+    
+    .page-link {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        color: #6c757d;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .page-link:hover,
+    .page-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+    }
+    
+    .price-range-slider {
+        padding: 1rem 0;
+    }
+    
+    .range-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    @media (max-width: 768px) {
+        .sort-options {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <div class="container">
+        <!-- Search Header -->
+        <div class="search-header">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-search"></i>
+                جستجوی پیشرفته
+            </h1>
+            <p class="lead">
+                محصولات مورد نظر خود را با فیلترهای پیشرفته پیدا کنید
+            </p>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="search-form">
+            <form method="GET" action="{% url 'advanced_search' %}" id="searchForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-search"></i>
+                                جستجو
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="q" 
+                                   value="{{ request.GET.q }}" 
+                                   placeholder="نام محصول، توضیحات یا دسته‌بندی...">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-tags"></i>
+                                دسته‌بندی
+                            </label>
+                            <select class="form-control" name="category">
+                                <option value="">همه دسته‌بندی‌ها</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}" 
+                                        {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-dollar-sign"></i>
+                                محدوده قیمت
+                            </label>
+                            <div class="price-range-slider">
+                                <input type="range" 
+                                       class="form-control-range" 
+                                       id="priceRange" 
+                                       min="0" 
+                                       max="1000000" 
+                                       step="10000"
+                                       value="{{ request.GET.max_price|default:1000000 }}">
+                                <div class="range-labels">
+                                    <span>0 تومان</span>
+                                    <span id="priceValue">1,000,000 تومان</span>
+                                </div>
+                            </div>
+                            <input type="hidden" name="max_price" id="maxPrice" value="{{ request.GET.max_price|default:1000000 }}">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-star"></i>
+                                حداقل امتیاز
+                            </label>
+                            <select class="form-control" name="rating">
+                                <option value="">همه امتیازات</option>
+                                <option value="4" {% if request.GET.rating == "4" %}selected{% endif %}>4 ستاره و بالاتر</option>
+                                <option value="3" {% if request.GET.rating == "3" %}selected{% endif %}>3 ستاره و بالاتر</option>
+                                <option value="2" {% if request.GET.rating == "2" %}selected{% endif %}>2 ستاره و بالاتر</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-box"></i>
+                                وضعیت موجودی
+                            </label>
+                            <select class="form-control" name="availability">
+                                <option value="">همه محصولات</option>
+                                <option value="in_stock" {% if request.GET.availability == "in_stock" %}selected{% endif %}>موجود</option>
+                                <option value="low_stock" {% if request.GET.availability == "low_stock" %}selected{% endif %}>موجودی کم</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-sort"></i>
+                                مرتب‌سازی
+                            </label>
+                            <select class="form-control" name="sort">
+                                <option value="relevance" {% if request.GET.sort == "relevance" %}selected{% endif %}>مرتبط‌ترین</option>
+                                <option value="price_low" {% if request.GET.sort == "price_low" %}selected{% endif %}>ارزان‌ترین</option>
+                                <option value="price_high" {% if request.GET.sort == "price_high" %}selected{% endif %}>گران‌ترین</option>
+                                <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>جدیدترین</option>
+                                <option value="rating" {% if request.GET.sort == "rating" %}selected{% endif %}>بهترین امتیاز</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                        جستجو
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" onclick="clearFilters()">
+                        <i class="fas fa-times"></i>
+                        پاک کردن فیلترها
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Active Filters -->
+            {% if request.GET %}
+            <div class="filter-tags mt-3">
+                {% if request.GET.q %}
+                <span class="filter-tag">
+                    جستجو: {{ request.GET.q }}
+                    <span class="remove" onclick="removeFilter('q')">&times;</span>
+                </span>
+                {% endif %}
+                
+                {% if request.GET.category %}
+                <span class="filter-tag">
+                    دسته‌بندی: {{ selected_category.name }}
+                    <span class="remove" onclick="removeFilter('category')">&times;</span>
+                </span>
+                {% endif %}
+                
+                {% if request.GET.max_price %}
+                <span class="filter-tag">
+                    حداکثر قیمت: {{ request.GET.max_price|floatformat:0 }} تومان
+                    <span class="remove" onclick="removeFilter('max_price')">&times;</span>
+                </span>
+                {% endif %}
+                
+                {% if request.GET.rating %}
+                <span class="filter-tag">
+                    حداقل امتیاز: {{ request.GET.rating }} ستاره
+                    <span class="remove" onclick="removeFilter('rating')">&times;</span>
+                </span>
+                {% endif %}
+                
+                {% if request.GET.availability %}
+                <span class="filter-tag">
+                    موجودی: {{ request.GET.availability|title }}
+                    <span class="remove" onclick="removeFilter('availability')">&times;</span>
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Search Results -->
+        {% if products is not None %}
+        <div class="results-container">
+            <div class="results-header">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="results-count">
+                            <i class="fas fa-list"></i>
+                            {{ products.count }} محصول یافت شد
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="sort-options">
+                            <span class="me-2">مرتب‌سازی:</span>
+                            <button class="sort-btn {% if request.GET.sort == 'relevance' or not request.GET.sort %}active{% endif %}" 
+                                    onclick="setSort('relevance')">مرتبط</button>
+                            <button class="sort-btn {% if request.GET.sort == 'price_low' %}active{% endif %}" 
+                                    onclick="setSort('price_low')">ارزان</button>
+                            <button class="sort-btn {% if request.GET.sort == 'price_high' %}active{% endif %}" 
+                                    onclick="setSort('price_high')">گران</button>
+                            <button class="sort-btn {% if request.GET.sort == 'newest' %}active{% endif %}" 
+                                    onclick="setSort('newest')">جدید</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% if products %}
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <i class="fas fa-coffee fa-3x text-muted"></i>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <p class="product-category">{{ product.category.name }}</p>
+                        
+                        <div class="product-rating">
+                            <div class="stars">
+                                {% for i in "12345" %}
+                                <i class="fas fa-star{% if forloop.counter <= product.rating %} text-warning{% endif %}"></i>
+                                {% endfor %}
+                            </div>
+                            <span class="rating-text">({{ product.rating|floatformat:1 }})</span>
+                        </div>
+                        
+                        <div class="product-price">{{ product.price }} تومان</div>
+                        
+                        <button class="btn btn-primary btn-sm w-100" onclick="addToCart({{ product.id }})">
+                            <i class="fas fa-shopping-cart"></i>
+                            افزودن به سبد
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if products.has_other_pages %}
+            <div class="pagination">
+                {% if products.has_previous %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ products.previous_page_number }}" 
+                   class="page-link">
+                    <i class="fas fa-chevron-right"></i>
+                    قبلی
+                </a>
+                {% endif %}
+                
+                {% for num in products.paginator.page_range %}
+                {% if products.number == num %}
+                <span class="page-link active">{{ num }}</span>
+                {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}" 
+                   class="page-link">{{ num }}</a>
+                {% endif %}
+                {% endfor %}
+                
+                {% if products.has_next %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ products.next_page_number }}" 
+                   class="page-link">
+                    بعدی
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="empty-results">
+                <i class="fas fa-search"></i>
+                <h4>محصولی یافت نشد</h4>
+                <p>لطفاً فیلترهای خود را تغییر دهید یا عبارت جستجوی دیگری را امتحان کنید</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Price range slider
+const priceRange = document.getElementById('priceRange');
+const priceValue = document.getElementById('priceValue');
+const maxPrice = document.getElementById('maxPrice');
+
+if (priceRange && priceValue && maxPrice) {
+    priceRange.addEventListener('input', function() {
+        const value = this.value;
+        priceValue.textContent = new Intl.NumberFormat('fa-IR').format(value) + ' تومان';
+        maxPrice.value = value;
+    });
+    
+    // Set initial value
+    const initialValue = priceRange.value;
+    priceValue.textContent = new Intl.NumberFormat('fa-IR').format(initialValue) + ' تومان';
+}
+
+// Sort buttons
+function setSort(sortType) {
+    const url = new URL(window.location);
+    url.searchParams.set('sort', sortType);
+    window.location.href = url.toString();
+}
+
+// Remove filter
+function removeFilter(filterName) {
+    const url = new URL(window.location);
+    url.searchParams.delete(filterName);
+    window.location.href = url.toString();
+}
+
+// Clear all filters
+function clearFilters() {
+    window.location.href = '{% url "advanced_search" %}';
+}
+
+// Add to cart functionality
+function addToCart(productId) {
+    fetch('/shop/cart/add/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update cart count
+            updateCartCount();
+            
+            // Show success message
+            showNotification('محصول به سبد خرید اضافه شد', 'success');
+        } else {
+            showNotification(data.message || 'خطا در افزودن به سبد خرید', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('خطا در ارتباط با سرور', 'error');
+    });
+}
+
+// Get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Update cart count
+function updateCartCount() {
+    fetch('/shop/cart/count/')
+        .then(response => response.json())
+        .then(data => {
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = data.count;
+            }
+        });
+}
+
+// Show notification
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+</script>
+{% endblock %} 

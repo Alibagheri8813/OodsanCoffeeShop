@@ -1,0 +1,247 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} | کافی شاپ{% endblock %}
+
+{% block extra_head %}
+<style>
+.category-detail-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #FFF8F0;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 24px #4B2E2B22;
+    padding: 2.5rem;
+}
+
+.category-detail-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4B2E2B;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.category-detail-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #C97C5D, #7B3F00);
+    border-radius: 2px;
+}
+
+.subcategory-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.subcategory-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #4B2E2B;
+    transition: all 0.3s;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: #FFF8F0;
+    box-shadow: 0 2px 8px rgba(75,46,43,0.1);
+    min-width: 180px;
+}
+
+.subcategory-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(75,46,43,0.2);
+    background: #FFF8F0;
+}
+
+.subcategory-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #4B2E2B;
+    margin-bottom: 1rem;
+    background: #FFF8F0;
+    transition: all 0.3s;
+}
+
+.subcategory-item:hover img {
+    border-color: #C97C5D;
+    transform: scale(1.05);
+}
+
+.subcategory-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4B2E2B;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+.product-card {
+    background: #F3E9DC;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 32px rgba(75,46,43,0.2);
+    border-color: #C97C5D;
+}
+
+.product-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    border: 3px solid #4B2E2B;
+    transition: all 0.3s;
+}
+
+.product-card:hover img {
+    border-color: #C97C5D;
+    transform: scale(1.05);
+}
+
+.product-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #4B2E2B;
+    text-align: center;
+    font-weight: bold;
+}
+
+.product-card p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #4B2E2B;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.product-card .price {
+    font-weight: bold;
+    color: #7B3F00;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    background: #FFF8F0;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.product-card a {
+    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+    color: #FFF8F0;
+    border-radius: 2rem;
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: auto;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(75,46,43,0.2);
+}
+
+.product-card a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(75,46,43,0.3);
+    background: linear-gradient(135deg, #C97C5D 0%, #7B3F00 100%);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #C97C5D;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .category-detail-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .subcategory-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .subcategory-item img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="category-detail-container">
+    <div class="category-detail-title">{{ category.name }}</div>
+    
+    {% if subcategories %}
+        <div class="subcategory-list">
+            {% for subcat in subcategories %}
+                <a href="/shop/category/{{ subcat.id }}/" class="subcategory-item">
+                    {% if subcat.image %}
+                        <img src="{{ subcat.image.url }}" alt="{{ subcat.name }}">
+                    {% else %}
+                        <img src="https://placehold.co/100x100/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر">
+                    {% endif %}
+                    <div class="subcategory-name">{{ subcat.name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر">
+                {% endif %}
+                <h4>{{ product.name }}</h4>
+                <p>{{ product.description|truncatewords:15 }}</p>
+                <div class="price">{{ product.price|floatformat:0 }} تومان</div>
+                <a href="{% url 'product_detail' product.id %}">مشاهده جزئیات</a>
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                محصولی در این دسته‌بندی یافت نشد.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

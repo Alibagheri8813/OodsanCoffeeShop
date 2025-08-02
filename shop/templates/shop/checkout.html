@@ -1,0 +1,575 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}تکمیل خرید - کافی شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkout-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    
+    .checkout-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .checkout-header {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .checkout-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .checkout-content {
+        padding: 40px;
+    }
+    
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+    }
+    
+    .checkout-form {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+    }
+    
+    .form-section h3 {
+        color: #2c3e50;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #4B2E2B;
+        box-shadow: 0 0 0 3px rgba(75, 46, 43, 0.1);
+    }
+    
+    .delivery-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .delivery-option {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+    
+    .delivery-option:hover {
+        border-color: #4B2E2B;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .delivery-option.selected {
+        border-color: #4B2E2B;
+        background: #f8f9fa;
+    }
+    
+    .delivery-option input[type="radio"] {
+        display: none;
+    }
+    
+    .delivery-option i {
+        font-size: 2rem;
+        color: #4B2E2B;
+        margin-bottom: 10px;
+    }
+    
+    .delivery-option h4 {
+        margin: 10px 0 5px 0;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .delivery-option p {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    
+    .order-summary {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 16px;
+        position: sticky;
+        top: 20px;
+    }
+    
+    .summary-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .summary-header h3 {
+        color: #2c3e50;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .cart-items-summary {
+        margin-bottom: 30px;
+    }
+    
+    .cart-item-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .cart-item-summary:last-child {
+        border-bottom: none;
+    }
+    
+    .item-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .item-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+    
+    .item-details h4 {
+        margin: 0;
+        font-size: 1rem;
+        color: #2c3e50;
+    }
+    
+    .item-details p {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .item-price {
+        font-weight: 600;
+        color: #28a745;
+    }
+    
+    .summary-totals {
+        border-top: 2px solid #e9ecef;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    
+    .summary-row.total {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2c3e50;
+        border-top: 1px solid #e9ecef;
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+    
+    .checkout-btn {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+    
+    .checkout-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .payment-methods {
+        margin-top: 30px;
+    }
+    
+    .payment-method {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .payment-method:hover {
+        border-color: #4B2E2B;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .payment-method.selected {
+        border-color: #4B2E2B;
+        background: #f8f9fa;
+    }
+    
+    .payment-method input[type="radio"] {
+        display: none;
+    }
+    
+    .payment-method i {
+        font-size: 1.5rem;
+        color: #4B2E2B;
+    }
+    
+    .payment-method-info h4 {
+        margin: 0;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .payment-method-info p {
+        margin: 5px 0 0 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .delivery-options {
+            grid-template-columns: 1fr;
+        }
+        
+        .checkout-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <div class="container">
+        <div class="checkout-card">
+            <div class="checkout-header">
+                <h1><i class="fas fa-credit-card"></i> تکمیل خرید</h1>
+                <p>اطلاعات ارسال و پرداخت خود را وارد کنید</p>
+            </div>
+            
+            <div class="checkout-content">
+                <div id="checkout-messages"></div>
+                
+                <form method="POST" id="checkout-form">
+                    {% csrf_token %}
+                    <div class="checkout-grid">
+                        <div class="checkout-form">
+                            <div class="form-section">
+                                <h3><i class="fas fa-truck"></i> روش ارسال</h3>
+                                <div class="delivery-options">
+                                    <label class="delivery-option" for="pickup">
+                                        <input type="radio" name="delivery_method" value="pickup" id="pickup" checked>
+                                        <i class="fas fa-store"></i>
+                                        <h4>دریافت حضوری</h4>
+                                        <p>از فروشگاه ما</p>
+                                    </label>
+                                    
+                                    <label class="delivery-option" for="post">
+                                        <input type="radio" name="delivery_method" value="post" id="post">
+                                        <i class="fas fa-shipping-fast"></i>
+                                        <h4>ارسال پستی</h4>
+                                        <p>هزینه ارسال: 50,000 تومان</p>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section" id="shipping-info" style="display: none;">
+                                <h3><i class="fas fa-map-marker-alt"></i> اطلاعات ارسال</h3>
+                                
+                                <div class="form-group">
+                                    <label for="shipping_address">آدرس کامل</label>
+                                    <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3" placeholder="آدرس کامل خود را وارد کنید"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="postal_code">کد پستی</label>
+                                    <input type="text" name="postal_code" id="postal_code" class="form-control" placeholder="کد پستی 10 رقمی">
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3><i class="fas fa-phone"></i> اطلاعات تماس</h3>
+                                
+                                <div class="form-group">
+                                    <label for="phone_number">شماره تلفن</label>
+                                    <input type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="شماره تلفن خود را وارد کنید" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3><i class="fas fa-credit-card"></i> روش پرداخت</h3>
+                                <div class="payment-methods">
+                                    <label class="payment-method" for="cash">
+                                        <input type="radio" name="payment_method" value="cash" id="cash" checked>
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <div class="payment-method-info">
+                                            <h4>پرداخت نقدی</h4>
+                                            <p>پرداخت در محل</p>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="payment-method" for="online">
+                                        <input type="radio" name="payment_method" value="online" id="online">
+                                        <i class="fas fa-credit-card"></i>
+                                        <div class="payment-method-info">
+                                            <h4>پرداخت آنلاین</h4>
+                                            <p>کارت بانکی</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3><i class="fas fa-sticky-note"></i> توضیحات</h3>
+                                <div class="form-group">
+                                    <textarea name="notes" id="notes" class="form-control" rows="3" placeholder="توضیحات اضافی (اختیاری)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="summary-header">
+                                <h3><i class="fas fa-shopping-cart"></i> خلاصه سفارش</h3>
+                            </div>
+                            
+                            <div class="cart-items-summary">
+                                {% for item in cart_items %}
+                                <div class="cart-item-summary">
+                                    <div class="item-info">
+                                        {% if item.product.image %}
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                                        {% else %}
+                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                                                <i class="fas fa-coffee"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="item-details">
+                                            <h4>{{ item.product.name }}</h4>
+                                            <p>{{ item.quantity }} عدد</p>
+                                        </div>
+                                    </div>
+                                    <div class="item-price">{{ item.get_total_price }} تومان</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="summary-totals">
+                                <div class="summary-row">
+                                    <span>جمع کل:</span>
+                                    <span id="subtotal">{{ subtotal }} تومان</span>
+                                </div>
+                                
+                                <div class="summary-row">
+                                    <span>هزینه ارسال:</span>
+                                    <span id="delivery-fee">{{ delivery_fee }} تومان</span>
+                                </div>
+                                
+                                <div class="summary-row total">
+                                    <span>مجموع نهایی:</span>
+                                    <span id="total">{{ total }} تومان</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="checkout-btn" id="submit-btn">
+                                <i class="fas fa-check"></i> تکمیل سفارش
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Handle delivery method change
+document.querySelectorAll('input[name="delivery_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const shippingInfo = document.getElementById('shipping-info');
+        const deliveryFee = document.getElementById('delivery-fee');
+        const total = document.getElementById('total');
+        const subtotal = {{ subtotal }};
+        
+        if (this.value === 'post') {
+            shippingInfo.style.display = 'block';
+            deliveryFee.textContent = '50,000 تومان';
+            total.textContent = (subtotal + 50000) + ' تومان';
+        } else {
+            shippingInfo.style.display = 'none';
+            deliveryFee.textContent = '0 تومان';
+            total.textContent = subtotal + ' تومان';
+        }
+    });
+});
+
+// Handle payment method selection
+document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.classList.remove('selected');
+        });
+        this.closest('.payment-method').classList.add('selected');
+    });
+});
+
+// Handle delivery option selection
+document.querySelectorAll('input[name="delivery_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.querySelectorAll('.delivery-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        this.closest('.delivery-option').classList.add('selected');
+    });
+});
+
+// Initialize selected states
+document.querySelector('.delivery-option input:checked').closest('.delivery-option').classList.add('selected');
+document.querySelector('.payment-method input:checked').closest('.payment-method').classList.add('selected');
+
+// Form submission
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال پردازش...';
+    
+    // Validate form
+    const deliveryMethod = document.querySelector('input[name="delivery_method"]:checked').value;
+    const phoneNumber = document.getElementById('phone_number').value;
+    
+    if (!phoneNumber) {
+        showMessage('لطفاً شماره تلفن را وارد کنید', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> تکمیل سفارش';
+        return;
+    }
+    
+    if (deliveryMethod === 'post') {
+        const shippingAddress = document.getElementById('shipping_address').value;
+        const postalCode = document.getElementById('postal_code').value;
+        
+        if (!shippingAddress || !postalCode) {
+            showMessage('برای ارسال پستی، آدرس و کد پستی الزامی است', 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> تکمیل سفارش';
+            return;
+        }
+    }
+    
+    // Submit form
+    this.submit();
+});
+
+function showMessage(message, type) {
+    const messagesContainer = document.getElementById('checkout-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    messageDiv.textContent = message;
+    
+    messagesContainer.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
+}
+</script>
+{% endblock %} 

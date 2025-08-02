@@ -1,0 +1,528 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}داشبورد کافی شاپ{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'shop/admin.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        color: #FFF8F0;
+        padding: 40px 30px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .dashboard-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .dashboard-header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin: 0;
+    }
+    
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .quick-stat {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .quick-stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .quick-stat-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+    
+    @media (max-width: 768px) {
+        .chart-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .revenue-chart {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .chart-placeholder {
+        height: 300px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    
+    .top-products {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .product-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .product-item:last-child {
+        border-bottom: none;
+    }
+    
+    .product-rank {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .product-rank.gold { background: #ffd700; color: #212529; }
+    .product-rank.silver { background: #c0c0c0; color: #212529; }
+    .product-rank.bronze { background: #cd7f32; color: white; }
+    .product-rank.other { background: #6c757d; color: white; }
+    
+    .product-info {
+        flex: 1;
+    }
+    
+    .product-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .product-stats {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+    
+    .action-btn {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .action-btn.success {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+    }
+    
+    .action-btn.warning {
+        background: linear-gradient(135deg, #ffc107, #e0a800);
+        color: #212529;
+    }
+    
+    .action-btn.danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+    
+    .notification-badge {
+        position: relative;
+    }
+    
+    .notification-badge::after {
+        content: '{{ unread_notifications }}';
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #495057;
+    }
+    
+    .empty-state p {
+        font-size: 1rem;
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1><i class="fas fa-coffee"></i> داشبورد کافی شاپ</h1>
+        <p>مدیریت کامل کسب‌وکار شما در یک مکان</p>
+        
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <span class="quick-stat-number">{{ total_orders }}</span>
+                <span class="quick-stat-label">کل سفارشات</span>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-number">{{ total_products }}</span>
+                <span class="quick-stat-label">محصولات</span>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-number">{{ active_users }}</span>
+                <span class="quick-stat-label">کاربران فعال</span>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-number">{{ unread_notifications }}</span>
+                <span class="quick-stat-label">اعلان‌های جدید</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card revenue">
+            <div class="stat-number">{{ revenue_today|floatformat:0 }}</div>
+            <div class="stat-label">درآمد امروز (تومان)</div>
+            <div class="stat-change {% if revenue_growth >= 0 %}positive{% else %}negative{% endif %}">
+                <i class="fas fa-{% if revenue_growth >= 0 %}arrow-up{% else %}arrow-down{% endif %}"></i>
+                {{ revenue_growth|floatformat:1 }}% نسبت به دیروز
+            </div>
+        </div>
+        
+        <div class="stat-card orders">
+            <div class="stat-number">{{ orders_today }}</div>
+            <div class="stat-label">سفارشات امروز</div>
+            <div class="stat-change {% if orders_growth >= 0 %}positive{% else %}negative{% endif %}">
+                <i class="fas fa-{% if orders_growth >= 0 %}arrow-up{% else %}arrow-down{% endif %}"></i>
+                {{ orders_growth|floatformat:1 }}% نسبت به دیروز
+            </div>
+        </div>
+        
+        <div class="stat-card users">
+            <div class="stat-number">{{ new_users_today }}</div>
+            <div class="stat-label">کاربران جدید</div>
+            <div class="stat-change positive">
+                <i class="fas fa-user-plus"></i>
+                امروز
+            </div>
+        </div>
+        
+        <div class="stat-card products">
+            <div class="stat-number">{{ low_stock_products_list.count }}</div>
+            <div class="stat-label">محصولات کم موجودی</div>
+            <div class="stat-change warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                نیاز به توجه
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Analytics -->
+    <div class="chart-grid">
+        <div class="revenue-chart">
+            <h3><i class="fas fa-chart-line"></i> نمودار درآمد هفتگی</h3>
+            <div class="chart-placeholder">
+                <div>
+                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px; display: block; opacity: 0.3;"></i>
+                    <p>نمودار درآمد هفتگی</p>
+                    <small>درآمد هفته: {{ revenue_week|floatformat:0 }} تومان</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="top-products">
+            <h3><i class="fas fa-star"></i> محصولات پرفروش</h3>
+            {% if top_products %}
+                {% for product in top_products %}
+                <div class="product-item">
+                    <div class="product-rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% else %}other{% endif %}">
+                        {{ forloop.counter }}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="product-stats">
+                            {{ product.total_sold }} فروش • {{ product.price|floatformat:0 }} تومان
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-coffee"></i>
+                    <h3>هنوز محصولی فروخته نشده</h3>
+                    <p>محصولات خود را تبلیغ کنید</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Alerts Section -->
+    <div class="alerts-section">
+        <div class="alert-card urgent">
+            <div class="alert-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                سفارشات فوری
+            </div>
+            {% if urgent_orders %}
+                <ul class="alert-list">
+                    {% for order in urgent_orders %}
+                    <li class="alert-item">
+                        <span>سفارش #{{ order.id }} - {{ order.user.username }}</span>
+                        <span>{{ order.total_amount|floatformat:0 }} تومان</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>هیچ سفارش فوری‌ای وجود ندارد.</p>
+            {% endif %}
+        </div>
+
+        <div class="alert-card info">
+            <div class="alert-title">
+                <i class="fas fa-box"></i>
+                محصولات کم موجودی
+            </div>
+            {% if low_stock_products %}
+                <ul class="alert-list">
+                    {% for product in low_stock_products %}
+                    <li class="alert-item">
+                        <span>{{ product.name }}</span>
+                        <span>{{ product.stock }} عدد باقی‌مانده</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>همه محصولات موجودی کافی دارند.</p>
+            {% endif %}
+        </div>
+
+        <div class="alert-card success">
+            <div class="alert-title">
+                <i class="fas fa-comments"></i>
+                آخرین نظرات
+            </div>
+            {% if recent_feedback %}
+                <ul class="alert-list">
+                    {% for feedback in recent_feedback %}
+                    <li class="alert-item">
+                        <span>{{ feedback.order.user.username }} - {{ feedback.rating }}⭐</span>
+                        <span>{{ feedback.comment|truncatechars:30 }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>هنوز نظری ثبت نشده است.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="recent-orders">
+        <h3><i class="fas fa-shopping-cart"></i> آخرین سفارشات</h3>
+        {% if recent_orders %}
+            <div class="order-item" style="grid-template-columns: 1fr 2fr 1fr 1fr 1fr; background: #f8f9fa; font-weight: 600; color: #495057;">
+                <div>شماره سفارش</div>
+                <div>مشتری</div>
+                <div>وضعیت</div>
+                <div>مبلغ</div>
+                <div>تاریخ</div>
+            </div>
+            {% for order in recent_orders %}
+            <div class="order-item">
+                <div class="order-id">#{{ order.id }}</div>
+                <div class="order-customer">{{ order.user.username }}</div>
+                <div class="order-status {{ order.status }}">
+                    {% if order.status == 'pending' %}در انتظار
+                    {% elif order.status == 'processing' %}در حال پردازش
+                    {% elif order.status == 'shipped' %}ارسال شده
+                    {% elif order.status == 'delivered' %}تحویل شده
+                    {% elif order.status == 'cancelled' %}لغو شده
+                    {% else %}{{ order.status }}{% endif %}
+                </div>
+                <div class="order-amount">{{ order.total_amount|floatformat:0 }} تومان</div>
+                <div class="order-date">{{ order.created_at|date:"Y/m/d" }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>هنوز سفارشی ثبت نشده</h3>
+                <p>منتظر اولین سفارش باشید</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{% url 'admin:shop_product_add' %}" class="quick-action-btn">
+            <i class="fas fa-plus"></i>
+            <h4>افزودن محصول</h4>
+            <p>محصول جدید اضافه کنید</p>
+        </a>
+        
+        <a href="{% url 'admin:shop_order_changelist' %}" class="quick-action-btn">
+            <i class="fas fa-shopping-cart"></i>
+            <h4>مدیریت سفارشات</h4>
+            <p>سفارشات را بررسی کنید</p>
+        </a>
+        
+        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="quick-action-btn">
+            <i class="fas fa-users"></i>
+            <h4>مدیریت کاربران</h4>
+            <p>کاربران را مدیریت کنید</p>
+        </a>
+        
+        <a href="{% url 'admin:shop_notification_changelist' %}" class="quick-action-btn notification-badge">
+            <i class="fas fa-bell"></i>
+            <h4>اعلان‌ها</h4>
+            <p>اعلان‌های جدید</p>
+        </a>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'admin:shop_order_changelist' %}" class="action-btn">
+            <i class="fas fa-list"></i>
+            مشاهده همه سفارشات
+        </a>
+        
+        <a href="{% url 'admin:shop_product_changelist' %}" class="action-btn success">
+            <i class="fas fa-box"></i>
+            مدیریت محصولات
+        </a>
+        
+        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="action-btn warning">
+            <i class="fas fa-user-cog"></i>
+            مدیریت کاربران
+        </a>
+        
+        <a href="{% url 'admin:shop_notification_changelist' %}" class="action-btn danger">
+            <i class="fas fa-bell"></i>
+            اعلان‌ها ({{ unread_notifications }})
+        </a>
+    </div>
+</div>
+
+<script>
+// Dashboard Interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-refresh dashboard every 5 minutes
+    setInterval(function() {
+        location.reload();
+    }, 300000);
+    
+    // Add click handlers for quick actions
+    document.querySelectorAll('.quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Add loading state
+            this.style.opacity = '0.7';
+            this.style.pointerEvents = 'none';
+        });
+    });
+    
+    // Add hover effects for stat cards
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Show notification count
+    const notificationBadge = document.querySelector('.notification-badge');
+    const unreadCount = parseInt('{{ unread_notifications }}');
+    if (notificationBadge && unreadCount > 0) {
+        notificationBadge.style.animation = 'pulse 2s infinite';
+    }
+});
+
+// Add pulse animation for notifications
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

@@ -1,0 +1,430 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <title>{% block title %}کافی شاپ | بهترین قهوه‌های تهران{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}کافی شاپ برتر تهران با بهترین قهوه‌های تازه، دسرهای خوشمزه و محیطی دلپذیر. سفارش آنلاین و تحویل سریع.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}کافی شاپ, قهوه, قهوه تازه, دسر, نوشیدنی گرم, تهران, سفارش آنلاین, تحویل سریع{% endblock %}">
+    <meta name="author" content="کافی شاپ">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ block.super }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ block.meta_description }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% block og_image %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endblock %}">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:site_name" content="کافی شاپ">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ block.super }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ block.meta_description }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ block.og_image }}{% endblock %}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'shop/images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'shop/images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'shop/images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'shop/images/favicon-16x16.png' %}">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="{% static 'shop/style.css' %}?v=4.1" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'shop/style.css' %}?v=4.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "کافی شاپ",
+        "description": "کافی شاپ برتر تهران با بهترین قهوه‌های تازه و دسرهای خوشمزه",
+        "url": "{{ request.build_absolute_uri }}",
+        "telephone": "+98-21-12345678",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "تهران",
+            "addressCountry": "IR"
+        },
+        "openingHours": [
+            "Mo-Th 08:00-22:00",
+            "Fr-Sa 09:00-23:00"
+        ],
+        "servesCuisine": ["Coffee", "Desserts", "Beverages"],
+        "priceRange": "$$",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "156"
+        }
+    }
+    </script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="coffee-cup">
+                <div class="cup"></div>
+                <div class="steam"></div>
+                <div class="steam"></div>
+                <div class="steam"></div>
+            </div>
+            <p>در حال بارگذاری...</p>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <a href="{% url 'home' %}">
+                    <i class="fas fa-coffee"></i>
+                    <span>کافی شاپ</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="{% url 'home' %}" class="nav-link">خانه</a>
+                <a href="{% url 'product_list' %}" class="nav-link">فروشگاه</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'favorite_products' %}" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                        علاقه‌مندی‌ها
+                    </a>
+                    <a href="{% url 'user_notifications' %}" class="nav-link">
+                        <i class="fas fa-bell"></i>
+                        اعلان‌ها
+                    </a>
+                    <div class="profile-dropdown">
+                        <button class="nav-link dropdown-toggle" onclick="toggleDropdown()">
+                            <i class="fas fa-user"></i>
+                            پروفایل
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="profileDropdown">
+                            <a href="{% url 'user_profile' %}" class="dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                پروفایل من
+                            </a>
+                            <a href="{% url 'cart_view' %}" class="dropdown-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                سبد خرید
+                                <span class="cart-count" id="cartCount">0</span>
+                            </a>
+                            <a href="{% url 'order_history' %}" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                سفارشات
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'logout' %}" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                خروج
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">ورود</a>
+                    <a href="{% url 'signup' %}" class="nav-link">ثبت نام</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+
+        <!-- Enhanced AI Coffee Assistant Widget -->
+        {% include 'shop/ai_assistant.html' %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <!-- Main Footer Content -->
+            <div class="footer-main">
+                <!-- Brand Section -->
+                <div class="footer-brand-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-coffee"></i>
+                        <span>کافی شاپ</span>
+                    </div>
+                    <p class="footer-description">
+                        ارائه بهترین قهوه‌های تازه و دسرهای خوشمزه در محیطی دلپذیر و آرام
+                    </p>
+                    <div class="footer-features">
+                        <div class="feature-item">
+                            <i class="fas fa-clock"></i>
+                            <span>سرویس 24 ساعته</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-truck"></i>
+                            <span>تحویل سریع</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-star"></i>
+                            <span>کیفیت برتر</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Navigation Sections -->
+                <div class="footer-nav-sections">
+                    <div class="footer-nav-section">
+                        <h3><i class="fas fa-utensils"></i> منو</h3>
+                        <ul class="footer-links">
+                            <li><a href="{% url 'product_list' %}">قهوه‌ها</a></li>
+                            <li><a href="{% url 'product_list' %}">دسرها</a></li>
+                            <li><a href="{% url 'product_list' %}">نوشیدنی‌ها</a></li>
+                            <li><a href="{% url 'product_list' %}">ساندویچ‌ها</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-nav-section">
+                        <h3><i class="fas fa-info-circle"></i> اطلاعات</h3>
+                        <ul class="footer-links">
+                            <li><a href="#about">درباره ما</a></li>
+                            <li><a href="#contact">تماس با ما</a></li>
+                            <li><a href="#privacy">حریم خصوصی</a></li>
+                            <li><a href="#terms">قوانین و مقررات</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-nav-section">
+                        <h3><i class="fas fa-phone"></i> تماس</h3>
+                        <div class="contact-info-footer">
+                            <div class="contact-item-footer">
+                                <i class="fas fa-phone"></i>
+                                <div class="contact-details">
+                                    <span class="contact-label">تلفن:</span>
+                                    <span class="contact-value">021-12345678</span>
+                                </div>
+                            </div>
+                            <div class="contact-item-footer">
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact-details">
+                                    <span class="contact-label">ایمیل:</span>
+                                    <span class="contact-value">info@coffeeshop.ir</span>
+                                </div>
+                            </div>
+                            <div class="contact-item-footer">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="contact-details">
+                                    <span class="contact-label">آدرس:</span>
+                                    <span class="contact-value">تهران، خیابان ولیعصر</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter Section -->
+            <div class="footer-newsletter-section">
+                <div class="newsletter-content">
+                    <div class="newsletter-info">
+                        <h3>عضویت در خبرنامه</h3>
+                        <p>برای اطلاع از آخرین تخفیف‌ها و محصولات جدید عضو شوید</p>
+                        <div class="newsletter-benefits">
+                            <span><i class="fas fa-check"></i> تخفیف‌های ویژه</span>
+                            <span><i class="fas fa-check"></i> اطلاع از محصولات جدید</span>
+                            <span><i class="fas fa-check"></i> رویدادهای ویژه</span>
+                        </div>
+                    </div>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <div class="newsletter-input-group">
+                            <input type="email" class="newsletter-input" placeholder="ایمیل خود را وارد کنید..." required>
+                            <button type="submit" class="newsletter-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                عضویت
+                            </button>
+                        </div>
+                        <div class="newsletter-checkbox">
+                            <input type="checkbox" id="newsletterConsent" required>
+                            <label for="newsletterConsent">موافقم که ایمیل‌های خبرنامه را دریافت کنم</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright-section">
+                        <p>&copy; 2024 کافی شاپ. تمامی حقوق محفوظ است.</p>
+                    </div>
+                    <div class="footer-stats">
+                        <span><i class="fas fa-users"></i> 1000+ مشتری راضی</span>
+                        <span><i class="fas fa-coffee"></i> 5000+ فنجان قهوه</span>
+                        <span><i class="fas fa-star"></i> 4.8 امتیاز</span>
+                    </div>
+                    <div class="footer-bottom-links">
+                        <a href="#privacy">حریم خصوصی</a>
+                        <a href="#terms">قوانین</a>
+                        <a href="#sitemap">نقشه سایت</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="بازگشت به بالا">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Performance and UX Scripts -->
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Dropdown Toggle
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            const toggle = document.querySelector('.dropdown-toggle');
+            
+            dropdown.classList.toggle('show');
+            toggle.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const toggle = document.querySelector('.dropdown-toggle');
+            
+            if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+                toggle.classList.remove('active');
+            }
+        });
+
+        // Newsletter Form
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('.newsletter-input').value;
+                const consent = this.querySelector('#newsletterConsent').checked;
+                
+                if (email && consent) {
+                    // Show success message
+                    alert('با موفقیت در خبرنامه عضو شدید!');
+                    this.reset();
+                } else {
+                    alert('لطفاً ایمیل را وارد کنید و موافقت خود را اعلام کنید.');
+                }
+            });
+        }
+
+        // Lazy Loading for Images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+
+    </script>
+
+    {% if user.is_authenticated %}
+    <script>
+        // Cart Count Update Function
+        function updateCartCount() {
+            fetch('{% url "cart_count" %}')
+                .then(response => response.json())
+                .then(data => {
+                    const cartCountElement = document.getElementById('cartCount');
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.count;
+                    }
+                })
+                .catch(error => console.error('Error updating cart count:', error));
+        }
+
+        // Update cart count on page load
+        updateCartCount();
+
+        // Update cart count every 30 seconds
+        setInterval(updateCartCount, 30000);
+    </script>
+    {% endif %}
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html> 

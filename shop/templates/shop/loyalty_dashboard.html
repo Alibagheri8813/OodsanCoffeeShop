@@ -1,0 +1,532 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}برنامه وفاداری - کافه شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .loyalty-container {
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 80vh;
+    }
+    
+    .loyalty-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .loyalty-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .loyalty-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    .points-display {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .points-value {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 0.5rem;
+    }
+    
+    .points-label {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tier-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .tier-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tier-description {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    .progress-container {
+        margin: 2rem 0;
+    }
+    
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .progress-bar {
+        height: 12px;
+        background: #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 6px;
+        transition: width 0.3s ease;
+    }
+    
+    .benefits-list {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+    }
+    
+    .benefit-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .benefit-item:last-child {
+        border-bottom: none;
+    }
+    
+    .benefit-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-left: 1rem;
+    }
+    
+    .benefit-text {
+        flex: 1;
+        color: #2c3e50;
+    }
+    
+    .rewards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .reward-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .reward-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    .reward-image {
+        height: 150px;
+        background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .reward-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .reward-info {
+        padding: 1.5rem;
+    }
+    
+    .reward-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .reward-description {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+    
+    .reward-points {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+    
+    .redeem-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        color: white;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .redeem-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .redeem-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .history-table th {
+        background: #f8f9fa;
+        padding: 1rem;
+        text-align: right;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .history-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        color: #6c757d;
+    }
+    
+    .history-table tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .points-earned {
+        color: #28a745;
+        font-weight: 600;
+    }
+    
+    .points-spent {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #dee2e6;
+    }
+    
+    @media (max-width: 768px) {
+        .points-value {
+            font-size: 2.5rem;
+        }
+        
+        .rewards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="loyalty-container">
+    <div class="container">
+        <!-- Loyalty Header -->
+        <div class="loyalty-header">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-gift"></i>
+                برنامه وفاداری
+            </h1>
+            <p class="lead">
+                امتیازات خود را جمع کنید و از مزایای ویژه بهره‌مند شوید
+            </p>
+        </div>
+        
+        <!-- Points and Tier Info -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="loyalty-card">
+                    <div class="points-display">
+                        <div class="points-value">{{ loyalty.points }}</div>
+                        <div class="points-label">امتیاز کل شما</div>
+                    </div>
+                    
+                    <div class="tier-info">
+                        <div class="tier-name">{{ loyalty.get_tier_display }}</div>
+                        <div class="tier-description">{{ loyalty.get_tier_description }}</div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>پیشرفت به سطح بعدی</span>
+                            <span>{{ loyalty.points }} / {{ loyalty.next_tier_threshold }} امتیاز</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ loyalty.progress_percentage }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mb-3">
+                        <i class="fas fa-star"></i>
+                        مزایای سطح {{ loyalty.get_tier_display }}
+                    </h4>
+                    <ul class="benefits-list">
+                        {% for benefit in loyalty.tier_benefits %}
+                        <li class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="benefit-text">{{ benefit }}</div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="loyalty-card">
+                    <h4 class="mb-3">
+                        <i class="fas fa-history"></i>
+                        تاریخچه امتیازات
+                    </h4>
+                    
+                    {% if loyalty_history %}
+                    <div class="table-responsive">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>تاریخ</th>
+                                    <th>عملیات</th>
+                                    <th>امتیاز</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in loyalty_history %}
+                                <tr>
+                                    <td>{{ record.created_at|date:"Y/m/d H:i" }}</td>
+                                    <td>{{ record.get_type_display }}</td>
+                                    <td class="{% if record.type == 'earned' %}points-earned{% else %}points-spent{% endif %}">
+                                        {% if record.type == 'earned' %}+{% else %}-{% endif %}{{ record.points }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h5>هنوز تاریخچه‌ای ندارید</h5>
+                        <p>با خرید محصولات، امتیاز کسب کنید</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Available Rewards -->
+        <div class="loyalty-card">
+            <h3 class="mb-4">
+                <i class="fas fa-gift"></i>
+                جوایز قابل دریافت
+            </h3>
+            
+            {% if available_rewards %}
+            <div class="rewards-grid">
+                {% for reward in available_rewards %}
+                <div class="reward-card">
+                    <div class="reward-image">
+                        {% if reward.image %}
+                        <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                        {% else %}
+                        <i class="fas fa-gift fa-3x text-muted"></i>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="reward-info">
+                        <h4 class="reward-title">{{ reward.name }}</h4>
+                        <p class="reward-description">{{ reward.description }}</p>
+                        <div class="reward-points">{{ reward.points_cost }} امتیاز</div>
+                        
+                        <button class="redeem-btn" 
+                                onclick="redeemReward({{ reward.id }})"
+                                {% if loyalty.points < reward.points_cost %}disabled{% endif %}>
+                            {% if loyalty.points >= reward.points_cost %}
+                            <i class="fas fa-gift"></i>
+                            دریافت جایزه
+                            {% else %}
+                            <i class="fas fa-lock"></i>
+                            امتیاز ناکافی
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-gift"></i>
+                <h5>هیچ جایزه‌ای در دسترس نیست</h5>
+                <p>جوایز جدید به زودی اضافه خواهند شد</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- How to Earn Points -->
+        <div class="loyalty-card">
+            <h3 class="mb-4">
+                <i class="fas fa-info-circle"></i>
+                چگونه امتیاز کسب کنیم؟
+            </h3>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="benefit-icon mx-auto mb-3">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h5>خرید محصولات</h5>
+                        <p class="text-muted">برای هر 1000 تومان خرید، {{ loyalty_points_per_1000 }} امتیاز دریافت کنید</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="benefit-icon mx-auto mb-3">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h5>امتیازدهی</h5>
+                        <p class="text-muted">برای هر امتیازدهی به محصولات، 5 امتیاز دریافت کنید</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="benefit-icon mx-auto mb-3">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h5>افزودن به علاقه‌مندی</h5>
+                        <p class="text-muted">برای هر محصول اضافه شده به علاقه‌مندی، 2 امتیاز دریافت کنید</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function redeemReward(rewardId) {
+    if (!confirm('آیا مطمئن هستید که می‌خواهید این جایزه را دریافت کنید؟')) {
+        return;
+    }
+    
+    fetch('/shop/redeem-points/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            reward_id: rewardId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('جایزه با موفقیت دریافت شد!', 'success');
+            // Reload page to update points
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            showNotification(data.message || 'خطا در دریافت جایزه', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('خطا در ارتباط با سرور', 'error');
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+</script>
+{% endblock %} 

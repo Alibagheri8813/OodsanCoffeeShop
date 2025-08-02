@@ -1,0 +1,134 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}داشبورد کافی شاپ{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px;">
+    <h1><i class="fas fa-coffee"></i> خوش آمدید به پنل مدیریت کافی شاپ</h1>
+    <p style="font-size: 1.2rem; margin: 20px 0;">مدیریت کامل کسب‌وکار شما در یک مکان</p>
+    
+    <div style="margin: 30px 0;">
+        <a href="{% url 'admin_dashboard' %}" style="
+            background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-chart-line"></i> مشاهده داشبورد
+        </a>
+        
+        <a href="{% url 'admin:shop_product_changelist' %}" style="
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-box"></i> مدیریت محصولات
+        </a>
+        
+        <a href="{% url 'admin:shop_order_changelist' %}" style="
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-shopping-cart"></i> مدیریت سفارشات
+        </a>
+        
+        <a href="{% url 'admin:shop_userprofile_changelist' %}" style="
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-users"></i> مدیریت کاربران
+        </a>
+    </div>
+    
+    <div style="background: white; border-radius: 16px; padding: 30px; margin: 30px auto; max-width: 800px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);">
+        <h2 style="color: #2c3e50; margin-bottom: 20px;">
+            <i class="fas fa-star"></i> ویژگی‌های پنل مدیریت
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="text-align: center; padding: 20px;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: #007bff; margin-bottom: 10px;"></i>
+                <h3 style="color: #2c3e50;">تحلیل‌های زنده</h3>
+                <p style="color: #6c757d;">آمار و اطلاعات لحظه‌ای کسب‌وکار</p>
+            </div>
+            
+            <div style="text-align: center; padding: 20px;">
+                <i class="fas fa-box" style="font-size: 2rem; color: #28a745; margin-bottom: 10px;"></i>
+                <h3 style="color: #2c3e50;">مدیریت محصولات</h3>
+                <p style="color: #6c757d;">کنترل کامل موجودی و قیمت‌ها</p>
+            </div>
+            
+            <div style="text-align: center; padding: 20px;">
+                <i class="fas fa-shopping-cart" style="font-size: 2rem; color: #ffc107; margin-bottom: 10px;"></i>
+                <h3 style="color: #2c3e50;">پیگیری سفارشات</h3>
+                <p style="color: #6c757d;">مدیریت کامل سفارشات و ارسال</p>
+            </div>
+            
+            <div style="text-align: center; padding: 20px;">
+                <i class="fas fa-users" style="font-size: 2rem; color: #17a2b8; margin-bottom: 10px;"></i>
+                <h3 style="color: #2c3e50;">مدیریت مشتریان</h3>
+                <p style="color: #6c757d;">اطلاعات کامل مشتریان و خریدها</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+body {
+    font-family: 'Vazirmatn', 'Tahoma', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+}
+
+#header {
+    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+    color: #FFF8F0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+}
+
+#branding h1 {
+    color: #FFF8F0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#branding h1 a {
+    color: #FFF8F0;
+    text-decoration: none;
+}
+
+#branding h1 a:hover {
+    color: #FFF8F0;
+    text-decoration: none;
+}
+</style>
+{% endblock %} 

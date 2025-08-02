@@ -1,0 +1,670 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}کافه‌مستر - دستیار هوشمند قهوه - کافه شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .ai-assistant-container {
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        min-height: 90vh;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ai-assistant-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="coffee-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23coffee-pattern)"/></svg>');
+        opacity: 0.3;
+        z-index: 1;
+    }
+    
+    .ai-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .ai-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+        from { text-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
+        to { text-shadow: 0 0 30px rgba(78, 205, 196, 0.8); }
+    }
+    
+    .ai-subtitle {
+        color: #e0e0e0;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .ai-interface {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .chat-container {
+        height: 400px;
+        overflow-y: auto;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        scroll-behavior: smooth;
+    }
+    
+    .message {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .message.user {
+        flex-direction: row-reverse;
+    }
+    
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    
+    .message.user .message-avatar {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .message.assistant .message-avatar {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        color: white;
+    }
+    
+    .message-content {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 15px;
+        max-width: 70%;
+        word-wrap: break-word;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .message.user .message-content {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .message.assistant .message-content {
+        background: rgba(255, 255, 255, 0.15);
+        color: #e0e0e0;
+    }
+    
+    .input-container {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .text-input {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        padding: 1rem 1.5rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .text-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+    }
+    
+    .text-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .send-btn, .voice-btn {
+        background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .send-btn:hover, .voice-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+    }
+    
+    .voice-btn.recording {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .voice-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+    }
+    
+    .voice-btn.recording::before {
+        width: 100%;
+        height: 100%;
+        animation: ripple 1s infinite;
+    }
+    
+    @keyframes ripple {
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+    
+    .ai-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .feature-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .feature-title {
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-description {
+        color: #e0e0e0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .loading-indicator {
+        display: none;
+        text-align: center;
+        padding: 1rem;
+        color: #4ecdc4;
+    }
+    
+    .loading-dots {
+        display: inline-block;
+    }
+    
+    .loading-dots::after {
+        content: '';
+        animation: dots 1.5s infinite;
+    }
+    
+    @keyframes dots {
+        0%, 20% { content: ''; }
+        40% { content: '.'; }
+        60% { content: '..'; }
+        80%, 100% { content: '...'; }
+    }
+    
+    .voice-status {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        z-index: 1000;
+        display: none;
+    }
+    
+    .error-message {
+        background: rgba(255, 107, 107, 0.2);
+        color: #ff6b6b;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .ai-title {
+            font-size: 2.5rem;
+        }
+        
+        .ai-interface {
+            padding: 1rem;
+        }
+        
+        .chat-container {
+            height: 300px;
+        }
+        
+        .message-content {
+            max-width: 85%;
+        }
+        
+        .input-container {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .text-input {
+            width: 100%;
+        }
+        
+        .send-btn, .voice-btn {
+            width: 45px;
+            height: 45px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ai-assistant-container">
+    <div class="container">
+        <!-- AI Header -->
+        <div class="ai-header">
+            <h1 class="ai-title">
+                <i class="fas fa-robot"></i>
+                کافه‌مستر
+            </h1>
+            <p class="ai-subtitle">
+                دستیار هوشمند قهوه با 25 سال تجربه | متخصص در تمام جنبه‌های قهوه
+            </p>
+        </div>
+        
+        <!-- AI Interface -->
+        <div class="ai-interface">
+            <div class="chat-container" id="chatContainer">
+                <!-- Welcome message -->
+                <div class="message assistant">
+                    <div class="message-avatar">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="message-content">
+                        سلام! من کافه‌مستر هستم، متخصص قهوه با 25 سال تجربه. می‌تونم در مورد انواع قهوه، روش‌های دم کردن، تجهیزات، و هر چیز مربوط به قهوه کمکتون کنم. چطور می‌تونم کمکتون کنم؟
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="input-container">
+                <input type="text" 
+                       class="text-input" 
+                       id="messageInput" 
+                       placeholder="سوال خود را بپرسید..."
+                       maxlength="500">
+                
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+                
+                <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceRecording()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="loading-dots">کافه‌مستر در حال پاسخگویی</div>
+            </div>
+            
+            <!-- Error Message -->
+            <div class="error-message" id="errorMessage" style="display: none;"></div>
+        </div>
+        
+        <!-- AI Features -->
+        <div class="ai-features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="feature-title">منشأ قهوه</h3>
+                <p class="feature-description">
+                    اطلاعات کامل در مورد انواع دانه‌های قهوه از اتیوپی تا کلمبیا
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3 class="feature-title">روست قهوه</h3>
+                <p class="feature-description">
+                    راهنمای کامل سطوح مختلف روست و تأثیر آن بر طعم قهوه
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="feature-title">تجهیزات</h3>
+                <p class="feature-description">
+                    معرفی بهترین دستگاه‌ها و تجهیزات قهوه برای هر سطح
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3 class="feature-title">روش‌های دم</h3>
+                <p class="feature-description">
+                    آموزش کامل تمام روش‌های دم کردن قهوه از اسپرسو تا کولد برو
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Voice Status -->
+<div class="voice-status" id="voiceStatus">
+    <i class="fas fa-microphone"></i>
+    <span id="voiceStatusText">در حال ضبط صدا...</span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let isRecording = false;
+let mediaRecorder = null;
+let audioChunks = [];
+
+// Initialize AI Assistant
+document.addEventListener('DOMContentLoaded', function() {
+    // Focus on input
+    document.getElementById('messageInput').focus();
+    
+    // Enter key to send message
+    document.getElementById('messageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // Add user message to chat
+    addMessage(message, 'user');
+    input.value = '';
+    
+    // Show loading
+    showLoading(true);
+    
+    // Send to AI
+    fetch('/shop/ai/chat/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            message: message
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        showLoading(false);
+        
+        if (data.success) {
+            addMessage(data.response, 'assistant');
+        } else {
+            showError(data.error || 'خطا در ارتباط با دستیار هوشمند');
+        }
+    })
+    .catch(error => {
+        showLoading(false);
+        showError('خطا در ارتباط با سرور');
+        console.error('Error:', error);
+    });
+}
+
+function addMessage(content, sender) {
+    const chatContainer = document.getElementById('chatContainer');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}`;
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    
+    if (sender === 'user') {
+        avatar.innerHTML = '<i class="fas fa-user"></i>';
+        contentDiv.textContent = content;
+    } else {
+        avatar.innerHTML = '<i class="fas fa-coffee"></i>';
+        contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+    }
+    
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(contentDiv);
+    chatContainer.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function showLoading(show) {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = show ? 'block' : 'none';
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    
+    setTimeout(() => {
+        errorDiv.style.display = 'none';
+    }, 5000);
+}
+
+function toggleVoiceRecording() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+async function startRecording() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        
+        mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+        };
+        
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            processAudio(audioBlob);
+        };
+        
+        mediaRecorder.start();
+        isRecording = true;
+        
+        // Update UI
+        document.getElementById('voiceBtn').classList.add('recording');
+        document.getElementById('voiceStatus').style.display = 'block';
+        document.getElementById('voiceStatusText').textContent = 'در حال ضبط صدا...';
+        
+    } catch (error) {
+        console.error('Error starting recording:', error);
+        showError('خطا در دسترسی به میکروفون');
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        isRecording = false;
+        
+        // Update UI
+        document.getElementById('voiceBtn').classList.remove('recording');
+        document.getElementById('voiceStatus').style.display = 'none';
+    }
+}
+
+function processAudio(audioBlob) {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'recording.wav');
+    
+    showLoading(true);
+    
+    fetch('/shop/ai/speech-to-text/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add transcribed text to chat
+            addMessage(data.text, 'user');
+            
+            // Send to AI for response
+            return fetch('/shop/ai/voice/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    transcribed_text: data.text
+                })
+            });
+        } else {
+            throw new Error(data.error || 'خطا در تشخیص صدا');
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        showLoading(false);
+        
+        if (data.success) {
+            addMessage(data.response, 'assistant');
+        } else {
+            showError(data.error || 'خطا در پردازش صدا');
+        }
+    })
+    .catch(error => {
+        showLoading(false);
+        showError('خطا در پردازش صدا');
+        console.error('Error:', error);
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Auto-scroll chat container
+function autoScroll() {
+    const chatContainer = document.getElementById('chatContainer');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+// Handle window resize
+window.addEventListener('resize', autoScroll);
+</script>
+{% endblock %} 

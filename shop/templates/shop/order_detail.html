@@ -1,0 +1,681 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}جزئیات سفارش #{{ order.id }} | کافی شاپ{% endblock %}
+
+{% block extra_css %}
+<style>
+    .order-detail-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    
+    .order-detail-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .order-detail-header {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .order-detail-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .order-detail-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .order-number {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-top: 10px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .order-detail-content {
+        padding: 40px;
+    }
+    
+    .order-detail-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+    }
+    
+    .order-info-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 16px;
+    }
+    
+    .section-title {
+        color: #2c3e50;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #4B2E2B, #C97C5D);
+        border-radius: 2px;
+    }
+    
+    .order-status {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 20px 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(75, 46, 43, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(75, 46, 43, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(75, 46, 43, 0); }
+    }
+    
+    .status-pending { background: #FFF3CD; color: #856404; }
+    .status-paid { background: #D1ECF1; color: #0C5460; }
+    .status-processing { background: #D4EDDA; color: #155724; }
+    .status-shipped { background: #CCE5FF; color: #004085; }
+    .status-delivered { background: #D1E7DD; color: #0F5132; }
+    .status-cancelled { background: #F8D7DA; color: #721C24; }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .info-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #4B2E2B;
+        transition: transform 0.3s ease;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .info-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    
+    .info-value {
+        color: #2c3e50;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .order-items-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 16px;
+        margin-top: 30px;
+    }
+    
+    .items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .order-item {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+    }
+    
+    .order-item:hover {
+        border-left-color: #4B2E2B;
+        transform: translateX(5px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .item-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #4B2E2B;
+        background: #FFF8F0;
+    }
+    
+    .item-details {
+        flex: 1;
+    }
+    
+    .item-name {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .item-description {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .item-quantity {
+        color: #4B2E2B;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .item-price {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    
+    .order-summary {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 16px;
+        position: sticky;
+        top: 20px;
+    }
+    
+    .summary-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .summary-item:last-child {
+        border-bottom: none;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-top: 10px;
+        padding-top: 20px;
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .summary-label {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .summary-value {
+        font-weight: 600;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-primary {
+        background: #4B2E2B;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #7B3F00;
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+    }
+    
+    .tracking-timeline {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        margin-top: 30px;
+    }
+    
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #e9ecef;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 25px;
+        padding-left: 30px;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -22px;
+        top: 5px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #4B2E2B;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px #4B2E2B;
+    }
+    
+    .timeline-item.active::before {
+        background: #28a745;
+        box-shadow: 0 0 0 3px #28a745;
+    }
+    
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #4B2E2B;
+    }
+    
+    .timeline-title {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .timeline-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    @media (max-width: 768px) {
+        .order-detail-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .order-detail-header h1 {
+            font-size: 2rem;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .order-item {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="order-detail-container">
+    <div class="container">
+        <div class="order-detail-card">
+            <div class="order-detail-header">
+                <h1>جزئیات سفارش</h1>
+                <div class="order-number">شماره سفارش: #{{ order.id }}</div>
+            </div>
+            
+            <div class="order-detail-content">
+                <div class="order-detail-grid">
+                    <div class="order-info-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-info-circle"></i>
+                            اطلاعات سفارش
+                        </h3>
+                        
+                        <div class="order-status status-{{ order.status }}">
+                            {% if order.status == 'pending' %}در انتظار پرداخت
+                            {% elif order.status == 'paid' %}پرداخت شده
+                            {% elif order.status == 'processing' %}در حال پردازش
+                            {% elif order.status == 'shipped' %}ارسال شده
+                            {% elif order.status == 'delivered' %}تحویل داده شده
+                            {% elif order.status == 'cancelled' %}لغو شده
+                            {% endif %}
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-label">تاریخ سفارش</div>
+                                <div class="info-value">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                            </div>
+                            
+                                                         <div class="info-card">
+                                 <div class="info-label">روش تحویل</div>
+                                 <div class="info-value">
+                                     {% if order.delivery_method == 'delivery' %}تحویل در محل
+                                     {% elif order.delivery_method == 'pickup' %}تحویل حضوری
+                                     {% else %}تعیین نشده
+                                     {% endif %}
+                                 </div>
+                             </div>
+                            
+                            <div class="info-card">
+                                <div class="info-label">آدرس تحویل</div>
+                                <div class="info-value">{{ order.shipping_address|default:"تعیین نشده" }}</div>
+                            </div>
+                            
+                            <div class="info-card">
+                                <div class="info-label">کد پستی</div>
+                                <div class="info-value">{{ order.postal_code|default:"تعیین نشده" }}</div>
+                            </div>
+                            
+                            <div class="info-card">
+                                <div class="info-label">شماره تماس</div>
+                                <div class="info-value">{{ order.phone_number|default:"تعیین نشده" }}</div>
+                            </div>
+                            
+                            {% if order.notes %}
+                            <div class="info-card">
+                                <div class="info-label">یادداشت</div>
+                                <div class="info-value">{{ order.notes }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="order-items-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-shopping-bag"></i>
+                                محصولات سفارش
+                            </h3>
+                            
+                            <div class="items-list">
+                                {% for item in order_items %}
+                                <div class="order-item">
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                                    <div class="item-details">
+                                        <div class="item-name">{{ item.product.name }}</div>
+                                        <div class="item-description">{{ item.product.description|truncatewords:10 }}</div>
+                                        <div class="item-quantity">تعداد: {{ item.quantity }}</div>
+                                    </div>
+                                    <div class="item-price">{{ item.price|floatformat:0 }} تومان</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="tracking-timeline">
+                            <h3 class="section-title">
+                                <i class="fas fa-route"></i>
+                                وضعیت سفارش
+                            </h3>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">سفارش ثبت شد</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                
+                                {% if order.status != 'pending' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">پرداخت تایید شد</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.status in 'processing,shipped,delivered' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">در حال پردازش</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.status in 'shipped,delivered' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">ارسال شده</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.status == 'delivered' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">تحویل داده شد</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h3 class="summary-title">خلاصه سفارش</h3>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label">جمع کل</span>
+                            <span class="summary-value">{{ order.subtotal|floatformat:0 }} تومان</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label">هزینه ارسال</span>
+                            <span class="summary-value">{{ order.delivery_fee|floatformat:0 }} تومان</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label">مجموع نهایی</span>
+                            <span class="summary-value">{{ order.total_amount|floatformat:0 }} تومان</span>
+                        </div>
+                        
+                                                 <div class="action-buttons">
+                             <a href="{% url 'order_history' %}" class="btn btn-secondary">
+                                 <i class="fas fa-arrow-right"></i>
+                                 بازگشت به سفارشات
+                             </a>
+                             
+                             {% if order.status == 'pending' %}
+                             <button class="btn btn-primary" onclick="processPayment()">
+                                 <i class="fas fa-credit-card"></i>
+                                 پرداخت آنلاین
+                             </button>
+                             {% endif %}
+                             
+                             {% if order.status == 'delivered' and not feedback %}
+                             <button class="btn btn-primary" onclick="showFeedbackModal()">
+                                 <i class="fas fa-star"></i>
+                                 ارسال بازخورد
+                             </button>
+                             {% endif %}
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Feedback Modal -->
+{% if order.status == 'delivered' and not feedback %}
+<div id="feedbackModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>ارسال بازخورد</h3>
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label>امتیاز شما</label>
+                <div class="rating-stars">
+                    <input type="radio" name="rating" value="5" id="star5">
+                    <label for="star5">★</label>
+                    <input type="radio" name="rating" value="4" id="star4">
+                    <label for="star4">★</label>
+                    <input type="radio" name="rating" value="3" id="star3">
+                    <label for="star3">★</label>
+                    <input type="radio" name="rating" value="2" id="star2">
+                    <label for="star2">★</label>
+                    <input type="radio" name="rating" value="1" id="star1">
+                    <label for="star1">★</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>نظر شما</label>
+                <textarea name="comment" rows="4" placeholder="نظر خود را بنویسید..."></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">ارسال بازخورد</button>
+                <button type="button" class="btn btn-secondary" onclick="closeFeedbackModal()">انصراف</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function showFeedbackModal() {
+    document.getElementById('feedbackModal').style.display = 'flex';
+}
+
+function closeFeedbackModal() {
+    document.getElementById('feedbackModal').style.display = 'none';
+}
+
+document.getElementById('feedbackForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('{% url "submit_order_feedback" order.id %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('بازخورد شما با موفقیت ثبت شد!');
+            closeFeedbackModal();
+            location.reload();
+        } else {
+            alert(data.message || 'خطا در ثبت بازخورد');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('خطا در ثبت بازخورد');
+    });
+});
+
+// Payment processing function
+function processPayment() {
+    const paymentBtn = event.target;
+    const originalText = paymentBtn.innerHTML;
+    
+    paymentBtn.disabled = true;
+    paymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال اتصال به درگاه پرداخت...';
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        alert('این قابلیت در حال توسعه است. لطفاً از دکمه "ثبت سفارش" استفاده کنید.');
+        paymentBtn.disabled = false;
+        paymentBtn.innerHTML = originalText;
+    }, 2000);
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('feedbackModal');
+    if (event.target == modal) {
+        closeFeedbackModal();
+    }
+}
+</script>
+{% endblock %} 

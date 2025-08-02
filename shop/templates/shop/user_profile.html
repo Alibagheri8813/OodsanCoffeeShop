@@ -1,0 +1,727 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}پروفایل کاربری | کافی شاپ{% endblock %}
+
+{% block extra_head %}
+<style>
+.profile-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #F3E9DC 0%, #FFF8F0 100%);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 24px rgba(75,46,43,0.1);
+    border: 2px solid #4B2E2B22;
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.avatar-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #4B2E2B;
+    background: #FFF8F0;
+}
+
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.upload-btn {
+    background: #4B2E2B;
+    color: #FFF8F0;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.upload-btn:hover {
+    background: #C97C5D;
+    transform: translateY(-2px);
+}
+
+.profile-info h2 {
+    color: #4B2E2B;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-info p {
+    color: #7B3F00;
+    font-size: 1.1rem;
+}
+
+/* Dashboard Overview */
+.dashboard-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.overview-card {
+    background: linear-gradient(135deg, #FFF8F0 0%, #F5E6D3 100%);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
+    border: 2px solid #4B2E2B22;
+    transition: all 0.3s;
+}
+
+.overview-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(75,46,43,0.15);
+}
+
+.overview-icon {
+    font-size: 2.5rem;
+    color: #4B2E2B;
+    margin-bottom: 1rem;
+}
+
+.overview-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4B2E2B;
+    margin-bottom: 0.5rem;
+}
+
+.overview-label {
+    color: #7B3F00;
+    font-size: 1rem;
+}
+
+.profile-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.profile-section {
+    background: #FFF8F0;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
+    border: 2px solid #4B2E2B22;
+}
+
+.section-title {
+    color: #4B2E2B;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #C97C5D, #7B3F00);
+    border-radius: 2px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #4B2E2B;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #C97C5D;
+    border-radius: 1rem;
+    font-size: 1rem;
+    background: #FFF8F0;
+    color: #4B2E2B;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4B2E2B;
+    box-shadow: 0 0 0 3px rgba(75,46,43,0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+    color: #FFF8F0;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(75,46,43,0.2);
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(75,46,43,0.3);
+    background: linear-gradient(135deg, #C97C5D 0%, #7B3F00 100%);
+}
+
+.notification-badge {
+    background: #C97C5D;
+    color: #FFF8F0;
+    border-radius: 50%;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-item {
+    background: #F3E9DC;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.order-item:hover {
+    border-color: #C97C5D;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
+    background: #FFF8F0;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-id {
+    font-weight: bold;
+    color: #4B2E2B;
+    font-size: 1.1rem;
+}
+
+.order-status {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.status-pending { background: #FFF3CD; color: #856404; }
+.status-paid { background: #D1ECF1; color: #0C5460; }
+.status-processing { background: #D4EDDA; color: #155724; }
+.status-shipped { background: #CCE5FF; color: #004085; }
+.status-delivered { background: #D1E7DD; color: #0F5132; }
+.status-cancelled { background: #F8D7DA; color: #721C24; }
+
+.order-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #7B3F00;
+    font-size: 0.95rem;
+}
+
+.order-date {
+    color: #C97C5D;
+}
+
+.order-arrow {
+    color: #C97C5D;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.address-info {
+    background: #F3E9DC;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.address-info h4 {
+    color: #4B2E2B;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.address-text {
+    color: #7B3F00;
+    line-height: 1.6;
+}
+
+.completion-warning {
+    background: #FFF3CD;
+    border: 2px solid #FFEAA7;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: #856404;
+}
+
+.warning-icon {
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.completion-success {
+    background: #D4EDDA;
+    border: 2px solid #C3E6CB;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: #155724;
+}
+
+/* Favorite Products */
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.favorite-item {
+    background: #F3E9DC;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.favorite-item:hover {
+    border-color: #C97C5D;
+    transform: translateY(-2px);
+    background: #FFF8F0;
+}
+
+.favorite-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.favorite-name {
+    color: #4B2E2B;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.favorite-price {
+    color: #7B3F00;
+    font-size: 0.8rem;
+}
+
+/* Activity Timeline */
+.timeline {
+    margin-top: 1rem;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #E8D5C4;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.timeline-icon.order { background: #D4EDDA; color: #155724; }
+.timeline-icon.notification { background: #CCE5FF; color: #004085; }
+.timeline-icon.favorite { background: #F8D7DA; color: #721C24; }
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-title {
+    color: #4B2E2B;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.timeline-time {
+    color: #C97C5D;
+    font-size: 0.8rem;
+}
+
+/* Account Settings */
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.setting-item {
+    background: #F3E9DC;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.setting-item:hover {
+    background: #FFF8F0;
+    transform: translateX(-5px);
+}
+
+.setting-info h4 {
+    color: #4B2E2B;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.setting-info p {
+    color: #7B3F00;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.setting-action {
+    background: #4B2E2B;
+    color: #FFF8F0;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.setting-action:hover {
+    background: #C97C5D;
+}
+
+@media (max-width: 768px) {
+    .profile-sections {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .profile-avatar {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .avatar-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .dashboard-overview {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Address Completion Status -->
+    {% if profile.address and profile.postal_code and profile.city and profile.province %}
+    <div class="completion-success">
+        <h4>✅ اطلاعات آدرس تکمیل شده</h4>
+        <p>اطلاعات آدرس شما کامل است و می‌توانید سفارش دهید.</p>
+    </div>
+    {% else %}
+    <div class="completion-warning">
+        <h4>⚠️ تکمیل اطلاعات آدرس</h4>
+        <p>لطفاً اطلاعات آدرس خود را تکمیل کنید تا بتوانید سفارش دهید.</p>
+    </div>
+    {% endif %}
+
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="تصویر پروفایل" class="avatar-image">
+            {% else %}
+                <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=👤" alt="تصویر پیش‌فرض" class="avatar-image">
+            {% endif %}
+            <div class="avatar-upload">
+                <form method="post" enctype="multipart/form-data" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="file" name="profile_image" accept="image/*" style="display: none;" id="profile-image-input">
+                    <label for="profile-image-input" class="upload-btn">تغییر تصویر</label>
+                </form>
+            </div>
+            <div class="profile-info">
+                <h2>{{ user.username }}</h2>
+                <p>عضو از {{ user.date_joined|date:"Y/m/d" }}</p>
+                {% if unread_notifications > 0 %}
+                    <p><span class="notification-badge">{{ unread_notifications }}</span> اعلان جدید</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Overview -->
+    <div class="dashboard-overview">
+        <div class="overview-card">
+            <div class="overview-icon">📦</div>
+            <div class="overview-number">{{ orders.count }}</div>
+            <div class="overview-label">کل سفارشات</div>
+        </div>
+        <div class="overview-card">
+            <div class="overview-icon">❤️</div>
+            <div class="overview-number">{{ favorite_count }}</div>
+            <div class="overview-label">محصولات مورد علاقه</div>
+        </div>
+        <div class="overview-card">
+            <div class="overview-icon">💰</div>
+            <div class="overview-number">{{ total_spent|floatformat:0 }}</div>
+            <div class="overview-label">کل خرید (تومان)</div>
+        </div>
+        <div class="overview-card">
+            <div class="overview-icon">⭐</div>
+            <div class="overview-number">{{ completed_orders }}</div>
+            <div class="overview-label">سفارشات تکمیل شده</div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="profile-sections">
+        <!-- Profile Information -->
+        <div class="profile-section">
+            <h3 class="section-title">اطلاعات پروفایل</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="phone_number">شماره تلفن:</label>
+                    <input type="tel" id="phone_number" name="phone_number" value="{{ profile.phone_number }}" placeholder="09123456789">
+                </div>
+
+                <div class="form-group">
+                    <label for="national_code">کد ملی:</label>
+                    <input type="text" id="national_code" name="national_code" value="{{ profile.national_code }}" placeholder="1234567890">
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_date">تاریخ تولد:</label>
+                    <input type="date" id="birth_date" name="birth_date" value="{{ profile.birth_date|date:'Y-m-d' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">آدرس کامل:</label>
+                    <textarea id="address" name="address" placeholder="آدرس کامل خود را وارد کنید...">{{ profile.address }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="postal_code">کد پستی:</label>
+                    <input type="text" id="postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="1234567890">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">شهر:</label>
+                    <input type="text" id="city" name="city" value="{{ profile.city }}" placeholder="تهران">
+                </div>
+
+                <div class="form-group">
+                    <label for="province">استان:</label>
+                    <input type="text" id="province" name="province" value="{{ profile.province }}" placeholder="تهران">
+                </div>
+
+                <button type="submit" class="save-btn">ذخیره اطلاعات</button>
+            </form>
+
+            {% if profile.address or profile.postal_code or profile.city or profile.province %}
+            <div class="address-info">
+                <h4>آدرس فعلی:</h4>
+                <div class="address-text">{{ profile.get_full_address }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Account Settings -->
+        <div class="profile-section">
+            <h3 class="section-title">تنظیمات حساب</h3>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>تغییر رمز عبور</h4>
+                        <p>رمز عبور خود را تغییر دهید</p>
+                    </div>
+                    <a href="{% url 'change_password' %}" class="setting-action">تغییر</a>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>تنظیمات اعلان‌ها</h4>
+                        <p>مدیریت اعلان‌های سیستم</p>
+                    </div>
+                    <a href="{% url 'user_notifications' %}" class="setting-action">مشاهده</a>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>محصولات مورد علاقه</h4>
+                        <p>مدیریت لیست علاقه‌مندی‌ها</p>
+                    </div>
+                    <a href="{% url 'favorite_products' %}" class="setting-action">مشاهده</a>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>تاریخچه سفارشات</h4>
+                        <p>مشاهده تمام سفارشات</p>
+                    </div>
+                    <a href="{% url 'order_history' %}" class="setting-action">مشاهده</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="profile-section" style="grid-column: 1 / -1;">
+        <h3 class="section-title">سفارشات اخیر</h3>
+        <div class="orders-list">
+            {% for order in orders|slice:":5" %}
+                <a href="{% url 'order_detail' order.id %}" class="order-item">
+                    <div class="order-header">
+                        <span class="order-id">سفارش #{{ order.id }}</span>
+                        <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+                    </div>
+                    <div class="order-details">
+                        <span class="order-date">{{ order.created_at|date:"Y/m/d H:i" }}</span>
+                        <span>{{ order.total_amount|floatformat:0 }} تومان</span>
+                    </div>
+                    <div style="text-align: left; margin-top: 0.5rem;">
+                        <span class="order-arrow">→</span>
+                        <span style="color: #C97C5D; font-size: 0.9rem;">مشاهده جزئیات</span>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem;">هنوز سفارشی ثبت نکرده‌اید.</p>
+            {% endfor %}
+        </div>
+        {% if orders.count > 5 %}
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="{% url 'order_history' %}" class="save-btn" style="text-decoration: none; display: inline-block;">مشاهده همه سفارشات</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Favorite Products -->
+    <div class="profile-section" style="grid-column: 1 / -1;">
+        <h3 class="section-title">محصولات مورد علاقه</h3>
+        <div class="favorites-grid">
+            {% for favorite in user_favorites %}
+                <div class="favorite-item">
+                    {% if favorite.product.image %}
+                        <img src="{{ favorite.product.image.url }}" alt="{{ favorite.product.name }}" class="favorite-image">
+                    {% else %}
+                        <img src="https://placehold.co/80x80/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر" class="favorite-image">
+                    {% endif %}
+                    <div class="favorite-name">{{ favorite.product.name }}</div>
+                    <div class="favorite-price">{{ favorite.product.price|floatformat:0 }} تومان</div>
+                </div>
+            {% empty %}
+                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem; grid-column: 1 / -1;">هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>
+            {% endfor %}
+        </div>
+        {% if user_favorites.count > 6 %}
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="{% url 'favorite_products' %}" class="save-btn" style="text-decoration: none; display: inline-block;">مشاهده همه علاقه‌مندی‌ها</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Activity Timeline -->
+    <div class="profile-section" style="grid-column: 1 / -1;">
+        <h3 class="section-title">فعالیت‌های اخیر</h3>
+        <div class="timeline">
+            {% for activity in recent_activities %}
+                <div class="timeline-item">
+                    <div class="timeline-icon {{ activity.type }}">
+                        {% if activity.type == 'order' %}📦
+                        {% elif activity.type == 'notification' %}🔔
+                        {% elif activity.type == 'favorite' %}❤️
+                        {% else %}📝{% endif %}
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">{{ activity.title }}</div>
+                        <div class="timeline-time">{{ activity.time|date:"Y/m/d H:i" }}</div>
+                    </div>
+                </div>
+            {% empty %}
+                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem;">هنوز فعالیتی ثبت نشده است.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('profile-image-input').addEventListener('change', function() {
+    this.form.submit();
+});
+</script>
+{% endblock %} 
