@@ -9494,3 +9494,18 @@ INFO 2025-08-02 07:02:46,878 autoreload 10276 10288 Watching for file changes wi
 INFO 2025-08-02 07:02:51,425 ai_assistant 10276 10288 AI Assistant initialized successfully
 INFO 2025-08-02 07:02:51,477 ai_assistant 10276 10288 Speech recognition initialized successfully
 WARNING 2025-08-02 07:02:51,643 ai_assistant 10276 10288 TTS initialization failed (will use text-only mode): invalid syntax. Perhaps you forgot a comma? (_C866CA3A_32F7_11D2_9602_00C04F8EE628_0_5_4.py, line 12156)
+INFO 2025-08-03 08:04:45,760 autoreload 2853 139828630933760 Watching for file changes with StatReloader
+INFO 2025-08-03 08:05:15,789 autoreload 2853 139828630933760 /workspace/coffe_shop/settings.py changed, reloading.
+INFO 2025-08-03 08:05:16,156 autoreload 2936 140201896874240 Watching for file changes with StatReloader
+INFO 2025-08-03 08:05:21,912 autoreload 2936 140201896874240 /workspace/coffe_shop/settings.py changed, reloading.
+INFO 2025-08-03 08:05:22,236 autoreload 2959 140569233215744 Watching for file changes with StatReloader
+INFO 2025-08-03 08:05:44,092 autoreload 2959 140569233215744 /workspace/shop/models.py changed, reloading.
+INFO 2025-08-03 08:05:44,442 autoreload 3064 139740218474752 Watching for file changes with StatReloader
+INFO 2025-08-03 08:06:01,347 autoreload 3064 139740218474752 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-03 08:06:01,755 autoreload 3105 140541456548096 Watching for file changes with StatReloader
+INFO 2025-08-03 08:13:09,833 autoreload 3105 140541456548096 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-03 08:13:10,250 autoreload 4285 140433768288512 Watching for file changes with StatReloader
+INFO 2025-08-03 08:13:15,017 autoreload 4285 140433768288512 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-03 08:13:15,352 autoreload 4308 140174595924224 Watching for file changes with StatReloader
+INFO 2025-08-03 08:14:17,518 autoreload 4308 140174595924224 /workspace/coffe_shop/settings.py changed, reloading.
+INFO 2025-08-03 08:14:17,858 autoreload 4441 139769066598656 Watching for file changes with StatReloader

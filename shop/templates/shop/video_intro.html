@@ -309,7 +309,7 @@
         <button class="skip-button" onclick="skipVideo()">رد کردن</button>
         
         <!-- Direct link to home page -->
-        <a href="/home/" class="skip-button" style="top: 70px; text-decoration: none; display: inline-block;">رفتن به صفحه اصلی</a>
+                    <a href="/shop/?from=video_intro_skip" class="skip-button" style="top: 70px; text-decoration: none; display: inline-block;">رفتن به صفحه اصلی</a>
         
         <!-- <div class="loading-text">
             <span id="countdown">6</span> ثانیه تا ورود به سایت
@@ -383,7 +383,8 @@
             
             // Redirect to homepage after 4 seconds
             setTimeout(() => {
-                window.location.href = '/home/';
+                // Add loop prevention parameter to avoid recursion
+                window.location.href = '/shop/?from=video_intro';
             }, 4000);
         }
         
