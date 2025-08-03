@@ -211,7 +211,7 @@ header, main, footer, section, div {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #FF6B6B, transparent);
+    background: linear-gradient(90deg, transparent, #C97C5D, transparent);
 }
 
 /* Main Footer Content */
@@ -235,13 +235,13 @@ header, main, footer, section, div {
     gap: 0.8rem;
     font-size: 1.8rem;
     font-weight: bold;
-    color: #FF6B6B;
+    color: #C97C5D;
     margin-bottom: 0.5rem;
 }
 
 .footer-logo i {
     font-size: 2.5rem;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -272,7 +272,7 @@ header, main, footer, section, div {
 }
 
 .feature-item i {
-    color: #FF6B6B;
+    color: #C97C5D;
     font-size: 1.1rem;
     width: 20px;
 }
@@ -289,7 +289,7 @@ header, main, footer, section, div {
     justify-content: center;
     width: 45px;
     height: 45px;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border-radius: 50%;
     text-decoration: none;
@@ -316,7 +316,7 @@ header, main, footer, section, div {
 
 .social-link:hover {
     transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 8px 20px rgba(201, 124, 93, 0.4);
     color: white;
 }
 
@@ -328,7 +328,7 @@ header, main, footer, section, div {
 }
 
 .footer-nav-section h3 {
-    color: #FF6B6B;
+    color: #C97C5D;
     font-size: 1.2rem;
     margin-bottom: 1.2rem;
     font-weight: bold;
@@ -367,14 +367,14 @@ header, main, footer, section, div {
 .footer-links a i {
     font-size: 0.9rem;
     width: 16px;
-    color: #FF6B6B;
+    color: #C97C5D;
 }
 
 .footer-links a:hover {
-    color: #FF6B6B;
+    color: #C97C5D;
     opacity: 1;
     transform: translateX(5px);
-    background: rgba(255, 107, 107, 0.1);
+    background: rgba(201, 124, 93, 0.1);
     padding-left: 0.5rem;
 }
 
@@ -394,7 +394,7 @@ header, main, footer, section, div {
 }
 
 .contact-item-footer i {
-    color: #FF6B6B;
+    color: #C97C5D;
     width: 20px;
     font-size: 1rem;
     margin-top: 0.2rem;
@@ -435,7 +435,7 @@ header, main, footer, section, div {
 }
 
 .newsletter-info h3 {
-    color: #FF6B6B;
+    color: #C97C5D;
     font-size: 1.4rem;
     margin-bottom: 1rem;
     display: flex;
@@ -466,7 +466,7 @@ header, main, footer, section, div {
 }
 
 .newsletter-benefits i {
-    color: #FF6B6B;
+    color: #C97C5D;
     font-size: 0.9rem;
 }
 
@@ -500,12 +500,12 @@ header, main, footer, section, div {
 
 .newsletter-input:focus {
     outline: none;
-    border-color: #FF6B6B;
+    border-color: #C97C5D;
     background: rgba(255, 255, 255, 0.15);
 }
 
 .newsletter-btn {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -522,7 +522,7 @@ header, main, footer, section, div {
 
 .newsletter-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 8px 20px rgba(201, 124, 93, 0.3);
 }
 
 .newsletter-checkbox {
@@ -535,7 +535,7 @@ header, main, footer, section, div {
 .newsletter-checkbox input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #FF6B6B;
+    accent-color: #C97C5D;
 }
 
 .newsletter-checkbox label {
@@ -582,7 +582,7 @@ header, main, footer, section, div {
 }
 
 .footer-stats i {
-    color: #FF6B6B;
+    color: #C97C5D;
     font-size: 0.9rem;
 }
 
@@ -605,7 +605,7 @@ header, main, footer, section, div {
 
 .footer-bottom-links a:hover {
     opacity: 1;
-    color: #FF6B6B;
+    color: #C97C5D;
     transform: translateY(-2px);
 }
 
@@ -664,15 +664,15 @@ header, main, footer, section, div {
     }
 }
 
-/* Enhanced Navbar with Orange Theme */
+/* Enhanced Navbar with Brown Theme */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.3rem 1.2rem;
     background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
-    border-bottom: 2px solid #FF6B6B;
-    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
+    border-bottom: 2px solid #C97C5D;
+    box-shadow: 0 2px 10px rgba(201, 124, 93, 0.2);
     position: relative;
     overflow: hidden;
     margin: 0;
@@ -695,21 +695,21 @@ header, main, footer, section, div {
     transition: all 0.3s ease;
     padding: 0.3rem 0.6rem;
     border-radius: 15px;
-    background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(255, 140, 66, 0.1));
+    background: linear-gradient(45deg, rgba(201, 124, 93, 0.1), rgba(123, 63, 0, 0.1));
     border: 2px solid transparent;
 }
 
 .nav-brand a:hover {
-    background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(255, 140, 66, 0.2));
-    border-color: #FF6B6B;
+    background: linear-gradient(45deg, rgba(201, 124, 93, 0.2), rgba(123, 63, 0, 0.2));
+    border-color: #C97C5D;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
 }
 
 .nav-brand i {
     font-size: 1.4rem;
-    color: #FF6B6B;
-    text-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+    color: #C97C5D;
+    text-shadow: 0 2px 4px rgba(201, 124, 93, 0.3);
 }
 
 .nav-menu {
@@ -733,16 +733,16 @@ header, main, footer, section, div {
     align-items: center;
     gap: 0.3rem;
     position: relative;
-    background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(255, 140, 66, 0.1));
+    background: linear-gradient(45deg, rgba(201, 124, 93, 0.1), rgba(123, 63, 0, 0.1));
     border: 2px solid transparent;
     backdrop-filter: blur(10px);
 }
 
 .nav-link:hover, .nav-link:focus {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.4);
     border-color: #FFF8F0;
 }
 
@@ -756,7 +756,7 @@ header, main, footer, section, div {
 }
 
 .cart-count {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border-radius: 50%;
     padding: 0.15rem 0.4rem;
@@ -766,7 +766,7 @@ header, main, footer, section, div {
     min-width: 16px;
     text-align: center;
     display: inline-block;
-    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 2px 8px rgba(201, 124, 93, 0.4);
     animation: pulse 2s infinite;
 }
 
@@ -821,10 +821,10 @@ header, main, footer, section, div {
     top: 100% !important;
     left: 0 !important;
     background: linear-gradient(135deg, #4B2E2B 0%, #6B4C3A 100%) !important;
-    border: 2px solid #FF6B6B !important;
-    border-left: 3px solid #FF6B6B !important;
+    border: 2px solid #C97C5D !important;
+    border-left: 3px solid #C97C5D !important;
     border-radius: 20px 20px 15px 15px !important;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(201, 124, 93, 0.3) !important;
     min-width: 200px !important;
     max-width: 250px !important;
     z-index: 999999999 !important;
@@ -866,7 +866,7 @@ header, main, footer, section, div {
 }
 
 .dropdown-item:hover {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     transform: translateX(5px);
     border-left: 3px solid #FFF8F0;
@@ -880,7 +880,7 @@ header, main, footer, section, div {
 
 .dropdown-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, #FF6B6B, transparent);
+    background: linear-gradient(90deg, transparent, #C97C5D, transparent);
     margin: 0.5rem 0;
 }
 
@@ -943,7 +943,7 @@ header, main, footer, section, div {
 
 .search-btn {
     padding: 1rem 2rem;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     border-radius: 50px;
@@ -951,7 +951,7 @@ header, main, footer, section, div {
     font-size: 1rem;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -972,9 +972,9 @@ header, main, footer, section, div {
 }
 
 .search-btn:hover {
-    background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 .filter-options {
@@ -1062,7 +1062,7 @@ header, main, footer, section, div {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(201, 124, 93, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -1072,15 +1072,15 @@ header, main, footer, section, div {
 
 .category-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.2);
-    border-color: #FF6B6B;
+    box-shadow: 0 8px 25px rgba(201, 124, 93, 0.2);
+    border-color: #C97C5D;
 }
 
 .category-item.active {
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF8C42 100%);
+    background: linear-gradient(135deg, #C97C5D 0%, #7B3F00 100%);
     color: white;
     border-color: #FFF8F0;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.4);
 }
 
 .category-item img {
@@ -1094,20 +1094,20 @@ header, main, footer, section, div {
 .category-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 1.5rem;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
 }
 
 .category-item.active .category-icon {
     background: white;
-    color: #FF6B6B;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    color: #C97C5D;
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 /* Product Listing */
@@ -1152,8 +1152,8 @@ header, main, footer, section, div {
 
 .product-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
-    border: 2px solid #FF6B6B;
+    box-shadow: 0 15px 35px rgba(201, 124, 93, 0.2);
+    border: 2px solid #C97C5D;
 }
 
 .product-image {
@@ -1254,14 +1254,14 @@ header, main, footer, section, div {
 .view-details-btn {
     flex: 1;
     padding: 0.8rem 1rem;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -1282,9 +1282,9 @@ header, main, footer, section, div {
 }
 
 .view-details-btn:hover {
-    background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 /* Product Detail Styles */
@@ -1437,9 +1437,9 @@ header, main, footer, section, div {
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42) !important;
+    background: linear-gradient(45deg, #C97C5D, #7B3F00) !important;
     color: white !important;
-    border: 2px solid #FF6B6B !important;
+    border: 2px solid #C97C5D !important;
     padding: 1rem 1.5rem;
     border-radius: 15px;
     cursor: pointer;
@@ -1450,7 +1450,7 @@ header, main, footer, section, div {
     transition: all 0.3s ease;
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -1471,9 +1471,9 @@ header, main, footer, section, div {
 }
 
 .add-to-cart-btn:hover {
-    background: linear-gradient(45deg, #FF8C42, #FF6B6B) !important;
+    background: linear-gradient(45deg, #7B3F00, #C97C5D) !important;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 /* Enhanced Comments Section */
@@ -1520,7 +1520,7 @@ header, main, footer, section, div {
 }
 
 .submit-comment {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -1529,7 +1529,7 @@ header, main, footer, section, div {
     cursor: pointer;
     margin-top: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -1550,9 +1550,9 @@ header, main, footer, section, div {
 }
 
 .submit-comment:hover {
-    background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 .login-to-comment {
@@ -1659,7 +1659,7 @@ header, main, footer, section, div {
     opacity: 0.95;
 }
 .cta-btn {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     padding: 0.9rem 2.2rem;
@@ -1667,7 +1667,7 @@ header, main, footer, section, div {
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(201, 124, 93, 0.3);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -1689,9 +1689,9 @@ header, main, footer, section, div {
 }
 
 .cta-btn:hover {
-    background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 6px 20px rgba(201, 124, 93, 0.5);
 }
 
 /* Enhanced Message Styles with Orange Theme */
@@ -1721,31 +1721,31 @@ header, main, footer, section, div {
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
 }
 
 .message-success {
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
-    border-left: 4px solid #FF6B6B;
+    border-left: 4px solid #C97C5D;
 }
 
 .message-error {
     background: linear-gradient(135deg, #f44336, #d32f2f);
     color: white;
-    border-left: 4px solid #FF6B6B;
+    border-left: 4px solid #C97C5D;
 }
 
 .message-warning {
     background: linear-gradient(135deg, #ff9800, #f57c00);
     color: white;
-    border-left: 4px solid #FF6B6B;
+    border-left: 4px solid #C97C5D;
 }
 
 .message-info {
     background: linear-gradient(135deg, #2196F3, #1976D2);
     color: white;
-    border-left: 4px solid #FF6B6B;
+    border-left: 4px solid #C97C5D;
 }
 
 /* Responsive styles */
@@ -1845,7 +1845,7 @@ header, main, footer, section, div {
 
 /* Notification Badge */
 .notification-badge {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border-radius: 50%;
     width: 18px;
@@ -1883,7 +1883,7 @@ header, main, footer, section, div {
     max-width: 500px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 2px solid #FF6B6B;
+    border: 2px solid #C97C5D;
 }
 
 .close {
@@ -1899,7 +1899,7 @@ header, main, footer, section, div {
 }
 
 .close:hover {
-    color: #FF6B6B;
+    color: #C97C5D;
 }
 
 .modal-content h2 {
@@ -1947,7 +1947,7 @@ header, main, footer, section, div {
 }
 
 .search-btn-modal {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     padding: 1rem;
@@ -1964,7 +1964,7 @@ header, main, footer, section, div {
 
 .search-btn-modal:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 5px 15px rgba(201, 124, 93, 0.3);
 }
 
 /* Contact Modal */
@@ -1986,7 +1986,7 @@ header, main, footer, section, div {
 
 .contact-item i {
     font-size: 1.2rem;
-    color: #FF6B6B;
+    color: #C97C5D;
     width: 30px;
 }
 
@@ -2021,7 +2021,7 @@ header, main, footer, section, div {
 
 .feature i {
     font-size: 2rem;
-    color: #FF6B6B;
+    color: #C97C5D;
 }
 
 /* Settings Modal */
@@ -2048,11 +2048,11 @@ header, main, footer, section, div {
 .setting-item input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #FF6B6B;
+    accent-color: #C97C5D;
 }
 
 .save-settings-btn {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42);
+    background: linear-gradient(45deg, #C97C5D, #7B3F00);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -2067,7 +2067,7 @@ header, main, footer, section, div {
 
 .save-settings-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 5px 15px rgba(201, 124, 93, 0.3);
 }
 
 /* Help Modal */
@@ -2083,7 +2083,7 @@ header, main, footer, section, div {
 }
 
 .help-section h3 {
-    color: #FF6B6B;
+    color: #C97C5D;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
 }
@@ -2157,10 +2157,10 @@ header, main, footer, section, div {
     right: auto !important;
     bottom: auto !important;
     background: linear-gradient(135deg, #4B2E2B 0%, #6B4C3A 100%) !important;
-    border: 2px solid #FF6B6B !important;
-    border-left: 3px solid #FF6B6B !important;
+    border: 2px solid #C97C5D !important;
+    border-left: 3px solid #C97C5D !important;
     border-radius: 20px 20px 15px 15px !important;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(201, 124, 93, 0.3) !important;
     min-width: 200px !important;
     max-width: 250px !important;
     z-index: 2147483647 !important; /* Maximum z-index value */
@@ -2206,7 +2206,7 @@ header, main, footer, section, div {
 }
 
 .dropdown-item:hover {
-    background: linear-gradient(45deg, #FF6B6B, #FF8C42) !important;
+    background: linear-gradient(45deg, #C97C5D, #7B3F00) !important;
     color: white !important;
     transform: translateX(5px) !important;
     border-left: 3px solid #FFF8F0 !important;
@@ -2220,7 +2220,7 @@ header, main, footer, section, div {
 
 .dropdown-divider {
     height: 1px !important;
-    background: linear-gradient(90deg, transparent, #FF6B6B, transparent) !important;
+    background: linear-gradient(90deg, transparent, #C97C5D, transparent) !important;
     margin: 0.5rem 0 !important;
 }
 
