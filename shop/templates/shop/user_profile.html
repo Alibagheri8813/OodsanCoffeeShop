@@ -5,723 +5,1033 @@
 
 {% block extra_head %}
 <style>
+/* ===== PREMIUM PROFILE PAGE STYLES ===== */
+:root {
+    --primary-coffee: #4B2E2B;
+    --secondary-coffee: #7B3F00;
+    --accent-coffee: #C97C5D;
+    --light-coffee: #F3E9DC;
+    --cream: #FFF8F0;
+    --gold: #FFD700;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-coffee: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+    --gradient-premium: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF6347 100%);
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background: var(--gradient-primary);
+    min-height: 100vh;
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .profile-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
 }
 
-.profile-header {
-    background: linear-gradient(135deg, #F3E9DC 0%, #FFF8F0 100%);
-    border-radius: 1.5rem;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 24px rgba(75,46,43,0.1);
-    border: 2px solid #4B2E2B22;
+/* ===== PREMIUM HEADER ===== */
+.premium-header {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(243,233,220,0.95) 100%);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+    animation: slideInFromTop 1s ease-out;
 }
 
-.profile-avatar {
+.premium-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-premium);
+    border-radius: 30px 30px 0 0;
+}
+
+.premium-header::after {
+    content: '✨';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    animation: sparkle 2s infinite;
+}
+
+.profile-hero {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.avatar-section {
+    position: relative;
+    animation: bounceIn 1.2s ease-out 0.3s both;
+}
+
+.avatar-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
 }
 
 .avatar-image {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #4B2E2B;
-    background: #FFF8F0;
+    border: 6px solid var(--gold);
+    background: linear-gradient(135deg, #FFF8F0 0%, #F3E9DC 100%);
+    box-shadow: 0 15px 35px rgba(75,46,43,0.3);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.avatar-upload {
+.avatar-image:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 20px 50px rgba(75,46,43,0.4);
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    background: #00ff88;
+    border-radius: 50%;
+    border: 4px solid white;
+    animation: pulse 2s infinite;
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.user-name {
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-coffee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    animation: slideInFromRight 1s ease-out 0.5s both;
+}
+
+.user-title {
+    font-size: 1.4rem;
+    color: var(--secondary-coffee);
+    margin-bottom: 20px;
+    opacity: 0.8;
+    animation: slideInFromRight 1s ease-out 0.7s both;
+}
+
+.premium-badges {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    animation: slideInFromRight 1s ease-out 0.9s both;
 }
 
-.upload-btn {
-    background: #4B2E2B;
-    color: #FFF8F0;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 2rem;
-    cursor: pointer;
+.badge {
+    padding: 8px 20px;
+    border-radius: 25px;
     font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
-.upload-btn:hover {
-    background: #C97C5D;
-    transform: translateY(-2px);
+.badge-vip {
+    background: var(--gradient-premium);
+    color: white;
+    box-shadow: 0 8px 25px rgba(255,215,0,0.4);
 }
 
-.profile-info h2 {
-    color: #4B2E2B;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+.badge-loyalty {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(102,126,234,0.4);
 }
 
-.profile-info p {
-    color: #7B3F00;
-    font-size: 1.1rem;
+.badge-premium {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(255,107,107,0.4);
 }
 
-/* Dashboard Overview */
-.dashboard-overview {
+.badge:hover {
+    transform: translateY(-3px) scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* ===== DASHBOARD GRID ===== */
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
 }
 
-.overview-card {
-    background: linear-gradient(135deg, #FFF8F0 0%, #F5E6D3 100%);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
-    border: 2px solid #4B2E2B22;
-    transition: all 0.3s;
-}
-
-.overview-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(75,46,43,0.15);
-}
-
-.overview-icon {
-    font-size: 2.5rem;
-    color: #4B2E2B;
-    margin-bottom: 1rem;
-}
-
-.overview-number {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #4B2E2B;
-    margin-bottom: 0.5rem;
-}
-
-.overview-label {
-    color: #7B3F00;
-    font-size: 1rem;
-}
-
-.profile-sections {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-.profile-section {
-    background: #FFF8F0;
-    border-radius: 1.5rem;
-    padding: 2rem;
-    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
-    border: 2px solid #4B2E2B22;
-}
-
-.section-title {
-    color: #4B2E2B;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
+.dashboard-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
+    overflow: hidden;
+    animation: slideInFromBottom 1s ease-out;
 }
 
-.section-title::after {
+.dashboard-card::before {
     content: '';
     position: absolute;
-    bottom: -0.5rem;
+    top: 0;
     left: 0;
-    width: 40px;
-    height: 3px;
-    background: linear-gradient(90deg, #C97C5D, #7B3F00);
-    border-radius: 2px;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-premium);
+    border-radius: 25px 25px 0 0;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+.dashboard-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-hover);
 }
 
-.form-group label {
-    display: block;
-    color: #4B2E2B;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 2px solid #C97C5D;
-    border-radius: 1rem;
-    font-size: 1rem;
-    background: #FFF8F0;
-    color: #4B2E2B;
-    transition: all 0.3s;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #4B2E2B;
-    box-shadow: 0 0 0 3px rgba(75,46,43,0.1);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.save-btn {
-    background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
-    color: #FFF8F0;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 2rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 16px rgba(75,46,43,0.2);
-}
-
-.save-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(75,46,43,0.3);
-    background: linear-gradient(135deg, #C97C5D 0%, #7B3F00 100%);
-}
-
-.notification-badge {
-    background: #C97C5D;
-    color: #FFF8F0;
-    border-radius: 50%;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-right: 0.5rem;
-}
-
-.orders-list {
+.card-header {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
 }
 
-.order-item {
-    background: #F3E9DC;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    border: 2px solid transparent;
-    transition: all 0.3s;
-    cursor: pointer;
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-coffee);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-icon {
+    font-size: 1.8rem;
+    padding: 12px;
+    border-radius: 15px;
+    background: var(--gradient-premium);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+
+.card-action {
+    color: var(--accent-coffee);
     text-decoration: none;
-    color: inherit;
-    display: block;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s;
+    border: 2px solid var(--accent-coffee);
+}
+
+.card-action:hover {
+    background: var(--accent-coffee);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ===== STATS SECTION ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-premium);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient-coffee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: var(--secondary-coffee);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--accent-coffee);
+}
+
+/* ===== ORDERS SECTION ===== */
+.order-item {
+    background: rgba(255,255,255,0.9);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.5);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.order-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--gradient-premium);
 }
 
 .order-item:hover {
-    border-color: #C97C5D;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(75,46,43,0.1);
-    background: #FFF8F0;
+    transform: translateX(10px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 
 .order-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
 }
 
 .order-id {
-    font-weight: bold;
-    color: #4B2E2B;
+    font-weight: 700;
+    color: var(--primary-coffee);
     font-size: 1.1rem;
 }
 
 .order-status {
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 0.9rem;
-    font-weight: bold;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
-.status-pending { background: #FFF3CD; color: #856404; }
-.status-paid { background: #D1ECF1; color: #0C5460; }
-.status-processing { background: #D4EDDA; color: #155724; }
-.status-shipped { background: #CCE5FF; color: #004085; }
-.status-delivered { background: #D1E7DD; color: #0F5132; }
-.status-cancelled { background: #F8D7DA; color: #721C24; }
-
-.order-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #7B3F00;
-    font-size: 0.95rem;
+.status-delivered {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    color: white;
 }
 
-.order-date {
-    color: #C97C5D;
+.status-processing {
+    background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    color: white;
 }
 
-.order-arrow {
-    color: #C97C5D;
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
+.status-pending {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: white;
 }
 
-.address-info {
-    background: #F3E9DC;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin-top: 1rem;
-}
-
-.address-info h4 {
-    color: #4B2E2B;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-.address-text {
-    color: #7B3F00;
-    line-height: 1.6;
-}
-
-.completion-warning {
-    background: #FFF3CD;
-    border: 2px solid #FFEAA7;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    color: #856404;
-}
-
-.warning-icon {
-    font-size: 1.5rem;
-    margin-left: 0.5rem;
-}
-
-.completion-success {
-    background: #D4EDDA;
-    border: 2px solid #C3E6CB;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    color: #155724;
-}
-
-/* Favorite Products */
+/* ===== FAVORITES SECTION ===== */
 .favorites-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 20px;
 }
 
 .favorite-item {
-    background: #F3E9DC;
-    border-radius: 1rem;
-    padding: 1rem;
-    text-align: center;
-    transition: all 0.3s;
-    border: 2px solid transparent;
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: all 0.4s;
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
 .favorite-item:hover {
-    border-color: #C97C5D;
-    transform: translateY(-2px);
-    background: #FFF8F0;
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
 .favorite-image {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 120px;
     object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 0.5rem;
+}
+
+.favorite-info {
+    padding: 15px;
 }
 
 .favorite-name {
-    color: #4B2E2B;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--primary-coffee);
+    margin-bottom: 8px;
 }
 
 .favorite-price {
-    color: #7B3F00;
-    font-size: 0.8rem;
+    color: var(--accent-coffee);
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
-/* Activity Timeline */
-.timeline {
-    margin-top: 1rem;
+/* ===== ACTIVITY TIMELINE ===== */
+.activity-timeline {
+    position: relative;
+    padding-left: 30px;
 }
 
-.timeline-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid #E8D5C4;
+.activity-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gradient-premium);
 }
 
-.timeline-item:last-child {
-    border-bottom: none;
+.activity-item {
+    position: relative;
+    margin-bottom: 25px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.5);
+    transition: all 0.3s;
 }
 
-.timeline-icon {
-    width: 40px;
-    height: 40px;
+.activity-item::before {
+    content: '';
+    position: absolute;
+    left: -37px;
+    top: 25px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
+    background: var(--gold);
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(255,215,0,0.4);
 }
 
-.timeline-icon.order { background: #D4EDDA; color: #155724; }
-.timeline-icon.notification { background: #CCE5FF; color: #004085; }
-.timeline-icon.favorite { background: #F8D7DA; color: #721C24; }
-
-.timeline-content {
-    flex: 1;
+.activity-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 
-.timeline-title {
-    color: #4B2E2B;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-}
-
-.timeline-time {
-    color: #C97C5D;
-    font-size: 0.8rem;
-}
-
-/* Account Settings */
-.settings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.setting-item {
-    background: #F3E9DC;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s;
-}
-
-.setting-item:hover {
-    background: #FFF8F0;
-    transform: translateX(-5px);
-}
-
-.setting-info h4 {
-    color: #4B2E2B;
-    margin-bottom: 0.3rem;
-    font-size: 1rem;
-}
-
-.setting-info p {
-    color: #7B3F00;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.setting-action {
-    background: #4B2E2B;
-    color: #FFF8F0;
+/* ===== PREMIUM BUTTONS ===== */
+.premium-btn {
+    background: var(--gradient-premium);
+    color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-.setting-action:hover {
-    background: #C97C5D;
+.premium-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transition: all 0.6s;
+    transform: translate(-50%, -50%);
 }
 
+.premium-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.premium-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255,215,0,0.4);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-    .profile-sections {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .profile-container {
+        padding: 15px;
     }
     
-    .profile-avatar {
+    .premium-header {
+        padding: 25px;
+    }
+    
+    .profile-hero {
         flex-direction: column;
         text-align: center;
+        gap: 25px;
     }
     
-    .avatar-image {
-        width: 100px;
-        height: 100px;
+    .user-name {
+        font-size: 2.2rem;
     }
     
-    .dashboard-overview {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== PREMIUM FLOATING ELEMENTS ===== */
+.floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+    opacity: 0.6;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-premium);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-coffee);
 }
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Floating Particles Background -->
+<div class="floating-particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+</div>
+
 <div class="profile-container">
-    <!-- Address Completion Status -->
-    {% if profile.address and profile.postal_code and profile.city and profile.province %}
-    <div class="completion-success">
-        <h4>✅ اطلاعات آدرس تکمیل شده</h4>
-        <p>اطلاعات آدرس شما کامل است و می‌توانید سفارش دهید.</p>
-    </div>
-    {% else %}
-    <div class="completion-warning">
-        <h4>⚠️ تکمیل اطلاعات آدرس</h4>
-        <p>لطفاً اطلاعات آدرس خود را تکمیل کنید تا بتوانید سفارش دهید.</p>
-    </div>
-    {% endif %}
-
-    <div class="profile-header">
-        <div class="profile-avatar">
-            {% if profile.profile_image %}
-                <img src="{{ profile.profile_image.url }}" alt="تصویر پروفایل" class="avatar-image">
-            {% else %}
-                <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=👤" alt="تصویر پیش‌فرض" class="avatar-image">
-            {% endif %}
-            <div class="avatar-upload">
-                <form method="post" enctype="multipart/form-data" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="file" name="profile_image" accept="image/*" style="display: none;" id="profile-image-input">
-                    <label for="profile-image-input" class="upload-btn">تغییر تصویر</label>
-                </form>
+    <!-- Premium Header Section -->
+    <div class="premium-header">
+        <div class="profile-hero">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    {% if user.profile.profile_image %}
+                        <img src="{{ user.profile.profile_image.url }}" alt="Profile Picture" class="avatar-image">
+                    {% else %}
+                        <div class="avatar-image" style="background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                    <div class="status-indicator" title="آنلاین"></div>
+                </div>
             </div>
+            
             <div class="profile-info">
-                <h2>{{ user.username }}</h2>
-                <p>عضو از {{ user.date_joined|date:"Y/m/d" }}</p>
-                {% if unread_notifications > 0 %}
-                    <p><span class="notification-badge">{{ unread_notifications }}</span> اعلان جدید</p>
-                {% endif %}
+                <h1 class="user-name">{{ user.get_full_name|default:user.username }}</h1>
+                <p class="user-title">مشتری ویژه کافی شاپ</p>
+                
+                <div class="premium-badges">
+                    <div class="badge badge-vip">
+                        <i class="fas fa-crown"></i>
+                        عضو ویژه
+                    </div>
+                    <div class="badge badge-loyalty">
+                        <i class="fas fa-gem"></i>
+                        امتیاز وفاداری: {{ user.loyalty.points|default:0 }}
+                    </div>
+                    <div class="badge badge-premium">
+                        <i class="fas fa-fire"></i>
+                        سطح: {{ user.loyalty.tier|default:"برونز" }}
+                    </div>
+                </div>
+                
+                <button class="premium-btn" onclick="window.location.href='{% url 'profile' %}'">
+                    <i class="fas fa-edit"></i>
+                    ویرایش پروفایل
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Dashboard Overview -->
-    <div class="dashboard-overview">
-        <div class="overview-card">
-            <div class="overview-icon">📦</div>
-            <div class="overview-number">{{ orders.count }}</div>
-            <div class="overview-label">کل سفارشات</div>
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="stat-number">{{ total_orders|default:0 }}</div>
+            <div class="stat-label">کل سفارشات</div>
         </div>
-        <div class="overview-card">
-            <div class="overview-icon">❤️</div>
-            <div class="overview-number">{{ favorite_count }}</div>
-            <div class="overview-label">محصولات مورد علاقه</div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="stat-number">{{ total_spent|default:0 }}</div>
+            <div class="stat-label">کل خرید (تومان)</div>
         </div>
-        <div class="overview-card">
-            <div class="overview-icon">💰</div>
-            <div class="overview-number">{{ total_spent|floatformat:0 }}</div>
-            <div class="overview-label">کل خرید (تومان)</div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-number">{{ favorite_count|default:0 }}</div>
+            <div class="stat-label">محصولات مورد علاقه</div>
         </div>
-        <div class="overview-card">
-            <div class="overview-icon">⭐</div>
-            <div class="overview-number">{{ completed_orders }}</div>
-            <div class="overview-label">سفارشات تکمیل شده</div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-number">{{ user.loyalty.points|default:0 }}</div>
+            <div class="stat-label">امتیاز وفاداری</div>
         </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="profile-sections">
-        <!-- Profile Information -->
-        <div class="profile-section">
-            <h3 class="section-title">اطلاعات پروفایل</h3>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="phone_number">شماره تلفن:</label>
-                    <input type="tel" id="phone_number" name="phone_number" value="{{ profile.phone_number }}" placeholder="09123456789">
-                </div>
-
-                <div class="form-group">
-                    <label for="national_code">کد ملی:</label>
-                    <input type="text" id="national_code" name="national_code" value="{{ profile.national_code }}" placeholder="1234567890">
-                </div>
-
-                <div class="form-group">
-                    <label for="birth_date">تاریخ تولد:</label>
-                    <input type="date" id="birth_date" name="birth_date" value="{{ profile.birth_date|date:'Y-m-d' }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="address">آدرس کامل:</label>
-                    <textarea id="address" name="address" placeholder="آدرس کامل خود را وارد کنید...">{{ profile.address }}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="postal_code">کد پستی:</label>
-                    <input type="text" id="postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="1234567890">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">شهر:</label>
-                    <input type="text" id="city" name="city" value="{{ profile.city }}" placeholder="تهران">
-                </div>
-
-                <div class="form-group">
-                    <label for="province">استان:</label>
-                    <input type="text" id="province" name="province" value="{{ profile.province }}" placeholder="تهران">
-                </div>
-
-                <button type="submit" class="save-btn">ذخیره اطلاعات</button>
-            </form>
-
-            {% if profile.address or profile.postal_code or profile.city or profile.province %}
-            <div class="address-info">
-                <h4>آدرس فعلی:</h4>
-                <div class="address-text">{{ profile.get_full_address }}</div>
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+        <!-- Recent Orders -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <span class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </span>
+                    آخرین سفارشات
+                </h3>
+                <a href="{% url 'order_list' %}" class="card-action">
+                    مشاهده همه
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
-            {% endif %}
-        </div>
-
-        <!-- Account Settings -->
-        <div class="profile-section">
-            <h3 class="section-title">تنظیمات حساب</h3>
-            <div class="settings-list">
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4>تغییر رمز عبور</h4>
-                        <p>رمز عبور خود را تغییر دهید</p>
-                    </div>
-                    <a href="{% url 'change_password' %}" class="setting-action">تغییر</a>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4>تنظیمات اعلان‌ها</h4>
-                        <p>مدیریت اعلان‌های سیستم</p>
-                    </div>
-                    <a href="{% url 'user_notifications' %}" class="setting-action">مشاهده</a>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4>محصولات مورد علاقه</h4>
-                        <p>مدیریت لیست علاقه‌مندی‌ها</p>
-                    </div>
-                    <a href="{% url 'favorite_products' %}" class="setting-action">مشاهده</a>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4>تاریخچه سفارشات</h4>
-                        <p>مشاهده تمام سفارشات</p>
-                    </div>
-                    <a href="{% url 'order_history' %}" class="setting-action">مشاهده</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Orders -->
-    <div class="profile-section" style="grid-column: 1 / -1;">
-        <h3 class="section-title">سفارشات اخیر</h3>
-        <div class="orders-list">
-            {% for order in orders|slice:":5" %}
-                <a href="{% url 'order_detail' order.id %}" class="order-item">
+            
+            {% if recent_orders %}
+                {% for order in recent_orders %}
+                <div class="order-item">
                     <div class="order-header">
                         <span class="order-id">سفارش #{{ order.id }}</span>
-                        <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+                        <span class="order-status status-{{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
                     </div>
-                    <div class="order-details">
-                        <span class="order-date">{{ order.created_at|date:"Y/m/d H:i" }}</span>
-                        <span>{{ order.total_amount|floatformat:0 }} تومان</span>
-                    </div>
-                    <div style="text-align: left; margin-top: 0.5rem;">
-                        <span class="order-arrow">→</span>
-                        <span style="color: #C97C5D; font-size: 0.9rem;">مشاهده جزئیات</span>
-                    </div>
+                    <p style="color: #666; margin: 0;">
+                        <i class="fas fa-calendar"></i>
+                        {{ order.created_at|date:"Y/m/d" }}
+                        <span style="margin-right: 15px;">
+                            <i class="fas fa-money-bill"></i>
+                            {{ order.total_amount }} تومان
+                        </span>
+                    </p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.3;"></i>
+                    <p>هنوز سفارشی ثبت نکرده‌اید</p>
+                    <a href="{% url 'product_list' %}" class="premium-btn" style="margin-top: 15px;">
+                        شروع خرید
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Favorite Products -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <span class="card-icon">
+                        <i class="fas fa-heart"></i>
+                    </span>
+                    محصولات مورد علاقه
+                </h3>
+                <a href="{% url 'favorite_products' %}" class="card-action">
+                    مشاهده همه
+                    <i class="fas fa-arrow-left"></i>
                 </a>
-            {% empty %}
-                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem;">هنوز سفارشی ثبت نکرده‌اید.</p>
-            {% endfor %}
-        </div>
-        {% if orders.count > 5 %}
-            <div style="text-align: center; margin-top: 1rem;">
-                <a href="{% url 'order_history' %}" class="save-btn" style="text-decoration: none; display: inline-block;">مشاهده همه سفارشات</a>
             </div>
-        {% endif %}
+            
+            {% if favorite_products %}
+                <div class="favorites-grid">
+                    {% for favorite in favorite_products %}
+                    <div class="favorite-item">
+                        {% if favorite.product.image %}
+                            <img src="{{ favorite.product.image.url }}" alt="{{ favorite.product.name }}" class="favorite-image">
+                        {% else %}
+                            <div class="favorite-image" style="background: linear-gradient(135deg, #f3e9dc 0%, #fff8f0 100%); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-coffee" style="font-size: 2rem; color: #4B2E2B;"></i>
+                            </div>
+                        {% endif %}
+                        <div class="favorite-info">
+                            <div class="favorite-name">{{ favorite.product.name }}</div>
+                            <div class="favorite-price">{{ favorite.product.price }} تومان</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.3;"></i>
+                    <p>هنوز محصولی را به علاقه‌مندی‌ها اضافه نکرده‌اید</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Activity Timeline -->
+        <div class="dashboard-card" style="grid-column: 1 / -1;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <span class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </span>
+                    فعالیت‌های اخیر
+                </h3>
+                <a href="#" class="card-action">
+                    مشاهده بیشتر
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            
+            <div class="activity-timeline">
+                <div class="activity-item">
+                    <h4 style="color: #4B2E2B; margin-bottom: 8px;">
+                        <i class="fas fa-user-plus" style="margin-left: 8px; color: #C97C5D;"></i>
+                        عضویت در کافی شاپ
+                    </h4>
+                    <p style="color: #666; margin: 0;">
+                        {{ user.date_joined|date:"Y/m/d" }} - به خانواده بزرگ ما خوش آمدید!
+                    </p>
+                </div>
+                
+                {% if recent_orders %}
+                    {% for order in recent_orders|slice:":3" %}
+                    <div class="activity-item">
+                        <h4 style="color: #4B2E2B; margin-bottom: 8px;">
+                            <i class="fas fa-shopping-cart" style="margin-left: 8px; color: #C97C5D;"></i>
+                            سفارش جدید
+                        </h4>
+                        <p style="color: #666; margin: 0;">
+                            {{ order.created_at|date:"Y/m/d" }} - سفارش #{{ order.id }} به مبلغ {{ order.total_amount }} تومان
+                        </p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <div class="activity-item">
+                    <h4 style="color: #4B2E2B; margin-bottom: 8px;">
+                        <i class="fas fa-star" style="margin-left: 8px; color: #FFD700;"></i>
+                        کسب امتیاز وفاداری
+                    </h4>
+                    <p style="color: #666; margin: 0;">
+                        امتیاز فعلی: {{ user.loyalty.points|default:0 }} امتیاز
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Favorite Products -->
-    <div class="profile-section" style="grid-column: 1 / -1;">
-        <h3 class="section-title">محصولات مورد علاقه</h3>
-        <div class="favorites-grid">
-            {% for favorite in user_favorites %}
-                <div class="favorite-item">
-                    {% if favorite.product.image %}
-                        <img src="{{ favorite.product.image.url }}" alt="{{ favorite.product.name }}" class="favorite-image">
-                    {% else %}
-                        <img src="https://placehold.co/80x80/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر" class="favorite-image">
-                    {% endif %}
-                    <div class="favorite-name">{{ favorite.product.name }}</div>
-                    <div class="favorite-price">{{ favorite.product.price|floatformat:0 }} تومان</div>
-                </div>
-            {% empty %}
-                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem; grid-column: 1 / -1;">هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>
-            {% endfor %}
+    <!-- Quick Actions -->
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <span class="card-icon">
+                    <i class="fas fa-bolt"></i>
+                </span>
+                دسترسی سریع
+            </h3>
         </div>
-        {% if user_favorites.count > 6 %}
-            <div style="text-align: center; margin-top: 1rem;">
-                <a href="{% url 'favorite_products' %}" class="save-btn" style="text-decoration: none; display: inline-block;">مشاهده همه علاقه‌مندی‌ها</a>
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- Activity Timeline -->
-    <div class="profile-section" style="grid-column: 1 / -1;">
-        <h3 class="section-title">فعالیت‌های اخیر</h3>
-        <div class="timeline">
-            {% for activity in recent_activities %}
-                <div class="timeline-item">
-                    <div class="timeline-icon {{ activity.type }}">
-                        {% if activity.type == 'order' %}📦
-                        {% elif activity.type == 'notification' %}🔔
-                        {% elif activity.type == 'favorite' %}❤️
-                        {% else %}📝{% endif %}
-                    </div>
-                    <div class="timeline-content">
-                        <div class="timeline-title">{{ activity.title }}</div>
-                        <div class="timeline-time">{{ activity.time|date:"Y/m/d H:i" }}</div>
-                    </div>
-                </div>
-            {% empty %}
-                <p style="text-align: center; color: #C97C5D; font-size: 1.1rem;">هنوز فعالیتی ثبت نشده است.</p>
-            {% endfor %}
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <button class="premium-btn" onclick="window.location.href='{% url 'product_list' %}'">
+                <i class="fas fa-shopping-bag"></i>
+                خرید محصولات
+            </button>
+            
+            <button class="premium-btn" onclick="window.location.href='{% url 'cart' %}'">
+                <i class="fas fa-shopping-cart"></i>
+                سبد خرید
+            </button>
+            
+            <button class="premium-btn" onclick="window.location.href='{% url 'favorite_products' %}'">
+                <i class="fas fa-heart"></i>
+                علاقه‌مندی‌ها
+            </button>
+            
+            <button class="premium-btn" onclick="window.location.href='{% url 'notifications' %}'">
+                <i class="fas fa-bell"></i>
+                اعلانات
+            </button>
         </div>
     </div>
 </div>
 
 <script>
-document.getElementById('profile-image-input').addEventListener('change', function() {
-    this.form.submit();
+// Add smooth scrolling and enhanced interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate elements on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.dashboard-card').forEach(card => {
+        card.style.animationPlayState = 'paused';
+        observer.observe(card);
+    });
+
+    // Add hover effects to stat cards
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.05)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Add click animations to buttons
+    document.querySelectorAll('.premium-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+
+    // Dynamic particle generation
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        
+        document.querySelector('.floating-particles').appendChild(particle);
+        
+        setTimeout(() => {
+            particle.remove();
+        }, 6000);
+    }
+
+    // Create particles periodically
+    setInterval(createParticle, 2000);
+
+    // Add progress bar animation
+    const progressBars = document.querySelectorAll('.progress-bar');
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 500);
+    });
 });
+
+// Add CSS for ripple effect
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
 </script>
 {% endblock %} 
