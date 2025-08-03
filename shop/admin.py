@@ -318,9 +318,9 @@ class OrderFeedbackAdmin(admin.ModelAdmin):
 
 # Enhanced UserProfile Admin
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'phone_number', 'order_count', 'total_spent', 'profile_image_preview', 'last_order_date', 'customer_type')
-    search_fields = ('user__username', 'phone_number', 'bio', 'user__email')
-    list_filter = ('created_at',)
+    list_display = ('user', 'phone_number', 'city', 'province', 'order_count', 'total_spent', 'profile_image_preview', 'last_order_date', 'customer_type')
+    search_fields = ('user__username', 'phone_number', 'address', 'user__email')
+    list_filter = ('city', 'province', 'created_at')
     readonly_fields = ('order_count', 'total_spent', 'last_order_date', 'customer_type')
     list_per_page = 25
     actions = ['export_users', 'send_notification', 'mark_as_vip', 'mark_as_regular']
@@ -328,6 +328,9 @@ class UserProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         ('اطلاعات کاربر', {
             'fields': ('user', 'phone_number', 'birth_date')
+        }),
+        ('آدرس', {
+            'fields': ('address', 'city', 'province', 'postal_code')
         }),
         ('اطلاعات اضافی', {
             'fields': ('bio',)
