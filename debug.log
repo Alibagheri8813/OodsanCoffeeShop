@@ -8978,3 +8978,20 @@ Traceback (most recent call last):
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
 >>>>>>> da4f1b7886f67ca81970b9cbc20bfec1b1b99204
+INFO 2025-08-03 03:20:08,354 autoreload 7680 148 Watching for file changes with StatReloader
+INFO 2025-08-03 03:20:13,532 error_handling 7680 2308 Starting operation: product_detail
+INFO 2025-08-03 03:20:13,534 error_handling 7680 2308 Operation completed: product_detail in 0.01s
+WARNING 2025-08-03 03:20:26,334 log 7680 2308 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+WARNING 2025-08-03 03:20:41,390 log 7680 2308 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+ERROR 2025-08-03 03:21:13,978 recursion_prevention 7680 2308 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:21:13,980 log 7680 2308 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:24:45,902 recursion_prevention 7680 7520 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:24:45,903 log 7680 7520 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:26:45,893 recursion_prevention 7680 9600 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:26:45,895 log 7680 9600 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:29:45,904 recursion_prevention 7680 11552 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:29:45,905 log 7680 11552 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:31:45,905 recursion_prevention 7680 12424 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:31:45,906 log 7680 12424 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:33:45,892 recursion_prevention 7680 3028 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:33:45,892 log 7680 3028 Internal Server Error: /shop/cart/count/
