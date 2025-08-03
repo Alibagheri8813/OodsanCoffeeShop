@@ -458,6 +458,106 @@ html {
     </div>
 </section>
 
+<!-- AI Recommendations Section -->
+<section class="ai-recommendations-section" style="background: linear-gradient(135deg, #FFF8F0 0%, #F3E9DC 100%); padding: 80px 0;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+            <h2 class="section-title" style="font-size: 2.5rem; font-weight: bold; color: #4B2E2B; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+                🧠 پیشنهادات هوشمند
+            </h2>
+            <p class="section-subtitle" style="font-size: 1.2rem; color: #7B3F00; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                بر اساس تحلیل هوشمند، این محصولات برای شما پیشنهاد می‌شوند
+            </p>
+        </div>
+        
+        <div class="recommendations-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            {% if user.is_authenticated %}
+                <!-- Personalized Recommendations for Logged-in Users -->
+                {% load static %}
+                {% for product in featured_products|slice:":6" %}
+                <div class="recommendation-card" style="background: white; border-radius: 15px; box-shadow: 0 8px 25px rgba(75, 46, 43, 0.1); overflow: hidden; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;">
+                    <div class="card-image" style="height: 200px; overflow: hidden; position: relative;">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                        {% else %}
+                            <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); display: flex; align-items: center; justify-content: center; color: #FFF8F0; font-size: 3rem;">☕</div>
+                        {% endif %}
+                        <div class="ai-badge" style="position: absolute; top: 10px; right: 10px; background: linear-gradient(45deg, #4B2E2B, #7B3F00); color: #FFF8F0; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">🤖 هوشمند</div>
+                    </div>
+                    <div class="card-content" style="padding: 1.5rem;">
+                        <h3 class="product-name" style="font-size: 1.2rem; font-weight: bold; color: #4B2E2B; margin-bottom: 0.5rem; height: 2.4rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ product.name }}</h3>
+                        <p class="product-price" style="font-size: 1.1rem; font-weight: bold; color: #7B3F00; margin-bottom: 1rem;">{{ product.price|floatformat:0 }} تومان</p>
+                        <div class="ai-reason" style="background: #F3E9DC; padding: 0.8rem; border-radius: 10px; margin-bottom: 1rem; border-right: 4px solid #7B3F00;">
+                            <p style="font-size: 0.9rem; color: #4B2E2B; margin: 0;">💡 پیشنهاد بر اساس محبوبیت و کیفیت</p>
+                        </div>
+                        <a href="{% url 'product_detail' product.id %}" class="view-product-btn" style="display: block; width: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); color: #FFF8F0; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(75, 46, 43, 0.3);">مشاهده محصول</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- General Recommendations for Non-logged-in Users -->
+                <div class="login-prompt" style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 15px; box-shadow: 0 8px 25px rgba(75, 46, 43, 0.1);">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🤖</div>
+                    <h3 style="font-size: 1.5rem; color: #4B2E2B; margin-bottom: 1rem;">پیشنهادات شخصی‌سازی شده</h3>
+                    <p style="color: #7B3F00; margin-bottom: 2rem; line-height: 1.6;">برای دریافت پیشنهادات هوشمند بر اساس سلیقه شما، لطفاً وارد حساب کاربری خود شوید</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="{% url 'login' %}" style="background: linear-gradient(45deg, #4B2E2B, #7B3F00); color: #FFF8F0; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(75, 46, 43, 0.3);">ورود</a>
+                        <a href="{% url 'register' %}" style="background: transparent; color: #4B2E2B; padding: 12px 24px; border: 2px solid #4B2E2B; border-radius: 25px; text-decoration: none; font-weight: bold; transition: all 0.3s ease;">ثبت نام</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="recommendations-footer" style="text-align: center;">
+            <a href="{% url 'personalized_recommendations' %}" class="see-more-btn" style="display: inline-block; background: transparent; color: #4B2E2B; padding: 15px 30px; border: 2px solid #4B2E2B; border-radius: 25px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; font-size: 1.1rem;">
+                مشاهده همه پیشنهادات هوشمند 🚀
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.recommendation-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(75, 46, 43, 0.2);
+    border-color: #7B3F00;
+}
+
+.recommendation-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.view-product-btn:hover {
+    background: linear-gradient(45deg, #7B3F00, #C97C5D);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(75, 46, 43, 0.4);
+}
+
+.see-more-btn:hover {
+    background: linear-gradient(45deg, #4B2E2B, #7B3F00);
+    color: #FFF8F0;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(75, 46, 43, 0.3);
+}
+
+@media (max-width: 768px) {
+    .recommendations-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .ai-recommendations-section {
+        padding: 50px 0;
+    }
+    
+    .section-title {
+        font-size: 2rem !important;
+    }
+}
+</style>
+
 <!-- Features Section -->
 <section class="features-section">
     <div class="features-container">
