@@ -100,4 +100,8 @@ urlpatterns = [
     path('order-history/', views.order_history, name='order_history'),
     path('change-password/', views.change_password, name='change_password'),
     path('submit-order-feedback/<int:order_id>/', views.submit_order_feedback, name='submit_order_feedback'),
+    
+    # Health & Monitoring Endpoints
+    path('health/', views.health_check, name='health_check'),
+    path('system-status/', views.system_status, name='system_status'),
 ] 
