@@ -9031,3 +9031,36 @@ ERROR 2025-08-03 04:00:45,904 recursion_prevention 3764 12304 Request chain time
 ERROR 2025-08-03 04:00:45,905 log 3764 12304 Internal Server Error: /shop/cart/count/
 ERROR 2025-08-03 04:02:45,898 recursion_prevention 3764 9652 Request chain timeout. Current path: /shop/cart/count/
 ERROR 2025-08-03 04:02:45,898 log 3764 9652 Internal Server Error: /shop/cart/count/
+INFO 2025-08-03 04:03:24,098 autoreload 5408 932 Watching for file changes with StatReloader
+INFO 2025-08-03 04:03:27,364 error_handling 5408 12036 Starting operation: product_detail
+INFO 2025-08-03 04:03:27,366 error_handling 5408 12036 Operation completed: product_detail in 0.00s
+INFO 2025-08-03 04:04:10,862 error_handling 5408 12036 Starting operation: product_detail
+INFO 2025-08-03 04:04:10,863 error_handling 5408 12036 Operation completed: product_detail in 0.00s
+ERROR 2025-08-03 04:06:37,560 recursion_prevention 5408 12036 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:06:37,565 log 5408 12036 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:07:37,899 recursion_prevention 5408 4808 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:07:37,900 log 5408 4808 Internal Server Error: /shop/cart/count/
+INFO 2025-08-03 04:08:39,006 error_handling 5408 11916 Starting operation: product_detail
+INFO 2025-08-03 04:08:39,008 error_handling 5408 11916 Operation completed: product_detail in 0.00s
+ERROR 2025-08-03 04:10:07,438 recursion_prevention 5408 11916 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:10:07,438 log 5408 11916 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:10:42,894 recursion_prevention 5408 1280 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:10:42,895 log 5408 1280 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:11:43,902 recursion_prevention 5408 8560 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:11:43,903 log 5408 8560 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:12:43,900 recursion_prevention 5408 8404 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:12:43,901 log 5408 8404 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:13:45,902 recursion_prevention 5408 7372 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:13:45,902 log 5408 7372 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:15:45,895 recursion_prevention 5408 5532 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:15:45,895 log 5408 5532 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:17:45,901 recursion_prevention 5408 11496 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:17:45,902 log 5408 11496 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:19:45,889 recursion_prevention 5408 2284 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:19:45,890 log 5408 2284 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:21:45,900 recursion_prevention 5408 4460 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:21:45,903 log 5408 4460 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:23:45,904 recursion_prevention 5408 12752 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:23:45,905 log 5408 12752 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:25:45,890 recursion_prevention 5408 9652 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:25:45,891 log 5408 9652 Internal Server Error: /shop/cart/count/
