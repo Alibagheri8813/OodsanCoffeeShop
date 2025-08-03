@@ -273,6 +273,87 @@
         line-height: 1.6;
     }
     
+    .comment-form-section {
+        margin-top: 40px;
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 16px;
+        border: 2px solid #e9ecef;
+    }
+    
+    .comment-form-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+    
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .comment-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 15px;
+        border: 2px solid #dee2e6;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: inherit;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+    }
+    
+    .comment-textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .comment-submit-btn {
+        align-self: flex-start;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .comment-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .comment-submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .login-prompt {
+        text-align: center;
+        padding: 30px;
+        background: #e9ecef;
+        border-radius: 12px;
+        color: #6c757d;
+    }
+    
+    .login-prompt a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .login-prompt a:hover {
+        text-decoration: underline;
+    }
+    
     .related-products {
         margin-top: 40px;
     }
@@ -473,6 +554,32 @@
                     </div>
                 </div>
                 
+                <!-- Comment Form Section -->
+                <div class="comment-form-section">
+                    {% if user.is_authenticated %}
+                        <h3 class="comment-form-title">نظر شما</h3>
+                        <form method="post" class="comment-form">
+                            {% csrf_token %}
+                            <textarea 
+                                name="text" 
+                                class="comment-textarea" 
+                                placeholder="نظر خود را درباره این محصول بنویسید..."
+                                required
+                            ></textarea>
+                            <button type="submit" class="comment-submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                ثبت نظر
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="login-prompt">
+                            <i class="fas fa-user-lock" style="font-size: 2rem; margin-bottom: 10px; color: #6c757d;"></i>
+                            <p>برای ثبت نظر لطفاً <a href="{% url 'login' %}">وارد شوید</a> یا <a href="{% url 'signup' %}">ثبت نام کنید</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Comments/Reviews Section -->
                 {% if reviews %}
                 <div class="reviews-section">
                     <div class="reviews-header">
@@ -488,6 +595,16 @@
                         <p class="review-text">{{ review.text }}</p>
                     </div>
                     {% endfor %}
+                </div>
+                {% else %}
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <h3 class="reviews-title">نظرات کاربران</h3>
+                    </div>
+                    <div class="review-item" style="text-align: center; color: #6c757d;">
+                        <i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>هنوز نظری ثبت نشده است. اولین نفر باشید!</p>
+                    </div>
                 </div>
                 {% endif %}
                 
@@ -698,5 +815,24 @@ document.getElementById('quantity-input').addEventListener('change', function() 
     if (value > maxStock) this.value = maxStock;
     currentQuantity = parseInt(this.value);
 });
+
+// Handle comment form submission
+const commentForm = document.querySelector('.comment-form');
+if (commentForm) {
+    commentForm.addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('.comment-submit-btn');
+        const textarea = this.querySelector('.comment-textarea');
+        
+        if (!textarea.value.trim()) {
+            e.preventDefault();
+            showMessage('لطفاً نظر خود را بنویسید', 'error');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ثبت...';
+    });
+}
 </script>
 {% endblock %} 
