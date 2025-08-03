@@ -1,0 +1,675 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Voice Coffee Expert - Professional Coffee Industry Assistant{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --dark-brown: #4B2E2B;
+        --chocolate-brown: #7B3F00;
+        --medium-brown: #8b4513;
+        --light-brown: #a0522d;
+        --tan-brown: #C97C5D;
+        --cream-white: #FFF8F0;
+        --light-cream: #F3E9DC;
+        --golden: #D4AF37;
+    }
+    
+    body {
+        background: linear-gradient(135deg, var(--dark-brown) 0%, var(--chocolate-brown) 50%, var(--tan-brown) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .voice-ai-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+    }
+    
+    .voice-ai-card {
+        background: rgba(255, 248, 240, 0.1);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 248, 240, 0.2);
+    }
+    
+    .voice-ai-card h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, var(--golden), var(--tan-brown));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .subtitle {
+        color: var(--light-cream);
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .voice-button {
+        background: linear-gradient(135deg, var(--golden), var(--tan-brown));
+        color: var(--cream-white);
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .voice-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, var(--tan-brown), var(--golden));
+    }
+    
+    .voice-button:active {
+        transform: translateY(-1px);
+    }
+    
+    .mute-button {
+        background: linear-gradient(135deg, var(--golden), var(--tan-brown));
+        color: var(--cream-white);
+        border: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+    }
+    
+    .mute-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 30px 0;
+    }
+    
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .input-group input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid rgba(255, 248, 240, 0.3);
+        border-radius: 25px;
+        background: rgba(255, 248, 240, 0.1);
+        color: var(--cream-white);
+        font-size: 1em;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    
+    .input-group input:focus {
+        border-color: var(--golden);
+        background: rgba(255, 248, 240, 0.2);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+    
+    .input-group input::placeholder {
+        color: rgba(255, 248, 240, 0.6);
+    }
+    
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .voice-indicator {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--golden), var(--tan-brown));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    }
+    
+    .voice-indicator.listening {
+        animation: listening-pulse 1s infinite;
+        box-shadow: 0 0 50px rgba(212, 175, 55, 0.6);
+    }
+    
+    @keyframes listening-pulse {
+        0% { transform: scale(1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
+        50% { transform: scale(1.1); box-shadow: 0 0 60px rgba(212, 175, 55, 0.8); }
+        100% { transform: scale(1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
+    }
+    
+    .voice-indicator.speaking {
+        animation: speaking-pulse 0.5s infinite alternate;
+    }
+    
+    @keyframes speaking-pulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.05); }
+    }
+    
+    .error-message {
+        background: rgba(139, 69, 19, 0.3);
+        border: 1px solid var(--medium-brown);
+        color: var(--cream-white);
+        padding: 15px;
+        border-radius: 15px;
+        margin: 20px 0;
+        text-align: center;
+        display: none;
+    }
+    
+    .success-message {
+        background: rgba(212, 175, 55, 0.3);
+        border: 1px solid var(--golden);
+        color: var(--cream-white);
+        padding: 15px;
+        border-radius: 15px;
+        margin: 20px 0;
+        text-align: center;
+        display: none;
+    }
+    
+    .chat-history {
+        max-height: 350px;
+        overflow-y: auto;
+        background: rgba(255, 248, 240, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid rgba(255, 248, 240, 0.2);
+        text-align: left;
+    }
+    
+    .message {
+        margin-bottom: 15px;
+        padding: 12px 18px;
+        border-radius: 20px;
+        max-width: 85%;
+        word-wrap: break-word;
+    }
+    
+    .user-message {
+        background: linear-gradient(135deg, var(--tan-brown), var(--light-brown));
+        color: var(--cream-white);
+        margin-left: auto;
+        text-align: right;
+    }
+    
+    .ai-message {
+        background: rgba(255, 248, 240, 0.9);
+        color: var(--dark-brown);
+        margin-right: auto;
+    }
+    
+    .api-key-section {
+        background: rgba(255, 248, 240, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255, 248, 240, 0.2);
+    }
+    
+    .settings-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--golden), var(--tan-brown));
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+    
+    .settings-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .status-section {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 248, 240, 0.05);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 248, 240, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .voice-ai-card {
+            margin: 10px;
+            padding: 30px 20px;
+        }
+        
+        .voice-ai-card h1 {
+            font-size: 2em;
+        }
+        
+        .voice-indicator {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .voice-button {
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="voice-ai-container">
+    <div class="settings-button" onclick="toggleSettings()">
+        <i class="fas fa-cog" style="color: var(--cream-white); font-size: 20px;"></i>
+    </div>
+    
+    <div class="voice-ai-card">
+        <h1>☕ Voice Coffee Expert</h1>
+        <p class="subtitle">Your Professional Coffee Industry Assistant</p>
+        
+        <!-- API Key Section -->
+        <div class="api-key-section" id="apiKeySection">
+            <h3 style="color: var(--cream-white); margin-bottom: 15px;">
+                <i class="fas fa-key"></i> Setup Required
+            </h3>
+            <div class="input-group">
+                <input type="password" id="apiKeyInput" placeholder="Enter your OpenAI API Key">
+                <button type="button" onclick="saveApiKey()" class="voice-button">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+            <p style="color: var(--light-cream); font-size: 14px; margin-top: 10px;">
+                Your API key is stored securely in your browser and never shared.
+            </p>
+        </div>
+        
+        <!-- Voice Indicator -->
+        <div class="voice-indicator" id="voiceIndicator">
+            <i class="fas fa-microphone" style="color: var(--cream-white); font-size: 35px;"></i>
+        </div>
+        
+        <!-- Control Buttons -->
+        <div class="button-group">
+            <button id="startVoiceBtn" class="voice-button pulse" onclick="startVoiceRecognition()">
+                <i class="fas fa-microphone"></i> Start Talking
+            </button>
+            <button id="muteBtn" class="mute-button" onclick="toggleMute()" title="Mute/Unmute">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button id="stopBtn" class="voice-button" onclick="stopRecognition()" style="display: none;">
+                <i class="fas fa-stop"></i> Stop
+            </button>
+        </div>
+        
+        <!-- Status Messages -->
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+        
+        <!-- Chat History -->
+        <div class="chat-history" id="chatHistory" style="display: none;">
+            <h3 style="color: var(--cream-white); margin-bottom: 15px;">
+                <i class="fas fa-comments"></i> Conversation
+            </h3>
+            <div id="chatMessages"></div>
+        </div>
+        
+        <!-- Current Status -->
+        <div class="status-section">
+            <p id="statusText" style="color: var(--light-cream);">
+                <i class="fas fa-info-circle"></i> Please enter your OpenAI API key to begin
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+class VoiceCoffeeExpert {
+    constructor() {
+        this.recognition = null;
+        this.isListening = false;
+        this.isMuted = false;
+        this.isInitialized = false;
+        this.apiKey = localStorage.getItem('openai_api_key') || '';
+        this.chatHistory = [];
+        
+        this.initializeSpeechRecognition();
+        this.checkApiKey();
+    }
+    
+    initializeSpeechRecognition() {
+        if ('webkitSpeechRecognition' in window) {
+            this.recognition = new webkitSpeechRecognition();
+            this.recognition.continuous = false;
+            this.recognition.interimResults = false;
+            this.recognition.lang = 'en-US';
+            
+            this.recognition.onstart = () => {
+                this.isListening = true;
+                this.updateUI('listening');
+                this.showStatus('🎤 Listening... Ask me anything about coffee!');
+            };
+            
+            this.recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                this.handleSpeechResult(transcript);
+            };
+            
+            this.recognition.onerror = (event) => {
+                this.handleError('Something went wrong with speech recognition. Please try again.');
+                this.stopRecognition();
+            };
+            
+            this.recognition.onend = () => {
+                this.isListening = false;
+                this.updateUI('idle');
+            };
+        } else {
+            this.showError('Speech recognition not supported in this browser. Please use Chrome or Safari.');
+        }
+    }
+    
+    checkApiKey() {
+        if (this.apiKey) {
+            document.getElementById('apiKeyInput').value = this.apiKey;
+            this.initializeAI();
+        }
+    }
+    
+    async initializeAI() {
+        if (!this.apiKey) {
+            this.showError('Please enter your OpenAI API key first.');
+            return;
+        }
+        
+        try {
+            this.showStatus('🔄 Initializing Coffee Expert...');
+            
+            const response = await fetch('/voice-ai/initialize/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.getCSRFToken()
+                },
+                body: JSON.stringify({ api_key: this.apiKey })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                this.isInitialized = true;
+                document.getElementById('apiKeySection').style.display = 'none';
+                document.getElementById('chatHistory').style.display = 'block';
+                this.showSuccess('☕ Coffee Expert is ready! Click "Start Talking" to begin.');
+                this.updateUI('ready');
+            } else {
+                this.showError(data.error || 'Something went wrong. Please check your API key.');
+            }
+        } catch (error) {
+            this.showError('Something went wrong. Please try again.');
+        }
+    }
+    
+    startVoiceRecognition() {
+        if (!this.isInitialized) {
+            this.showError('Please initialize the AI first by entering your API key.');
+            return;
+        }
+        
+        if (!this.recognition) {
+            this.showError('Something went wrong. Speech recognition not available.');
+            return;
+        }
+        
+        if (this.isListening) {
+            return;
+        }
+        
+        try {
+            this.recognition.start();
+            document.getElementById('startVoiceBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+        } catch (error) {
+            this.showError('Something went wrong. Please try again.');
+        }
+    }
+    
+    stopRecognition() {
+        if (this.recognition && this.isListening) {
+            this.recognition.stop();
+        }
+        this.updateUI('ready');
+        document.getElementById('startVoiceBtn').style.display = 'inline-block';
+        document.getElementById('stopBtn').style.display = 'none';
+    }
+    
+    async handleSpeechResult(transcript) {
+        this.addMessageToChat('user', transcript);
+        this.showStatus('🤔 Thinking about your coffee question...');
+        this.updateUI('thinking');
+        
+        try {
+            const response = await fetch('/voice-ai/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.getCSRFToken()
+                },
+                body: JSON.stringify({ 
+                    message: transcript,
+                    voice_enabled: !this.isMuted 
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                this.addMessageToChat('ai', data.response);
+                this.showStatus('✅ Response ready!');
+                
+                if (!this.isMuted && data.audio_url) {
+                    this.playAudioResponse(data.audio_url);
+                }
+            } else {
+                this.showError(data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            this.showError('Something went wrong. Please try again.');
+        }
+        
+        this.updateUI('ready');
+        this.stopRecognition();
+    }
+    
+    playAudioResponse(audioUrl) {
+        const audio = new Audio(audioUrl);
+        this.updateUI('speaking');
+        
+        audio.onended = () => {
+            this.updateUI('ready');
+        };
+        
+        audio.onerror = () => {
+            this.showError('Something went wrong with audio playback.');
+            this.updateUI('ready');
+        };
+        
+        audio.play().catch(() => {
+            this.showError('Something went wrong with audio playback.');
+            this.updateUI('ready');
+        });
+    }
+    
+    addMessageToChat(sender, message) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        const icon = sender === 'user' ? '👤' : '☕';
+        messageDiv.innerHTML = `${icon} ${message}`;
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        this.chatHistory.push({ sender, message, timestamp: new Date() });
+    }
+    
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+        const muteBtn = document.getElementById('muteBtn');
+        const icon = muteBtn.querySelector('i');
+        
+        if (this.isMuted) {
+            icon.className = 'fas fa-volume-mute';
+            muteBtn.style.background = 'linear-gradient(135deg, var(--medium-brown), var(--dark-brown))';
+            this.showStatus('🔇 Audio muted');
+        } else {
+            icon.className = 'fas fa-volume-up';
+            muteBtn.style.background = 'linear-gradient(135deg, var(--golden), var(--tan-brown))';
+            this.showStatus('🔊 Audio enabled');
+        }
+    }
+    
+    updateUI(state) {
+        const indicator = document.getElementById('voiceIndicator');
+        const icon = indicator.querySelector('i');
+        
+        indicator.className = 'voice-indicator';
+        
+        switch (state) {
+            case 'listening':
+                indicator.classList.add('listening');
+                icon.className = 'fas fa-microphone-alt';
+                break;
+            case 'thinking':
+                icon.className = 'fas fa-brain';
+                break;
+            case 'speaking':
+                indicator.classList.add('speaking');
+                icon.className = 'fas fa-volume-up';
+                break;
+            case 'ready':
+                icon.className = 'fas fa-coffee';
+                break;
+            default:
+                icon.className = 'fas fa-microphone';
+        }
+    }
+    
+    showStatus(message) {
+        document.getElementById('statusText').innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+    }
+    
+    showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
+    }
+    
+    showSuccess(message) {
+        const successDiv = document.getElementById('successMessage');
+        successDiv.textContent = message;
+        successDiv.style.display = 'block';
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 5000);
+    }
+    
+    getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+}
+
+// Global functions
+let voiceExpert;
+
+function saveApiKey() {
+    const apiKey = document.getElementById('apiKeyInput').value.trim();
+    if (!apiKey) {
+        voiceExpert.showError('Please enter a valid API key.');
+        return;
+    }
+    
+    localStorage.setItem('openai_api_key', apiKey);
+    voiceExpert.apiKey = apiKey;
+    voiceExpert.initializeAI();
+}
+
+function startVoiceRecognition() {
+    voiceExpert.startVoiceRecognition();
+}
+
+function stopRecognition() {
+    voiceExpert.stopRecognition();
+}
+
+function toggleMute() {
+    voiceExpert.toggleMute();
+}
+
+function toggleSettings() {
+    const apiSection = document.getElementById('apiKeySection');
+    if (apiSection.style.display === 'none') {
+        apiSection.style.display = 'block';
+    } else {
+        apiSection.style.display = 'none';
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    voiceExpert = new VoiceCoffeeExpert();
+});
+</script>
+{% endblock %}
