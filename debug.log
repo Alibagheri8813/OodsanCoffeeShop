@@ -9509,3 +9509,4 @@ INFO 2025-08-03 08:13:15,017 autoreload 4285 140433768288512 /workspace/shop/vie
 INFO 2025-08-03 08:13:15,352 autoreload 4308 140174595924224 Watching for file changes with StatReloader
 INFO 2025-08-03 08:14:17,518 autoreload 4308 140174595924224 /workspace/coffe_shop/settings.py changed, reloading.
 INFO 2025-08-03 08:14:17,858 autoreload 4441 139769066598656 Watching for file changes with StatReloader
+INFO 2025-08-03 09:07:38,372 autoreload 2763 140013353611520 Watching for file changes with StatReloader

@@ -173,29 +173,22 @@ class SafeURLRedirectMiddleware(MiddlewareMixin):
         if path == '/' and request.GET.get('loop_prevention'):
             return HttpResponse("Loop prevention activated", status=200)
         
-        # Handle specific problematic patterns
+        # Handle specific problematic patterns - simplified to avoid infinite redirects
         if path == '/shop/':
-            # Check if this is causing recursion issues
+            # Let the normal URL routing handle /shop/ requests
+            # Only intervene if there's a genuine recursion issue detected by request count
             referer = request.META.get('HTTP_REFERER', '')
             
-            # If coming from video intro, this is expected
-            if 'from=video_intro' in request.GET.urlencode():
-                return None  # Allow normal processing
-            
-            # If the referer is also /shop/, this might be a loop
-            if referer.endswith('/shop/') and 'loop_prevention' not in request.GET:
-                logger.warning(f"Potential /shop/ loop detected from referer: {referer}")
-                # Add a marker to prevent further loops
-                from django.shortcuts import redirect
-                return redirect('/home/?shop_redirect=1')
+            # Only redirect if we detect actual recursion (same path multiple times)
+            if hasattr(self, 'local') and hasattr(self.local, 'request_stack'):
+                shop_count = sum(1 for p in self.local.request_stack if p == '/shop/')
+                if shop_count > 2:  # Only after multiple /shop/ requests
+                    logger.warning(f"Multiple /shop/ requests detected, redirecting to home")
+                    from django.shortcuts import redirect
+                    return redirect('/home/?shop_redirect=1')
         
-        # Add loop prevention parameter for potentially problematic paths
-        if path in ['/', '/home/'] and 'loop_prevention' not in request.GET:
-            # Check if this is a redirect from video intro
-            referer = request.META.get('HTTP_REFERER', '')
-            if 'video_intro' in referer or path == '/':
-                # Safe redirect to avoid loops
-                from django.shortcuts import redirect
-                return redirect('/shop/?from=safe_redirect')
+        # Remove the problematic auto-redirect logic that causes infinite loops
+        # Let the normal URL routing handle these paths instead
+        pass
         
         return None
