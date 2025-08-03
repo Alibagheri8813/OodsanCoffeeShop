@@ -14,7 +14,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=0, db_index=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True)
     stock = models.IntegerField(default=0, db_index=True)
@@ -80,9 +80,9 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='pickup')
-    delivery_fee = models.DecimalField(max_digits=10, decimal_places=0, default=0)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=0, default=0)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+    delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     shipping_address = models.TextField(default='')
@@ -97,7 +97,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.quantity}x {self.product.name}"
@@ -324,11 +324,11 @@ class CustomerSegment(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='segment')
     segment_type = models.CharField(max_length=20, choices=SEGMENT_CHOICES, default='new')
-    total_spent = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    total_spent = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     order_count = models.IntegerField(default=0)
     last_order_date = models.DateTimeField(null=True, blank=True)
     favorite_categories = models.JSONField(default=list)
-    average_order_value = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+    average_order_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -392,7 +392,7 @@ class LoyaltyProgram(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='loyalty')
     points = models.IntegerField(default=0)
     tier = models.CharField(max_length=20, default='bronze')  # bronze, silver, gold, platinum
-    total_spent = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    total_spent = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     points_earned = models.IntegerField(default=0)
     points_redeemed = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
