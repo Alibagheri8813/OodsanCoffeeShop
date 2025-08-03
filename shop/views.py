@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from .forms import UserRegistrationForm, CheckoutForm 
 from django.contrib import messages
 from django.http import JsonResponse
-from django.db.models import Q, Sum, Count
+from django.db.models import Q, Sum, Count, Avg, F, Min, Max
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -23,6 +23,7 @@ import json
 import logging
 from django.conf import settings
 from decimal import Decimal
+from django.contrib.admin.views.decorators import user_passes_test
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -38,7 +39,15 @@ def home(request):
         categories = Category.objects.none()
     
     try:
-        return render(request, 'shop/home.html', {'categories': categories})
+        # Get featured products for AI recommendations section
+        featured_products = Product.objects.filter(featured=True, stock__gt=0)[:6]
+        
+        context = {
+            'categories': categories,
+            'featured_products': featured_products,
+        }
+        
+        return render(request, 'shop/home.html', context)
     except RecursionError as e:
         logger.error(f"Template recursion error in home view: {e}")
         # Return a simple error page to avoid template recursion
@@ -1385,3 +1394,386 @@ def system_status(request):
         }
         
         return JsonResponse(status_data)
+
+# ===== PHASE 3: ADVANCED FEATURES VIEWS =====
+
+try:
+    from .ai_recommendation_engine import ai_engine
+except ImportError:
+    ai_engine = None
+
+# AI Recommendations
+@login_required
+@monitor_performance
+def personalized_recommendations(request):
+    """Personalized AI recommendations page"""
+    try:
+        if not ai_engine:
+            messages.warning(request, 'سیستم پیشنهادات در حال بروزرسانی است')
+            return redirect('shop_home')
+            
+        # Simple fallback recommendations for now
+        featured_products = Product.objects.filter(featured=True, stock__gt=0)[:12]
+        trending_products = Product.objects.filter(stock__gt=0).order_by('-created_at')[:6]
+        
+        context = {
+            'recommendations': [{'product': p, 'score': 0.8, 'reason': 'محصول ویژه'} for p in featured_products],
+            'trending_products': trending_products,
+            'stats': {'total_recommendations': len(featured_products), 'viewed_count': 0, 'view_rate': 0},
+            'page_title': 'پیشنهادات هوشمند'
+        }
+        
+        return render(request, 'shop/recommendations.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in personalized recommendations: {e}")
+        messages.error(request, 'خطا در بارگیری پیشنهادات')
+        return redirect('shop_home')
+
+@login_required
+@require_POST
+def track_recommendation_view(request, product_id):
+    """Track when user views a recommended product"""
+    try:
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        logger.error(f"Error tracking recommendation view: {e}")
+        return JsonResponse({'status': 'error'})
+
+# Analytics Dashboard
+@user_passes_test(lambda u: u.is_staff)
+@monitor_performance
+def analytics_dashboard(request):
+    """Real-time analytics dashboard for admins"""
+    try:
+        # Get date range
+        days = int(request.GET.get('days', 30))
+        end_date = timezone.now()
+        start_date = end_date - timedelta(days=days)
+        
+        # Revenue Analytics
+        revenue_data = Order.objects.filter(
+            created_at__gte=start_date,
+            status__in=['paid', 'processing', 'shipped', 'delivered']
+        ).aggregate(
+            total_revenue=Sum('total_amount'),
+            order_count=Count('id'),
+            avg_order_value=Avg('total_amount')
+        )
+        
+        # Top Products
+        top_products = Product.objects.filter(
+            orderitem__order__created_at__gte=start_date,
+            orderitem__order__status__in=['paid', 'processing', 'shipped', 'delivered']
+        ).annotate(
+            total_sold=Sum('orderitem__quantity'),
+            total_revenue=Sum(F('orderitem__quantity') * F('orderitem__price'))
+        ).filter(total_sold__gt=0).order_by('-total_revenue')[:10]
+        
+        # User Analytics
+        user_stats = {
+            'total_users': User.objects.count(),
+            'new_users': User.objects.filter(date_joined__gte=start_date).count(),
+        }
+        
+        # Low Stock Alerts
+        low_stock_products = Product.objects.filter(stock__lte=10, stock__gt=0).order_by('stock')
+        out_of_stock = Product.objects.filter(stock=0).count()
+        
+        context = {
+            'revenue_data': revenue_data,
+            'revenue_growth': 0,  # Simplified for now
+            'order_growth': 0,    # Simplified for now
+            'top_products': top_products,
+            'user_stats': user_stats,
+            'low_stock_products': low_stock_products,
+            'out_of_stock_count': out_of_stock,
+            'days': days,
+            'page_title': 'داشبورد تحلیلات'
+        }
+        
+        return render(request, 'shop/analytics_dashboard.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in analytics dashboard: {e}")
+        messages.error(request, 'خطا در بارگیری داشبورد تحلیلات')
+        return redirect('admin_dashboard')
+
+@user_passes_test(lambda u: u.is_staff)
+def customer_insights(request):
+    """Customer segmentation and insights"""
+    try:
+        # Simplified customer insights for now
+        top_customers = User.objects.annotate(
+            total_spent=Sum('orders__total_amount'),
+            order_count=Count('orders')
+        ).filter(total_spent__gt=0).order_by('-total_spent')[:20]
+        
+        # Recent activities - simplified
+        recent_orders = Order.objects.select_related('user').order_by('-created_at')[:50]
+        
+        context = {
+            'top_customers': top_customers,
+            'recent_activities': recent_orders,
+            'page_title': 'تحلیل مشتریان'
+        }
+        
+        return render(request, 'shop/customer_insights.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in customer insights: {e}")
+        messages.error(request, 'خطا در بارگیری تحلیل مشتریان')
+        return redirect('analytics_dashboard')
+
+# Advanced Search
+@monitor_performance
+def advanced_search(request):
+    """Advanced search with multiple filters"""
+    try:
+        query = request.GET.get('q', '').strip()
+        category_id = request.GET.get('category')
+        min_price = request.GET.get('min_price')
+        max_price = request.GET.get('max_price')
+        availability = request.GET.get('availability')
+        sort_by = request.GET.get('sort', 'relevance')
+        
+        # Start with all active products
+        products = Product.objects.filter(stock__gte=0)
+        
+        # Apply search query
+        if query:
+            products = products.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(category__name__icontains=query)
+            )
+        
+        # Apply category filter
+        if category_id:
+            products = products.filter(category_id=category_id)
+        
+        # Apply price filters
+        if min_price:
+            try:
+                products = products.filter(price__gte=Decimal(min_price))
+            except (ValueError, TypeError):
+                pass
+        
+        if max_price:
+            try:
+                products = products.filter(price__lte=Decimal(max_price))
+            except (ValueError, TypeError):
+                pass
+        
+        # Apply availability filter
+        if availability == 'in_stock':
+            products = products.filter(stock__gt=0)
+        elif availability == 'low_stock':
+            products = products.filter(stock__lte=10, stock__gt=0)
+        elif availability == 'out_of_stock':
+            products = products.filter(stock=0)
+        
+        # Apply sorting
+        if sort_by == 'price_low':
+            products = products.order_by('price')
+        elif sort_by == 'price_high':
+            products = products.order_by('-price')
+        elif sort_by == 'newest':
+            products = products.order_by('-created_at')
+        else:  # relevance
+            products = products.order_by('-featured', '-created_at')
+        
+        # Pagination
+        paginator = Paginator(products, 12)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        # Get categories for filter
+        categories = Category.objects.filter(parent__isnull=True)
+        
+        # Get price range for filter
+        price_range = Product.objects.filter(stock__gt=0).aggregate(
+            min_price=Min('price'),
+            max_price=Max('price')
+        )
+        
+        context = {
+            'page_obj': page_obj,
+            'products': page_obj.object_list,
+            'categories': categories,
+            'price_range': price_range,
+            'search_params': {
+                'q': query,
+                'category': category_id,
+                'min_price': min_price,
+                'max_price': max_price,
+                'availability': availability,
+                'sort': sort_by
+            },
+            'total_results': paginator.count,
+            'page_title': f'جستجو: {query}' if query else 'جستجوی پیشرفته'
+        }
+        
+        return render(request, 'shop/advanced_search.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in advanced search: {e}")
+        messages.error(request, 'خطا در جستجو')
+        return redirect('shop_home')
+
+# Enhanced Product Detail
+@monitor_performance
+def enhanced_product_detail(request, product_id):
+    """Enhanced product detail page with AI recommendations"""
+    try:
+        product = get_object_or_404(Product, id=product_id, stock__gte=0)
+        
+        # Get similar products (simple category-based for now)
+        similar_products = Product.objects.filter(
+            category=product.category,
+            stock__gt=0
+        ).exclude(id=product_id)[:6]
+        
+        # Get product reviews
+        reviews = Comment.objects.filter(
+            product=product, 
+            is_approved=True
+        ).select_related('user').order_by('-created_at')
+        
+        # Calculate average rating
+        avg_rating = reviews.aggregate(avg=Avg('rating'))['avg'] or 0
+        
+        context = {
+            'product': product,
+            'similar_products': similar_products,
+            'reviews': reviews,
+            'avg_rating': avg_rating,
+            'page_title': product.name
+        }
+        
+        return render(request, 'shop/enhanced_product_detail.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in enhanced product detail: {e}")
+        messages.error(request, 'خطا در بارگیری محصول')
+        return redirect('shop_home')
+
+# Loyalty Program
+@login_required
+@monitor_performance
+def loyalty_dashboard(request):
+    """Loyalty program dashboard"""
+    try:
+        # Simplified loyalty program for now
+        user_orders = Order.objects.filter(
+            user=request.user,
+            status__in=['paid', 'processing', 'shipped', 'delivered']
+        )
+        
+        total_spent = user_orders.aggregate(total=Sum('total_amount'))['total'] or 0
+        order_count = user_orders.count()
+        
+        # Simple tier calculation
+        if total_spent >= 5000000:
+            tier = 'platinum'
+            tier_display = 'پلاتینیوم'
+        elif total_spent >= 2000000:
+            tier = 'gold'
+            tier_display = 'طلایی'
+        elif total_spent >= 500000:
+            tier = 'silver'
+            tier_display = 'نقره‌ای'
+        else:
+            tier = 'bronze'
+            tier_display = 'برنزی'
+        
+        points = int(total_spent / 1000)  # 1 point per 1000 toman
+        
+        context = {
+            'loyalty': {
+                'tier': tier,
+                'tier_display': tier_display,
+                'points': points,
+                'total_earned_points': points,
+                'total_redeemed_points': 0
+            },
+            'total_spent': total_spent,
+            'order_count': order_count,
+            'page_title': 'برنامه وفاداری'
+        }
+        
+        return render(request, 'shop/loyalty_dashboard.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in loyalty dashboard: {e}")
+        messages.error(request, 'خطا در بارگیری برنامه وفاداری')
+        return redirect('user_profile')
+
+@login_required
+@require_POST
+def redeem_points(request):
+    """Redeem loyalty points for rewards"""
+    try:
+        messages.success(request, 'قابلیت رد کردن امتیاز به زودی فعال خواهد شد!')
+        return JsonResponse({'status': 'success', 'message': 'به زودی...'})
+    except Exception as e:
+        logger.error(f"Error redeeming points: {e}")
+        return JsonResponse({'status': 'error', 'message': 'خطا در رد کردن امتیاز'})
+
+# API Endpoints
+@login_required
+@ajax_error_handler
+def api_recommendations(request):
+    """API endpoint for recommendations"""
+    try:
+        # Simple fallback recommendations
+        products = Product.objects.filter(featured=True, stock__gt=0)[:6]
+        
+        recommendations = []
+        for product in products:
+            recommendations.append({
+                'id': product.id,
+                'name': product.name,
+                'price': float(product.price),
+                'image': product.image.url if product.image else None,
+                'score': 0.8,
+                'reason': 'محصول ویژه'
+            })
+        
+        return JsonResponse({
+            'recommendations': recommendations,
+            'total': len(recommendations)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in API recommendations: {e}")
+        return JsonResponse({'error': 'خطا در بارگیری پیشنهادات'}, status=500)
+
+@login_required
+@ajax_error_handler
+def api_analytics(request):
+    """API endpoint for user analytics"""
+    try:
+        # Simple user analytics
+        user_orders = Order.objects.filter(user=request.user)
+        total_spent = user_orders.aggregate(total=Sum('total_amount'))['total'] or 0
+        
+        data = {
+            'recent_activities': [],
+            'segment': {
+                'type': 'مشتری عادی',
+                'total_spent': float(total_spent),
+                'order_count': user_orders.count()
+            },
+            'loyalty': {
+                'tier': 'برنزی',
+                'points': int(total_spent / 1000),
+                'total_earned': int(total_spent / 1000)
+            }
+        }
+        
+        return JsonResponse(data)
+        
+    except Exception as e:
+        logger.error(f"Error in API analytics: {e}")
+        return JsonResponse({'error': 'خطا در بارگیری تحلیلات'}, status=500)

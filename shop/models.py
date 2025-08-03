@@ -273,177 +273,181 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+# ===== PHASE 3: ADVANCED FEATURES MODELS =====
+
 class UserActivity(models.Model):
-    """Track user behavior for AI recommendations"""
+    """Track user behavior for AI recommendations and analytics"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
     page = models.CharField(max_length=200)
-    action = models.CharField(max_length=100)  # view, like, favorite, purchase
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    action = models.CharField(max_length=100)  # view, like, add_to_cart, purchase, search
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
+    session_duration = models.IntegerField(default=0)  # in seconds
+    device_type = models.CharField(max_length=20, default='desktop')  # desktop, mobile, tablet
     timestamp = models.DateTimeField(auto_now_add=True)
-    session_duration = models.IntegerField(default=0)  # seconds
-    device_type = models.CharField(max_length=20, default='desktop')  # mobile, desktop, tablet
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=500, blank=True)
     
     class Meta:
         ordering = ['-timestamp']
         indexes = [
-            models.Index(fields=['user', 'timestamp']),
-            models.Index(fields=['action', 'timestamp']),
+            models.Index(fields=['user', '-timestamp']),
+            models.Index(fields=['action', '-timestamp']),
+            models.Index(fields=['product', '-timestamp']),
         ]
     
     def __str__(self):
         return f"{self.user.username} - {self.action} - {self.timestamp}"
 
 class ProductRecommendation(models.Model):
-    """AI-powered product recommendations"""
+    """Store AI-generated recommendations for users"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recommendations')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='recommendations')
-    score = models.FloatField(default=0.0)  # AI recommendation score
-    reason = models.CharField(max_length=200, blank=True)  # Why recommended
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    score = models.FloatField(default=0.0)  # Recommendation confidence score
+    reason = models.CharField(max_length=200, blank=True)  # Why this was recommended
+    recommendation_type = models.CharField(max_length=50, default='similar')  # similar, collaborative, trending
     is_viewed = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['-score']
         unique_together = ('user', 'product')
+        ordering = ['-score', '-created_at']
+        indexes = [
+            models.Index(fields=['user', '-score']),
+            models.Index(fields=['recommendation_type', '-created_at']),
+        ]
     
     def __str__(self):
-        return f"Recommendation for {self.user.username}: {self.product.name} (Score: {self.score})"
-
-class SearchQuery(models.Model):
-    """Track search queries for analytics"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    query = models.CharField(max_length=500)
-    results_count = models.IntegerField(default=0)
-    filters_applied = models.JSONField(default=dict)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    session_id = models.CharField(max_length=100, blank=True)
-    
-    class Meta:
-        ordering = ['-timestamp']
-    
-    def __str__(self):
-        return f"Search: {self.query} ({self.results_count} results)"
+        return f"{self.user.username} → {self.product.name} ({self.score:.2f})"
 
 class CustomerSegment(models.Model):
-    """Customer segmentation for targeted marketing"""
+    """Customer segmentation for targeted marketing and analytics"""
     SEGMENT_CHOICES = [
-        ('vip', 'VIP'),
-        ('regular', 'Regular'),
-        ('new', 'New'),
-        ('inactive', 'Inactive'),
-        ('high_value', 'High Value'),
-        ('coffee_enthusiast', 'Coffee Enthusiast'),
-        ('dessert_lover', 'Dessert Lover'),
-        ('casual', 'Casual'),
+        ('vip', 'مشتری VIP'),
+        ('regular', 'مشتری عادی'),
+        ('new', 'مشتری جدید'),
+        ('inactive', 'غیرفعال'),
+        ('coffee_enthusiast', 'علاقه‌مند به قهوه'),
+        ('dessert_lover', 'علاقه‌مند به دسر'),
+        ('price_sensitive', 'حساس به قیمت'),
+        ('premium_buyer', 'خریدار لوکس'),
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='segment')
     segment_type = models.CharField(max_length=20, choices=SEGMENT_CHOICES, default='new')
-    total_spent = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    total_spent = models.DecimalField(max_digits=12, decimal_places=0, default=0)
     order_count = models.IntegerField(default=0)
     last_order_date = models.DateTimeField(null=True, blank=True)
-    favorite_categories = models.JSONField(default=list)
-    average_order_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    favorite_categories = models.JSONField(default=list)  # List of category IDs
+    average_order_value = models.DecimalField(max_digits=10, decimal_places=0, default=0)
+    engagement_score = models.FloatField(default=0.0)  # Based on activity frequency
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['-total_spent']
+        indexes = [
+            models.Index(fields=['segment_type']),
+            models.Index(fields=['total_spent']),
+            models.Index(fields=['engagement_score']),
+        ]
     
     def __str__(self):
         return f"{self.user.username} - {self.get_segment_type_display()}"
 
-class AnalyticsEvent(models.Model):
-    """Track business analytics events"""
-    EVENT_TYPES = [
-        ('page_view', 'Page View'),
-        ('product_view', 'Product View'),
-        ('add_to_cart', 'Add to Cart'),
-        ('purchase', 'Purchase'),
-        ('search', 'Search'),
-        ('filter', 'Filter'),
-        ('recommendation_click', 'Recommendation Click'),
-        ('review_submit', 'Review Submit'),
-        ('favorite_add', 'Add to Favorites'),
-        ('like_product', 'Like Product'),
+class LoyaltyProgram(models.Model):
+    """Loyalty program with points and tiers"""
+    TIER_CHOICES = [
+        ('bronze', 'برنزی'),
+        ('silver', 'نقره‌ای'),
+        ('gold', 'طلایی'),
+        ('platinum', 'پلاتینیوم'),
     ]
     
-    event_type = models.CharField(max_length=20, choices=EVENT_TYPES)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
-    metadata = models.JSONField(default=dict)  # Additional event data
-    timestamp = models.DateTimeField(auto_now_add=True)
-    session_id = models.CharField(max_length=100, blank=True)
-    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='loyalty')
+    points = models.IntegerField(default=0)
+    tier = models.CharField(max_length=20, choices=TIER_CHOICES, default='bronze')
+    total_earned_points = models.IntegerField(default=0)
+    total_redeemed_points = models.IntegerField(default=0)
+    tier_achieved_date = models.DateTimeField(auto_now_add=True)
+    next_tier_points_needed = models.IntegerField(default=500)
     
     class Meta:
-        ordering = ['-timestamp']
         indexes = [
-            models.Index(fields=['event_type', 'timestamp']),
-            models.Index(fields=['user', 'timestamp']),
+            models.Index(fields=['tier', '-points']),
         ]
     
     def __str__(self):
-        return f"{self.get_event_type_display()} - {self.timestamp}"
-
-class PushSubscription(models.Model):
-    """Push notification subscriptions"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='push_subscriptions')
-    subscription_data = models.JSONField()
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_used = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return f"Push subscription for {self.user.username}"
-
-class LoyaltyProgram(models.Model):
-    """Loyalty program for customers"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='loyalty')
-    points = models.IntegerField(default=0)
-    tier = models.CharField(max_length=20, default='bronze')  # bronze, silver, gold, platinum
-    total_spent = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    points_earned = models.IntegerField(default=0)
-    points_redeemed = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        ordering = ['-points']
-    
-    def __str__(self):
-        return f"{self.user.username} - {self.tier} ({self.points} points)"
+        return f"{self.user.username} - {self.get_tier_display()} ({self.points} امتیاز)"
     
     def calculate_tier(self):
-        """Calculate loyalty tier based on total spent"""
-        if self.total_spent >= 5000000:  # 5M toman
+        """Calculate tier based on total spent"""
+        segment = getattr(self.user, 'segment', None)
+        if not segment:
+            return 'bronze'
+            
+        total_spent = segment.total_spent
+        if total_spent >= 5000000:  # 5M toman
             return 'platinum'
-        elif self.total_spent >= 2000000:  # 2M toman
+        elif total_spent >= 2000000:  # 2M toman
             return 'gold'
-        elif self.total_spent >= 500000:  # 500K toman
+        elif total_spent >= 500000:  # 500K toman
             return 'silver'
         else:
             return 'bronze'
     
-    def add_points(self, amount):
-        """Add points to loyalty account"""
-        self.points += amount
-        self.points_earned += amount
-        self.tier = self.calculate_tier()
-        self.save()
+    def get_tier_benefits(self):
+        """Get tier-specific benefits"""
+        benefits = {
+            'bronze': {'discount': 5, 'min_order': 200000, 'free_shipping': False},
+            'silver': {'discount': 10, 'min_order': 150000, 'free_shipping': True},
+            'gold': {'discount': 15, 'min_order': 100000, 'free_shipping': True, 'priority': True},
+            'platinum': {'discount': 20, 'min_order': 0, 'free_shipping': True, 'priority': True, 'vip': True}
+        }
+        return benefits.get(self.tier, benefits['bronze'])
+
+class SearchQuery(models.Model):
+    """Track search queries for analytics and optimization"""
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    query = models.CharField(max_length=200)
+    results_count = models.IntegerField(default=0)
+    clicked_product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
+    filters_used = models.JSONField(default=dict)  # Store applied filters
+    timestamp = models.DateTimeField(auto_now_add=True)
+    session_id = models.CharField(max_length=40, blank=True)
     
-    def redeem_points(self, amount):
-        """Redeem points"""
-        if self.points >= amount:
-            self.points -= amount
-            self.points_redeemed += amount
-            self.save()
-            return True
-        return False
+    class Meta:
+        ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['query', '-timestamp']),
+            models.Index(fields=['user', '-timestamp']),
+        ]
+    
+    def __str__(self):
+        return f"'{self.query}' - {self.results_count} نتیجه"
+
+class ProductInteraction(models.Model):
+    """Track specific product interactions for recommendations"""
+    INTERACTION_TYPES = [
+        ('view', 'مشاهده'),
+        ('like', 'پسندیدن'),
+        ('favorite', 'علاقه‌مندی'),
+        ('cart_add', 'افزودن به سبد'),
+        ('purchase', 'خرید'),
+        ('review', 'نظردهی'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_interactions')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='interactions')
+    interaction_type = models.CharField(max_length=20, choices=INTERACTION_TYPES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    session_id = models.CharField(max_length=40, blank=True)
+    
+    class Meta:
+        ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['user', 'interaction_type', '-timestamp']),
+            models.Index(fields=['product', 'interaction_type', '-timestamp']),
+        ]
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.get_interaction_type_display()} - {self.product.name}"
