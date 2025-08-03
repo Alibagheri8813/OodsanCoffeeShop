@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 # from . import ai_assistant
-from . import advanced_views
+# from . import advanced_views
 # from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -65,29 +65,30 @@ urlpatterns = [
     # path('ai/text-to-speech/', ai_assistant.text_to_speech, name='text_to_speech'),
     
     # ===== PHASE 3: ADVANCED FEATURES =====
+    # Temporarily commented out due to missing dependencies
     
-    # AI-Powered Recommendations
-    path('recommendations/', advanced_views.personalized_recommendations, name='personalized_recommendations'),
-    path('track-recommendation/<int:product_id>/', advanced_views.track_recommendation_view, name='track_recommendation_view'),
+    # # AI-Powered Recommendations
+    # path('recommendations/', advanced_views.personalized_recommendations, name='personalized_recommendations'),
+    # path('track-recommendation/<int:product_id>/', advanced_views.track_recommendation_view, name='track_recommendation_view'),
     
-    # Advanced Search & Filters
-    path('advanced-search/', advanced_views.advanced_search, name='advanced_search'),
+    # # Advanced Search & Filters
+    # path('advanced-search/', advanced_views.advanced_search, name='advanced_search'),
     path('search/', views.search_products, name='search_products'),
     
-    # Real-time Analytics Dashboard
-    path('analytics/', advanced_views.analytics_dashboard, name='analytics_dashboard'),
-    path('customer-insights/', advanced_views.customer_insights, name='customer_insights'),
+    # # Real-time Analytics Dashboard
+    # path('analytics/', advanced_views.analytics_dashboard, name='analytics_dashboard'),
+    # path('customer-insights/', advanced_views.customer_insights, name='customer_insights'),
     
-    # Enhanced Product Views
-    path('enhanced-product/<int:product_id>/', advanced_views.enhanced_product_detail, name='enhanced_product_detail'),
+    # # Enhanced Product Views
+    # path('enhanced-product/<int:product_id>/', advanced_views.enhanced_product_detail, name='enhanced_product_detail'),
     
-    # Loyalty Program
-    path('loyalty/', advanced_views.loyalty_dashboard, name='loyalty_dashboard'),
-    path('redeem-points/', advanced_views.redeem_points, name='redeem_points'),
+    # # Loyalty Program
+    # path('loyalty/', advanced_views.loyalty_dashboard, name='loyalty_dashboard'),
+    # path('redeem-points/', advanced_views.redeem_points, name='redeem_points'),
     
-    # API Endpoints
-    path('api/recommendations/', advanced_views.api_recommendations, name='api_recommendations'),
-    path('api/analytics/', advanced_views.api_analytics, name='api_analytics'),
+    # # API Endpoints
+    # path('api/recommendations/', advanced_views.api_recommendations, name='api_recommendations'),
+    # path('api/analytics/', advanced_views.api_analytics, name='api_analytics'),
     
     # Existing URLs (keep them for compatibility)
     path('categories/', views.category_list, name='category_list'),
