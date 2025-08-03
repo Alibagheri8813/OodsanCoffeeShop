@@ -8995,3 +8995,39 @@ ERROR 2025-08-03 03:31:45,905 recursion_prevention 7680 12424 Request chain time
 ERROR 2025-08-03 03:31:45,906 log 7680 12424 Internal Server Error: /shop/cart/count/
 ERROR 2025-08-03 03:33:45,892 recursion_prevention 7680 3028 Request chain timeout. Current path: /shop/cart/count/
 ERROR 2025-08-03 03:33:45,892 log 7680 3028 Internal Server Error: /shop/cart/count/
+INFO 2025-08-03 03:35:53,782 autoreload 3764 6864 Watching for file changes with StatReloader
+INFO 2025-08-03 03:35:57,698 error_handling 3764 7968 Starting operation: product_detail
+INFO 2025-08-03 03:35:57,700 error_handling 3764 7968 Operation completed: product_detail in 0.00s
+WARNING 2025-08-03 03:35:58,883 log 3764 7968 Not Found: /sw.js
+WARNING 2025-08-03 03:36:22,132 log 3764 7968 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 03:36:25,510 log 3764 7968 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+ERROR 2025-08-03 03:36:58,896 recursion_prevention 3764 7968 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:36:58,897 log 3764 7968 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:38:28,902 recursion_prevention 3764 10436 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:38:28,903 log 3764 10436 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:40:29,905 recursion_prevention 3764 4808 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:40:29,909 log 3764 4808 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:42:31,896 recursion_prevention 3764 12452 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:42:31,896 log 3764 12452 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:44:33,898 recursion_prevention 3764 11132 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:44:33,899 log 3764 11132 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:46:35,891 recursion_prevention 3764 11804 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:46:35,891 log 3764 11804 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:48:37,904 recursion_prevention 3764 5408 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:48:37,908 log 3764 5408 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:50:39,899 recursion_prevention 3764 6844 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:50:39,900 log 3764 6844 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:52:39,375 recursion_prevention 3764 564 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:52:39,376 log 3764 564 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:53:28,898 recursion_prevention 3764 13160 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:53:28,902 log 3764 13160 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:54:45,891 recursion_prevention 3764 1280 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:54:45,892 log 3764 1280 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:56:45,895 recursion_prevention 3764 11796 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:56:45,895 log 3764 11796 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:58:45,901 recursion_prevention 3764 12092 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:58:45,901 log 3764 12092 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:00:45,904 recursion_prevention 3764 12304 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:00:45,905 log 3764 12304 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 04:02:45,898 recursion_prevention 3764 9652 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 04:02:45,898 log 3764 9652 Internal Server Error: /shop/cart/count/
