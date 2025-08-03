@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'shop.recursion_prevention.RecursionPreventionMiddleware',  # Add recursion prevention first
+    'shop.recursion_prevention.SafeURLRedirectMiddleware',  # Add safe URL handling
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

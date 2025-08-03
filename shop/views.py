@@ -20,7 +20,13 @@ import json
 # Create your views here.
 
 def home(request):
-    categories = Category.objects.filter(parent__isnull=True)
+    """Home page view with error handling"""
+    try:
+        categories = Category.objects.filter(parent__isnull=True)
+    except Exception as e:
+        logger.error(f"Error loading categories in home view: {e}")
+        categories = Category.objects.none()
+    
     return render(request, 'shop/home.html', {'categories': categories})
 
 def video_intro(request):
@@ -214,12 +220,13 @@ from django.views.decorators.cache import cache_page
 
 def product_list(request, category_id=None):
     """Enhanced product list with better search and filters"""
-    # Cache categories for better performance
-    cache_key = 'categories_list'
-    categories = cache.get(cache_key)
-    if categories is None:
-        categories = Category.objects.filter(parent=None).prefetch_related('children')
-        cache.set(cache_key, categories, 300)  # Cache for 5 minutes
+    # Safe category loading to prevent recursion
+    try:
+        categories = Category.objects.filter(parent=None).select_related('parent')
+        # Don't use prefetch_related to avoid potential circular reference issues
+    except Exception as e:
+        logger.error(f"Error loading categories: {e}")
+        categories = Category.objects.none()
     
     # Optimize product queries with select_related and prefetch_related
     products = Product.objects.select_related('category').prefetch_related('likes', 'favorites')

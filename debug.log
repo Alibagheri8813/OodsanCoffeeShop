@@ -9503,3 +9503,9 @@ INFO 2025-08-03 08:05:44,092 autoreload 2959 140569233215744 /workspace/shop/mod
 INFO 2025-08-03 08:05:44,442 autoreload 3064 139740218474752 Watching for file changes with StatReloader
 INFO 2025-08-03 08:06:01,347 autoreload 3064 139740218474752 /workspace/shop/views.py changed, reloading.
 INFO 2025-08-03 08:06:01,755 autoreload 3105 140541456548096 Watching for file changes with StatReloader
+INFO 2025-08-03 08:13:09,833 autoreload 3105 140541456548096 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-03 08:13:10,250 autoreload 4285 140433768288512 Watching for file changes with StatReloader
+INFO 2025-08-03 08:13:15,017 autoreload 4285 140433768288512 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-03 08:13:15,352 autoreload 4308 140174595924224 Watching for file changes with StatReloader
+INFO 2025-08-03 08:14:17,518 autoreload 4308 140174595924224 /workspace/coffe_shop/settings.py changed, reloading.
+INFO 2025-08-03 08:14:17,858 autoreload 4441 139769066598656 Watching for file changes with StatReloader

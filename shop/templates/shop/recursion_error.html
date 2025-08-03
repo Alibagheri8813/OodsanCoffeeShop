@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطای سیستم - کافی شاپ</title>
+    <link rel="stylesheet" href="{% static 'shop/style.css' %}">
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+            padding: 20px;
+        }
+        
+        .error-card {
+            background: rgba(255, 248, 240, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid rgba(255, 248, 240, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            color: #F4A460;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .error-title {
+            color: #FFF8F0;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        .error-message {
+            color: #F4A460;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .error-details {
+            background: rgba(255, 248, 240, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #D2691E;
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+            color: #FFF8F0;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            color: #FFF8F0;
+            text-decoration: none;
+        }
+        
+        .technical-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 248, 240, 0.1);
+            font-size: 12px;
+            color: rgba(255, 248, 240, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .error-card {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            .error-icon {
+                font-size: 60px;
+            }
+            
+            .error-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <div class="error-icon">
+                ⚠️
+            </div>
+            
+            <h1 class="error-title">خطای سیستم</h1>
+            
+            <p class="error-message">
+                {{ error_message|default:"متأسفانه خطای بازگشت بی‌نهایت در سیستم شناسایی شد." }}
+            </p>
+            
+            {% if problematic_path %}
+            <div class="error-details">
+                <strong>مسیر مشکل‌دار:</strong> {{ problematic_path }}
+            </div>
+            {% endif %}
+            
+            <div style="margin: 20px 0;">
+                <p>لطفاً از لینک زیر برای بازگشت به صفحه اصلی استفاده کنید:</p>
+            </div>
+            
+            <a href="{{ safe_url|default:'/shop/' }}" class="btn-home">
+                <i class="fas fa-home"></i>
+                بازگشت به کافی شاپ
+            </a>
+            
+            <div class="technical-info">
+                <p>اگر این مشکل مداوم است، لطفاً با پشتیبانی تماس بگیرید.</p>
+                <p>کد خطا: RECURSION_ERROR</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Automatically redirect after 10 seconds if user doesn't click
+        setTimeout(function() {
+            if (confirm('آیا می‌خواهید به صفحه اصلی منتقل شوید؟')) {
+                window.location.href = '{{ safe_url|default:"/shop/" }}';
+            }
+        }, 10000);
+        
+        // Clear any problematic data from localStorage
+        try {
+            localStorage.removeItem('problematic_data');
+            sessionStorage.clear();
+        } catch(e) {
+            console.log('Error clearing storage:', e);
+        }
+    </script>
+</body>
+</html>
