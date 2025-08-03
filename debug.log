@@ -102,3 +102,7 @@ ERROR 2025-08-03 07:21:45,894 recursion_prevention 9316 8408 Request chain timeo
 ERROR 2025-08-03 07:21:45,895 log 9316 8408 Internal Server Error: /shop/cart/count/
 ERROR 2025-08-03 07:23:45,899 recursion_prevention 9316 4216 Request chain timeout. Current path: /shop/cart/count/
 ERROR 2025-08-03 07:23:45,900 log 9316 4216 Internal Server Error: /shop/cart/count/
+INFO 2025-08-03 07:25:21,459 autoreload 5756 2696 Watching for file changes with StatReloader
+ERROR 2025-08-03 07:26:34,896 recursion_prevention 5756 12660 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:26:34,898 log 5756 12660 Internal Server Error: /shop/cart/count/
+INFO 2025-08-03 09:01:36,505 autoreload 9276 1528 Watching for file changes with StatReloader
