@@ -47,3 +47,118 @@ INFO 2025-08-03 03:00:45,912 basehttp 11572 11804 "GET /shop/cart/count/ HTTP/1.
 ERROR 2025-08-03 03:01:45,892 recursion_prevention 11572 11804 Request chain timeout. Current path: /shop/cart/count/
 ERROR 2025-08-03 03:01:45,893 log 11572 11804 Internal Server Error: /shop/cart/count/
 ERROR 2025-08-03 03:01:45,893 basehttp 11572 11804 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:02:50,122 autoreload 1812 9172 Watching for file changes with StatReloader
+INFO 2025-08-03 03:02:53,253 basehttp 1812 10232 "GET /shop/user-profile/ HTTP/1.1" 200 56351
+INFO 2025-08-03 03:02:53,272 basehttp 1812 10232 "GET /static/shop/style-enhancements.css?v=2.0 HTTP/1.1" 304 0
+INFO 2025-08-03 03:02:53,624 basehttp 1812 10232 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:03:23,626 recursion_prevention 1812 10232 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:03:23,627 log 1812 10232 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:03:23,628 basehttp 1812 10232 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+ERROR 2025-08-03 03:03:25,563 log 1812 10680 Internal Server Error: /shop/profile/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 955, in profile
+    return render(request, 'shop/profile.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: shop/profile.html
+ERROR 2025-08-03 03:03:25,565 basehttp 1812 10680 "GET /shop/profile/ HTTP/1.1" 500 94919
+ERROR 2025-08-03 03:03:32,883 log 1812 10680 Internal Server Error: /shop/orders/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 1039, in order_list
+    return render(request, 'shop/order_list.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: shop/order_list.html
+ERROR 2025-08-03 03:03:32,884 basehttp 1812 10680 "GET /shop/orders/ HTTP/1.1" 500 93297
+INFO 2025-08-03 03:03:40,877 basehttp 1812 10680 "GET /shop/favorites/ HTTP/1.1" 200 40093
+INFO 2025-08-03 03:03:40,944 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:03:45,689 basehttp 1812 10680 "GET /shop/products/ HTTP/1.1" 200 45259
+INFO 2025-08-03 03:03:45,751 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:03:48,758 basehttp 1812 10680 "GET /shop/product/4/ HTTP/1.1" 200 49419
+INFO 2025-08-03 03:03:48,821 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 03:03:56,488 log 1812 10680 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+WARNING 2025-08-03 03:03:56,488 basehttp 1812 10680 "POST /shop/like/ HTTP/1.1" 403 2549
+WARNING 2025-08-03 03:04:01,726 log 1812 10680 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 03:04:01,726 basehttp 1812 10680 "POST /shop/cart/add/ HTTP/1.1" 403 2549
+INFO 2025-08-03 03:04:18,831 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:04:20,603 basehttp 1812 10680 "POST /shop/product/4/ HTTP/1.1" 200 49419
+INFO 2025-08-03 03:04:20,679 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:04:45,330 basehttp 1812 10680 "GET /shop/user-profile/ HTTP/1.1" 200 56351
+INFO 2025-08-03 03:04:45,396 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:08,277 basehttp 1812 10680 "GET /shop/notifications/ HTTP/1.1" 200 63885
+INFO 2025-08-03 03:05:08,441 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:14,405 basehttp 1812 10680 "GET /shop/favorites/ HTTP/1.1" 200 40093
+INFO 2025-08-03 03:05:14,473 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:15,534 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:16,340 basehttp 1812 10680 "GET /shop/cart/ HTTP/1.1" 200 36577
+INFO 2025-08-03 03:05:16,403 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:16,408 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:16,479 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:18,670 basehttp 1812 10680 "GET /shop/products/ HTTP/1.1" 200 45259
+INFO 2025-08-03 03:05:18,733 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:41,047 basehttp 1812 10680 "GET /shop/products/ HTTP/1.1" 200 45259
+INFO 2025-08-03 03:05:41,120 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:05:45,693 basehttp 1812 10680 "GET /shop/product/4/ HTTP/1.1" 200 49419
+INFO 2025-08-03 03:05:45,757 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:06:15,891 recursion_prevention 1812 10680 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:06:15,892 log 1812 10680 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:06:15,892 basehttp 1812 10680 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:06:45,897 basehttp 1812 12768 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:07:15,902 recursion_prevention 1812 12768 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:07:15,903 log 1812 12768 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:07:15,903 basehttp 1812 12768 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:07:45,897 basehttp 1812 12896 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:08:15,899 recursion_prevention 1812 12896 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:08:15,899 log 1812 12896 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:08:15,900 basehttp 1812 12896 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:08:45,927 basehttp 1812 6332 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:09:15,905 basehttp 1812 6332 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 03:09:45,904 basehttp 1812 6332 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:10:45,889 recursion_prevention 1812 6332 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:10:45,890 log 1812 6332 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:10:45,890 basehttp 1812 6332 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:11:45,907 basehttp 1812 9380 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:12:45,899 recursion_prevention 1812 9380 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:12:45,900 log 1812 9380 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:12:45,900 basehttp 1812 9380 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:13:45,912 basehttp 1812 7716 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:14:45,908 recursion_prevention 1812 7716 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:14:45,911 log 1812 7716 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:14:45,911 basehttp 1812 7716 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:15:45,903 basehttp 1812 8580 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:16:45,906 recursion_prevention 1812 8580 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:16:45,908 log 1812 8580 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:16:45,909 basehttp 1812 8580 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:17:45,894 basehttp 1812 5380 "GET /shop/cart/count/ HTTP/1.1" 200 12
