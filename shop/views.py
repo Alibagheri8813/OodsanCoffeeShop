@@ -20,14 +20,45 @@ import json
 # Create your views here.
 
 def home(request):
-    """Home page view with error handling"""
+    """Home page view with enhanced error handling"""
     try:
         categories = Category.objects.filter(parent__isnull=True)
     except Exception as e:
         logger.error(f"Error loading categories in home view: {e}")
         categories = Category.objects.none()
     
-    return render(request, 'shop/home.html', {'categories': categories})
+    try:
+        return render(request, 'shop/home.html', {'categories': categories})
+    except RecursionError as e:
+        logger.error(f"Template recursion error in home view: {e}")
+        # Return a simple error page to avoid template recursion
+        from django.http import HttpResponse
+        return HttpResponse("""
+        <!DOCTYPE html>
+        <html dir="rtl">
+        <head>
+            <title>خطای سیستم</title>
+            <meta charset="utf-8">
+            <style>
+                body { font-family: 'Vazirmatn', Arial, sans-serif; text-align: center; margin: 50px; }
+                .error { background: #f8d7da; color: #721c24; padding: 30px; border-radius: 10px; }
+            </style>
+        </head>
+        <body>
+            <div class="error">
+                <h1>⚠️ خطای سیستم</h1>
+                <p>متأسفانه خطای بازگشت بی‌نهایت شناسایی شد.</p>
+                <p><strong>مسیر مشکل‌دار:</strong> /home/</p>
+                <p>این خطا به دلیل مشکل در قالب‌ها ایجاد شده است.</p>
+                <a href="/shop/" style="display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">رفتن به فروشگاه</a>
+            </div>
+        </body>
+        </html>
+        """, status=500)
+    except Exception as e:
+        logger.error(f"Unexpected error in home view: {e}")
+        from django.http import HttpResponse
+        return HttpResponse("خطای سیستمی رخ داده است. لطفاً بعداً تلاش کنید.", status=500)
 
 def video_intro(request):
     """Video intro page that shows for 6 seconds then redirects to home"""
