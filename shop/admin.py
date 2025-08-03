@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import gettext_lazy as _
-from .models import Category, Product, Order, OrderItem, OrderFeedback, Comment, ProductLike, UserProfile, Notification, ProductFavorite, Video, Cart, CartItem, UserActivity, ProductRecommendation, SearchQuery, CustomerSegment, AnalyticsEvent, PushSubscription, LoyaltyProgram
+from .models import Category, Product, Order, OrderItem, OrderFeedback, Comment, ProductLike, UserProfile, Notification, ProductFavorite, Video, Cart, CartItem, UserActivity, ProductRecommendation, SearchQuery, CustomerSegment, LoyaltyProgram, ProductInteraction
 
 # Custom Admin Filters
 class StockFilter(SimpleListFilter):
@@ -550,16 +550,16 @@ class SearchQueryAdmin(admin.ModelAdmin):
     list_display = ('user', 'query', 'results_count', 'timestamp', 'session_id')
     list_filter = ('timestamp', 'results_count')
     search_fields = ('query', 'user__username')
-    readonly_fields = ('timestamp', 'filters_applied')
+    readonly_fields = ('timestamp', 'filters_used')
     list_per_page = 50
     ordering = ('-timestamp',)
     
     fieldsets = (
         ('اطلاعات جستجو', {
-            'fields': ('user', 'query', 'results_count')
+            'fields': ('user', 'query', 'results_count', 'clicked_product')
         }),
         ('فیلترها', {
-            'fields': ('filters_applied',)
+            'fields': ('filters_used',)
         }),
         ('جلسه', {
             'fields': ('session_id', 'timestamp')
@@ -568,16 +568,16 @@ class SearchQueryAdmin(admin.ModelAdmin):
 
 class CustomerSegmentAdmin(admin.ModelAdmin):
     list_display = ('user', 'segment_type', 'total_spent', 'order_count', 'average_order_value', 'last_order_date')
-    list_filter = ('segment_type', 'created_at')
+    list_filter = ('segment_type', 'updated_at')
     search_fields = ('user__username', 'user__email')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('updated_at', 'engagement_score')
     list_per_page = 30
     ordering = ('-total_spent',)
     actions = ['update_segments', 'export_segments']
     
     fieldsets = (
         ('اطلاعات کاربر', {
-            'fields': ('user', 'segment_type')
+            'fields': ('user', 'segment_type', 'engagement_score')
         }),
         ('آمار خرید', {
             'fields': ('total_spent', 'order_count', 'average_order_value')
@@ -586,7 +586,7 @@ class CustomerSegmentAdmin(admin.ModelAdmin):
             'fields': ('favorite_categories',)
         }),
         ('زمان‌ها', {
-            'fields': ('last_order_date', 'created_at', 'updated_at')
+            'fields': ('last_order_date', 'updated_at')
         }),
     )
     
@@ -611,95 +611,40 @@ class CustomerSegmentAdmin(admin.ModelAdmin):
         self.message_user(request, f'{queryset.count()} بخش مشتریان برای صادرات آماده شد.')
     export_segments.short_description = "صادرات بخش‌های مشتریان"
 
-class AnalyticsEventAdmin(admin.ModelAdmin):
-    list_display = ('event_type', 'user', 'product', 'category', 'timestamp', 'session_id')
-    list_filter = ('event_type', 'timestamp', 'category')
-    search_fields = ('user__username', 'product__name', 'session_id')
-    readonly_fields = ('timestamp', 'metadata')
-    list_per_page = 100
+# Admin class for ProductInteraction
+@admin.register(ProductInteraction)
+class ProductInteractionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'interaction_type', 'timestamp')
+    list_filter = ('interaction_type', 'timestamp')
+    search_fields = ('user__username', 'product__name')
+    readonly_fields = ('timestamp',)
+    list_per_page = 50
     ordering = ('-timestamp',)
-    actions = ['export_events', 'cleanup_old_events']
     
     fieldsets = (
-        ('اطلاعات رویداد', {
-            'fields': ('event_type', 'user', 'session_id')
+        ('اطلاعات تعامل', {
+            'fields': ('user', 'product', 'interaction_type')
         }),
-        ('محصول و دسته‌بندی', {
-            'fields': ('product', 'category', 'order')
-        }),
-        ('متادیتا', {
-            'fields': ('metadata', 'ip_address')
-        }),
-        ('زمان', {
-            'fields': ('timestamp',)
+        ('جلسه و زمان', {
+            'fields': ('session_id', 'timestamp')
         }),
     )
-    
-    def export_events(self, request, queryset):
-        """Export analytics events"""
-        self.message_user(request, f'{queryset.count()} رویداد تحلیلات برای صادرات آماده شد.')
-    export_events.short_description = "صادرات رویدادها"
-    
-    def cleanup_old_events(self, request, queryset):
-        """Clean up old analytics events"""
-        old_date = timezone.now() - timedelta(days=90)
-        deleted_count = AnalyticsEvent.objects.filter(timestamp__lt=old_date).delete()[0]
-        self.message_user(request, f'{deleted_count} رویداد قدیمی حذف شد.')
-    cleanup_old_events.short_description = "پاکسازی رویدادهای قدیمی"
-
-class PushSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('user', 'is_active', 'created_at', 'last_used')
-    list_filter = ('is_active', 'created_at')
-    search_fields = ('user__username', 'user__email')
-    readonly_fields = ('created_at', 'last_used', 'subscription_data')
-    list_per_page = 30
-    ordering = ('-created_at',)
-    actions = ['send_test_notification', 'deactivate_subscriptions']
-    
-    fieldsets = (
-        ('اطلاعات کاربر', {
-            'fields': ('user', 'is_active')
-        }),
-        ('اطلاعات اشتراک', {
-            'fields': ('subscription_data',)
-        }),
-        ('زمان‌ها', {
-            'fields': ('created_at', 'last_used')
-        }),
-    )
-    
-    def send_test_notification(self, request, queryset):
-        """Send test notification to selected subscriptions"""
-        self.message_user(request, f'اعلان آزمایشی برای {queryset.count()} اشتراک ارسال شد.')
-    send_test_notification.short_description = "ارسال اعلان آزمایشی"
-    
-    def deactivate_subscriptions(self, request, queryset):
-        """Deactivate selected subscriptions"""
-        updated = queryset.update(is_active=False)
-        self.message_user(request, f'{updated} اشتراک غیرفعال شد.')
-    deactivate_subscriptions.short_description = "غیرفعال کردن اشتراک‌ها"
 
 class LoyaltyProgramAdmin(admin.ModelAdmin):
-    list_display = ('user', 'tier', 'points', 'total_spent', 'points_earned', 'points_redeemed', 'created_at')
-    list_filter = ('tier', 'created_at')
+    list_display = ('user', 'tier', 'points', 'total_earned_points', 'total_redeemed_points', 'tier_achieved_date')
+    list_filter = ('tier', 'tier_achieved_date')
     search_fields = ('user__username', 'user__email')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('tier_achieved_date', 'next_tier_points_needed')
     list_per_page = 30
     ordering = ('-points',)
     actions = ['update_tiers', 'add_bonus_points', 'export_loyalty_data']
     
     fieldsets = (
         ('اطلاعات کاربر', {
-            'fields': ('user', 'tier')
+            'fields': ('user', 'tier', 'tier_achieved_date')
         }),
         ('امتیازات', {
-            'fields': ('points', 'points_earned', 'points_redeemed')
-        }),
-        ('آمار خرید', {
-            'fields': ('total_spent',)
-        }),
-        ('زمان‌ها', {
-            'fields': ('created_at', 'updated_at')
+            'fields': ('points', 'total_earned_points', 'total_redeemed_points', 'next_tier_points_needed')
         }),
     )
     
@@ -729,13 +674,11 @@ class LoyaltyProgramAdmin(admin.ModelAdmin):
         self.message_user(request, f'{queryset.count()} رکورد برنامه وفاداری برای صادرات آماده شد.')
     export_loyalty_data.short_description = "صادرات داده‌های وفاداری"
 
-# Register new admin models
+# Register new Phase 3 admin models
 admin.site.register(UserActivity, UserActivityAdmin)
 admin.site.register(ProductRecommendation, ProductRecommendationAdmin)
 admin.site.register(SearchQuery, SearchQueryAdmin)
 admin.site.register(CustomerSegment, CustomerSegmentAdmin)
-admin.site.register(AnalyticsEvent, AnalyticsEventAdmin)
-admin.site.register(PushSubscription, PushSubscriptionAdmin)
 admin.site.register(LoyaltyProgram, LoyaltyProgramAdmin)
 
 # Register all models with enhanced admin classes
