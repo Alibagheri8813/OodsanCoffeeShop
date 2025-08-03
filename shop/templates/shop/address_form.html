@@ -1,0 +1,364 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | کافی شاپ{% endblock %}
+
+{% block extra_head %}
+<style>
+:root {
+    --primary-coffee: #4B2E2B;
+    --secondary-coffee: #7B3F00;
+    --accent-coffee: #C97C5D;
+    --light-coffee: #F3E9DC;
+    --cream: #FFF8F0;
+    --gold: #D4AF37;
+    --gradient-primary: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255,248,240,0.95) 0%, rgba(243,233,220,0.95) 100%);
+    --shadow-premium: 0 20px 40px rgba(75, 46, 43, 0.15);
+}
+
+body {
+    background: var(--gradient-primary);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.form-card {
+    background: var(--gradient-card);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--accent-coffee) 100%);
+    border-radius: 25px 25px 0 0;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-coffee);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.form-subtitle {
+    color: var(--secondary-coffee);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-coffee);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--primary-coffee);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.form-control::placeholder {
+    color: var(--secondary-coffee);
+    opacity: 0.6;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+}
+
+.form-check:hover {
+    background: rgba(212, 175, 55, 0.15);
+}
+
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--gold);
+}
+
+.form-check-label {
+    color: var(--primary-coffee);
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold) 0%, #B8860B 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, #B8860B 0%, var(--gold) 100%);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--primary-coffee);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.error-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+}
+
+.error-list li {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    border-left: 4px solid #dc3545;
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: var(--secondary-coffee);
+    opacity: 0.7;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+    
+    .form-card {
+        padding: 25px;
+    }
+    
+    .form-title {
+        font-size: 1.6rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h1 class="form-title">
+                <i class="fas fa-map-marker-alt" style="color: var(--gold);"></i>
+                {{ title }}
+            </h1>
+            <p class="form-subtitle">اطلاعات آدرس خود را با دقت وارد کنید</p>
+        </div>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_title" class="form-label">
+                    <i class="fas fa-tag" style="margin-left: 5px; color: var(--gold);"></i>
+                    عنوان آدرس
+                </label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <ul class="error-list">
+                        {% for error in form.title.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="help-text">
+                    <i class="fas fa-info-circle"></i>
+                    مثل: خانه، محل کار، آدرس والدین
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_full_address" class="form-label">
+                    <i class="fas fa-home" style="margin-left: 5px; color: var(--gold);"></i>
+                    آدرس کامل
+                </label>
+                {{ form.full_address }}
+                {% if form.full_address.errors %}
+                    <ul class="error-list">
+                        {% for error in form.full_address.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="help-text">
+                    <i class="fas fa-info-circle"></i>
+                    آدرس کامل شامل خیابان، کوچه، پلاک و واحد
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="id_city" class="form-label">
+                        <i class="fas fa-city" style="margin-left: 5px; color: var(--gold);"></i>
+                        شهر
+                    </label>
+                    {{ form.city }}
+                    {% if form.city.errors %}
+                        <ul class="error-list">
+                            {% for error in form.city.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_state" class="form-label">
+                        <i class="fas fa-map" style="margin-left: 5px; color: var(--gold);"></i>
+                        استان
+                    </label>
+                    {{ form.state }}
+                    {% if form.state.errors %}
+                        <ul class="error-list">
+                            {% for error in form.state.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-check">
+                    {{ form.is_default }}
+                    <label for="id_is_default" class="form-check-label">
+                        <i class="fas fa-star" style="margin-left: 5px; color: var(--gold);"></i>
+                        تنظیم به عنوان آدرس پیش‌فرض
+                    </label>
+                </div>
+                {% if form.is_default.errors %}
+                    <ul class="error-list">
+                        {% for error in form.is_default.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="help-text">
+                    <i class="fas fa-info-circle"></i>
+                    این آدرس به صورت پیش‌فرض در سفارشات استفاده می‌شود
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    ذخیره آدرس
+                </button>
+                <a href="{% url 'user_profile' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    لغو
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

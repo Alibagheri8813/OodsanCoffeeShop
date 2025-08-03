@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Order, Comment
+from .models import Product, Comment, Order, OrderFeedback, UserProfile, UserAddress
 
 class UserRegistrationForm(UserCreationForm):
     """Beautiful user registration form with profile fields"""
@@ -49,108 +49,91 @@ class UserRegistrationForm(UserCreationForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-class CheckoutForm(forms.Form):
-    """Beautiful checkout form with delivery options"""
-    DELIVERY_CHOICES = [
-        ('pickup', 'دریافت حضوری'),
-        ('post', 'ارسال پستی'),
-    ]
-    
-    delivery_method = forms.ChoiceField(
-        choices=DELIVERY_CHOICES,
-        widget=forms.RadioSelect(attrs={'class': 'delivery-option'}),
-        initial='pickup',
-        label='روش ارسال'
-    )
-    
-    shipping_address = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'rows': 3,
-            'placeholder': 'آدرس کامل ارسال'
-        }),
-        required=False,
-        label='آدرس ارسال'
-    )
-    
-    postal_code = forms.CharField(
-        max_length=10,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'کد پستی'
-        }),
-        required=False,
-        label='کد پستی'
-    )
-    
-    phone_number = forms.CharField(
-        max_length=15,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'شماره تلفن'
-        }),
-        label='شماره تلفن'
-    )
-    
-    notes = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'rows': 2,
-            'placeholder': 'توضیحات اضافی (اختیاری)'
-        }),
-        required=False,
-        label='توضیحات'
-    )
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        delivery_method = cleaned_data.get('delivery_method')
-        shipping_address = cleaned_data.get('shipping_address')
-        postal_code = cleaned_data.get('postal_code')
-        
-        if delivery_method == 'post':
-            if not shipping_address:
-                raise forms.ValidationError('برای ارسال پستی، آدرس ارسال الزامی است.')
-            if not postal_code:
-                raise forms.ValidationError('برای ارسال پستی، کد پستی الزامی است.')
-        
-        return cleaned_data
-
 class UserProfileForm(forms.ModelForm):
-    """User profile update form"""
+    """Form for editing user profile"""
     class Meta:
         model = UserProfile
-        fields = ['phone_number', 'address', 'city', 'province', 'postal_code', 'birth_date', 'profile_image']
+        fields = ['phone_number', 'birth_date', 'avatar', 'bio']
         widgets = {
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'شماره تلفن'
-            }),
-            'address': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': 'آدرس کامل'
-            }),
-            'city': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'شهر'
-            }),
-            'province': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'استان'
-            }),
-            'postal_code': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'کد پستی'
+                'placeholder': 'شماره تلفن خود را وارد کنید'
             }),
             'birth_date': forms.DateInput(attrs={
                 'class': 'form-control',
                 'type': 'date'
             }),
-            'profile_image': forms.FileInput(attrs={
-                'class': 'form-control'
+            'avatar': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            }),
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'درباره خود بنویسید...'
             })
         }
+
+class UserAddressForm(forms.ModelForm):
+    """Form for managing user addresses"""
+    class Meta:
+        model = UserAddress
+        fields = ['title', 'full_address', 'city', 'state', 'is_default']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'عنوان آدرس (مثل خانه، محل کار)'
+            }),
+            'full_address': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'آدرس کامل خود را وارد کنید'
+            }),
+            'city': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'شهر'
+            }),
+            'state': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'استان'
+            }),
+            'is_default': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            })
+        }
+
+class CheckoutForm(forms.ModelForm):
+    """Updated checkout form with address selection"""
+    address = forms.ModelChoiceField(
+        queryset=UserAddress.objects.none(),
+        empty_label="آدرس مورد نظر را انتخاب کنید",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    postal_code = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'کد پستی را وارد کنید'
+        })
+    )
+    
+    class Meta:
+        model = Order
+        fields = ['delivery_method', 'notes']
+        widgets = {
+            'delivery_method': forms.Select(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'توضیحات اضافی (اختیاری)'
+            })
+        }
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['address'].queryset = UserAddress.objects.filter(user=user)
 
 class CommentForm(forms.ModelForm):
     """Product review form"""

@@ -22,6 +22,7 @@ from .error_handling import (
 import json
 import logging
 from django.conf import settings
+from decimal import Decimal
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -399,131 +400,158 @@ def product_list(request, category_id=None):
 
 @login_required
 def user_profile(request):
-    profile, created = UserProfile.objects.get_or_create(user=request.user)
-    
-    if request.method == 'POST':
-        # Check if any data actually changed to avoid unnecessary notifications
-        old_phone = profile.phone_number
-        old_address = profile.address
-        old_postal = profile.postal_code
-        old_city = profile.city
-        old_province = profile.province
-        old_national = profile.national_code
+    """Enhanced user profile view with address management"""
+    try:
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        if created:
+            messages.info(request, 'پروفایل شما ایجاد شد. لطفاً اطلاعات خود را تکمیل کنید.')
         
-        # Update all profile information in one go
-        profile.phone_number = request.POST.get('phone_number', '')
-        profile.address = request.POST.get('address', '')
-        profile.postal_code = request.POST.get('postal_code', '')
-        profile.city = request.POST.get('city', '')
-        profile.province = request.POST.get('province', '')
-        profile.national_code = request.POST.get('national_code', '')
+        # Get or create loyalty program
+        loyalty, _ = LoyaltyProgram.objects.get_or_create(user=request.user)
         
-        # Handle birth date
-        birth_date_str = request.POST.get('birth_date', '')
-        if birth_date_str:
-            try:
-                profile.birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
-            except ValueError:
-                pass
+        # Get recent orders (last 5)
+        recent_orders = Order.objects.filter(user=request.user).order_by('-created_at')[:5]
         
-        # Handle profile image
-        if 'profile_image' in request.FILES:
-            profile.profile_image = request.FILES['profile_image']
+        # Get user statistics
+        total_orders = Order.objects.filter(user=request.user).count()
+        total_spent = Order.objects.filter(
+            user=request.user, 
+            status__in=['paid', 'processing', 'shipped', 'delivered']
+        ).aggregate(total=Sum('total_amount'))['total'] or 0
         
-        profile.save()
+        favorite_count = ProductFavorite.objects.filter(user=request.user).count()
         
-        # Only create notification if significant data changed
-        data_changed = (
-            old_phone != profile.phone_number or
-            old_address != profile.address or
-            old_postal != profile.postal_code or
-            old_city != profile.city or
-            old_province != profile.province or
-            old_national != profile.national_code
-        )
+        context = {
+            'profile': profile,
+            'loyalty': loyalty,
+            'recent_orders': recent_orders,
+            'total_orders': total_orders,
+            'total_spent': total_spent,
+            'favorite_count': favorite_count,
+        }
         
-        if data_changed:
-            # Create notification for profile update
-            Notification.objects.create(
-                user=request.user,
-                notification_type='profile_update',
-                title='پروفایل بروزرسانی شد',
-                message='اطلاعات پروفایل شما با موفقیت بروزرسانی شد.'
-            )
+        return render(request, 'shop/user_profile.html', context)
         
-        messages.success(request, 'پروفایل شما با موفقیت بروزرسانی شد.')
+    except Exception as e:
+        logger.error(f"Error in user_profile view: {str(e)}")
+        messages.error(request, 'خطایی در نمایش پروفایل رخ داد.')
+        return redirect('home')
+
+@login_required
+def edit_profile(request):
+    """Edit user profile information"""
+    try:
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'پروفایل شما با موفقیت به‌روزرسانی شد.')
+                return redirect('user_profile')
+            else:
+                messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
+        else:
+            form = UserProfileForm(instance=profile)
+        
+        context = {
+            'form': form,
+            'profile': profile,
+        }
+        
+        return render(request, 'shop/edit_profile.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in edit_profile view: {str(e)}")
+        messages.error(request, 'خطایی در ویرایش پروفایل رخ داد.')
         return redirect('user_profile')
-    
-    # Get user's orders
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    
-    # Get unread notifications count
-    unread_notifications = Notification.objects.filter(user=request.user, is_read=False).count()
-    
-    # Dashboard statistics
-    favorite_count = ProductFavorite.objects.filter(user=request.user).count()
-    total_spent = sum(order.total_amount for order in orders if order.status in ['paid', 'processing', 'shipped', 'delivered'])
-    completed_orders = orders.filter(status='delivered').count()
-    
-    # Get user's favorite products
-    user_favorites = ProductFavorite.objects.filter(user=request.user).select_related('product')[:6]
-    
-    # Get recent activities (orders, notifications, favorites)
-    recent_activities = []
-    
-    # Add recent orders
-    for order in orders[:3]:
-        recent_activities.append({
-            'type': 'order',
-            'title': f'سفارش #{order.id} ثبت شد',
-            'time': order.created_at
-        })
-    
-    # Add recent notifications
-    recent_notifications = Notification.objects.filter(user=request.user).order_by('-created_at')[:3]
-    for notification in recent_notifications:
-        recent_activities.append({
-            'type': 'notification',
-            'title': notification.title,
-            'time': notification.created_at
-        })
-    
-    # Add recent favorites
-    recent_favorites = ProductFavorite.objects.filter(user=request.user).select_related('product').order_by('-created_at')[:3]
-    for favorite in recent_favorites:
-        recent_activities.append({
-            'type': 'favorite',
-            'title': f'"{favorite.product.name}" به علاقه‌مندی‌ها اضافه شد',
-            'time': favorite.created_at
-        })
-    
-    # Sort activities by time (most recent first)
-    recent_activities.sort(key=lambda x: x['time'], reverse=True)
-    recent_activities = recent_activities[:5]  # Limit to 5 most recent activities
-    
-    # Get loyalty program information
-    loyalty, _ = LoyaltyProgram.objects.get_or_create(user=request.user)
-    
-    # Get recent orders for display
-    recent_orders = orders[:5]
-    
-    # Get favorite products for display
-    favorite_products = user_favorites[:4]
-    
-    return render(request, 'shop/user_profile.html', {
-        'profile': profile,
-        'orders': orders,
-        'recent_orders': recent_orders,
-        'unread_notifications': unread_notifications,
-        'favorite_count': favorite_count,
-        'favorite_products': favorite_products,
-        'total_orders': orders.count(),
-        'total_spent': total_spent,
-        'completed_orders': completed_orders,
-        'user_favorites': user_favorites,
-        'recent_activities': recent_activities,
-        'loyalty': loyalty
-    })
+
+@login_required
+def add_address(request):
+    """Add new address for user"""
+    try:
+        if request.method == 'POST':
+            form = UserAddressForm(request.POST)
+            if form.is_valid():
+                address = form.save(commit=False)
+                address.user = request.user
+                address.save()
+                messages.success(request, 'آدرس جدید با موفقیت اضافه شد.')
+                return redirect('user_profile')
+            else:
+                messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
+        else:
+            form = UserAddressForm()
+        
+        context = {
+            'form': form,
+            'title': 'افزودن آدرس جدید',
+        }
+        
+        return render(request, 'shop/address_form.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in add_address view: {str(e)}")
+        messages.error(request, 'خطایی در افزودن آدرس رخ داد.')
+        return redirect('user_profile')
+
+@login_required
+def edit_address(request, address_id):
+    """Edit existing address"""
+    try:
+        address = get_object_or_404(UserAddress, id=address_id, user=request.user)
+        
+        if request.method == 'POST':
+            form = UserAddressForm(request.POST, instance=address)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'آدرس با موفقیت به‌روزرسانی شد.')
+                return redirect('user_profile')
+            else:
+                messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
+        else:
+            form = UserAddressForm(instance=address)
+        
+        context = {
+            'form': form,
+            'address': address,
+            'title': 'ویرایش آدرس',
+        }
+        
+        return render(request, 'shop/address_form.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in edit_address view: {str(e)}")
+        messages.error(request, 'خطایی در ویرایش آدرس رخ داد.')
+        return redirect('user_profile')
+
+@login_required
+def delete_address(request, address_id):
+    """Delete user address"""
+    try:
+        address = get_object_or_404(UserAddress, id=address_id, user=request.user)
+        
+        # Prevent deletion of default address if it's the only one
+        if address.is_default and UserAddress.objects.filter(user=request.user).count() == 1:
+            messages.error(request, 'نمی‌توانید تنها آدرس خود را حذف کنید.')
+            return redirect('user_profile')
+        
+        address.delete()
+        messages.success(request, 'آدرس با موفقیت حذف شد.')
+        
+        # If deleted address was default, make another address default
+        if address.is_default:
+            first_address = UserAddress.objects.filter(user=request.user).first()
+            if first_address:
+                first_address.is_default = True
+                first_address.save()
+        
+        return redirect('user_profile')
+        
+    except Exception as e:
+        logger.error(f"Error in delete_address view: {str(e)}")
+        messages.error(request, 'خطایی در حذف آدرس رخ داد.')
+        return redirect('user_profile')
 
 @login_required
 def order_history(request):
@@ -968,33 +996,47 @@ def profile(request):
 
 @login_required
 def checkout(request):
-    """Beautiful checkout process with multiple payment options"""
+    """Enhanced checkout with address selection"""
     try:
-        cart = request.user.cart
-        cart_items = cart.items.select_related('product').all()
+        cart = get_object_or_404(Cart, user=request.user)
         
-        if not cart_items.exists():
-            messages.warning(request, 'سبد خرید شما خالی است!')
+        if not cart.items.exists():
+            messages.warning(request, 'سبد خرید شما خالی است.')
             return redirect('cart')
         
+        # Check if user has any addresses
+        user_addresses = UserAddress.objects.filter(user=request.user)
+        if not user_addresses.exists():
+            messages.info(request, 'لطفاً ابتدا آدرس خود را ثبت کنید.')
+            return redirect('add_address')
+        
         if request.method == 'POST':
-            form = CheckoutForm(request.POST)
+            form = CheckoutForm(request.POST, user=request.user)
             if form.is_valid():
+                selected_address = form.cleaned_data['address']
+                postal_code = form.cleaned_data['postal_code']
+                
                 # Create order
                 order = Order.objects.create(
                     user=request.user,
                     delivery_method=form.cleaned_data['delivery_method'],
-                    shipping_address=form.cleaned_data['shipping_address'],
-                    postal_code=form.cleaned_data['postal_code'],
-                    phone_number=form.cleaned_data['phone_number'],
+                    shipping_address=f"{selected_address.full_address}, {selected_address.city}, {selected_address.state}",
+                    postal_code=postal_code,
+                    phone_number=request.user.profile.phone_number or '',
                     notes=form.cleaned_data.get('notes', ''),
                     subtotal=cart.get_total_price(),
-                    delivery_fee=50000 if cart.get_total_price() < 500000 else 0,
-                    total_amount=cart.get_total_price() + (50000 if cart.get_total_price() < 500000 else 0)
+                    total_amount=cart.get_total_price()
                 )
                 
+                # Add delivery fee if needed
+                if form.cleaned_data['delivery_method'] == 'post':
+                    delivery_fee = Decimal('50000')  # 50,000 Toman
+                    order.delivery_fee = delivery_fee
+                    order.total_amount += delivery_fee
+                    order.save()
+                
                 # Create order items
-                for cart_item in cart_items:
+                for cart_item in cart.items.all():
                     OrderItem.objects.create(
                         order=order,
                         product=cart_item.product,
@@ -1005,24 +1047,39 @@ def checkout(request):
                 # Clear cart
                 cart.items.all().delete()
                 
-                messages.success(request, f'سفارش شما با موفقیت ثبت شد! شماره سفارش: {order.id}')
-                return redirect('order_detail', order_id=order.id)
+                # Create notification
+                Notification.create_notification(
+                    user=request.user,
+                    notification_type='order',
+                    title='سفارش جدید ثبت شد',
+                    message=f'سفارش شما با شماره {order.id} با موفقیت ثبت شد.',
+                    related_object=order
+                )
+                
+                messages.success(request, f'سفارش شما با شماره {order.id} با موفقیت ثبت شد.')
+                return redirect('order_detail', order.id)
+            else:
+                messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
         else:
-            form = CheckoutForm()
+            form = CheckoutForm(user=request.user)
+            # Set default address if exists
+            default_address = user_addresses.filter(is_default=True).first()
+            if default_address:
+                form.fields['address'].initial = default_address
         
         context = {
-            'cart_items': cart_items,
-            'subtotal': cart.get_total_price(),
-            'delivery_fee': 50000 if cart.get_total_price() < 500000 else 0,
-            'total': cart.get_total_price() + (50000 if cart.get_total_price() < 500000 else 0),
-            'form': form
+            'form': form,
+            'cart': cart,
+            'user_addresses': user_addresses,
+            'total_price': cart.get_total_price(),
         }
         
         return render(request, 'shop/checkout.html', context)
         
-    except Cart.DoesNotExist:
-        messages.error(request, 'سبد خرید یافت نشد!')
-        return redirect('product_list')
+    except Exception as e:
+        logger.error(f"Error in checkout view: {str(e)}")
+        messages.error(request, 'خطایی در پردازش سفارش رخ داد.')
+        return redirect('cart')
 
 @login_required
 def order_detail(request, order_id):

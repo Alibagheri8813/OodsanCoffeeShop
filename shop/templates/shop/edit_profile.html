@@ -1,0 +1,392 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل | کافی شاپ{% endblock %}
+
+{% block extra_head %}
+<style>
+:root {
+    --primary-coffee: #4B2E2B;
+    --secondary-coffee: #7B3F00;
+    --accent-coffee: #C97C5D;
+    --light-coffee: #F3E9DC;
+    --cream: #FFF8F0;
+    --gold: #D4AF37;
+    --gradient-primary: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255,248,240,0.95) 0%, rgba(243,233,220,0.95) 100%);
+    --shadow-premium: 0 20px 40px rgba(75, 46, 43, 0.15);
+}
+
+body {
+    background: var(--gradient-primary);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.form-card {
+    background: var(--gradient-card);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--accent-coffee) 100%);
+    border-radius: 25px 25px 0 0;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-coffee);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.form-subtitle {
+    color: var(--secondary-coffee);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.profile-avatar-section {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.current-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--gold);
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(75,46,43,0.3);
+}
+
+.avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--light-coffee) 0%, var(--cream) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--secondary-coffee);
+    border: 4px solid var(--gold);
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 25px rgba(75,46,43,0.3);
+}
+
+.avatar-upload-text {
+    color: var(--primary-coffee);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group-full {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-coffee);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--primary-coffee);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.form-control::placeholder {
+    color: var(--secondary-coffee);
+    opacity: 0.6;
+}
+
+.file-input {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold) 0%, #B8860B 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, #B8860B 0%, var(--gold) 100%);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--primary-coffee);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.error-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+}
+
+.error-list li {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    border-left: 4px solid #dc3545;
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: var(--secondary-coffee);
+    opacity: 0.7;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+    
+    .form-card {
+        padding: 25px;
+    }
+    
+    .form-title {
+        font-size: 1.8rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h1 class="form-title">
+                <i class="fas fa-user-edit" style="color: var(--gold);"></i>
+                ویرایش پروفایل
+            </h1>
+            <p class="form-subtitle">اطلاعات شخصی خود را بروزرسانی کنید</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            
+            <!-- Avatar Section -->
+            <div class="profile-avatar-section">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="پروفایل فعلی" class="current-avatar">
+                {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {% endif %}
+                <div class="avatar-upload-text">عکس پروفایل</div>
+                <div class="form-group">
+                    {{ form.avatar }}
+                    {% if form.avatar.errors %}
+                        <ul class="error-list">
+                            {% for error in form.avatar.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        فرمت‌های مجاز: JPG, PNG, GIF - حداکثر ۵ مگابایت
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="id_phone_number" class="form-label">
+                        <i class="fas fa-phone" style="margin-left: 5px; color: var(--gold);"></i>
+                        شماره تلفن
+                    </label>
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <ul class="error-list">
+                            {% for error in form.phone_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        برای تماس در مورد سفارشات
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_birth_date" class="form-label">
+                        <i class="fas fa-birthday-cake" style="margin-left: 5px; color: var(--gold);"></i>
+                        تاریخ تولد
+                    </label>
+                    {{ form.birth_date }}
+                    {% if form.birth_date.errors %}
+                        <ul class="error-list">
+                            {% for error in form.birth_date.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        برای تخفیف‌های ویژه تولد
+                    </div>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="id_bio" class="form-label">
+                        <i class="fas fa-user-circle" style="margin-left: 5px; color: var(--gold);"></i>
+                        درباره من
+                    </label>
+                    {{ form.bio }}
+                    {% if form.bio.errors %}
+                        <ul class="error-list">
+                            {% for error in form.bio.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        یک توضیح کوتاه درباره خودتان بنویسید
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    ذخیره تغییرات
+                </button>
+                <a href="{% url 'user_profile' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    لغو
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
