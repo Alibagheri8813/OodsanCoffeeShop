@@ -9549,3 +9549,4 @@ Traceback (most recent call last):
   File "/home/ubuntu/.local/lib/python3.13/site-packages/django/http/request.py", line 202, in get_host
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+INFO 2025-08-03 11:33:13,903 autoreload 2693 140235839906048 Watching for file changes with StatReloader

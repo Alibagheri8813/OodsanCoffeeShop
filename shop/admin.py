@@ -332,8 +332,11 @@ class UserProfileAdmin(admin.ModelAdmin):
         ('آدرس', {
             'fields': ('address', 'city', 'province', 'postal_code')
         }),
+        ('اطلاعات اضافی', {
+            'fields': ('bio',)
+        }),
         ('تصویر پروفایل', {
-            'fields': ('profile_image',),
+            'fields': ('avatar',),
             'classes': ('collapse',)
         }),
         ('آمار', {
@@ -389,10 +392,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     total_spent.short_description = 'مجموع خرید'
     
     def profile_image_preview(self, obj):
-        if obj.profile_image:
+        if obj.avatar:
             return format_html(
                 '<img src="{}" style="max-height: 50px; max-width: 50px; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />', 
-                obj.profile_image.url
+                obj.avatar.url
             )
         return format_html('<span style="color: #999;">بدون تصویر</span>')
     profile_image_preview.short_description = 'تصویر پروفایل'

@@ -162,6 +162,10 @@ class UserProfile(models.Model):
     birth_date = models.DateField(null=True, blank=True, verbose_name='تاریخ تولد')
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='عکس پروفایل')
     bio = models.TextField(max_length=500, blank=True, verbose_name='درباره من')
+    city = models.CharField(max_length=100, blank=True, verbose_name='شهر')
+    province = models.CharField(max_length=100, blank=True, verbose_name='استان')
+    address = models.TextField(blank=True, verbose_name='آدرس')
+    postal_code = models.CharField(max_length=10, blank=True, verbose_name='کد پستی')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
