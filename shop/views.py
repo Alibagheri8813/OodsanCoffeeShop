@@ -219,7 +219,7 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 
 def product_list(request, category_id=None):
-    """Enhanced product list with better search and filters"""
+    """Enhanced product list with better search, filters, and pagination - SINGLE UNIFIED VERSION"""
     # Safe category loading to prevent recursion
     try:
         categories = Category.objects.filter(parent=None).select_related('parent')
@@ -231,13 +231,19 @@ def product_list(request, category_id=None):
     # Optimize product queries with select_related and prefetch_related
     products = Product.objects.select_related('category').prefetch_related('likes', 'favorites')
     
-    # Category filter
+    # Category filter (support both URL parameter and GET parameter)
     if category_id:
         category = get_object_or_404(Category, id=category_id)
         products = products.filter(category=category)
+    elif request.GET.get('category'):
+        try:
+            cat_id = int(request.GET.get('category'))
+            products = products.filter(category_id=cat_id)
+        except (ValueError, TypeError):
+            pass
     
-    # Enhanced search with database indexes
-    query = request.GET.get('q', '')
+    # Enhanced search with database indexes (support both 'q' and 'search' parameters)
+    query = request.GET.get('q', '') or request.GET.get('search', '')
     if query:
         products = products.filter(
             Q(name__icontains=query) | 
@@ -269,8 +275,16 @@ def product_list(request, category_id=None):
         products = products.order_by('-created_at', 'name')
     elif sort_by == 'name':
         products = products.order_by('name')
+    elif sort_by == 'popular':
+        products = products.annotate(like_count=Count('likes')).order_by('-like_count', 'name')
     else:  # default: featured first
         products = products.order_by('-featured', '-created_at', 'name')
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(products, 12)  # 12 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
     # Check if products are in user's favorites
     user_favorites = set()
@@ -280,18 +294,24 @@ def product_list(request, category_id=None):
         ).values_list('product_id', flat=True))
     
     context = {
-        'products': products,
+        'products': page_obj,  # Use paginated products
         'categories': categories,
         'query': query,
-        'selected_category': category_id,
+        'search_query': query,  # Support both variable names
+        'selected_category': category_id or request.GET.get('category'),
         'user_favorites': user_favorites,
         'sort_options': [
+            ('featured', 'پیشنهادی'),
             ('name', 'نام'),
             ('price_low', 'قیمت: کم به زیاد'),
             ('price_high', 'قیمت: زیاد به کم'),
-            ('newest', 'جدیدترین')
+            ('newest', 'جدیدترین'),
+            ('popular', 'محبوب‌ترین')
         ],
-        'current_sort': sort_by
+        'current_sort': sort_by,
+        'sort_by': sort_by,  # Support both variable names
+        'min_price': min_price,
+        'max_price': max_price
     }
     return render(request, 'shop/product_list.html', context)
 
@@ -788,65 +808,7 @@ def cart_count(request):
     return JsonResponse({'count': count})
 
 # ===== ENHANCED PRODUCT VIEWS =====
-
-def product_list(request):
-    """Enhanced product list with search, filters, and pagination"""
-    products = Product.objects.select_related('category').prefetch_related('likes', 'favorites')
-    
-    # Search functionality
-    search_query = request.GET.get('search', '')
-    if search_query:
-        products = products.filter(
-            Q(name__icontains=search_query) |
-            Q(description__icontains=search_query) |
-            Q(category__name__icontains=search_query)
-        )
-    
-    # Category filter
-    category_id = request.GET.get('category')
-    if category_id:
-        products = products.filter(category_id=category_id)
-    
-    # Price filter
-    min_price = request.GET.get('min_price')
-    max_price = request.GET.get('max_price')
-    if min_price:
-        products = products.filter(price__gte=min_price)
-    if max_price:
-        products = products.filter(price__lte=max_price)
-    
-    # Sort options
-    sort_by = request.GET.get('sort', 'name')
-    if sort_by == 'price_low':
-        products = products.order_by('price')
-    elif sort_by == 'price_high':
-        products = products.order_by('-price')
-    elif sort_by == 'newest':
-        products = products.order_by('-created_at')
-    elif sort_by == 'popular':
-        products = products.annotate(like_count=Count('likes')).order_by('-like_count')
-    else:
-        products = products.order_by('name')
-    
-    # Pagination
-    paginator = Paginator(products, 12)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    # Get categories for filter
-    categories = Category.objects.all()
-    
-    context = {
-        'products': page_obj,
-        'categories': categories,
-        'search_query': search_query,
-        'selected_category': category_id,
-        'sort_by': sort_by,
-        'min_price': min_price,
-        'max_price': max_price
-    }
-    
-    return render(request, 'shop/product_list.html', context)
+# Note: Duplicate product_list function removed to prevent recursion conflicts
 
 def product_detail(request, product_id):
     """Enhanced product detail with related products and reviews"""

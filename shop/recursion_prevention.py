@@ -92,14 +92,14 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'error': 'خطای بازگشت بی‌نهایت شناسایی شد.',
-                'redirect': '/shop/',
+                'redirect': '/home/',  # Safer fallback - go to home instead of shop
                 'success': False
             }, status=500)
         
         # For regular requests, render error page
         context = {
             'error_message': 'متأسفانه خطای بازگشت بی‌نهایت شناسایی شد.',
-            'safe_url': '/shop/',
+            'safe_url': '/home/',  # Safer fallback - go to home instead of shop
             'problematic_path': path
         }
         
@@ -111,18 +111,47 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
             <!DOCTYPE html>
             <html dir="rtl">
             <head>
-                <title>خطای سیستم</title>
+                <title>⚠️ خطای سیستم</title>
                 <meta charset="utf-8">
                 <style>
-                    body {{ font-family: 'Vazirmatn', Arial; text-align: center; margin: 50px; }}
-                    .error {{ background: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px; }}
+                    body {{ 
+                        font-family: 'Vazirmatn', Arial, sans-serif; 
+                        text-align: center; 
+                        margin: 50px;
+                        background: #f8f9fa;
+                        color: #333;
+                    }}
+                    .error {{ 
+                        background: #f8d7da; 
+                        color: #721c24; 
+                        padding: 30px; 
+                        border-radius: 10px; 
+                        border: 2px solid #f5c6cb;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    }}
+                    .error h1 {{ margin-bottom: 20px; }}
+                    .error p {{ margin: 15px 0; font-size: 16px; }}
+                    .error a {{ 
+                        display: inline-block; 
+                        background: #007bff; 
+                        color: white; 
+                        padding: 10px 20px; 
+                        text-decoration: none; 
+                        border-radius: 5px; 
+                        margin-top: 20px;
+                    }}
+                    .error a:hover {{ background: #0056b3; }}
                 </style>
             </head>
             <body>
                 <div class="error">
-                    <h1>خطای سیستم</h1>
+                    <h1>⚠️ خطای سیستم</h1>
                     <p>متأسفانه خطای بازگشت بی‌نهایت شناسایی شد.</p>
-                    <a href="/shop/">بازگشت به صفحه اصلی</a>
+                    <p><strong>مسیر مشکل‌دار:</strong> {path}</p>
+                    <p>لطفاً از لینک زیر برای بازگشت به صفحه اصلی استفاده کنید:</p>
+                    <a href="/home/">بازگشت به صفحه اصلی</a>
                 </div>
             </body>
             </html>
@@ -136,13 +165,29 @@ class SafeURLRedirectMiddleware(MiddlewareMixin):
     
     def process_request(self, request):
         """
-        Check for problematic URL patterns
+        Check for problematic URL patterns and handle safely
         """
         path = request.path
         
         # If accessing root and there's a loop risk, redirect to safe path
         if path == '/' and request.GET.get('loop_prevention'):
             return HttpResponse("Loop prevention activated", status=200)
+        
+        # Handle specific problematic patterns
+        if path == '/shop/':
+            # Check if this is causing recursion issues
+            referer = request.META.get('HTTP_REFERER', '')
+            
+            # If coming from video intro, this is expected
+            if 'from=video_intro' in request.GET.urlencode():
+                return None  # Allow normal processing
+            
+            # If the referer is also /shop/, this might be a loop
+            if referer.endswith('/shop/') and 'loop_prevention' not in request.GET:
+                logger.warning(f"Potential /shop/ loop detected from referer: {referer}")
+                # Add a marker to prevent further loops
+                from django.shortcuts import redirect
+                return redirect('/home/?shop_redirect=1')
         
         # Add loop prevention parameter for potentially problematic paths
         if path in ['/', '/home/'] and 'loop_prevention' not in request.GET:
@@ -151,6 +196,6 @@ class SafeURLRedirectMiddleware(MiddlewareMixin):
             if 'video_intro' in referer or path == '/':
                 # Safe redirect to avoid loops
                 from django.shortcuts import redirect
-                return redirect('/shop/')
+                return redirect('/shop/?from=safe_redirect')
         
         return None
