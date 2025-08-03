@@ -16,6 +16,10 @@ from datetime import datetime, timedelta
 from .models import *
 from .forms import *
 import json
+import logging
+
+# Get logger for this module
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -193,7 +197,11 @@ def product_detail(request, product_id):
     context = {
         'product': product,
         'comments': comments,
+        'reviews': comments,  # For template compatibility
         'like_count': like_count,
+        'total_likes': like_count,
+        'total_favorites': product.favorites.count(),
+        'total_reviews': comments.count(),
         'user_liked': user_liked,
         'user_favorites': user_favorites,
     }
