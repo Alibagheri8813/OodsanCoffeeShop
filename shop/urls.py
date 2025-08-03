@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from . import ai_assistant
+# from . import ai_assistant
 from . import advanced_views
 # from django.contrib.auth import views as auth_views
 
@@ -53,16 +53,16 @@ urlpatterns = [
     path('ai-assistant/', views.ai_assistant_view, name='ai_assistant'),
     
     # Text-based AI Chat
-    path('ai/chat/', ai_assistant.ai_chat, name='ai_chat'),
+    # path('ai/chat/', ai_assistant.ai_chat, name='ai_chat'),
     
     # Voice-based AI Chat
-    path('ai/voice/', ai_assistant.voice_chat, name='voice_chat'),
+    # path('ai/voice/', ai_assistant.voice_chat, name='voice_chat'),
     
     # Speech-to-Text
-    path('ai/speech-to-text/', ai_assistant.speech_to_text, name='speech_to_text'),
+    # path('ai/speech-to-text/', ai_assistant.speech_to_text, name='speech_to_text'),
     
     # Text-to-Speech
-    path('ai/text-to-speech/', ai_assistant.text_to_speech, name='text_to_speech'),
+    # path('ai/text-to-speech/', ai_assistant.text_to_speech, name='text_to_speech'),
     
     # ===== PHASE 3: ADVANCED FEATURES =====
     

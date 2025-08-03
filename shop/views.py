@@ -209,43 +209,61 @@ def favorite_products(request):
     }
     return render(request, 'shop/favorite_products.html', context)
 
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
 def product_list(request, category_id=None):
     """Enhanced product list with better search and filters"""
-    categories = Category.objects.filter(parent=None)
-    products = Product.objects.all()
+    # Cache categories for better performance
+    cache_key = 'categories_list'
+    categories = cache.get(cache_key)
+    if categories is None:
+        categories = Category.objects.filter(parent=None).prefetch_related('children')
+        cache.set(cache_key, categories, 300)  # Cache for 5 minutes
+    
+    # Optimize product queries with select_related and prefetch_related
+    products = Product.objects.select_related('category').prefetch_related('likes', 'favorites')
     
     # Category filter
     if category_id:
         category = get_object_or_404(Category, id=category_id)
         products = products.filter(category=category)
     
-    # Enhanced search
+    # Enhanced search with database indexes
     query = request.GET.get('q', '')
     if query:
         products = products.filter(
             Q(name__icontains=query) | 
             Q(description__icontains=query) |
             Q(category__name__icontains=query)
-        )
+        ).distinct()
     
     # Price filter
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     if min_price:
-        products = products.filter(price__gte=min_price)
+        try:
+            products = products.filter(price__gte=int(min_price))
+        except ValueError:
+            pass
     if max_price:
-        products = products.filter(price__lte=max_price)
+        try:
+            products = products.filter(price__lte=int(max_price))
+        except ValueError:
+            pass
     
-    # Sort options
-    sort_by = request.GET.get('sort', 'name')
+    # Sort options with optimized ordering
+    sort_by = request.GET.get('sort', 'featured')
     if sort_by == 'price_low':
-        products = products.order_by('price')
+        products = products.order_by('price', 'name')
     elif sort_by == 'price_high':
-        products = products.order_by('-price')
+        products = products.order_by('-price', 'name')
     elif sort_by == 'newest':
-        products = products.order_by('-created_at')
-    else:  # default: name
+        products = products.order_by('-created_at', 'name')
+    elif sort_by == 'name':
         products = products.order_by('name')
+    else:  # default: featured first
+        products = products.order_by('-featured', '-created_at', 'name')
     
     # Check if products are in user's favorites
     user_favorites = set()

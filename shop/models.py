@@ -12,15 +12,23 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, db_index=True)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=0)
+    price = models.DecimalField(max_digits=10, decimal_places=0, db_index=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    stock = models.IntegerField(default=0)
-    featured = models.BooleanField(default=False, verbose_name='ویژه')
-    created_at = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True)
+    stock = models.IntegerField(default=0, db_index=True)
+    featured = models.BooleanField(default=False, verbose_name='ویژه', db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['category', '-created_at']),
+            models.Index(fields=['featured', '-created_at']),
+            models.Index(fields=['price']),
+        ]
 
     def __str__(self):
         return self.name

@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from shop.views import *
 from shop.admin_views import *
-from shop.ai_assistant import ai_chat, voice_chat
+# from shop.ai_assistant import ai_chat, voice_chat
 
 urlpatterns = [
     # Admin URLs (must come before admin.site.urls)
@@ -47,8 +47,8 @@ urlpatterns = [
     path('shop/profile/notifications/mark-all-read/', mark_all_notifications_read, name='user_mark_all_notifications_read'),
     
     # AI Assistant URLs
-    path('ai/chat/', ai_chat, name='ai_chat'),
-    path('ai/voice/', voice_chat, name='voice_chat'),
+    # path('ai/chat/', ai_chat, name='ai_chat'),
+    # path('ai/voice/', voice_chat, name='voice_chat'),
 ]
 
 if settings.DEBUG:
