@@ -167,10 +167,12 @@ def product_detail(request, product_id):
     
     # Check if product is in user's favorites
     user_favorites = set()
+    user_favorited = False
     if request.user.is_authenticated:
         user_favorites = set(ProductFavorite.objects.filter(
             user=request.user
         ).values_list('product_id', flat=True))
+        user_favorited = product.id in user_favorites
     
     # Handle POST requests for comments and likes
     if request.method == 'POST':
@@ -203,6 +205,7 @@ def product_detail(request, product_id):
         'total_favorites': product.favorites.count(),
         'total_reviews': comments.count(),
         'user_liked': user_liked,
+        'user_favorited': user_favorited,
         'user_favorites': user_favorites,
     }
     return render(request, 'shop/product_detail.html', context)
@@ -458,15 +461,28 @@ def user_profile(request):
     recent_activities.sort(key=lambda x: x['time'], reverse=True)
     recent_activities = recent_activities[:5]  # Limit to 5 most recent activities
     
+    # Get loyalty program information
+    loyalty, _ = LoyaltyProgram.objects.get_or_create(user=request.user)
+    
+    # Get recent orders for display
+    recent_orders = orders[:5]
+    
+    # Get favorite products for display
+    favorite_products = user_favorites[:4]
+    
     return render(request, 'shop/user_profile.html', {
         'profile': profile,
         'orders': orders,
+        'recent_orders': recent_orders,
         'unread_notifications': unread_notifications,
         'favorite_count': favorite_count,
+        'favorite_products': favorite_products,
+        'total_orders': orders.count(),
         'total_spent': total_spent,
         'completed_orders': completed_orders,
         'user_favorites': user_favorites,
-        'recent_activities': recent_activities
+        'recent_activities': recent_activities,
+        'loyalty': loyalty
     })
 
 @login_required
@@ -680,9 +696,15 @@ def cart_view(request):
 
 # ===== SENSATIONAL SHOPPING CART SYSTEM =====
 
-@login_required
 def add_to_cart(request):
     """Add product to cart with AJAX support"""
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'برای افزودن به سبد خرید باید وارد شوید',
+            'redirect': '/login/'
+        })
+    
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -1018,9 +1040,15 @@ def order_list(request):
 
 # ===== SOCIAL FEATURES =====
 
-@login_required
 def toggle_like(request):
     """Toggle product like with AJAX"""
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'برای لایک کردن محصول باید وارد شوید',
+            'redirect': '/login/'
+        })
+    
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -1054,9 +1082,15 @@ def toggle_like(request):
     
     return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
 
-@login_required
 def toggle_favorite(request):
     """Toggle product favorite with AJAX"""
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'برای اضافه کردن به علاقه‌مندی‌ها باید وارد شوید',
+            'redirect': '/login/'
+        })
+    
     if request.method == 'POST':
         try:
             data = json.loads(request.body)

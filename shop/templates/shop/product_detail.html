@@ -689,6 +689,7 @@ function addToCart() {
             // Update stock display
             const stockStatus = document.querySelector('.stock-status');
             const newStock = maxStock - quantity;
+            maxStock = newStock; // Update the global maxStock variable
             
             if (newStock > 10) {
                 stockStatus.className = 'stock-status in-stock';
@@ -696,22 +697,32 @@ function addToCart() {
             } else if (newStock > 0) {
                 stockStatus.className = 'stock-status low-stock';
                 stockStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> کم موجودی (${newStock} عدد)`;
+                // Update max quantity in input
+                document.getElementById('quantity-input').max = newStock;
             } else {
                 stockStatus.className = 'stock-status out-of-stock';
                 stockStatus.innerHTML = '<i class="fas fa-times-circle"></i> ناموجود';
                 button.disabled = true;
                 button.innerHTML = '<i class="fas fa-times"></i> ناموجود';
+                document.getElementById('quantity-input').max = 0;
             }
         } else {
             showMessage(data.message, 'error');
+            if (data.redirect) {
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1500);
+            }
         }
     })
     .catch(error => {
+        console.error('Cart error:', error);
         showMessage('خطا در افزودن به سبد خرید', 'error');
     })
     .finally(() => {
-        button.disabled = false;
-        button.innerHTML = '<i class="fas fa-shopping-cart"></i> افزودن به سبد خرید';
+        if (!button.disabled) {
+            button.innerHTML = '<i class="fas fa-shopping-cart"></i> افزودن به سبد خرید';
+        }
     });
 }
 
@@ -737,9 +748,21 @@ function toggleLike() {
             
             // Update stats
             document.querySelector('.stat-number').textContent = data.total_likes;
+            
+            // Show success message
+            const message = data.is_liked ? 'محصول لایک شد' : 'لایک حذف شد';
+            showMessage(message, 'success');
+        } else {
+            showMessage(data.message, 'error');
+            if (data.redirect) {
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1500);
+            }
         }
     })
     .catch(error => {
+        console.error('Like error:', error);
         showMessage('خطا در ثبت لایک', 'error');
     });
 }
@@ -766,9 +789,21 @@ function toggleFavorite() {
             
             // Update stats
             document.querySelectorAll('.stat-number')[1].textContent = data.total_favorites;
+            
+            // Show success message
+            const message = data.is_favorited ? 'به علاقه‌مندی‌ها اضافه شد' : 'از علاقه‌مندی‌ها حذف شد';
+            showMessage(message, 'success');
+        } else {
+            showMessage(data.message, 'error');
+            if (data.redirect) {
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1500);
+            }
         }
     })
     .catch(error => {
+        console.error('Favorite error:', error);
         showMessage('خطا در ثبت علاقه‌مندی', 'error');
     });
 }
