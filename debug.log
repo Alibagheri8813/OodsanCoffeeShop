@@ -8977,6 +8977,7 @@ Traceback (most recent call last):
   File "/home/ubuntu/.local/lib/python3.13/site-packages/django/http/request.py", line 202, in get_host
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+<<<<<<< HEAD
 >>>>>>> da4f1b7886f67ca81970b9cbc20bfec1b1b99204
 INFO 2025-08-03 03:20:08,354 autoreload 7680 148 Watching for file changes with StatReloader
 INFO 2025-08-03 03:20:13,532 error_handling 7680 2308 Starting operation: product_detail
@@ -9065,3 +9066,6 @@ ERROR 2025-08-03 04:23:45,905 log 5408 12752 Internal Server Error: /shop/cart/c
 ERROR 2025-08-03 04:25:45,890 recursion_prevention 5408 9652 Request chain timeout. Current path: /shop/cart/count/
 ERROR 2025-08-03 04:25:45,891 log 5408 9652 Internal Server Error: /shop/cart/count/
 INFO 2025-08-03 04:28:05,350 autoreload 8336 12420 Watching for file changes with StatReloader
+=======
+INFO 2025-08-03 11:33:13,903 autoreload 2693 140235839906048 Watching for file changes with StatReloader
+>>>>>>> 50565f218bf3240771ed83927f4805ae1b0438ce
