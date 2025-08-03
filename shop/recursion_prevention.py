@@ -76,6 +76,12 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
         """
         if isinstance(exception, RecursionError):
             logger.error(f"RecursionError caught for path: {request.path}")
+            logger.error(f"RecursionError details: {str(exception)}")
+            
+            # Check if it's a template recursion error
+            if 'template' in str(exception).lower() or 'loader_tags' in str(exception):
+                logger.error("Template recursion detected - possible circular template inheritance/inclusion")
+            
             return self._handle_recursion_error(request, request.path)
         
         return None
