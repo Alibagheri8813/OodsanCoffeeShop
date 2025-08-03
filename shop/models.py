@@ -156,33 +156,46 @@ class ProductFavorite(models.Model):
         return f"محصول مورد علاقه {self.product.name} برای {self.user.username}"
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
-    phone_number = models.CharField(max_length=15, blank=True)
-    address = models.TextField(blank=True)
-    postal_code = models.CharField(max_length=10, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    province = models.CharField(max_length=100, blank=True)
-    national_code = models.CharField(max_length=10, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    """Extended user profile with additional information"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    phone_number = models.CharField(max_length=15, blank=True, verbose_name='شماره تلفن')
+    birth_date = models.DateField(null=True, blank=True, verbose_name='تاریخ تولد')
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='عکس پروفایل')
+    bio = models.TextField(max_length=500, blank=True, verbose_name='درباره من')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
+    class Meta:
+        verbose_name = 'پروفایل کاربر'
+        verbose_name_plural = 'پروفایل‌های کاربران'
+    
     def __str__(self):
         return f"پروفایل {self.user.username}"
 
-    def get_full_address(self):
-        """Returns formatted full address"""
-        parts = []
-        if self.address:
-            parts.append(self.address)
-        if self.city:
-            parts.append(self.city)
-        if self.province:
-            parts.append(self.province)
-        if self.postal_code:
-            parts.append(f"کد پستی: {self.postal_code}")
-        return "، ".join(parts) if parts else "آدرس ثبت نشده"
+class UserAddress(models.Model):
+    """Multiple addresses for each user"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+    title = models.CharField(max_length=100, verbose_name='عنوان آدرس')  # e.g., "خانه", "محل کار"
+    full_address = models.TextField(verbose_name='آدرس کامل')
+    city = models.CharField(max_length=100, verbose_name='شهر')
+    state = models.CharField(max_length=100, verbose_name='استان')
+    is_default = models.BooleanField(default=False, verbose_name='آدرس پیش‌فرض')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'آدرس کاربر'
+        verbose_name_plural = 'آدرس‌های کاربران'
+        ordering = ['-is_default', '-created_at']
+    
+    def __str__(self):
+        return f"{self.title} - {self.user.username}"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one default address per user
+        if self.is_default:
+            UserAddress.objects.filter(user=self.user, is_default=True).update(is_default=False)
+        super().save(*args, **kwargs)
 
 class Notification(models.Model):
     NOTIFICATION_TYPES = [

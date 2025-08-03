@@ -6,17 +6,19 @@
 {% block extra_css %}
 <style>
     .checkout-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
+        background-attachment: fixed;
         min-height: 100vh;
         padding: 40px 0;
     }
     
     .checkout-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, rgba(255,248,240,0.95) 0%, rgba(243,233,220,0.95) 100%);
+        border-radius: 25px;
+        box-shadow: 0 20px 40px rgba(75, 46, 43, 0.15);
         overflow: hidden;
         margin-bottom: 30px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
     }
     
     .checkout-header {
@@ -24,6 +26,17 @@
         color: white;
         padding: 30px;
         text-align: center;
+        position: relative;
+    }
+    
+    .checkout-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #D4AF37 0%, #C97C5D 100%);
     }
     
     .checkout-header h1 {
@@ -31,6 +44,10 @@
         font-weight: 700;
         margin: 0;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
     }
     
     .checkout-content {
@@ -44,49 +61,86 @@
     }
     
     .checkout-form {
-        background: #f8f9fa;
+        background: rgba(255, 255, 255, 0.6);
         padding: 30px;
-        border-radius: 16px;
+        border-radius: 20px;
+        border: 2px solid rgba(212, 175, 55, 0.2);
     }
     
     .form-section {
-        margin-bottom: 30px;
+        margin-bottom: 35px;
     }
     
     .form-section h3 {
-        color: #2c3e50;
-        font-size: 1.3rem;
-        font-weight: 600;
+        color: #4B2E2B;
+        font-size: 1.4rem;
+        font-weight: 700;
         margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    }
+    
+    .section-icon {
+        color: #D4AF37;
+        font-size: 1.2rem;
     }
     
     .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
     }
     
     .form-group label {
         display: block;
         margin-bottom: 8px;
-        color: #2c3e50;
+        color: #4B2E2B;
         font-weight: 600;
+        font-size: 1rem;
     }
     
     .form-control {
         width: 100%;
-        padding: 12px 16px;
-        border: 2px solid #e9ecef;
-        border-radius: 8px;
+        padding: 15px 20px;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 12px;
         font-size: 1rem;
-        transition: border-color 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+        color: #4B2E2B;
+        transition: all 0.3s ease;
+        font-family: inherit;
     }
     
     .form-control:focus {
         outline: none;
-        border-color: #4B2E2B;
-        box-shadow: 0 0 0 3px rgba(75, 46, 43, 0.1);
+        border-color: #D4AF37;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .address-preview {
+        background: rgba(212, 175, 55, 0.1);
+        padding: 15px 20px;
+        border-radius: 12px;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        margin-top: 10px;
+        display: none;
+    }
+    
+    .address-preview.active {
+        display: block;
+    }
+    
+    .address-preview-title {
+        font-weight: 700;
+        color: #4B2E2B;
+        margin-bottom: 5px;
+    }
+    
+    .address-preview-text {
+        color: #7B3F00;
+        line-height: 1.5;
     }
     
     .delivery-options {
@@ -97,240 +151,203 @@
     }
     
     .delivery-option {
-        background: white;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 15px;
         padding: 20px;
+        text-align: center;
         cursor: pointer;
         transition: all 0.3s ease;
-        text-align: center;
+        position: relative;
     }
     
     .delivery-option:hover {
-        border-color: #4B2E2B;
+        border-color: #D4AF37;
+        background: rgba(255, 255, 255, 0.95);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
     
     .delivery-option.selected {
-        border-color: #4B2E2B;
-        background: #f8f9fa;
+        border-color: #D4AF37;
+        background: rgba(212, 175, 55, 0.15);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     }
     
     .delivery-option input[type="radio"] {
-        display: none;
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
     }
     
-    .delivery-option i {
-        font-size: 2rem;
-        color: #4B2E2B;
+    .delivery-icon {
+        font-size: 2.5rem;
+        color: #D4AF37;
         margin-bottom: 10px;
     }
     
-    .delivery-option h4 {
-        margin: 10px 0 5px 0;
-        color: #2c3e50;
-        font-weight: 600;
+    .delivery-title {
+        font-weight: 700;
+        color: #4B2E2B;
+        margin-bottom: 5px;
     }
     
-    .delivery-option p {
-        color: #6c757d;
+    .delivery-description {
+        color: #7B3F00;
         font-size: 0.9rem;
-        margin: 0;
     }
     
     .order-summary {
-        background: #f8f9fa;
+        background: rgba(255, 255, 255, 0.6);
         padding: 30px;
-        border-radius: 16px;
+        border-radius: 20px;
+        border: 2px solid rgba(212, 175, 55, 0.2);
+        height: fit-content;
         position: sticky;
         top: 20px;
     }
     
-    .summary-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    
-    .summary-header h3 {
-        color: #2c3e50;
-        font-size: 1.5rem;
+    .summary-title {
+        color: #4B2E2B;
+        font-size: 1.4rem;
         font-weight: 700;
-        margin: 0;
-    }
-    
-    .cart-items-summary {
-        margin-bottom: 30px;
-    }
-    
-    .cart-item-summary {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #e9ecef;
-    }
-    
-    .cart-item-summary:last-child {
-        border-bottom: none;
-    }
-    
-    .item-info {
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.3);
     }
     
-    .item-image {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        object-fit: cover;
+    .cart-items {
+        margin-bottom: 20px;
     }
     
-    .item-details h4 {
-        margin: 0;
-        font-size: 1rem;
-        color: #2c3e50;
-    }
-    
-    .item-details p {
-        margin: 5px 0 0 0;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-    
-    .item-price {
-        font-weight: 600;
-        color: #28a745;
-    }
-    
-    .summary-totals {
-        border-top: 2px solid #e9ecef;
-        padding-top: 20px;
-        margin-top: 20px;
-    }
-    
-    .summary-row {
+    .cart-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     }
     
-    .summary-row.total {
-        font-size: 1.3rem;
+    .item-info {
+        flex: 1;
+    }
+    
+    .item-name {
+        font-weight: 600;
+        color: #4B2E2B;
+        margin-bottom: 3px;
+    }
+    
+    .item-quantity {
+        color: #7B3F00;
+        font-size: 0.9rem;
+    }
+    
+    .item-price {
         font-weight: 700;
-        color: #2c3e50;
-        border-top: 1px solid #e9ecef;
-        margin-top: 15px;
-        padding-top: 15px;
+        color: #4B2E2B;
     }
     
-    .checkout-btn {
-        background: linear-gradient(135deg, #28a745, #1e7e34);
+    .price-breakdown {
+        margin: 20px 0;
+    }
+    
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #7B3F00;
+    }
+    
+    .price-row.total {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #4B2E2B;
+        border-top: 2px solid rgba(212, 175, 55, 0.3);
+        padding-top: 15px;
+        margin-top: 15px;
+    }
+    
+    .btn-checkout {
+        width: 100%;
+        background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
         color: white;
         border: none;
-        padding: 15px 40px;
-        border-radius: 12px;
-        font-size: 1.2rem;
-        font-weight: 600;
+        padding: 18px 30px;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
-        width: 100%;
-        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
-    .checkout-btn:hover {
+    .btn-checkout:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        background: linear-gradient(135deg, #B8860B 0%, #D4AF37 100%);
     }
     
-    .checkout-btn:disabled {
+    .btn-checkout:disabled {
         opacity: 0.6;
         cursor: not-allowed;
         transform: none;
     }
     
-    .payment-methods {
-        margin-top: 30px;
-    }
-    
-    .payment-method {
-        background: white;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 15px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
+    .add-address-link {
+        display: inline-flex;
         align-items: center;
-        gap: 15px;
-    }
-    
-    .payment-method:hover {
-        border-color: #4B2E2B;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .payment-method.selected {
-        border-color: #4B2E2B;
-        background: #f8f9fa;
-    }
-    
-    .payment-method input[type="radio"] {
-        display: none;
-    }
-    
-    .payment-method i {
-        font-size: 1.5rem;
-        color: #4B2E2B;
-    }
-    
-    .payment-method-info h4 {
-        margin: 0;
-        color: #2c3e50;
+        gap: 8px;
+        color: #D4AF37;
+        text-decoration: none;
         font-weight: 600;
+        margin-top: 10px;
+        transition: all 0.3s ease;
     }
     
-    .payment-method-info p {
-        margin: 5px 0 0 0;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-    
-    .success-message {
-        background: #d4edda;
-        color: #155724;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        border: 1px solid #c3e6cb;
+    .add-address-link:hover {
+        color: #B8860B;
+        transform: translateX(-3px);
     }
     
     .error-message {
-        background: #f8d7da;
-        color: #721c24;
-        padding: 15px;
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        padding: 12px 15px;
         border-radius: 8px;
-        margin-bottom: 20px;
-        border: 1px solid #f5c6cb;
+        margin-top: 10px;
+        border-left: 4px solid #dc3545;
+    }
+    
+    @media (max-width: 1024px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .order-summary {
+            position: static;
+        }
     }
     
     @media (max-width: 768px) {
-        .checkout-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .delivery-options {
-            grid-template-columns: 1fr;
+        .checkout-content {
+            padding: 25px;
         }
         
         .checkout-header h1 {
             font-size: 2rem;
+        }
+        
+        .delivery-options {
+            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -341,235 +358,247 @@
     <div class="container">
         <div class="checkout-card">
             <div class="checkout-header">
-                <h1><i class="fas fa-credit-card"></i> تکمیل خرید</h1>
-                <p>اطلاعات ارسال و پرداخت خود را وارد کنید</p>
+                <h1>
+                    <i class="fas fa-shopping-cart"></i>
+                    تکمیل خرید
+                </h1>
             </div>
             
             <div class="checkout-content">
-                <div id="checkout-messages"></div>
-                
-                <form method="POST" id="checkout-form">
-                    {% csrf_token %}
-                    <div class="checkout-grid">
-                        <div class="checkout-form">
+                <div class="checkout-grid">
+                    <!-- Checkout Form -->
+                    <div class="checkout-form">
+                        <form method="post" id="checkoutForm">
+                            {% csrf_token %}
+                            
+                            <!-- Address Selection -->
                             <div class="form-section">
-                                <h3><i class="fas fa-truck"></i> روش ارسال</h3>
+                                <h3>
+                                    <i class="fas fa-map-marker-alt section-icon"></i>
+                                    آدرس تحویل
+                                </h3>
+                                
+                                <div class="form-group">
+                                    <label for="id_address">انتخاب آدرس:</label>
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                        <div class="error-message">
+                                            {{ form.address.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <!-- Address Preview -->
+                                    {% for address in user_addresses %}
+                                        <div class="address-preview" id="address-preview-{{ address.id }}">
+                                            <div class="address-preview-title">{{ address.title }}</div>
+                                            <div class="address-preview-text">
+                                                {{ address.full_address }}<br>
+                                                {{ address.city }}، {{ address.state }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    
+                                    <a href="{% url 'add_address' %}" class="add-address-link">
+                                        <i class="fas fa-plus"></i>
+                                        افزودن آدرس جدید
+                                    </a>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="id_postal_code">کد پستی:</label>
+                                    {{ form.postal_code }}
+                                    {% if form.postal_code.errors %}
+                                        <div class="error-message">
+                                            {{ form.postal_code.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Delivery Method -->
+                            <div class="form-section">
+                                <h3>
+                                    <i class="fas fa-truck section-icon"></i>
+                                    روش ارسال
+                                </h3>
+                                
                                 <div class="delivery-options">
-                                    <label class="delivery-option" for="pickup">
-                                        <input type="radio" name="delivery_method" value="pickup" id="pickup" checked>
-                                        <i class="fas fa-store"></i>
-                                        <h4>دریافت حضوری</h4>
-                                        <p>از فروشگاه ما</p>
+                                    <label class="delivery-option">
+                                        <input type="radio" name="delivery_method" value="pickup" checked>
+                                        <div class="delivery-icon">
+                                            <i class="fas fa-store"></i>
+                                        </div>
+                                        <div class="delivery-title">دریافت حضوری</div>
+                                        <div class="delivery-description">رایگان</div>
                                     </label>
                                     
-                                    <label class="delivery-option" for="post">
-                                        <input type="radio" name="delivery_method" value="post" id="post">
-                                        <i class="fas fa-shipping-fast"></i>
-                                        <h4>ارسال پستی</h4>
-                                        <p>هزینه ارسال: 50,000 تومان</p>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-section" id="shipping-info" style="display: none;">
-                                <h3><i class="fas fa-map-marker-alt"></i> اطلاعات ارسال</h3>
-                                
-                                <div class="form-group">
-                                    <label for="shipping_address">آدرس کامل</label>
-                                    <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3" placeholder="آدرس کامل خود را وارد کنید"></textarea>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="postal_code">کد پستی</label>
-                                    <input type="text" name="postal_code" id="postal_code" class="form-control" placeholder="کد پستی 10 رقمی">
-                                </div>
-                            </div>
-                            
-                            <div class="form-section">
-                                <h3><i class="fas fa-phone"></i> اطلاعات تماس</h3>
-                                
-                                <div class="form-group">
-                                    <label for="phone_number">شماره تلفن</label>
-                                    <input type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="شماره تلفن خود را وارد کنید" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-section">
-                                <h3><i class="fas fa-credit-card"></i> روش پرداخت</h3>
-                                <div class="payment-methods">
-                                    <label class="payment-method" for="cash">
-                                        <input type="radio" name="payment_method" value="cash" id="cash" checked>
-                                        <i class="fas fa-money-bill-wave"></i>
-                                        <div class="payment-method-info">
-                                            <h4>پرداخت نقدی</h4>
-                                            <p>پرداخت در محل</p>
+                                    <label class="delivery-option">
+                                        <input type="radio" name="delivery_method" value="post">
+                                        <div class="delivery-icon">
+                                            <i class="fas fa-shipping-fast"></i>
                                         </div>
+                                        <div class="delivery-title">ارسال پستی</div>
+                                        <div class="delivery-description">۵۰,۰۰۰ تومان</div>
                                     </label>
-                                    
-                                    <label class="payment-method" for="online">
-                                        <input type="radio" name="payment_method" value="online" id="online">
-                                        <i class="fas fa-credit-card"></i>
-                                        <div class="payment-method-info">
-                                            <h4>پرداخت آنلاین</h4>
-                                            <p>کارت بانکی</p>
+                                </div>
+                                
+                                {% if form.delivery_method.errors %}
+                                    <div class="error-message">
+                                        {{ form.delivery_method.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Additional Notes -->
+                            <div class="form-section">
+                                <h3>
+                                    <i class="fas fa-comment section-icon"></i>
+                                    توضیحات اضافی
+                                </h3>
+                                
+                                <div class="form-group">
+                                    <label for="id_notes">یادداشت (اختیاری):</label>
+                                    {{ form.notes }}
+                                    {% if form.notes.errors %}
+                                        <div class="error-message">
+                                            {{ form.notes.errors.0 }}
                                         </div>
-                                    </label>
+                                    {% endif %}
                                 </div>
                             </div>
                             
-                            <div class="form-section">
-                                <h3><i class="fas fa-sticky-note"></i> توضیحات</h3>
-                                <div class="form-group">
-                                    <textarea name="notes" id="notes" class="form-control" rows="3" placeholder="توضیحات اضافی (اختیاری)"></textarea>
+                        </form>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h3 class="summary-title">
+                            <i class="fas fa-receipt"></i>
+                            خلاصه سفارش
+                        </h3>
+                        
+                        <div class="cart-items">
+                            {% for item in cart.items.all %}
+                                <div class="cart-item">
+                                    <div class="item-info">
+                                        <div class="item-name">{{ item.product.name }}</div>
+                                        <div class="item-quantity">تعداد: {{ item.quantity }}</div>
+                                    </div>
+                                    <div class="item-price">{{ item.get_total_price|floatformat:0 }} تومان</div>
                                 </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="price-breakdown">
+                            <div class="price-row">
+                                <span>جمع کل محصولات:</span>
+                                <span id="subtotal">{{ total_price|floatformat:0 }} تومان</span>
+                            </div>
+                            <div class="price-row">
+                                <span>هزینه ارسال:</span>
+                                <span id="shipping-fee">رایگان</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>مبلغ نهایی:</span>
+                                <span id="total-amount">{{ total_price|floatformat:0 }} تومان</span>
                             </div>
                         </div>
                         
-                        <div class="order-summary">
-                            <div class="summary-header">
-                                <h3><i class="fas fa-shopping-cart"></i> خلاصه سفارش</h3>
-                            </div>
-                            
-                            <div class="cart-items-summary">
-                                {% for item in cart_items %}
-                                <div class="cart-item-summary">
-                                    <div class="item-info">
-                                        {% if item.product.image %}
-                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
-                                        {% else %}
-                                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
-                                                <i class="fas fa-coffee"></i>
-                                            </div>
-                                        {% endif %}
-                                        <div class="item-details">
-                                            <h4>{{ item.product.name }}</h4>
-                                            <p>{{ item.quantity }} عدد</p>
-                                        </div>
-                                    </div>
-                                    <div class="item-price">{{ item.get_total_price }} تومان</div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            
-                            <div class="summary-totals">
-                                <div class="summary-row">
-                                    <span>جمع کل:</span>
-                                    <span id="subtotal">{{ subtotal }} تومان</span>
-                                </div>
-                                
-                                <div class="summary-row">
-                                    <span>هزینه ارسال:</span>
-                                    <span id="delivery-fee">{{ delivery_fee }} تومان</span>
-                                </div>
-                                
-                                <div class="summary-row total">
-                                    <span>مجموع نهایی:</span>
-                                    <span id="total">{{ total }} تومان</span>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="checkout-btn" id="submit-btn">
-                                <i class="fas fa-check"></i> تکمیل سفارش
-                            </button>
-                        </div>
+                        <button type="submit" form="checkoutForm" class="btn-checkout">
+                            <i class="fas fa-credit-card"></i>
+                            تکمیل خرید
+                        </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Handle delivery method change
-document.querySelectorAll('input[name="delivery_method"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        const shippingInfo = document.getElementById('shipping-info');
-        const deliveryFee = document.getElementById('delivery-fee');
-        const total = document.getElementById('total');
-        const subtotal = {{ subtotal }};
+document.addEventListener('DOMContentLoaded', function() {
+    // Address selection preview
+    const addressSelect = document.getElementById('id_address');
+    const addressPreviews = document.querySelectorAll('.address-preview');
+    
+    function showAddressPreview() {
+        // Hide all previews
+        addressPreviews.forEach(preview => preview.classList.remove('active'));
         
-        if (this.value === 'post') {
-            shippingInfo.style.display = 'block';
-            deliveryFee.textContent = '50,000 تومان';
-            total.textContent = (subtotal + 50000) + ' تومان';
-        } else {
-            shippingInfo.style.display = 'none';
-            deliveryFee.textContent = '0 تومان';
-            total.textContent = subtotal + ' تومان';
+        // Show selected address preview
+        const selectedValue = addressSelect.value;
+        if (selectedValue) {
+            const preview = document.getElementById('address-preview-' + selectedValue);
+            if (preview) {
+                preview.classList.add('active');
+            }
         }
-    });
-});
-
-// Handle payment method selection
-document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.classList.remove('selected');
-        });
-        this.closest('.payment-method').classList.add('selected');
-    });
-});
-
-// Handle delivery option selection
-document.querySelectorAll('input[name="delivery_method"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        document.querySelectorAll('.delivery-option').forEach(option => {
-            option.classList.remove('selected');
-        });
-        this.closest('.delivery-option').classList.add('selected');
-    });
-});
-
-// Initialize selected states
-document.querySelector('.delivery-option input:checked').closest('.delivery-option').classList.add('selected');
-document.querySelector('.payment-method input:checked').closest('.payment-method').classList.add('selected');
-
-// Form submission
-document.getElementById('checkout-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('submit-btn');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال پردازش...';
-    
-    // Validate form
-    const deliveryMethod = document.querySelector('input[name="delivery_method"]:checked').value;
-    const phoneNumber = document.getElementById('phone_number').value;
-    
-    if (!phoneNumber) {
-        showMessage('لطفاً شماره تلفن را وارد کنید', 'error');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> تکمیل سفارش';
-        return;
     }
     
-    if (deliveryMethod === 'post') {
-        const shippingAddress = document.getElementById('shipping_address').value;
-        const postalCode = document.getElementById('postal_code').value;
+    addressSelect.addEventListener('change', showAddressPreview);
+    showAddressPreview(); // Initial call
+    
+    // Delivery method selection
+    const deliveryOptions = document.querySelectorAll('.delivery-option');
+    const shippingFeeElement = document.getElementById('shipping-fee');
+    const totalAmountElement = document.getElementById('total-amount');
+    const subtotal = {{ total_price }};
+    
+    function updateDeliverySelection() {
+        deliveryOptions.forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio.checked) {
+                option.classList.add('selected');
+                
+                // Update shipping fee
+                const deliveryMethod = radio.value;
+                let shippingFee = 0;
+                let shippingText = 'رایگان';
+                
+                if (deliveryMethod === 'post') {
+                    shippingFee = 50000;
+                    shippingText = '۵۰,۰۰۰ تومان';
+                }
+                
+                shippingFeeElement.textContent = shippingText;
+                totalAmountElement.textContent = (subtotal + shippingFee).toLocaleString('fa-IR') + ' تومان';
+            } else {
+                option.classList.remove('selected');
+            }
+        });
+    }
+    
+    deliveryOptions.forEach(option => {
+        const radio = option.querySelector('input[type="radio"]');
+        radio.addEventListener('change', updateDeliverySelection);
+    });
+    
+    updateDeliverySelection(); // Initial call
+    
+    // Form validation
+    const form = document.getElementById('checkoutForm');
+    form.addEventListener('submit', function(e) {
+        const addressSelected = addressSelect.value;
+        const postalCode = document.getElementById('id_postal_code').value.trim();
         
-        if (!shippingAddress || !postalCode) {
-            showMessage('برای ارسال پستی، آدرس و کد پستی الزامی است', 'error');
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> تکمیل سفارش';
+        if (!addressSelected) {
+            e.preventDefault();
+            alert('لطفاً آدرس تحویل را انتخاب کنید.');
             return;
         }
-    }
-    
-    // Submit form
-    this.submit();
+        
+        if (!postalCode) {
+            e.preventDefault();
+            alert('لطفاً کد پستی را وارد کنید.');
+            return;
+        }
+        
+        if (postalCode.length !== 10 || !/^\d+$/.test(postalCode)) {
+            e.preventDefault();
+            alert('کد پستی باید ۱۰ رقم باشد.');
+            return;
+        }
+    });
 });
-
-function showMessage(message, type) {
-    const messagesContainer = document.getElementById('checkout-messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-    messageDiv.textContent = message;
-    
-    messagesContainer.appendChild(messageDiv);
-    
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 3000);
-}
 </script>
 {% endblock %} 
