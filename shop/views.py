@@ -15,8 +15,13 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from .models import *
 from .forms import *
+from .error_handling import (
+    monitor_performance, safe_transaction, ajax_error_handler, 
+    view_error_handler, rate_limit, LoggingContext, optimize_queryset
+)
 import json
 import logging
+from django.conf import settings
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -154,10 +159,30 @@ def category_detail(request, category_id):
         'products': products,
     })
 
+@monitor_performance
+@view_error_handler
 def product_detail(request, product_id):
-    """Display detailed information for a specific product"""
-    product = get_object_or_404(Product, id=product_id)
-    comments = Comment.objects.filter(product=product).order_by('-created_at')
+    """Enhanced product detail with premium features"""
+    with LoggingContext('product_detail', request.user, {'product_id': product_id}):
+        # Optimize main product query
+        product = get_object_or_404(
+            Product.objects.select_related('category'), 
+            id=product_id
+        )
+        
+        # Optimize comments query
+        comments = optimize_queryset(
+            Comment.objects.filter(product=product).order_by('-created_at'),
+            select_related=['user']
+        )
+        
+        # Optimize related products query  
+        related_products = optimize_queryset(
+            Product.objects.filter(category=product.category)
+            .exclude(id=product.id)
+            .order_by('-featured', '-created_at')[:4],
+            select_related=['category']
+        )
     
     # Get like count and user like status
     like_count = ProductLike.objects.filter(product=product).count()
@@ -174,11 +199,21 @@ def product_detail(request, product_id):
         ).values_list('product_id', flat=True))
         user_favorited = product.id in user_favorites
     
+    # Get user's cart quantity for this product
+    cart_quantity = 0
+    if request.user.is_authenticated:
+        try:
+            cart = Cart.objects.get(user=request.user)
+            cart_item = CartItem.objects.get(cart=cart, product=product)
+            cart_quantity = cart_item.quantity
+        except (Cart.DoesNotExist, CartItem.DoesNotExist):
+            cart_quantity = 0
+    
     # Handle POST requests for comments and likes
     if request.method == 'POST':
         if 'text' in request.POST and request.user.is_authenticated:
-            text = request.POST.get('text')
-            if text.strip():
+            text = request.POST.get('text').strip()
+            if text:
                 Comment.objects.create(
                     product=product,
                     user=request.user,
@@ -186,6 +221,8 @@ def product_detail(request, product_id):
                 )
                 messages.success(request, 'نظر شما با موفقیت ثبت شد.')
                 return redirect('product_detail', product_id=product_id)
+            else:
+                messages.error(request, 'نظر نمی‌تواند خالی باشد.')
         
         elif 'like_submit' in request.POST and request.user.is_authenticated:
             like, created = ProductLike.objects.get_or_create(
@@ -200,6 +237,7 @@ def product_detail(request, product_id):
         'product': product,
         'comments': comments,
         'reviews': comments,  # For template compatibility
+        'related_products': related_products,
         'like_count': like_count,
         'total_likes': like_count,
         'total_favorites': product.favorites.count(),
@@ -207,6 +245,8 @@ def product_detail(request, product_id):
         'user_liked': user_liked,
         'user_favorited': user_favorited,
         'user_favorites': user_favorites,
+        'cart_quantity': cart_quantity,
+        'available_stock': max(0, product.stock - cart_quantity),
     }
     return render(request, 'shop/product_detail.html', context)
 
@@ -696,6 +736,9 @@ def cart_view(request):
 
 # ===== SENSATIONAL SHOPPING CART SYSTEM =====
 
+@rate_limit(requests_per_minute=30)  # Limit cart operations
+@ajax_error_handler
+@safe_transaction
 def add_to_cart(request):
     """Add product to cart with AJAX support"""
     if not request.user.is_authenticated:
@@ -732,19 +775,24 @@ def add_to_cart(request):
             )
             
             if not created:
+                # Check if total quantity exceeds stock
+                total_quantity = cart_item.quantity + quantity
+                if total_quantity > product.stock:
+                    return JsonResponse({
+                        'success': False,
+                        'message': f'موجودی کافی نیست. حداکثر {product.stock} عدد قابل افزودن است.',
+                        'available_stock': product.stock,
+                        'current_in_cart': cart_item.quantity
+                    })
                 # Update quantity if item already exists
                 cart_item.quantity += quantity
                 cart_item.save()
             
-            # Update product stock
-            product.stock -= quantity
-            product.save()
+            # Note: Stock is NOT reduced here - only when order is confirmed
             
             # Calculate cart totals
             cart_total = cart.get_total_price()
             cart_count = cart.get_total_quantity()
-            
-
             
             return JsonResponse({
                 'success': True,
@@ -752,7 +800,8 @@ def add_to_cart(request):
                 'cart_total': cart_total,
                 'cart_count': cart_count,
                 'product_name': product.name,
-                'product_image': product.image.url if product.image else None
+                'product_image': product.image.url if product.image else None,
+                'new_stock': product.stock  # Send current stock to frontend
             })
             
         except Exception as e:
@@ -778,24 +827,17 @@ def update_cart_item(request):
             if quantity <= 0:
                 # Remove item if quantity is 0 or negative
                 cart_item.delete()
-                # Restore stock
-                product.stock += cart_item.quantity
-                product.save()
+                # Note: No stock changes needed as stock isn't reduced when adding to cart
             else:
                 # Check if we have enough stock
-                available_stock = product.stock + cart_item.quantity
-                if available_stock < quantity:
+                if quantity > product.stock:
                     return JsonResponse({
                         'success': False,
-                        'message': f'موجودی کافی نیست. فقط {available_stock} عدد موجود است.',
-                        'available_stock': available_stock
+                        'message': f'موجودی کافی نیست. فقط {product.stock} عدد موجود است.',
+                        'available_stock': product.stock
                     })
                 
-                # Update stock
-                product.stock = available_stock - quantity
-                product.save()
-                
-                # Update cart item
+                # Update cart item (no stock changes)
                 cart_item.quantity = quantity
                 cart_item.save()
             
@@ -869,39 +911,7 @@ def cart_count(request):
     return JsonResponse({'count': count})
 
 # ===== ENHANCED PRODUCT VIEWS =====
-# Note: Duplicate product_list function removed to prevent recursion conflicts
-
-def product_detail(request, product_id):
-    """Enhanced product detail with related products and reviews"""
-    product = get_object_or_404(Product.objects.select_related('category'), id=product_id)
-    
-    # Get related products
-    related_products = Product.objects.filter(
-        category=product.category
-    ).exclude(id=product.id)[:4]
-    
-    # Get product reviews
-    reviews = Comment.objects.filter(product=product).select_related('user')[:5]
-    
-    # Check if user has liked/favorited this product
-    user_liked = False
-    user_favorited = False
-    if request.user.is_authenticated:
-        user_liked = ProductLike.objects.filter(product=product, user=request.user).exists()
-        user_favorited = ProductFavorite.objects.filter(product=product, user=request.user).exists()
-    
-    context = {
-        'product': product,
-        'related_products': related_products,
-        'reviews': reviews,
-        'user_liked': user_liked,
-        'user_favorited': user_favorited,
-        'total_likes': product.likes.count(),
-        'total_favorites': product.favorites.count(),
-        'total_reviews': product.comments.count()
-    }
-    
-    return render(request, 'shop/product_detail.html', context)
+# Note: Duplicate product_detail function removed to prevent conflicts
 
 # ===== USER AUTHENTICATION & PROFILE =====
 
@@ -1040,6 +1050,9 @@ def order_list(request):
 
 # ===== SOCIAL FEATURES =====
 
+@rate_limit(requests_per_minute=60)  # Allow more likes per minute
+@ajax_error_handler
+@safe_transaction
 def toggle_like(request):
     """Toggle product like with AJAX"""
     if not request.user.is_authenticated:
@@ -1082,6 +1095,9 @@ def toggle_like(request):
     
     return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
 
+@rate_limit(requests_per_minute=60)  # Allow more favorites per minute  
+@ajax_error_handler
+@safe_transaction
 def toggle_favorite(request):
     """Toggle product favorite with AJAX"""
     if not request.user.is_authenticated:
@@ -1228,3 +1244,86 @@ def contact(request):
 def ai_assistant_view(request):
     """AI Assistant page view"""
     return render(request, 'shop/ai_assistant.html')
+
+# ===== SYSTEM HEALTH & MONITORING =====
+
+@ajax_error_handler
+def health_check(request):
+    """System health check endpoint"""
+    from .error_handling import check_database_health, check_cache_health
+    
+    # Check database
+    db_health = check_database_health()
+    
+    # Check cache
+    cache_health = check_cache_health()
+    
+    # Overall system status
+    overall_healthy = (
+        db_health['status'] == 'healthy' and 
+        cache_health['status'] == 'healthy'
+    )
+    
+    health_data = {
+        'status': 'healthy' if overall_healthy else 'unhealthy',
+        'timestamp': timezone.now().isoformat(),
+        'components': {
+            'database': db_health,
+            'cache': cache_health,
+        },
+        'version': '1.0.0',
+        'environment': 'development' if settings.DEBUG else 'production'
+    }
+    
+    status_code = 200 if overall_healthy else 503
+    
+    return JsonResponse(health_data, status=status_code)
+
+@monitor_performance
+@view_error_handler  
+def system_status(request):
+    """Detailed system status for administrators"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Access denied'}, status=403)
+    
+    from django.db import connection
+    import sys
+    import platform
+    
+    with LoggingContext('system_status', request.user):
+        # Database statistics
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM shop_product")
+            product_count = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM shop_order")
+            order_count = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM auth_user")
+            user_count = cursor.fetchone()[0]
+        
+        # System information
+        system_info = {
+            'python_version': sys.version,
+            'platform': platform.platform(),
+            'django_version': '5.1.1',  # Update as needed
+        }
+        
+        # Statistics
+        stats = {
+            'total_products': product_count,
+            'total_orders': order_count, 
+            'total_users': user_count,
+        }
+        
+        status_data = {
+            'system': system_info,
+            'statistics': stats,
+            'health': {
+                'database': check_database_health(),
+                'cache': check_cache_health(),
+            },
+            'timestamp': timezone.now().isoformat(),
+        }
+        
+        return JsonResponse(status_data)
