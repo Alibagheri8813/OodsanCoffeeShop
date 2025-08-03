@@ -1,0 +1,49 @@
+INFO 2025-08-03 02:49:17,042 autoreload 5084 2284 Watching for file changes with StatReloader
+INFO 2025-08-03 02:50:21,660 autoreload 11572 3760 Watching for file changes with StatReloader
+INFO 2025-08-03 02:50:25,645 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:50:26,829 basehttp 11572 12832 "GET /shop/product/1/ HTTP/1.1" 200 48539
+INFO 2025-08-03 02:50:26,846 basehttp 11572 12832 "GET /static/shop/style-enhancements.css?v=2.0 HTTP/1.1" 304 0
+INFO 2025-08-03 02:50:27,198 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:50:49,082 basehttp 11572 12832 "POST /shop/product/1/ HTTP/1.1" 200 48539
+INFO 2025-08-03 02:50:49,149 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 02:50:58,499 log 11572 12832 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+WARNING 2025-08-03 02:50:58,499 basehttp 11572 12832 "POST /shop/like/ HTTP/1.1" 403 2549
+WARNING 2025-08-03 02:51:01,421 log 11572 12832 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 02:51:01,422 basehttp 11572 12832 "POST /shop/cart/add/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:51:19,151 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 02:51:28,453 log 11572 12832 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+WARNING 2025-08-03 02:51:28,454 basehttp 11572 12832 "POST /shop/like/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:51:34,671 basehttp 11572 12832 "GET /shop/favorites/ HTTP/1.1" 200 40093
+INFO 2025-08-03 02:51:34,747 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:51:36,822 basehttp 11572 12832 "GET /shop/cart-view/ HTTP/1.1" 200 36592
+INFO 2025-08-03 02:51:36,885 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:51:36,889 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:51:36,960 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:51:38,498 basehttp 11572 12832 "GET /shop/user-profile/ HTTP/1.1" 200 49182
+INFO 2025-08-03 02:51:38,559 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:52:08,567 recursion_prevention 11572 12832 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:52:08,573 log 11572 12832 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:52:08,574 basehttp 11572 12832 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:52:38,577 basehttp 11572 6824 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:53:08,576 basehttp 11572 6824 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:53:38,568 basehttp 11572 6824 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:54:08,894 recursion_prevention 11572 6824 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:54:08,897 log 11572 6824 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:54:08,897 basehttp 11572 6824 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:54:38,902 basehttp 11572 6528 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:55:08,903 recursion_prevention 11572 6528 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:55:08,906 log 11572 6528 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:55:08,907 basehttp 11572 6528 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:55:45,903 basehttp 11572 6336 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:56:45,904 recursion_prevention 11572 6336 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:56:45,905 log 11572 6336 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:56:45,905 basehttp 11572 6336 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:57:45,896 basehttp 11572 820 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:58:45,905 basehttp 11572 8052 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:59:45,901 recursion_prevention 11572 8052 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:59:45,901 log 11572 8052 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:59:45,902 basehttp 11572 8052 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 03:00:45,912 basehttp 11572 11804 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 03:01:45,892 recursion_prevention 11572 11804 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 03:01:45,893 log 11572 11804 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 03:01:45,893 basehttp 11572 11804 "GET /shop/cart/count/ HTTP/1.1" 500 4995
