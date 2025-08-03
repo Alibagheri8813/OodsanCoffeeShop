@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 # from . import ai_assistant
 # from . import advanced_views
@@ -104,4 +104,13 @@ urlpatterns = [
     # Health & Monitoring Endpoints
     path('health/', views.health_check, name='health_check'),
     path('system-status/', views.system_status, name='system_status'),
+    
+    # Profile management
+    path('profile/', views.user_profile, name='user_profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    
+    # Address management
+    path('address/add/', views.add_address, name='add_address'),
+    path('address/edit/<int:address_id>/', views.edit_address, name='edit_address'),
+    path('address/delete/<int:address_id>/', views.delete_address, name='delete_address'),
 ] 
