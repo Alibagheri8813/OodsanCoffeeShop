@@ -1777,3 +1777,11 @@ def api_analytics(request):
     except Exception as e:
         logger.error(f"Error in API analytics: {e}")
         return JsonResponse({'error': 'خطا در بارگیری تحلیلات'}, status=500)
+
+def voice_ai_assistant_page(request):
+    """Voice AI Assistant page"""
+    context = {
+        'page_title': 'Voice Coffee Expert',
+        'page_description': 'Your Professional Coffee Industry Expert'
+    }
+    return render(request, 'shop/voice_ai_assistant.html', context)
