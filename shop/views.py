@@ -971,7 +971,8 @@ def register(request):
 @login_required
 def profile(request):
     """Enhanced user profile with order history and preferences"""
-    user_profile = request.user.profile
+    # Create profile if it doesn't exist
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     orders = Order.objects.filter(user=request.user).order_by('-created_at')[:10]
     favorites = ProductFavorite.objects.filter(user=request.user).select_related('product')[:6]
     
