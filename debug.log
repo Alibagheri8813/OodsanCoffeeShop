@@ -87,3 +87,18 @@ Traceback (most recent call last):
   File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 531, in __get__
     raise self.RelatedObjectDoesNotExist(
 django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.
+INFO 2025-08-03 07:11:07,578 autoreload 9316 10048 Watching for file changes with StatReloader
+ERROR 2025-08-03 07:12:12,905 recursion_prevention 9316 6400 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:12:12,906 log 9316 6400 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:14:42,905 recursion_prevention 9316 9416 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:14:42,907 log 9316 9416 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:15:45,896 recursion_prevention 9316 5968 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:15:45,897 log 9316 5968 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:17:45,898 recursion_prevention 9316 1572 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:17:45,898 log 9316 1572 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:19:45,890 recursion_prevention 9316 11328 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:19:45,891 log 9316 11328 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:21:45,894 recursion_prevention 9316 8408 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:21:45,895 log 9316 8408 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 07:23:45,899 recursion_prevention 9316 4216 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 07:23:45,900 log 9316 4216 Internal Server Error: /shop/cart/count/
