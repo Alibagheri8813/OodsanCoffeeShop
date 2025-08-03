@@ -9513,3 +9513,102 @@ INFO 2025-08-03 08:14:17,858 autoreload 4441 139769066598656 Watching for file c
 =======
 INFO 2025-08-03 09:07:38,372 autoreload 2763 140013353611520 Watching for file changes with StatReloader
 >>>>>>> 6bc7baeb30dbb0d72c976e0c13c1f6d6ee2eaa77
+INFO 2025-08-03 02:27:59,844 autoreload 6920 6752 Watching for file changes with StatReloader
+INFO 2025-08-03 02:28:02,384 basehttp 6920 11768 "GET /home/ HTTP/1.1" 200 38672
+INFO 2025-08-03 02:28:02,516 basehttp 6920 11768 "GET /static/shop/style.css?v=4.1 HTTP/1.1" 200 44687
+INFO 2025-08-03 02:28:02,548 basehttp 6920 9428 "GET /static/shop/style-enhancements.css?v=2.0 HTTP/1.1" 200 7253
+INFO 2025-08-03 02:28:02,563 basehttp 6920 11572 "GET /media/categories/coffee_1_a8OCTWz.jpg HTTP/1.1" 200 27344
+INFO 2025-08-03 02:28:02,573 basehttp 6920 8484 "GET /media/categories/coffee_2_68rAJGS.jpg HTTP/1.1" 200 29863
+INFO 2025-08-03 02:28:02,785 basehttp 6920 8484 "GET /media/categories/coffee_3_oJVhj08.jpg HTTP/1.1" 200 25362
+INFO 2025-08-03 02:28:02,802 basehttp 6920 11572 "GET /media/categories/coffee_4_WNnMtwP.jpg HTTP/1.1" 200 12490
+WARNING 2025-08-03 02:28:04,221 basehttp 6920 11572 "GET /static/shop/images/favicon.ico HTTP/1.1" 404 1996
+WARNING 2025-08-03 02:28:04,250 basehttp 6920 8484 "GET /static/shop/images/favicon-32x32.png HTTP/1.1" 404 2014
+WARNING 2025-08-03 02:28:04,259 basehttp 6920 9428 "GET /static/shop/images/favicon-16x16.png HTTP/1.1" 404 2014
+ERROR 2025-08-03 02:28:33,698 recursion_prevention 6920 11768 Request chain timeout. Current path: /shop/products/
+ERROR 2025-08-03 02:28:33,699 log 6920 11768 Internal Server Error: /shop/products/
+ERROR 2025-08-03 02:28:33,700 basehttp 6920 11768 "GET /shop/products/ HTTP/1.1" 500 4993
+INFO 2025-08-03 02:28:49,378 basehttp 6920 1888 "GET /shop/login/ HTTP/1.1" 200 31570
+INFO 2025-08-03 02:28:51,762 basehttp 6920 1888 "GET /shop/products/ HTTP/1.1" 200 40997
+INFO 2025-08-03 02:28:51,792 basehttp 6920 1888 "GET /media/products/product_5.jpg HTTP/1.1" 200 27344
+INFO 2025-08-03 02:28:51,802 basehttp 6920 628 "GET /media/products/product_4.jpg HTTP/1.1" 200 27344
+INFO 2025-08-03 02:28:51,846 basehttp 6920 628 "GET /media/products/product_3.jpg HTTP/1.1" 200 29863
+INFO 2025-08-03 02:28:51,853 basehttp 6920 1888 "GET /media/products/product_2.jpg HTTP/1.1" 200 27344
+INFO 2025-08-03 02:28:51,865 basehttp 6920 5960 "GET /media/products/product_1.jpg HTTP/1.1" 200 29863
+INFO 2025-08-03 02:28:57,354 basehttp 6920 5960 "GET /shop/product/5/ HTTP/1.1" 200 41914
+WARNING 2025-08-03 02:29:15,316 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 02:29:15,317 basehttp 6920 5960 "POST /shop/cart/add/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:29:23,101 basehttp 6920 5960 "GET /shop/login/ HTTP/1.1" 200 31570
+INFO 2025-08-03 02:29:31,167 basehttp 6920 5960 "POST /shop/login/ HTTP/1.1" 302 0
+INFO 2025-08-03 02:29:31,184 basehttp 6920 5960 "GET /home/ HTTP/1.1" 200 41385
+INFO 2025-08-03 02:29:31,259 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:29:33,750 basehttp 6920 5960 "GET /shop/user-profile/ HTTP/1.1" 200 49182
+INFO 2025-08-03 02:29:33,812 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:29:46,040 basehttp 6920 5960 "GET /home/ HTTP/1.1" 200 41154
+INFO 2025-08-03 02:29:46,115 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:29:47,441 basehttp 6920 5960 "GET /shop/category/2/ HTTP/1.1" 200 31125
+INFO 2025-08-03 02:29:47,503 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:29:53,967 basehttp 6920 5960 "GET /shop/product/3/ HTTP/1.1" 200 44947
+INFO 2025-08-03 02:29:54,035 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 02:29:58,366 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 02:29:58,366 basehttp 6920 5960 "POST /shop/cart/add/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:30:04,827 basehttp 6920 5960 "GET /shop/cart-view/ HTTP/1.1" 200 36592
+INFO 2025-08-03 02:30:04,896 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:04,900 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:04,978 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:07,560 basehttp 6920 5960 "GET /home/ HTTP/1.1" 200 41154
+INFO 2025-08-03 02:30:07,622 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:13,400 basehttp 6920 5960 "GET /shop/favorites/ HTTP/1.1" 200 40093
+INFO 2025-08-03 02:30:13,465 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 02:30:20,338 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/add/
+WARNING 2025-08-03 02:30:20,338 basehttp 6920 5960 "POST /shop/cart/add/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:30:27,517 basehttp 6920 5960 "GET /shop/products/ HTTP/1.1" 200 45259
+INFO 2025-08-03 02:30:27,581 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:40,978 basehttp 6920 5960 "GET /shop/products/?q=%D8%AA%D8%B1%DA%A9&sort=featured&min_price=&max_price= HTTP/1.1" 200 42743
+INFO 2025-08-03 02:30:41,051 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:30:53,946 basehttp 6920 5960 "GET /shop/products/?q=%D8%B1%D9%88%D8%A8%D9%88%D8%B3%D8%AA%D8%A7&sort=featured&min_price=&max_price= HTTP/1.1" 200 42852
+INFO 2025-08-03 02:30:54,008 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:31:03,443 basehttp 6920 5960 "GET /shop/products/?q=%D8%B9%D8%B1%D8%A8%DB%8C%DA%A9%D8%A7&sort=featured&min_price=&max_price= HTTP/1.1" 200 44173
+INFO 2025-08-03 02:31:03,511 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:31:13,647 basehttp 6920 5960 "GET /shop/product-list-by-category/2/ HTTP/1.1" 200 42582
+INFO 2025-08-03 02:31:13,717 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:31:19,035 basehttp 6920 5960 "GET /shop/product/1/ HTTP/1.1" 200 44328
+INFO 2025-08-03 02:31:19,097 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+WARNING 2025-08-03 02:31:27,599 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/favorite/
+WARNING 2025-08-03 02:31:27,599 basehttp 6920 5960 "POST /shop/favorite/ HTTP/1.1" 403 2549
+WARNING 2025-08-03 02:31:28,925 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/favorite/
+WARNING 2025-08-03 02:31:28,925 basehttp 6920 5960 "POST /shop/favorite/ HTTP/1.1" 403 2549
+WARNING 2025-08-03 02:31:30,148 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/favorite/
+WARNING 2025-08-03 02:31:30,149 basehttp 6920 5960 "POST /shop/favorite/ HTTP/1.1" 403 2549
+WARNING 2025-08-03 02:31:34,853 log 6920 5960 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/like/
+WARNING 2025-08-03 02:31:34,854 basehttp 6920 5960 "POST /shop/like/ HTTP/1.1" 403 2549
+INFO 2025-08-03 02:31:49,103 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:32:19,895 recursion_prevention 6920 5960 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:32:19,896 log 6920 5960 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:32:19,896 basehttp 6920 5960 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+ERROR 2025-08-03 02:32:49,898 recursion_prevention 6920 1888 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:32:49,900 log 6920 1888 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:32:49,901 basehttp 6920 1888 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+ERROR 2025-08-03 02:33:05,771 recursion_prevention 6920 628 Request chain timeout. Current path: /shop/cart/add/
+ERROR 2025-08-03 02:33:05,772 log 6920 628 Internal Server Error: /shop/cart/add/
+ERROR 2025-08-03 02:33:05,772 basehttp 6920 628 "POST /shop/cart/add/ HTTP/1.1" 500 4993
+INFO 2025-08-03 02:33:19,897 basehttp 6920 4728 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:33:49,902 recursion_prevention 6920 4728 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:33:49,904 log 6920 4728 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:33:49,906 basehttp 6920 4728 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:34:19,902 basehttp 6920 8928 "GET /shop/cart/count/ HTTP/1.1" 200 12
+INFO 2025-08-03 02:34:49,891 basehttp 6920 8928 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:35:45,893 recursion_prevention 6920 8928 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:35:45,896 log 6920 8928 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:35:45,897 basehttp 6920 8928 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:36:45,894 basehttp 6920 8716 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:37:45,897 recursion_prevention 6920 8716 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:37:45,899 log 6920 8716 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:37:45,900 basehttp 6920 8716 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:38:45,909 basehttp 6920 11644 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:39:45,893 recursion_prevention 6920 11644 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:39:45,893 log 6920 11644 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:39:45,894 basehttp 6920 11644 "GET /shop/cart/count/ HTTP/1.1" 500 4995
+INFO 2025-08-03 02:40:45,898 basehttp 6920 2284 "GET /shop/cart/count/ HTTP/1.1" 200 12
+ERROR 2025-08-03 02:41:45,896 recursion_prevention 6920 2284 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-03 02:41:45,896 log 6920 2284 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-03 02:41:45,898 basehttp 6920 2284 "GET /shop/cart/count/ HTTP/1.1" 500 4995
