@@ -6,22 +6,28 @@
 {% block extra_css %}
 <style>
     :root {
-        --primary-gold: #D4AF37;
-        --primary-dark: #1a1a1a;
-        --primary-brown: #8B4513;
-        --accent-cream: #F5F5DC;
-        --accent-orange: #CD853F;
-        --accent-blue: #4A90E2;
-        --accent-green: #4CAF50;
-        --accent-red: #F44336;
-        --shadow-light: rgba(212, 175, 55, 0.1);
-        --shadow-dark: rgba(0, 0, 0, 0.3);
-        --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
-        --gradient-brown: linear-gradient(135deg, #2C1810 0%, #8B4513 50%, #A0522D 100%);
-        --gradient-bg: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #0f0f0f 100%);
+        /* Coffee Theme Color Palette - Matching Navbar */
+        --primary-brown: #4B2E2B;
+        --secondary-brown: #7B3F00;
+        --accent-brown: #C97C5D;
+        --coffee-cream: #FFF8F0;
+        --coffee-gold: #D4AF37;
+        --coffee-orange: #FF8C42;
+        --coffee-red: #FF6B6B;
+        --coffee-dark: #2C1810;
+        --coffee-light: #F5E6D3;
+        
+        /* Gradients */
+        --gradient-primary: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
         --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-        --blur-strong: blur(20px);
-        --blur-light: blur(10px);
+        --gradient-accent: linear-gradient(45deg, #FF6B6B, #FF8C42);
+        --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+        
+        /* Shadows */
+        --shadow-soft: 0 10px 30px rgba(75, 46, 43, 0.3);
+        --shadow-medium: 0 15px 40px rgba(75, 46, 43, 0.4);
+        --shadow-strong: 0 20px 50px rgba(75, 46, 43, 0.5);
+        --shadow-glow: 0 0 30px rgba(255, 140, 66, 0.3);
     }
 
     * {
@@ -32,124 +38,109 @@
 
     body {
         font-family: 'Vazirmatn', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: var(--gradient-bg);
-        color: #fff;
+        background: var(--gradient-primary);
+        color: var(--coffee-cream);
+        line-height: 1.6;
         overflow-x: hidden;
-        min-height: 100vh;
     }
 
-    /* Premium Hero Section with Advanced Animations */
-    .product-hero {
-        min-height: 100vh;
-        background: var(--gradient-bg);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-            radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-        animation: gradientShift 10s ease-in-out infinite;
-    }
-
-    @keyframes gradientShift {
-        0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        50% { opacity: 0.8; transform: scale(1.1) rotate(2deg); }
-    }
-
-    .floating-elements {
-        position: absolute;
+    /* Coffee Steam Animation Background */
+    .coffee-background {
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 1;
+        z-index: -1;
+        opacity: 0.1;
     }
 
-    .floating-element {
+    .steam-particle {
         position: absolute;
-        background: var(--primary-gold);
-        border-radius: 50%;
+        width: 4px;
+        height: 30px;
+        background: linear-gradient(to top, transparent, var(--coffee-cream), transparent);
+        border-radius: 2px;
+        animation: steam-rise 6s ease-in-out infinite;
+    }
+
+    .steam-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .steam-particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+    .steam-particle:nth-child(3) { left: 70%; animation-delay: 2s; }
+    .steam-particle:nth-child(4) { left: 85%; animation-delay: 3s; }
+
+    @keyframes steam-rise {
+        0% { 
+            transform: translateY(100vh) scale(1); 
+            opacity: 0; 
+        }
+        10% { 
+            opacity: 0.3; 
+        }
+        90% { 
+            opacity: 0.3; 
+        }
+        100% { 
+            transform: translateY(-30px) scale(1.2); 
+            opacity: 0; 
+        }
+    }
+
+    /* Main Container */
+    .product-detail-container {
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-wrapper {
+        max-width: 1400px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow-strong);
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Coffee Bean Decorations */
+    .coffee-beans::before,
+    .coffee-beans::after {
+        content: '☕';
+        position: absolute;
+        font-size: 2rem;
+        color: var(--coffee-gold);
         opacity: 0.1;
         animation: float 8s ease-in-out infinite;
     }
 
-    .floating-element:nth-child(1) { width: 6px; height: 6px; top: 10%; left: 15%; animation-delay: 0s; }
-    .floating-element:nth-child(2) { width: 8px; height: 8px; top: 70%; left: 85%; animation-delay: 2s; }
-    .floating-element:nth-child(3) { width: 4px; height: 4px; top: 85%; left: 10%; animation-delay: 4s; }
-    .floating-element:nth-child(4) { width: 10px; height: 10px; top: 25%; left: 80%; animation-delay: 1s; }
-    .floating-element:nth-child(5) { width: 5px; height: 5px; top: 60%; left: 40%; animation-delay: 3s; }
-    .floating-element:nth-child(6) { width: 7px; height: 7px; top: 40%; left: 70%; animation-delay: 5s; }
+    .coffee-beans::before {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+
+    .coffee-beans::after {
+        bottom: 10%;
+        right: 5%;
+        animation-delay: 4s;
+    }
 
     @keyframes float {
-        0%, 100% { 
-            transform: translateY(0px) rotate(0deg) scale(1); 
-            opacity: 0.1; 
-        }
-        25% { 
-            transform: translateY(-30px) rotate(90deg) scale(1.2); 
-            opacity: 0.3; 
-        }
-        50% { 
-            transform: translateY(-20px) rotate(180deg) scale(0.8); 
-            opacity: 0.2; 
-        }
-        75% { 
-            transform: translateY(-40px) rotate(270deg) scale(1.1); 
-            opacity: 0.25; 
-        }
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
     }
 
-    .container {
-        max-width: 1600px;
-        margin: 0 auto;
-        padding: 0 24px;
-        position: relative;
-        z-index: 2;
-    }
-
-    .product-container {
-        padding: 40px 0;
-        position: relative;
-    }
-
-    /* Premium Product Card with Glass Morphism */
-    .product-card {
-        background: var(--gradient-card);
-        backdrop-filter: var(--blur-strong);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        border-radius: 40px;
-        overflow: hidden;
-        box-shadow: 
-            0 40px 80px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2),
-            0 0 0 1px rgba(212, 175, 55, 0.1);
-        position: relative;
-        transform: translateY(50px);
-        opacity: 0;
-        animation: slideInUp 1s ease-out 0.2s forwards;
-    }
-
-    @keyframes slideInUp {
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    /* Premium Header with Dynamic Effects */
+    /* Product Header */
     .product-header {
-        background: var(--gradient-gold);
-        padding: 60px;
         text-align: center;
+        padding: 2rem;
+        background: var(--gradient-accent);
         position: relative;
         overflow: hidden;
     }
@@ -161,21 +152,8 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        animation: shimmer 4s infinite;
-    }
-
-    .product-header::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-            radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-        animation: pulseGlow 6s ease-in-out infinite;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 3s ease-in-out infinite;
     }
 
     @keyframes shimmer {
@@ -183,339 +161,234 @@
         100% { left: 100%; }
     }
 
-    @keyframes pulseGlow {
-        0%, 100% { opacity: 0.3; transform: scale(1); }
-        50% { opacity: 0.6; transform: scale(1.05); }
-    }
-
     .product-header h1 {
-        font-size: 4rem;
-        font-weight: 900;
-        margin: 0;
-        color: var(--primary-dark);
-        text-shadow: 
-            0 4px 8px rgba(0, 0, 0, 0.3),
-            0 2px 4px rgba(0, 0, 0, 0.2);
-        letter-spacing: -0.02em;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
         position: relative;
-        z-index: 1;
-        background: linear-gradient(135deg, var(--primary-dark) 0%, #3d2817 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: titleGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes titleGlow {
-        0%, 100% { filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0)); }
-        50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5)); }
+        z-index: 2;
     }
 
     .category-badge {
-        display: inline-block;
-        background: rgba(44, 24, 16, 0.3);
-        color: var(--primary-dark);
-        padding: 12px 28px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
         border-radius: 25px;
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-top: 16px;
-        border: 2px solid rgba(44, 24, 16, 0.4);
-        backdrop-filter: var(--blur-light);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        backdrop-filter: blur(10px);
         position: relative;
-        z-index: 1;
+        z-index: 2;
     }
 
-    .category-badge:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Premium Content Layout */
-    .product-content {
-        padding: 60px;
-    }
-
-    .product-grid {
+    /* Main Product Grid - IMAGE RIGHT, FEATURES LEFT */
+    .product-main {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 60px;
+        gap: 3rem;
+        padding: 3rem;
         align-items: start;
     }
 
-    /* Enhanced Image Container */
-    .product-image-container {
-        position: relative;
-        border-radius: 32px;
-        overflow: hidden;
-        background: var(--gradient-card);
-        backdrop-filter: var(--blur-strong);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        box-shadow: 
-            0 32px 64px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
-
-    .product-image {
-        width: 100%;
-        height: 600px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: all 0.8s ease;
-        filter: brightness(1.1) saturate(1.2);
-    }
-
-    .product-image:hover img {
-        transform: scale(1.1);
-        filter: brightness(1.2) saturate(1.3);
-    }
-
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            45deg,
-            rgba(212, 175, 55, 0.1) 0%,
-            transparent 50%,
-            rgba(139, 69, 19, 0.1) 100%
-        );
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-
-    .product-image:hover .image-overlay {
-        opacity: 1;
-    }
-
-    /* Premium Product Info */
-    .product-info {
+    /* Left Side - Product Features & Info */
+    .product-features {
         display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 2rem;
     }
 
     .product-title {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: var(--primary-gold);
-        margin: 0;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        line-height: 1.2;
-        background: var(--gradient-gold);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--coffee-cream);
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .product-category {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
-        font-size: 1.2rem;
-        color: rgba(255, 255, 255, 0.8);
+        gap: 0.5rem;
+        background: var(--gradient-gold);
+        color: var(--coffee-dark);
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
         font-weight: 600;
-    }
-
-    .product-category i {
-        color: var(--primary-gold);
-        font-size: 1.4rem;
+        font-size: 0.9rem;
+        width: fit-content;
+        box-shadow: var(--shadow-soft);
     }
 
     /* Premium Price Display */
-    .product-price-container {
+    .price-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         position: relative;
-        padding: 24px 0;
+        overflow: hidden;
+    }
+
+    .price-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-accent);
     }
 
     .product-price {
-        font-size: 3.2rem;
-        font-weight: 900;
-        color: var(--primary-gold);
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--coffee-gold);
         display: flex;
         align-items: center;
-        gap: 8px;
-        background: var(--gradient-gold);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: priceGlow 4s ease-in-out infinite;
+        gap: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    @keyframes priceGlow {
-        0%, 100% { filter: drop-shadow(0 0 0 rgba(212, 175, 55, 0)); }
-        50% { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6)); }
-    }
-
-    /* Premium Stock Status */
+    /* Stock Status */
     .stock-status {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 16px 24px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 1.1rem;
-        backdrop-filter: var(--blur-light);
-        border: 2px solid;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.9rem;
     }
 
     .stock-status.in-stock {
         background: rgba(76, 175, 80, 0.2);
-        border-color: var(--accent-green);
         color: #4CAF50;
+        border: 1px solid rgba(76, 175, 80, 0.3);
     }
 
     .stock-status.low-stock {
         background: rgba(255, 193, 7, 0.2);
-        border-color: #FFC107;
         color: #FFC107;
-        animation: lowStockPulse 2s ease-in-out infinite;
+        border: 1px solid rgba(255, 193, 7, 0.3);
     }
 
     .stock-status.out-of-stock {
         background: rgba(244, 67, 54, 0.2);
-        border-color: var(--accent-red);
         color: #F44336;
+        border: 1px solid rgba(244, 67, 54, 0.3);
     }
 
-    @keyframes lowStockPulse {
-        0%, 100% { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
-        50% { box-shadow: 0 8px 16px rgba(255, 193, 7, 0.4); }
-    }
-
-    /* Premium Description */
-    .product-description {
+    /* Product Description */
+    .description-container {
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: var(--blur-light);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         border-radius: 20px;
-        padding: 24px;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .description-title {
         display: flex;
-        align-items: flex-start;
-        gap: 16px;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--coffee-gold);
+        margin-bottom: 1rem;
     }
 
-    .product-description i {
-        color: var(--primary-gold);
-        font-size: 1.4rem;
-        margin-top: 4px;
-        flex-shrink: 0;
+    .product-description {
+        color: var(--coffee-light);
+        line-height: 1.8;
+        font-size: 0.95rem;
     }
 
-    /* Premium Actions Section */
+    /* Quantity and Actions */
     .product-actions {
         display: flex;
         flex-direction: column;
-        gap: 24px;
-        padding: 32px;
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: var(--blur-light);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        gap: 1.5rem;
     }
 
-    /* Premium Quantity Controls */
     .quantity-section {
         display: flex;
-        flex-direction: column;
-        gap: 16px;
+        align-items: center;
+        gap: 1rem;
     }
 
     .quantity-label {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--primary-gold);
+        font-weight: 600;
+        color: var(--coffee-cream);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
+        font-size: 0.9rem;
     }
 
     .quantity-controls {
         display: flex;
         align-items: center;
-        gap: 16px;
-        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .quantity-btn {
-        width: 50px;
-        height: 50px;
-        border: 2px solid var(--primary-gold);
-        background: var(--gradient-gold);
-        color: var(--primary-dark);
-        border-radius: 50%;
-        font-size: 1.2rem;
-        font-weight: 700;
+        background: transparent;
+        border: none;
+        color: var(--coffee-cream);
+        padding: 0.75rem;
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     }
 
     .quantity-btn:hover {
-        transform: translateY(-3px) scale(1.1);
-        box-shadow: 0 12px 24px rgba(212, 175, 55, 0.4);
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--coffee-gold);
     }
 
     .quantity-input {
-        width: 80px;
-        height: 50px;
-        border: 2px solid var(--primary-gold);
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: var(--blur-light);
-        color: #fff;
-        border-radius: 15px;
-        font-size: 1.3rem;
-        font-weight: 700;
+        background: transparent;
+        border: none;
+        color: var(--coffee-cream);
         text-align: center;
-        transition: all 0.3s ease;
+        width: 60px;
+        padding: 0.75rem 0;
+        font-size: 1rem;
+        font-weight: 600;
     }
 
     .quantity-input:focus {
         outline: none;
-        border-color: #FFD700;
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-        background: rgba(255, 255, 255, 0.15);
+        color: var(--coffee-gold);
     }
 
     /* Premium Add to Cart Button */
     .add-to-cart-btn {
-        background: var(--gradient-gold);
-        color: var(--primary-dark);
+        background: var(--gradient-accent);
+        color: white;
         border: none;
-        padding: 20px 40px;
-        border-radius: 20px;
-        font-size: 1.3rem;
-        font-weight: 800;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
-        box-shadow: 
-            0 16px 32px rgba(0, 0, 0, 0.3),
-            0 8px 16px rgba(212, 175, 55, 0.3);
+        gap: 0.5rem;
+        box-shadow: var(--shadow-medium);
         position: relative;
         overflow: hidden;
     }
@@ -536,10 +409,8 @@
     }
 
     .add-to-cart-btn:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.4),
-            0 12px 24px rgba(212, 175, 55, 0.5);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-strong), var(--shadow-glow);
     }
 
     .add-to-cart-btn:disabled {
@@ -550,1031 +421,623 @@
         box-shadow: none;
     }
 
-    /* Premium Social Actions */
+    /* Social Actions */
     .social-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 24px;
+        gap: 1rem;
     }
 
     .social-btn {
         background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: var(--blur-light);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        color: #fff;
-        padding: 16px 24px;
-        border-radius: 16px;
-        font-size: 1rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--coffee-cream);
+        padding: 0.75rem 1rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .social-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        transition: left 0.3s ease;
-    }
-
-    .social-btn.like-btn::before {
-        background: linear-gradient(90deg, transparent, rgba(244, 67, 54, 0.3), transparent);
-    }
-
-    .social-btn.favorite-btn::before {
-        background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.3), transparent);
-    }
-
-    .social-btn:hover::before {
-        left: 100%;
-    }
-
-    .social-btn.liked {
-        background: rgba(244, 67, 54, 0.2);
-        border-color: #F44336;
-        color: #F44336;
-        box-shadow: 0 8px 16px rgba(244, 67, 54, 0.3);
-    }
-
-    .social-btn.favorited {
-        background: rgba(255, 193, 7, 0.2);
-        border-color: #FFC107;
-        color: #FFC107;
-        box-shadow: 0 8px 16px rgba(255, 193, 7, 0.3);
+        gap: 0.5rem;
     }
 
     .social-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-soft);
     }
 
-    /* Premium Stats Display */
-    .product-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-top: 32px;
+    .social-btn.liked,
+    .social-btn.favorited {
+        background: var(--gradient-gold);
+        color: var(--coffee-dark);
+        border-color: var(--coffee-gold);
     }
 
-    .stat-item {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: var(--blur-light);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 24px;
-        text-align: center;
-        transition: all 0.3s ease;
+    /* Right Side - Product Image */
+    .product-image-side {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .main-image-container {
         position: relative;
+        border-radius: 25px;
         overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow-medium);
     }
 
-    .stat-item::before {
-        content: '';
+    .main-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .main-image:hover {
+        transform: scale(1.05);
+    }
+
+    .image-overlay {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--gradient-gold);
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 70%);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
 
-    .stat-item:hover::before {
-        opacity: 0.1;
+    .main-image-container:hover .image-overlay {
+        opacity: 1;
     }
 
-    .stat-item:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-        border-color: var(--primary-gold);
+    /* Product Stats */
+    .product-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
     }
 
     .stat-number {
-        font-size: 2.4rem;
-        font-weight: 900;
-        color: var(--primary-gold);
-        margin-bottom: 8px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 1;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--coffee-gold);
+        margin-bottom: 0.5rem;
     }
 
     .stat-label {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.7);
-        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--coffee-light);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        position: relative;
-        z-index: 1;
+        gap: 0.3rem;
     }
 
-    .stat-label i {
-        font-size: 1rem;
-        color: var(--primary-gold);
-    }
-
-    /* Premium Comments Section */
-    .comments-section {
-        margin-top: 60px;
-        padding: 60px;
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: var(--blur-strong);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 32px;
-        box-shadow: 0 32px 64px rgba(0, 0, 0, 0.4);
-    }
-
-    .comment-form-section {
-        margin-bottom: 48px;
-    }
-
-    .comment-form-title {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: var(--primary-gold);
-        margin-bottom: 32px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .comment-form-title i {
-        font-size: 2rem;
-        animation: iconFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes iconFloat {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-    }
-
-    .comment-form {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-
-    .comment-textarea {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: var(--blur-light);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 24px;
-        color: #fff;
-        font-size: 1.1rem;
-        font-family: inherit;
-        resize: vertical;
-        min-height: 120px;
-        transition: all 0.3s ease;
-    }
-
-    .comment-textarea:focus {
-        outline: none;
-        border-color: var(--primary-gold);
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-    .comment-textarea::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    .comment-submit-btn {
-        background: var(--gradient-gold);
-        color: var(--primary-dark);
-        border: none;
-        padding: 18px 36px;
-        border-radius: 18px;
-        font-size: 1.2rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        align-self: flex-start;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .comment-submit-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.4s ease;
-    }
-
-    .comment-submit-btn:hover::before {
-        left: 100%;
-    }
-
-    .comment-submit-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Premium Login Prompt */
-    .login-prompt {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: var(--blur-light);
-        border: 2px solid rgba(212, 175, 55, 0.3);
-        border-radius: 24px;
-        padding: 48px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .login-prompt::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-            radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 70% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
-        animation: pulseGlow 4s ease-in-out infinite;
-    }
-
-    .login-prompt i {
-        font-size: 4rem;
-        margin-bottom: 24px;
-        color: var(--primary-gold);
-        animation: iconPulse 2s ease-in-out infinite;
-        position: relative;
-        z-index: 1;
-    }
-
-    @keyframes iconPulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-    }
-
-    .login-prompt h3 {
-        color: #fff;
-        margin-bottom: 16px;
-        font-size: 2rem;
-        font-weight: 800;
-        position: relative;
-        z-index: 1;
-    }
-
-    .login-prompt p {
-        color: rgba(255, 255, 255, 0.8);
-        margin-bottom: 32px;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        position: relative;
-        z-index: 1;
-    }
-
-    .login-prompt a {
-        background: var(--gradient-gold);
-        color: var(--primary-dark);
-        padding: 16px 32px;
-        border-radius: 16px;
-        text-decoration: none;
-        font-weight: 700;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        margin: 0 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 1;
-    }
-
-    .login-prompt a:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    .login-prompt a:last-child {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* Premium Reviews Display */
+    /* Reviews Section */
     .reviews-section {
-        margin-top: 48px;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        border-top: 3px solid var(--coffee-gold);
     }
 
     .reviews-title {
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--primary-gold);
-        margin-bottom: 32px;
         display: flex;
         align-items: center;
-        gap: 16px;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .reviews-title i {
-        font-size: 1.8rem;
-        animation: starTwinkle 2s ease-in-out infinite;
-    }
-
-    @keyframes starTwinkle {
-        0%, 100% { opacity: 1; transform: rotate(0deg); }
-        50% { opacity: 0.7; transform: rotate(15deg); }
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--coffee-gold);
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .review-item {
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: var(--blur-light);
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 1rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 24px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .review-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .review-item:hover::before {
-        left: 100%;
-    }
-
-    .review-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-        border-color: var(--primary-gold);
+        backdrop-filter: blur(10px);
     }
 
     .review-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 16px;
-        position: relative;
-        z-index: 1;
+        margin-bottom: 1rem;
     }
 
     .reviewer-name {
-        font-weight: 700;
-        color: var(--primary-gold);
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 1.1rem;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: var(--coffee-gold);
     }
 
     .review-date {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 0.3rem;
+        font-size: 0.8rem;
+        color: var(--coffee-light);
     }
 
     .review-text {
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.7;
-        font-size: 1rem;
-        position: relative;
-        z-index: 1;
+        color: var(--coffee-cream);
+        line-height: 1.6;
     }
 
-    /* Premium Related Products */
-    .related-products {
-        margin-top: 80px;
-        padding: 60px;
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: var(--blur-strong);
+    /* Comment Form */
+    .comment-form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 32px;
-        box-shadow: 0 32px 64px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        margin-top: 2rem;
+    }
+
+    .comment-form h3 {
+        color: var(--coffee-gold);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comment-textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 1rem;
+        color: var(--coffee-cream);
+        font-family: inherit;
+        resize: vertical;
+        min-height: 120px;
+        backdrop-filter: blur(10px);
+    }
+
+    .comment-textarea:focus {
+        outline: none;
+        border-color: var(--coffee-gold);
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+
+    .comment-submit-btn {
+        background: var(--gradient-gold);
+        color: var(--coffee-dark);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .comment-submit-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-soft);
+    }
+
+    /* Related Products */
+    .related-products {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        border-top: 3px solid var(--coffee-orange);
     }
 
     .related-title {
-        font-size: 2.4rem;
-        font-weight: 900;
-        color: var(--primary-gold);
-        margin-bottom: 40px;
-        text-align: center;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 16px;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .related-title i {
-        font-size: 2.2rem;
-        animation: sparkle 2s ease-in-out infinite;
-    }
-
-    @keyframes sparkle {
-        0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        50% { opacity: 0.8; transform: scale(1.1) rotate(180deg); }
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--coffee-orange);
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .related-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
     }
 
     .related-item {
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: var(--blur-light);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
+        border-radius: 15px;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         cursor: pointer;
-        transition: all 0.4s ease;
-        position: relative;
-        group: hover;
-    }
-
-    .related-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--gradient-gold);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .related-item:hover::before {
-        opacity: 0.1;
+        transition: all 0.3s ease;
     }
 
     .related-item:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
-        border-color: var(--primary-gold);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+        border-color: var(--coffee-orange);
     }
 
     .related-item-image {
-        width: 100%;
-        height: 200px;
+        height: 150px;
         overflow: hidden;
-        position: relative;
     }
 
     .related-item-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
-        filter: brightness(1.1);
+        transition: transform 0.3s ease;
     }
 
     .related-item:hover .related-item-image img {
         transform: scale(1.1);
-        filter: brightness(1.2);
     }
 
     .related-item-info {
-        padding: 24px;
-        position: relative;
-        z-index: 1;
+        padding: 1rem;
     }
 
     .related-item-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 8px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        font-weight: 600;
+        color: var(--coffee-cream);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
     }
 
     .related-item-price {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: var(--primary-gold);
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Premium Messages */
-    .success-message, .error-message {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: var(--blur-light);
-        border: 2px solid;
-        border-radius: 16px;
-        padding: 16px 24px;
-        margin: 16px 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 600;
-        animation: messageSlideIn 0.5s ease-out;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .success-message {
-        border-color: var(--accent-green);
-        color: #4CAF50;
-    }
-
-    .error-message {
-        border-color: var(--accent-red);
-        color: #F44336;
-    }
-
-    .success-message::before, .error-message::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        animation: shimmer 2s infinite;
-    }
-
-    @keyframes messageSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Loading States */
-    .loading {
-        opacity: 0.6;
-        pointer-events: none;
-        position: relative;
-    }
-
-    .loading::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 20px;
-        height: 20px;
-        margin: -10px 0 0 -10px;
-        border: 2px solid transparent;
-        border-top: 2px solid var(--primary-gold);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    .pulse {
-        animation: pulse 0.6s ease-in-out;
-    }
-
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--gradient-gold);
-        border-radius: 6px;
-        border: 2px solid transparent;
-        background-clip: content-box;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
-        background-clip: content-box;
+        color: var(--coffee-gold);
+        font-weight: 700;
+        font-size: 1rem;
     }
 
     /* Responsive Design */
-    @media (max-width: 1200px) {
-        .container {
-            max-width: 1000px;
-        }
-        
-        .product-grid {
-            gap: 40px;
-        }
-        
-        .product-header h1 {
-            font-size: 3.2rem;
-        }
-        
-        .product-title {
-            font-size: 2.4rem;
-        }
-    }
-
     @media (max-width: 768px) {
-        .container {
-            padding: 0 16px;
-        }
-        
-        .product-content {
-            padding: 40px 20px;
-        }
-        
-        .product-grid {
+        .product-main {
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 2rem;
+            padding: 2rem 1rem;
         }
-        
-        .product-header {
-            padding: 40px 20px;
+
+        .product-image-side {
+            order: -1; /* Image first on mobile */
         }
-        
+
         .product-header h1 {
-            font-size: 2.4rem;
-        }
-        
-        .product-title {
             font-size: 2rem;
         }
-        
-        .product-price {
-            font-size: 2.4rem;
+
+        .product-title {
+            font-size: 1.5rem;
         }
-        
+
+        .product-price {
+            font-size: 1.5rem;
+        }
+
         .social-actions {
             grid-template-columns: 1fr;
         }
-        
+
         .product-stats {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
         }
-        
+
         .related-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .comments-section {
-            padding: 40px 20px;
-        }
-        
-        .related-products {
-            padding: 40px 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
     }
 
-    @media (max-width: 480px) {
-        .product-header h1 {
-            font-size: 2rem;
-        }
-        
-        .product-title {
-            font-size: 1.6rem;
-        }
-        
-        .product-price {
-            font-size: 2rem;
-        }
-        
-        .quantity-controls {
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .add-to-cart-btn {
-            padding: 16px 24px;
-            font-size: 1.1rem;
-        }
+    /* Loading Animation */
+    .pulse {
+        animation: pulse 0.3s ease;
     }
 
-    /* Premium Animations */
-    .animate-in {
-        animation: fadeInUp 0.8s ease-out forwards;
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Notification Styles */
+    #product-messages {
+        margin-bottom: 1rem;
     }
 
-    /* Premium Hover Effects */
-    .product-card:hover {
-        box-shadow: 
-            0 50px 100px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            0 0 0 1px rgba(212, 175, 55, 0.2);
+    .alert {
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    /* Enhanced Focus States */
-    button:focus, input:focus, textarea:focus {
-        outline: 2px solid var(--primary-gold);
-        outline-offset: 2px;
+    .alert-success {
+        background: rgba(76, 175, 80, 0.2);
+        color: #4CAF50;
+        border: 1px solid rgba(76, 175, 80, 0.3);
     }
 
-    /* Print Styles */
-    @media print {
-        .social-actions, .product-actions, .floating-elements {
-            display: none;
-        }
-        
-        .product-card {
-            box-shadow: none;
-            border: 1px solid #ccc;
-        }
+    .alert-error {
+        background: rgba(244, 67, 54, 0.2);
+        color: #F44336;
+        border: 1px solid rgba(244, 67, 54, 0.3);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="product-hero">
-    <div class="hero-background"></div>
-    <div class="floating-elements">
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-    </div>
+<!-- Coffee Steam Background -->
+<div class="coffee-background">
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+</div>
 
-    <div class="container">
-        <div class="product-container">
-            <div class="product-card">
-                <div class="product-header">
-                    <h1><i class="fas fa-coffee"></i> {{ product.name }}</h1>
-                    <div class="category-badge">
-                        <i class="fas fa-tag"></i> {{ product.category.name }}
+<div class="product-detail-container">
+    <div class="product-wrapper coffee-beans">
+        <!-- Product Header -->
+        <div class="product-header">
+            <h1><i class="fas fa-coffee"></i> {{ product.name }}</h1>
+            <div class="category-badge">
+                <i class="fas fa-tag"></i> {{ product.category.name }}
+            </div>
+        </div>
+
+        <!-- Main Product Grid -->
+        <div class="product-main">
+            <!-- LEFT SIDE - Product Features & Info -->
+            <div class="product-features">
+                <div id="product-messages"></div>
+                
+                <h2 class="product-title">{{ product.name }}</h2>
+                
+                <div class="product-category">
+                    <i class="fas fa-layer-group"></i>
+                    {{ product.category.name }}
+                </div>
+                
+                <!-- Price Container -->
+                <div class="price-container">
+                    <div class="product-price">
+                        <i class="fas fa-coins"></i>
+                        {{ product.price|floatformat:0 }} تومان
                     </div>
                 </div>
                 
-                <div class="product-content">
-                    <div id="product-messages"></div>
-                    
-                    <div class="product-grid">
-                        <div class="product-image-container">
-                            <div class="product-image">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                    <div class="image-overlay"></div>
-                                {% else %}
-                                    <div style="width: 100%; height: 100%; background: var(--gradient-brown); display: flex; align-items: center; justify-content: center; color: var(--primary-gold); font-size: 5rem;">
-                                        <i class="fas fa-coffee"></i>
-                                    </div>
-                                {% endif %}
-                            </div>
+                <!-- Stock Status -->
+                <div class="stock-status {% if product.stock > 10 %}in-stock{% elif product.stock > 0 %}low-stock{% else %}out-of-stock{% endif %}">
+                    {% if product.stock > 10 %}
+                        <i class="fas fa-check-circle"></i> موجود در انبار
+                    {% elif product.stock > 0 %}
+                        <i class="fas fa-exclamation-triangle"></i> کم موجودی ({{ product.stock }} عدد باقی‌مانده)
+                    {% else %}
+                        <i class="fas fa-times-circle"></i> ناموجود
+                    {% endif %}
+                </div>
+                
+                <!-- Description -->
+                <div class="description-container">
+                    <div class="description-title">
+                        <i class="fas fa-info-circle"></i>
+                        توضیحات محصول
+                    </div>
+                    <div class="product-description">{{ product.description }}</div>
+                </div>
+                
+                <!-- Product Actions -->
+                <div class="product-actions">
+                    <div class="quantity-section">
+                        <div class="quantity-label">
+                            <i class="fas fa-sort-numeric-up"></i>
+                            تعداد:
                         </div>
-                        
-                        <div class="product-info">
-                            <h2 class="product-title">{{ product.name }}</h2>
-                            <div class="product-category">
-                                <i class="fas fa-layer-group"></i>
-                                {{ product.category.name }}
-                            </div>
-                            
-                            <div class="product-price-container">
-                                <div class="product-price">
-                                    <i class="fas fa-coins"></i>
-                                    {{ product.price|floatformat:0 }} تومان
-                                </div>
-                            </div>
-                            
-                            <div class="stock-status {% if product.stock > 10 %}in-stock{% elif product.stock > 0 %}low-stock{% else %}out-of-stock{% endif %}">
-                                {% if product.stock > 10 %}
-                                    <i class="fas fa-check-circle"></i> موجود در انبار
-                                {% elif product.stock > 0 %}
-                                    <i class="fas fa-exclamation-triangle"></i> کم موجودی ({{ product.stock }} عدد باقی‌مانده)
-                                {% else %}
-                                    <i class="fas fa-times-circle"></i> ناموجود
-                                {% endif %}
-                            </div>
-                            
-                            <div class="product-description">
-                                <i class="fas fa-info-circle"></i>
-                                <div>{{ product.description }}</div>
-                            </div>
-                            
-                            <div class="product-actions">
-                                <div class="quantity-section">
-                                    <div class="quantity-label">
-                                        <i class="fas fa-sort-numeric-up"></i>
-                                        تعداد:
-                                    </div>
-                                    <div class="quantity-controls">
-                                        <button class="quantity-btn" onclick="changeQuantity(-1)" type="button">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" id="quantity-input" class="quantity-input" value="1" min="1" max="{{ available_stock }}">
-                                        <button class="quantity-btn" onclick="changeQuantity(1)" type="button">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <button id="add-to-cart-btn" class="add-to-cart-btn" onclick="addToCart()" {% if product.stock == 0 %}disabled{% endif %} type="button">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    {% if product.stock == 0 %}
-                                        ناموجود
-                                    {% else %}
-                                        افزودن به سبد خرید
-                                    {% endif %}
-                                </button>
-                            </div>
-                            
-                            <div class="social-actions">
-                                <button id="like-btn" class="social-btn like-btn {% if user_liked %}liked{% endif %}" onclick="toggleLike()" type="button">
-                                    <i class="fas fa-heart"></i>
-                                    <span id="like-count">{{ total_likes }}</span>
-                                    پسند
-                                </button>
-                                
-                                <button id="favorite-btn" class="social-btn favorite-btn {% if user_favorited %}favorited{% endif %}" onclick="toggleFavorite()" type="button">
-                                    <i class="fas fa-star"></i>
-                                    <span id="favorite-count">{{ total_favorites }}</span>
-                                    علاقه‌مندی
-                                </button>
-                            </div>
-                            
-                            <div class="product-stats">
-                                <div class="stat-item">
-                                    <div class="stat-number" id="stat-likes">{{ total_likes }}</div>
-                                    <div class="stat-label">
-                                        <i class="fas fa-heart"></i>
-                                        لایک
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="stat-favorites">{{ total_favorites }}</div>
-                                    <div class="stat-label">
-                                        <i class="fas fa-star"></i>
-                                        علاقه‌مندی
-                                    </div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="stat-reviews">{{ total_reviews }}</div>
-                                    <div class="stat-label">
-                                        <i class="fas fa-comment"></i>
-                                        نظر
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="changeQuantity(-1)" type="button">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" id="quantity-input" class="quantity-input" value="1" min="1" max="{{ available_stock }}">
+                            <button class="quantity-btn" onclick="changeQuantity(1)" type="button">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                     
-                    <!-- Premium Comments Section -->
-                    <div class="comments-section">
-                        <div class="comment-form-section">
-                            {% if user.is_authenticated %}
-                                <h3 class="comment-form-title">
-                                    <i class="fas fa-comments"></i>
-                                    نظر خود را بنویسید
-                                </h3>
-                                <form method="post" class="comment-form">
-                                    {% csrf_token %}
-                                    <textarea 
-                                        name="text" 
-                                        class="comment-textarea" 
-                                        placeholder="تجربه خود از این محصول را با ما و دیگران به اشتراک بگذارید..."
-                                        required
-                                    ></textarea>
-                                    <button type="submit" class="comment-submit-btn">
-                                        <i class="fas fa-paper-plane"></i>
-                                        ثبت نظر
-                                    </button>
-                                </form>
-                            {% else %}
-                                <div class="login-prompt">
-                                    <i class="fas fa-user-lock"></i>
-                                    <h3>برای ثبت نظر وارد شوید</h3>
-                                    <p>
-                                        با ثبت نظر خود، به دیگران در انتخاب بهتر کمک کنید
-                                    </p>
-                                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                                        <a href="{% url 'login' %}">
-                                            <i class="fas fa-sign-in-alt"></i>
-                                            ورود
-                                        </a>
-                                        <a href="{% url 'signup' %}">
-                                            <i class="fas fa-user-plus"></i>
-                                            ثبت نام
-                                        </a>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- Premium Reviews Display -->
-                        {% if reviews %}
-                        <div class="reviews-section">
-                            <h3 class="reviews-title">
-                                <i class="fas fa-star"></i>
-                                نظرات کاربران ({{ total_reviews }})
-                            </h3>
-                            
-                            {% for review in reviews %}
-                            <div class="review-item">
-                                <div class="review-header">
-                                    <span class="reviewer-name">
-                                        <i class="fas fa-user-circle"></i>
-                                        {{ review.user.username }}
-                                    </span>
-                                    <span class="review-date">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        {{ review.created_at|date:"Y/m/d" }}
-                                    </span>
-                                </div>
-                                <p class="review-text">{{ review.text }}</p>
-                            </div>
-                            {% endfor %}
-                        </div>
+                    <button id="add-to-cart-btn" class="add-to-cart-btn" onclick="addToCart()" {% if product.stock == 0 %}disabled{% endif %} type="button">
+                        <i class="fas fa-shopping-cart"></i>
+                        {% if product.stock == 0 %}
+                            ناموجود
                         {% else %}
-                        <div class="reviews-section">
-                            <div style="text-align: center; padding: 60px 20px; color: rgba(255, 255, 255, 0.6);">
-                                <i class="fas fa-comment-slash" style="font-size: 4rem; margin-bottom: 20px; color: var(--primary-gold);"></i>
-                                <h3 style="color: #fff; margin-bottom: 12px;">هنوز نظری ثبت نشده</h3>
-                                <p>اولین نفری باشید که نظر خود را درباره این محصول ثبت می‌کند</p>
-                            </div>
-                        </div>
+                            افزودن به سبد خرید
                         {% endif %}
-                    </div>
+                    </button>
+                </div>
+                
+                <!-- Social Actions -->
+                <div class="social-actions">
+                    <button id="like-btn" class="social-btn like-btn {% if user_liked %}liked{% endif %}" onclick="toggleLike()" type="button">
+                        <i class="fas fa-heart"></i>
+                        <span id="like-count">{{ total_likes }}</span>
+                        پسند
+                    </button>
                     
-                    <!-- Premium Related Products -->
-                    {% if related_products %}
-                    <div class="related-products">
-                        <h3 class="related-title">
-                            <i class="fas fa-sparkles"></i>
-                            محصولات مرتبط
-                        </h3>
-                        <div class="related-grid">
-                            {% for related in related_products %}
-                            <div class="related-item" onclick="location.href='{% url 'product_detail' related.id %}'">
-                                <div class="related-item-image">
-                                    {% if related.image %}
-                                        <img src="{{ related.image.url }}" alt="{{ related.name }}">
-                                    {% else %}
-                                        <div style="width: 100%; height: 100%; background: var(--gradient-brown); display: flex; align-items: center; justify-content: center; color: var(--primary-gold); font-size: 3rem;">
-                                            <i class="fas fa-coffee"></i>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="related-item-info">
-                                    <div class="related-item-name">{{ related.name }}</div>
-                                    <div class="related-item-price">{{ related.price|floatformat:0 }} تومان</div>
-                                </div>
-                            </div>
-                            {% endfor %}
+                    <button id="favorite-btn" class="social-btn favorite-btn {% if user_favorited %}favorited{% endif %}" onclick="toggleFavorite()" type="button">
+                        <i class="fas fa-star"></i>
+                        <span id="favorite-count">{{ total_favorites }}</span>
+                        علاقه‌مندی
+                    </button>
+                </div>
+                
+                <!-- Product Stats -->
+                <div class="product-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat-likes">{{ total_likes }}</div>
+                        <div class="stat-label">
+                            <i class="fas fa-heart"></i>
+                            لایک
                         </div>
                     </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat-favorites">{{ total_favorites }}</div>
+                        <div class="stat-label">
+                            <i class="fas fa-star"></i>
+                            علاقه‌مندی
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat-reviews">{{ total_reviews }}</div>
+                        <div class="stat-label">
+                            <i class="fas fa-comment"></i>
+                            نظر
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE - Product Image -->
+            <div class="product-image-side">
+                <div class="main-image-container">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+                        <div class="image-overlay"></div>
+                    {% else %}
+                        <div style="width: 100%; height: 400px; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: var(--coffee-gold); font-size: 5rem;">
+                            <i class="fas fa-coffee"></i>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h3 class="reviews-title">
+                <i class="fas fa-star"></i>
+                نظرات کاربران ({{ total_reviews }})
+            </h3>
+            
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="reviewer-name">
+                            <i class="fas fa-user-circle"></i>
+                            {{ review.user.username }}
+                        </span>
+                        <span class="review-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {{ review.created_at|date:"Y/m/d" }}
+                        </span>
+                    </div>
+                    <p class="review-text">{{ review.text }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 3rem; color: rgba(255, 255, 255, 0.6);">
+                    <i class="fas fa-comment-slash" style="font-size: 3rem; margin-bottom: 1rem; color: var(--coffee-gold);"></i>
+                    <h3 style="color: var(--coffee-cream); margin-bottom: 0.5rem;">هنوز نظری ثبت نشده</h3>
+                    <p>اولین نفری باشید که نظر خود را درباره این محصول ثبت می‌کند</p>
+                </div>
+            {% endif %}
+            
+            <!-- Comment Form -->
+            {% if user.is_authenticated %}
+            <div class="comment-form">
+                <h3>
+                    <i class="fas fa-pen"></i>
+                    نظر خود را بنویسید
+                </h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea name="text" class="comment-textarea" placeholder="نظر خود را در مورد این محصول بنویسید..." required></textarea>
+                    <button type="submit" class="comment-submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        ثبت نظر
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <div class="comment-form">
+                <h3>
+                    <i class="fas fa-sign-in-alt"></i>
+                    برای ثبت نظر وارد شوید
+                </h3>
+                <p style="color: var(--coffee-light); margin-bottom: 1rem;">
+                    برای ثبت نظر در مورد این محصول، لطفاً وارد حساب کاربری خود شوید.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="{% url 'login' %}" class="comment-submit-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        ورود
+                    </a>
+                    <a href="{% url 'signup' %}" class="comment-submit-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gradient-accent); color: white;">
+                        <i class="fas fa-user-plus"></i>
+                        ثبت نام
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Related Products -->
+        {% if related_products %}
+        <div class="related-products">
+            <h3 class="related-title">
+                <i class="fas fa-sparkles"></i>
+                محصولات مرتبط
+            </h3>
+            <div class="related-grid">
+                {% for related in related_products %}
+                <div class="related-item" onclick="location.href='{% url 'product_detail' related.id %}'">
+                    <div class="related-item-image">
+                        {% if related.image %}
+                            <img src="{{ related.image.url }}" alt="{{ related.name }}">
+                        {% else %}
+                            <div style="width: 100%; height: 100%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: var(--coffee-gold); font-size: 2rem;">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="related-item-info">
+                        <div class="related-item-name">{{ related.name }}</div>
+                        <div class="related-item-price">{{ related.price|floatformat:0 }} تومان</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
@@ -1599,87 +1062,87 @@ function changeQuantity(delta) {
 }
 
 function addToCart() {
-    const button = document.getElementById('add-to-cart-btn');
-    const quantity = currentQuantity;
+    const btn = document.getElementById('add-to-cart-btn');
+    const originalText = btn.innerHTML;
     
-    if (quantity > maxStock) {
-        showMessage('تعداد درخواستی بیش از موجودی است', 'error');
-        return;
-    }
-    
-    // Show loading state
-    button.disabled = true;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال افزودن...';
-    button.classList.add('loading');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال افزودن...';
+    btn.disabled = true;
     
     fetch('{% url "add_to_cart" %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
         },
         body: JSON.stringify({
             product_id: productId,
-            quantity: quantity
+            quantity: currentQuantity
         })
     })
     .then(response => response.json())
     .then(data => {
+        const messagesDiv = document.getElementById('product-messages');
+        
         if (data.success) {
-            showMessage(data.message, 'success');
-            
-            // Update cart count in navigation if it exists
-            updateCartCount(data.cart_count);
-            
-            // Reset quantity to 1
-            currentQuantity = 1;
-            document.getElementById('quantity-input').value = 1;
-            
-            // Add success animation
-            button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-            button.innerHTML = '<i class="fas fa-check"></i> اضافه شد!';
-            
-            setTimeout(() => {
-                button.style.background = '';
-                button.innerHTML = '<i class="fas fa-shopping-cart"></i> افزودن به سبد خرید';
-            }, 2000);
-            
+            messagesDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    ${data.message}
+                </div>
+            `;
+            // Update cart count if element exists
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                cartCount.textContent = data.cart_count || '';
+            }
         } else {
-            showMessage(data.message, 'error');
+            messagesDiv.innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${data.message}
+                </div>
+            `;
             if (data.redirect) {
-                setTimeout(() => {
-                    window.location.href = data.redirect;
-                }, 1500);
+                setTimeout(() => window.location.href = data.redirect, 1500);
             }
         }
+        
+        // Remove message after 5 seconds
+        setTimeout(() => {
+            messagesDiv.innerHTML = '';
+        }, 5000);
     })
     .catch(error => {
-        console.error('Cart error:', error);
-        showMessage('خطا در افزودن به سبد خرید', 'error');
+        console.error('Error:', error);
+        const messagesDiv = document.getElementById('product-messages');
+        messagesDiv.innerHTML = `
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                خطا در افزودن به سبد خرید
+            </div>
+        `;
     })
     .finally(() => {
-        button.disabled = false;
-        button.classList.remove('loading');
-        if (button.innerHTML.includes('spinner')) {
-            button.innerHTML = '<i class="fas fa-shopping-cart"></i> افزودن به سبد خرید';
-        }
+        btn.innerHTML = originalText;
+        btn.disabled = false;
     });
 }
 
 function toggleLike() {
-    const button = document.getElementById('like-btn');
+    {% if not user.is_authenticated %}
+        window.location.href = '{% url "login" %}';
+        return;
+    {% endif %}
+    
+    const btn = document.getElementById('like-btn');
     const countSpan = document.getElementById('like-count');
     const statLikes = document.getElementById('stat-likes');
-    
-    // Add loading animation
-    button.style.opacity = '0.6';
-    button.classList.add('pulse');
     
     fetch('{% url "toggle_like" %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
         },
         body: JSON.stringify({
             product_id: productId
@@ -1688,52 +1151,46 @@ function toggleLike() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Update button state with animation
-            button.classList.toggle('liked', data.is_liked);
+            if (data.is_liked) {
+                btn.classList.add('liked');
+                btn.querySelector('i').className = 'fas fa-heart';
+            } else {
+                btn.classList.remove('liked');
+                btn.querySelector('i').className = 'far fa-heart';
+            }
             countSpan.textContent = data.total_likes;
             statLikes.textContent = data.total_likes;
-            
-            // Show success message
-            const message = data.is_liked ? 'محصول لایک شد! ❤️' : 'لایک حذف شد';
-            showMessage(message, 'success');
-            
-            // Add heart animation for like
-            if (data.is_liked) {
-                createHeartAnimation(button);
-            }
         } else {
-            showMessage(data.message, 'error');
+            const messagesDiv = document.getElementById('product-messages');
+            messagesDiv.innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${data.message}
+                </div>
+            `;
             if (data.redirect) {
-                setTimeout(() => {
-                    window.location.href = data.redirect;
-                }, 1500);
+                setTimeout(() => window.location.href = data.redirect, 1500);
             }
         }
     })
-    .catch(error => {
-        console.error('Like error:', error);
-        showMessage('خطا در ثبت لایک', 'error');
-    })
-    .finally(() => {
-        button.style.opacity = '1';
-        setTimeout(() => button.classList.remove('pulse'), 600);
-    });
+    .catch(error => console.error('Error:', error));
 }
 
 function toggleFavorite() {
-    const button = document.getElementById('favorite-btn');
+    {% if not user.is_authenticated %}
+        window.location.href = '{% url "login" %}';
+        return;
+    {% endif %}
+    
+    const btn = document.getElementById('favorite-btn');
     const countSpan = document.getElementById('favorite-count');
     const statFavorites = document.getElementById('stat-favorites');
-    
-    // Add loading animation
-    button.style.opacity = '0.6';
-    button.classList.add('pulse');
     
     fetch('{% url "toggle_favorite" %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
         },
         body: JSON.stringify({
             product_id: productId
@@ -1742,306 +1199,53 @@ function toggleFavorite() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Update button state with animation
-            button.classList.toggle('favorited', data.is_favorited);
+            if (data.is_favorited) {
+                btn.classList.add('favorited');
+                btn.querySelector('i').className = 'fas fa-star';
+            } else {
+                btn.classList.remove('favorited');
+                btn.querySelector('i').className = 'far fa-star';
+            }
             countSpan.textContent = data.total_favorites;
             statFavorites.textContent = data.total_favorites;
-            
-            // Show success message
-            const message = data.is_favorited ? 'به علاقه‌مندی‌ها اضافه شد! ⭐' : 'از علاقه‌مندی‌ها حذف شد';
-            showMessage(message, 'success');
-            
-            // Add star animation for favorite
-            if (data.is_favorited) {
-                createStarAnimation(button);
-            }
         } else {
-            showMessage(data.message, 'error');
+            const messagesDiv = document.getElementById('product-messages');
+            messagesDiv.innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    ${data.message}
+                </div>
+            `;
             if (data.redirect) {
-                setTimeout(() => {
-                    window.location.href = data.redirect;
-                }, 1500);
+                setTimeout(() => window.location.href = data.redirect, 1500);
             }
         }
     })
-    .catch(error => {
-        console.error('Favorite error:', error);
-        showMessage('خطا در ثبت علاقه‌مندی', 'error');
-    })
-    .finally(() => {
-        button.style.opacity = '1';
-        setTimeout(() => button.classList.remove('pulse'), 600);
-    });
+    .catch(error => console.error('Error:', error));
 }
 
-function createHeartAnimation(element) {
-    const heart = document.createElement('div');
-    heart.innerHTML = '❤️';
-    heart.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2rem;
-        pointer-events: none;
-        z-index: 1000;
-        animation: heartFloat 1.5s ease-out forwards;
-    `;
-    
-    // Add animation keyframes
-    if (!document.getElementById('heart-animation-style')) {
-        const style = document.createElement('style');
-        style.id = 'heart-animation-style';
-        style.textContent = `
-            @keyframes heartFloat {
-                0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-                100% { transform: translate(-50%, -150%) scale(1.5); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    element.style.position = 'relative';
-    element.appendChild(heart);
-    
-    setTimeout(() => heart.remove(), 1500);
-}
-
-function createStarAnimation(element) {
-    const star = document.createElement('div');
-    star.innerHTML = '⭐';
-    star.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 2rem;
-        pointer-events: none;
-        z-index: 1000;
-        animation: starFloat 1.5s ease-out forwards;
-    `;
-    
-    // Add animation keyframes
-    if (!document.getElementById('star-animation-style')) {
-        const style = document.createElement('style');
-        style.id = 'star-animation-style';
-        style.textContent = `
-            @keyframes starFloat {
-                0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-                100% { transform: translate(-50%, -150%) scale(1.5) rotate(360deg); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    element.style.position = 'relative';
-    element.appendChild(star);
-    
-    setTimeout(() => star.remove(), 1500);
-}
-
-function updateCartCount(count) {
-    const cartBadge = document.querySelector('.cart-badge');
-    if (cartBadge) {
-        cartBadge.textContent = count;
-        cartBadge.classList.add('pulse');
-        setTimeout(() => cartBadge.classList.remove('pulse'), 600);
-    }
-}
-
-function showMessage(message, type) {
-    const messagesContainer = document.getElementById('product-messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-    messageDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i> ${message}`;
-    
-    messagesContainer.appendChild(messageDiv);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        messageDiv.style.opacity = '0';
-        messageDiv.style.transform = 'translateY(-20px)';
-        setTimeout(() => messageDiv.remove(), 300);
-    }, 5000);
-}
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-// Initialize quantity input
+// Update quantity input listener
 document.getElementById('quantity-input').addEventListener('change', function() {
     let value = parseInt(this.value);
-    if (isNaN(value) || value < 1) value = 1;
+    if (value < 1) value = 1;
     if (value > maxStock) value = maxStock;
-    this.value = value;
     currentQuantity = value;
+    this.value = value;
 });
 
-// Enhanced comment form submission
-const commentForm = document.querySelector('.comment-form');
-if (commentForm) {
-    commentForm.addEventListener('submit', function(e) {
-        const submitBtn = this.querySelector('.comment-submit-btn');
-        const textarea = this.querySelector('.comment-textarea');
-        
-        if (!textarea.value.trim()) {
-            e.preventDefault();
-            showMessage('لطفاً نظر خود را بنویسید', 'error');
-            textarea.focus();
-            return;
-        }
-        
-        if (textarea.value.trim().length < 10) {
-            e.preventDefault();
-            showMessage('نظر شما باید حداقل ۱۰ کاراکتر باشد', 'error');
-            textarea.focus();
-            return;
-        }
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ثبت...';
-    });
-}
-
-// Add smooth scrolling for related products
-document.querySelectorAll('.related-item').forEach(item => {
-    item.addEventListener('click', function() {
-        // Add click animation
-        this.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            this.style.transform = '';
-        }, 150);
-    });
-});
-
-// Add parallax effect to floating elements
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const elements = document.querySelectorAll('.floating-element');
-    
-    elements.forEach((element, index) => {
-        const speed = 0.3 + (index * 0.1);
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-});
-
-// Initialize premium animations when page loads
+// Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    // Add stagger animation to stats
-    const statItems = document.querySelectorAll('.stat-item');
-    statItems.forEach((item, index) => {
-        item.style.animationDelay = `${index * 0.2}s`;
-        item.style.animation = 'slideInUp 0.8s ease-out forwards';
+    // Add entrance animations
+    const elements = document.querySelectorAll('.product-features > *, .product-image-side > *');
+    elements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            el.style.transition = 'all 0.6s ease';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }, index * 100);
     });
-    
-    // Add stagger animation to related products
-    const relatedItems = document.querySelectorAll('.related-item');
-    relatedItems.forEach((item, index) => {
-        item.style.animationDelay = `${index * 0.15}s`;
-        item.style.animation = 'slideInUp 0.8s ease-out forwards';
-    });
-    
-    // Add intersection observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    document.querySelectorAll('.comments-section, .related-products').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Add smooth reveal animation for product sections
-    const sections = document.querySelectorAll('.product-info > *');
-    sections.forEach((section, index) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`;
-    });
-
-    // Initialize premium interactions
-    initializePremiumInteractions();
 });
-
-function initializePremiumInteractions() {
-    // Add hover sound effects (optional)
-    const buttons = document.querySelectorAll('button, .related-item');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.2s ease';
-        });
-    });
-
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.classList.contains('social-btn')) {
-            e.target.click();
-        }
-    });
-
-    // Add performance monitoring
-    if ('performance' in window) {
-        window.addEventListener('load', function() {
-            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            console.log(`Premium product page loaded in ${loadTime}ms`);
-        });
-    }
-}
-
-// Add premium scroll effects
-let ticking = false;
-function updateScrollEffects() {
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.5;
-    
-    const hero = document.querySelector('.hero-background');
-    if (hero) {
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-    
-    ticking = false;
-}
-
-function requestScrollUpdate() {
-    if (!ticking) {
-        requestAnimationFrame(updateScrollEffects);
-        ticking = true;
-    }
-}
-
-window.addEventListener('scroll', requestScrollUpdate);
-
-// Add premium error handling
-window.addEventListener('error', function(e) {
-    console.error('Premium product page error:', e.error);
-    showMessage('خطای غیرمنتظره رخ داد. لطفاً صفحه را بازخوانی کنید.', 'error');
-});
-
-// Add service worker registration (for offline functionality)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(function(registration) {
-            console.log('ServiceWorker registration successful');
-        }).catch(function(err) {
-            console.log('ServiceWorker registration failed');
-        });
-    });
-}
 </script>
 {% endblock %} 
