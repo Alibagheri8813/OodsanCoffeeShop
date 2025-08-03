@@ -52,10 +52,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Phase 3: Advanced Analytics Middleware
-    'shop.analytics_middleware.AnalyticsMiddleware',
-    'shop.analytics_middleware.RealTimeAnalyticsMiddleware',
-    'shop.analytics_middleware.PerformanceMonitoringMiddleware',
+    # Phase 3: Advanced Analytics Middleware - temporarily disabled
+    # 'shop.analytics_middleware.AnalyticsMiddleware',
+    # 'shop.analytics_middleware.RealTimeAnalyticsMiddleware',
+    # 'shop.analytics_middleware.PerformanceMonitoringMiddleware',
 ]
 
 ROOT_URLCONF = 'coffe_shop.urls'

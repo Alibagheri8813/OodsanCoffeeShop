@@ -9509,38 +9509,7 @@ INFO 2025-08-03 08:13:15,017 autoreload 4285 140433768288512 /workspace/shop/vie
 INFO 2025-08-03 08:13:15,352 autoreload 4308 140174595924224 Watching for file changes with StatReloader
 INFO 2025-08-03 08:14:17,518 autoreload 4308 140174595924224 /workspace/coffe_shop/settings.py changed, reloading.
 INFO 2025-08-03 08:14:17,858 autoreload 4441 139769066598656 Watching for file changes with StatReloader
-INFO 2025-08-03 01:44:37,659 autoreload 9260 1096 Watching for file changes with StatReloader
-INFO 2025-08-03 01:45:24,841 basehttp 9260 3376 "GET / HTTP/1.1" 302 0
-ERROR 2025-08-03 01:45:25,215 recursion_prevention 9260 6188 RecursionError caught for path: /shop/
-ERROR 2025-08-03 01:45:25,373 log 9260 6188 Internal Server Error: /shop/
-ERROR 2025-08-03 01:45:25,374 basehttp 9260 6188 "GET /shop/ HTTP/1.1" 500 4984
-INFO 2025-08-03 01:45:25,618 basehttp 9260 6188 "GET /static/shop/style.css HTTP/1.1" 200 44687
-WARNING 2025-08-03 01:45:26,876 log 9260 6188 Not Found: /favicon.ico
-WARNING 2025-08-03 01:45:26,876 basehttp 9260 6188 "GET /favicon.ico HTTP/1.1" 404 5309
-ERROR 2025-08-03 01:45:35,435 recursion_prevention 9260 6188 RecursionError caught for path: /shop/
-ERROR 2025-08-03 01:45:35,540 log 9260 6188 Internal Server Error: /shop/
-ERROR 2025-08-03 01:45:35,542 basehttp 9260 6188 "GET /shop/ HTTP/1.1" 500 4984
-ERROR 2025-08-03 01:45:47,963 recursion_prevention 9260 6188 RecursionError caught for path: /shop/
-ERROR 2025-08-03 01:45:48,082 log 9260 6188 Internal Server Error: /shop/
-ERROR 2025-08-03 01:45:48,084 basehttp 9260 6188 "GET /shop/ HTTP/1.1" 500 4984
-INFO 2025-08-03 02:03:21,311 autoreload 5260 7280 Watching for file changes with StatReloader
-WARNING 2025-08-03 02:03:32,240 recursion_prevention 5260 4716 Potential /shop/ loop detected from referer: http://127.0.0.1:8000/shop/
-INFO 2025-08-03 02:03:32,256 basehttp 5260 4716 "GET /shop/ HTTP/1.1" 302 0
-ERROR 2025-08-03 02:03:32,424 recursion_prevention 5260 12672 RecursionError caught for path: /home/
-ERROR 2025-08-03 02:03:32,527 log 5260 12672 Internal Server Error: /home/
-ERROR 2025-08-03 02:03:32,528 basehttp 5260 12672 "GET /home/?shop_redirect=1 HTTP/1.1" 500 4984
-INFO 2025-08-03 02:03:36,628 basehttp 5260 12672 "GET /home HTTP/1.1" 301 0
-ERROR 2025-08-03 02:03:36,721 recursion_prevention 5260 2984 RecursionError caught for path: /home/
-ERROR 2025-08-03 02:03:36,846 log 5260 2984 Internal Server Error: /home/
-ERROR 2025-08-03 02:03:36,848 basehttp 5260 2984 "GET /home/ HTTP/1.1" 500 4984
-INFO 2025-08-03 02:03:40,801 basehttp 5260 2984 "GET / HTTP/1.1" 302 0
-ERROR 2025-08-03 02:03:40,893 recursion_prevention 5260 896 RecursionError caught for path: /shop/
-ERROR 2025-08-03 02:03:40,998 log 5260 896 Internal Server Error: /shop/
-ERROR 2025-08-03 02:03:41,000 basehttp 5260 896 "GET /shop/?from=safe_redirect HTTP/1.1" 500 4984
-INFO 2025-08-03 02:03:41,042 basehttp 5260 896 "GET / HTTP/1.1" 302 0
-ERROR 2025-08-03 02:03:41,128 recursion_prevention 5260 10228 RecursionError caught for path: /shop/
-ERROR 2025-08-03 02:03:41,254 log 5260 10228 Internal Server Error: /shop/
-ERROR 2025-08-03 02:03:41,256 basehttp 5260 10228 "GET /shop/?from=safe_redirect HTTP/1.1" 500 4984
-ERROR 2025-08-03 02:03:52,724 recursion_prevention 5260 10228 RecursionError caught for path: /home/
-ERROR 2025-08-03 02:03:52,835 log 5260 10228 Internal Server Error: /home/
-ERROR 2025-08-03 02:03:52,836 basehttp 5260 10228 "GET /home/ HTTP/1.1" 500 4984
+
+=======
+INFO 2025-08-03 09:07:38,372 autoreload 2763 140013353611520 Watching for file changes with StatReloader
+>>>>>>> 6bc7baeb30dbb0d72c976e0c13c1f6d6ee2eaa77
