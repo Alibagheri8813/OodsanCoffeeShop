@@ -1,0 +1,89 @@
+INFO 2025-08-03 04:39:04,944 autoreload 9112 7680 Watching for file changes with StatReloader
+INFO 2025-08-03 04:39:40,686 autoreload 8796 1732 Watching for file changes with StatReloader
+WARNING 2025-08-03 04:39:46,596 log 8796 1888 Not Found: /accounts/login/
+ERROR 2025-08-03 04:41:11,387 log 8796 1888 Internal Server Error: /shop/profile/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 993, in profile
+    return render(request, 'shop/profile.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: shop/profile.html
+INFO 2025-08-03 04:42:28,182 autoreload 8796 1732 C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py changed, reloading.
+INFO 2025-08-03 04:42:28,816 autoreload 7788 1744 Watching for file changes with StatReloader
+INFO 2025-08-03 04:45:57,164 autoreload 3212 3168 Watching for file changes with StatReloader
+ERROR 2025-08-03 06:08:02,146 log 3212 7272 Internal Server Error: /shop/profile/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 974, in profile
+    user_profile = request.user.profile
+                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 531, in __get__
+    raise self.RelatedObjectDoesNotExist(
+django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.
+ERROR 2025-08-03 06:08:13,388 log 3212 7272 Internal Server Error: /shop/profile/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 974, in profile
+    user_profile = request.user.profile
+                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 531, in __get__
+    raise self.RelatedObjectDoesNotExist(
+django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.
+ERROR 2025-08-03 06:58:12,685 log 3212 6744 Internal Server Error: /shop/profile/
+Traceback (most recent call last):
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\Desktop\programming\coffe_shop_page_Revision1\shop\views.py", line 974, in profile
+    user_profile = request.user.profile
+                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 531, in __get__
+    raise self.RelatedObjectDoesNotExist(
+django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.

@@ -990,7 +990,7 @@ def profile(request):
         'total_spent': total_spent
     }
     
-    return render(request, 'shop/profile.html', context)
+    return render(request, 'shop/user_profile.html', context)
 
 # ===== ORDER MANAGEMENT =====
 
