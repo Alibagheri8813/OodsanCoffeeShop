@@ -1,1 +1,22 @@
 INFO 2025-08-04 06:19:45,448 autoreload 14184 4220 Watching for file changes with StatReloader
+INFO 2025-08-04 13:44:21,324 autoreload 5292 1772 Watching for file changes with StatReloader
+WARNING 2025-08-04 13:45:03,181 log 5292 9968 Not Found: /favicon.ico
+ERROR 2025-08-04 13:46:15,207 recursion_prevention 5292 10864 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:46:15,253 log 5292 10864 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:46:20,021 recursion_prevention 5292 4388 Request chain timeout. Current path: /admin/shop/userprofile/
+ERROR 2025-08-04 13:46:20,022 log 5292 4388 Internal Server Error: /admin/shop/userprofile/
+ERROR 2025-08-04 13:46:36,949 recursion_prevention 5292 13116 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:46:36,950 log 5292 13116 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:50:19,943 recursion_prevention 5292 6652 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:50:19,944 log 5292 6652 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:51:05,313 recursion_prevention 5292 11196 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-04 13:51:05,315 log 5292 11196 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-04 13:52:05,310 recursion_prevention 5292 11796 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-04 13:52:05,311 log 5292 11796 Internal Server Error: /shop/cart/count/
+INFO 2025-08-04 13:53:01,447 autoreload 5292 1772 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\shop\recursion_prevention.py changed, reloading.
+INFO 2025-08-04 13:53:02,381 autoreload 11320 2512 Watching for file changes with StatReloader
+INFO 2025-08-04 13:54:27,068 autoreload 11320 2512 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\coffe_shop\settings.py changed, reloading.
+INFO 2025-08-04 13:54:27,948 autoreload 12060 9116 Watching for file changes with StatReloader
+INFO 2025-08-04 13:56:30,672 autoreload 11964 11148 Watching for file changes with StatReloader
+INFO 2025-08-04 13:57:03,046 autoreload 11964 11148 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\coffe_shop\settings.py changed, reloading.
+INFO 2025-08-04 13:57:03,944 autoreload 7140 5992 Watching for file changes with StatReloader
