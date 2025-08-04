@@ -1,12 +1,31 @@
-# Persian Coffee Products Image Generator
+# Persian Coffee Products Image Tools
 
-This script generates professional product images for a list of Persian coffee and beverage products using OpenAI's DALL-E 3 API.
+This repository contains tools for both generating and searching for images of Persian coffee and beverage products.
+
+## Available Tools
+
+### 1. Image Generation Scripts
+- **`image_generator.py`** - Uses OpenAI DALL-E 3 API
+- **`image_generator_stability.py`** - Uses Stability AI API (more cost-effective)
+
+### 2. Image Search Scripts  
+- **`image_searcher.py`** - Professional image search using Bing or SerpApi
+- **`simple_image_searcher.py`** - Simple demo version (uses placeholders)
 
 ## Features
 
+**Image Generation:**
 - Generates high-quality product images for 29 Persian coffee and beverage items
 - Professional product photography style with clean backgrounds
 - Automatic translation of Persian product names to English descriptions
+
+**Image Search:**
+- Searches web for existing product images
+- Downloads and organizes images with Persian filenames
+- Supports multiple search engines (Bing, Google via SerpApi)
+- Free demo version available
+
+**Common Features:**
 - Rate limiting to respect API constraints
 - Progress tracking and error handling
 - Images saved with organized filenames
@@ -77,15 +96,42 @@ The script generates images for these Persian products:
 
 ## Usage
 
-Run the script:
+### Image Generation
+
+**OpenAI DALL-E 3:**
 ```bash
+export OPENAI_API_KEY="your-openai-key"
 python image_generator.py
 ```
 
-The script will:
-1. Create a `generated_images` directory
-2. Generate images for all 29 products
-3. Save images with descriptive filenames (e.g., `01_قهوه.png`, `02_میکس عربیکا.png`)
+**Stability AI (cheaper):**
+```bash
+export STABILITY_API_KEY="your-stability-key"
+python image_generator_stability.py
+```
+
+### Image Search
+
+**Professional Search (requires API key):**
+```bash
+# Using Bing Image Search
+export BING_SEARCH_API_KEY="your-bing-key"
+python image_searcher.py
+
+# OR using SerpApi (Google Images)
+export SERPAPI_KEY="your-serpapi-key"
+python image_searcher.py
+```
+
+**Simple Demo (no API key needed):**
+```bash
+python simple_image_searcher.py
+```
+
+### What the scripts do:
+1. Create output directories (`generated_images/`, `searched_images/`, etc.)
+2. Process all 29 products automatically
+3. Save images with Persian names in filenames
 4. Show progress and success/failure statistics
 
 ## Output
