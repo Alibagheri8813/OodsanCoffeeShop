@@ -106,16 +106,30 @@ def admin_notifications(request):
     return render(request, 'admin/notifications.html', context)
 
 @staff_member_required
-def mark_notification_read(request):
-    if request.method == 'POST':
+def mark_notification_read(request, notification_id=None):
+    """
+    Mark a notification as read from the admin panel. The notification id can be
+    supplied either as part of the URL (`/read/<id>/`) or via POST data with the
+    key `notification_id`. This flexibility avoids view-signature mismatches and
+    eliminates the recursion/redirect errors reported on the admin pages.
+    """
+
+    # Fallback to POST body if the id was not provided via the URL
+    if request.method == 'POST' and not notification_id:
         notification_id = request.POST.get('notification_id')
-        try:
-            notification = Notification.objects.get(id=notification_id)
-            notification.mark_as_read()
+
+    try:
+        notification = Notification.objects.get(id=notification_id)
+        notification.mark_as_read()
+
+        # Return JSON for AJAX requests; otherwise redirect back to the list
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'success': True})
-        except Notification.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Notification not found'})
-    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+        return redirect('admin_notifications')
+
+    except Notification.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Notification not found'}, status=404)
 
 @staff_member_required
 def mark_all_notifications_read(request):

@@ -1210,7 +1210,7 @@ def toggle_favorite(request):
 # ===== NOTIFICATION SYSTEM =====
 
 @login_required
-def notifications(request):
+def notifications_legacy(request):
     """User notifications page"""
     notifications = request.user.notifications.all()[:20]
     
@@ -1221,7 +1221,8 @@ def notifications(request):
     return render(request, 'shop/notifications.html', context)
 
 @login_required
-def mark_notification_read(request, notification_id):
+@require_POST
+def mark_notification_read_legacy(request, notification_id):
     """Mark notification as read"""
     notification = get_object_or_404(Notification, id=notification_id, user=request.user)
     notification.mark_as_read()
@@ -1232,7 +1233,8 @@ def mark_notification_read(request, notification_id):
     return redirect('notifications')
 
 @login_required
-def mark_all_notifications_read(request):
+@require_POST
+def mark_all_notifications_read_legacy(request):
     """Mark all notifications as read"""
     request.user.notifications.filter(is_read=False).update(is_read=True)
     
