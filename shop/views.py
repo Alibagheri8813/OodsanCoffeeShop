@@ -23,7 +23,7 @@ import json
 import logging
 from django.conf import settings
 from decimal import Decimal
-from django.contrib.admin.views.decorators import user_passes_test
+from django.contrib.admin.views.decorators import user_passes_test, staff_member_required
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -1787,3 +1787,37 @@ def voice_ai_assistant_page(request):
         'page_description': 'Your Professional Coffee Industry Expert'
     }
     return render(request, 'shop/voice_ai_assistant.html', context)
+
+# ====== ORDER WORKFLOW API ======
+@login_required
+@require_POST
+def order_transition(request, order_id):
+    """Handle status transitions for orders via POST /api/orders/<id>/transition/.
+    Staff-only beyond the initial payment state.
+    Body JSON (or form) must contain `status` – the desired next status.
+    Returns JSON with the new Persian label and the internal code."""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        try:
+            body_data = json.loads(request.body.decode('utf-8')) if request.body else {}
+        except json.JSONDecodeError:
+            body_data = {}
+        new_status = request.POST.get('status') or body_data.get('status')
+        if not new_status:
+            return JsonResponse({'error': 'status parameter missing'}, status=400)
+
+        # Permission: Only allow non-staff to set pending → preparing (payment)
+        if not request.user.is_staff and new_status != 'preparing':
+            return JsonResponse({'error': 'Forbidden'}, status=403)
+
+        if not order.can_transition_to(new_status):
+            return JsonResponse({'error': 'Transition not allowed'}, status=400)
+
+        try:
+            order.transition_to(new_status)
+        except ValueError as exc:
+            return JsonResponse({'error': str(exc)}, status=400)
+
+        return JsonResponse({'status': order.status, 'label': order.get_status_display()})
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found'}, status=404)

@@ -64,23 +64,34 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'در انتظار پرداخت'),
-        ('paid', 'پرداخت شده'),
-        ('processing', 'در حال پردازش'),
-        ('shipped', 'ارسال شده'),
-        ('delivered', 'تحویل داده شده'),
+        # === New primary workflow ===
+        ('pending_payment', 'در انتظار پرداخت'),
+        ('preparing',       'در حال آماده سازی'),
+        ('ready',           'آماده شده'),
+        # Postal – stepwise shipping
+        ('shipping_preparation',  'در حال ارسال به اداره پست'),
+        ('in_transit',            'بسته در حال رسیدن به مقصد است'),
+        # Pickup – customer collection
+        ('pickup_ready',          'آماده شده است و لطفاً مراجعه کنید'),
+        # Generic fallbacks / legacy values kept for older admin & reports
         ('cancelled', 'لغو شده'),
-        ('making', 'در حال آماده‌سازی غذا'),
-        ('made', 'غذا آماده است'),
+        ('making',    'در حال آماده‌سازی غذا'),  # legacy
+        ('made',      'غذا آماده است'),          # legacy
+        ('pending',   'در انتظار پرداخت'),   # legacy → maps to pending_payment
+        ('paid',      'پرداخت شده'),          # legacy (treated as preparing)
+        ('processing','در حال پردازش'),       # legacy (treated as preparing)
+        ('shipped',   'ارسال شده'),           # legacy (treated as shipping_preparation)
+        ('delivered', 'تحویل داده شده'),      # legacy (treated as in_transit)',
     ]
     
     DELIVERY_CHOICES = [
         ('pickup', 'دریافت حضوری'),
         ('post', 'ارسال پستی'),
+        ('postal', 'ارسال پستی'),  # alias for external naming
     ]
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='pending_payment')
     delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='pickup')
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -91,6 +102,50 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=10, default='')
     phone_number = models.CharField(max_length=15, default='')
     notes = models.TextField(blank=True)
+
+    # ---------- Workflow helpers ----------
+    LEGACY_TO_NEW = {
+        'pending': 'pending_payment',
+        'paid': 'preparing',
+        'processing': 'preparing',
+        'making': 'preparing',
+        'made': 'ready',
+        'shipped': 'shipping_preparation',
+        'delivered': 'in_transit',
+    }
+
+    def get_current_status(self):
+        """Return the canonical (new) status code accounting for legacy values."""
+        return self.LEGACY_TO_NEW.get(self.status, self.status)
+
+    # Allowed transitions map {current_status: [allowed_next_statuses]}
+    _TRANSITIONS = {
+        'pending_payment': ['preparing'],
+        'preparing': ['ready'],
+        'ready': ['shipping_preparation', 'pickup_ready'],
+        'shipping_preparation': ['in_transit'],
+    }
+
+    def can_transition_to(self, next_status: str) -> bool:
+        """Return True if the requested next_status is valid from the current state."""
+        canonical = self.get_current_status()
+        allowed = self._TRANSITIONS.get(canonical, [])
+        return next_status in allowed
+
+    def transition_to(self, next_status: str, *, by_user=None, save=True):
+        """Attempt to change status respecting the business rules.
+        Raises ValueError if transition is not permitted."""
+        # Auto-route based on delivery method when moving out from READY
+        if next_status == 'pickup_ready' and self.delivery_method != 'pickup':
+            raise ValueError('Pickup-only transition requested for non-pickup order.')
+        if next_status in ['shipping_preparation', 'in_transit'] and self.delivery_method not in ['post', 'postal']:
+            raise ValueError('Postal-only transition requested for non-postal order.')
+        if not self.can_transition_to(next_status):
+            raise ValueError('Transition from %s to %s not allowed' % (self.status, next_status))
+        self.status = next_status
+        if save:
+            self.save(update_fields=['status', 'updated_at'])
+        return self
 
     def __str__(self):
         return f"سفارش {self.id} - {self.user.username}"
