@@ -131,7 +131,7 @@ class VoiceCoffeeExpert:
         """Initialize OpenAI client with provided API key"""
         try:
             self.api_key = api_key
-            self.client = OpenAI(api_key=api_key)
+            self.client = OpenAI(api_key="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")
             # Test the connection
             self.client.models.list()
             self.is_available = True
@@ -146,9 +146,13 @@ class VoiceCoffeeExpert:
     def generate_response(self, user_message):
         """Generate expert coffee advice using OpenAI GPT-3.5 Turbo"""
         try:
-            if not self.is_available or not self.client:
-                return "I need an OpenAI API key to provide expert coffee advice. Please provide your API key first."
-            
+            # if not self.is_available or not self.client:
+            #     return "I need an OpenAI API key to provide expert coffee advice. Please provide your API key first."
+            self.client = OpenAI(api_key="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")
+            # Test the connection
+            self.client.models.list()
+            self.is_available = True
+            logger.info("Voice Coffee Expert AI initialized successfully")
             if not user_message or not user_message.strip():
                 return "I'm here to help with all your coffee questions. What would you like to know about coffee?"
             
@@ -162,15 +166,14 @@ class VoiceCoffeeExpert:
             for msg in self.conversation_history[-6:]:
                 messages.append({"role": msg["role"], "content": msg["content"]})
             
-            # Generate response using GPT-3.5 Turbo
+
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
-                max_tokens=300,  # Optimized for voice response length
-                temperature=0.7,
-                top_p=0.9,
-                presence_penalty=0.1,
-                frequency_penalty=0.1
+                temperature=0.2,
+                timeout=7
+                # presence_penalty=0.1,
+                # frequency_penalty=0.1
             )
             
             ai_response = response.choices[0].message.content.strip()
@@ -221,10 +224,18 @@ class VoiceCoffeeExpert:
         """Internal method to handle text-to-speech"""
         try:
             self.is_speaking = True
-            
-            # Create a temporary file for the audio
-            with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as temp_file:
-                temp_path = temp_file.name
+            import edge_tts
+            from playsound import playsound
+            # Create     a temporary file for the audio
+            OUTPUT_FILE = "shop/tts_output.mp3"
+            VOICE = "fa-IR-DilaraNeural"
+            communicate = edge_tts.Communicate(text, VOICE)
+            with open(OUTPUT_FILE, "wb") as file:
+                for chunk in communicate.stream_sync():
+                    if chunk["type"] == "audio":
+                        file.write(chunk["data"])
+            playsound(OUTPUT_FILE)
+            os.remove(OUTPUT_FILE)
             
             try:
                 # Use system TTS to generate audio (this is a placeholder)
@@ -244,10 +255,6 @@ class VoiceCoffeeExpert:
                 
             finally:
                 # Clean up temp file
-                try:
-                    os.unlink(temp_path)
-                except:
-                    pass
                 
                 self.is_speaking = False
                 
@@ -281,15 +288,15 @@ def initialize_ai(request):
     """Initialize AI with OpenAI API key"""
     try:
         data = json.loads(request.body)
-        api_key = data.get('api_key', '').strip()
+        # api_key = data.get('api_key', '').strip()
         
-        if not api_key:
-            return JsonResponse({
-                'success': False,
-                'error': 'Please provide your OpenAI API key'
-            }, status=400)
+        # if not api_key:
+        #     return JsonResponse({
+        #         'success': False,
+        #         'error': 'Please provide your OpenAI API key'
+        #     }, status=400)
         
-        success = voice_coffee_expert.initialize_openai(api_key)
+        success = voice_coffee_expert.initialize_openai("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")
         
         if success:
             return JsonResponse({
@@ -315,7 +322,7 @@ def voice_chat(request):
     """Handle voice-based chat with coffee expert"""
     try:
         data = json.loads(request.body)
-        transcribed_text = data.get('transcribed_text', '').strip()
+        transcribed_text = data.get('message', '').strip()
         
         if not transcribed_text:
             return JsonResponse({

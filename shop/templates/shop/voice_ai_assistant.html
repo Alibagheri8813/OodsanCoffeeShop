@@ -307,6 +307,11 @@
 {% endblock %}
 
 {% block content %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      voiceExpert = new VoiceCoffeeExpert();
+  });
+</script>
 <div class="voice-ai-container">
     <div class="settings-button" onclick="toggleSettings()">
         <i class="fas fa-cog" style="color: var(--cream-white); font-size: 20px;"></i>
@@ -315,22 +320,7 @@
     <div class="voice-ai-card">
         <h1>☕ Voice Coffee Expert</h1>
         <p class="subtitle">Your Professional Coffee Industry Assistant</p>
-        
-        <!-- API Key Section -->
-        <div class="api-key-section" id="apiKeySection">
-            <h3 style="color: var(--cream-white); margin-bottom: 15px;">
-                <i class="fas fa-key"></i> Setup Required
-            </h3>
-            <div class="input-group">
-                <input type="password" id="apiKeyInput" placeholder="Enter your OpenAI API Key">
-                <button type="button" onclick="saveApiKey()" class="voice-button">
-                    <i class="fas fa-save"></i> Save
-                </button>
-            </div>
-            <p style="color: var(--light-cream); font-size: 14px; margin-top: 10px;">
-                Your API key is stored securely in your browser and never shared.
-            </p>
-        </div>
+
         
         <!-- Voice Indicator -->
         <div class="voice-indicator" id="voiceIndicator">
@@ -362,12 +352,12 @@
             <div id="chatMessages"></div>
         </div>
         
-        <!-- Current Status -->
-        <div class="status-section">
-            <p id="statusText" style="color: var(--light-cream);">
-                <i class="fas fa-info-circle"></i> Please enter your OpenAI API key to begin
-            </p>
-        </div>
+ 
+         <div class="status-section">
+             <p id="statusText" style="color: var(--light-cream);">
+                
+            </p> 
+        </div>  
     </div>
 </div>
 
@@ -377,12 +367,12 @@ class VoiceCoffeeExpert {
         this.recognition = null;
         this.isListening = false;
         this.isMuted = false;
-        this.isInitialized = false;
-        this.apiKey = localStorage.getItem('openai_api_key') || '';
+        // this.isInitialized = false;
+        // this.apiKey = localStorage.getItem('openai_api_key') || '';
         this.chatHistory = [];
         
         this.initializeSpeechRecognition();
-        this.checkApiKey();
+        // this.checkApiKey();
     }
     
     initializeSpeechRecognition() {
@@ -390,7 +380,7 @@ class VoiceCoffeeExpert {
             this.recognition = new webkitSpeechRecognition();
             this.recognition.continuous = false;
             this.recognition.interimResults = false;
-            this.recognition.lang = 'en-US';
+            this.recognition.lang = 'fa-IR';
             
             this.recognition.onstart = () => {
                 this.isListening = true;
@@ -399,12 +389,19 @@ class VoiceCoffeeExpert {
             };
             
             this.recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
+                const transcript = event.results?.[0]?.[0]?.transcript?.trim();
+                if (!transcript) {
+                    this.showError('Sorry, I didn’t catch that. Please try again.');
+                    this.updateUI('ready');
+                    return;
+                }
+                console.log(transcript)
                 this.handleSpeechResult(transcript);
             };
             
             this.recognition.onerror = (event) => {
-                this.handleError('Something went wrong with speech recognition. Please try again.');
+                this.showError('Something went wrong with speech recognition. Please try again.');
+
                 this.stopRecognition();
             };
             
@@ -416,53 +413,12 @@ class VoiceCoffeeExpert {
             this.showError('Speech recognition not supported in this browser. Please use Chrome or Safari.');
         }
     }
-    
-    checkApiKey() {
-        if (this.apiKey) {
-            document.getElementById('apiKeyInput').value = this.apiKey;
-            this.initializeAI();
-        }
-    }
-    
-    async initializeAI() {
-        if (!this.apiKey) {
-            this.showError('Please enter your OpenAI API key first.');
-            return;
-        }
-        
-        try {
-            this.showStatus('🔄 Initializing Coffee Expert...');
-            
-            const response = await fetch('/voice-ai/initialize/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': this.getCSRFToken()
-                },
-                body: JSON.stringify({ api_key: this.apiKey })
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                this.isInitialized = true;
-                document.getElementById('apiKeySection').style.display = 'none';
-                document.getElementById('chatHistory').style.display = 'block';
-                this.showSuccess('☕ Coffee Expert is ready! Click "Start Talking" to begin.');
-                this.updateUI('ready');
-            } else {
-                this.showError(data.error || 'Something went wrong. Please check your API key.');
-            }
-        } catch (error) {
-            this.showError('Something went wrong. Please try again.');
-        }
-    }
-    
+
     startVoiceRecognition() {
-        if (!this.isInitialized) {
-            this.showError('Please initialize the AI first by entering your API key.');
-            return;
-        }
+ //       if (!this.isInitialized) {
+//            this.showError('Please initialize the AI first by entering your API key.');
+  //          return;
+  //      }
         
         if (!this.recognition) {
             this.showError('Something went wrong. Speech recognition not available.');
@@ -478,6 +434,7 @@ class VoiceCoffeeExpert {
             document.getElementById('startVoiceBtn').style.display = 'none';
             document.getElementById('stopBtn').style.display = 'inline-block';
         } catch (error) {
+            console.log(" 481 Something went wrong. Please try again.")
             this.showError('Something went wrong. Please try again.');
         }
     }
@@ -497,7 +454,7 @@ class VoiceCoffeeExpert {
         this.updateUI('thinking');
         
         try {
-            const response = await fetch('/voice-ai/chat/', {
+            const response = await fetch('chat/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -522,6 +479,7 @@ class VoiceCoffeeExpert {
                 this.showError(data.error || 'Something went wrong. Please try again.');
             }
         } catch (error) {
+            console.log(" 526 Something went wrong. Please try again.")
             this.showError('Something went wrong. Please try again.');
         }
         
@@ -605,7 +563,12 @@ class VoiceCoffeeExpert {
     }
     
     showStatus(message) {
-        document.getElementById('statusText').innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+        const statusElement = document.getElementById('statusText');
+        if (!statusElement) {
+            console.warn('Missing #statusText element.');
+            return;
+        }
+        statusElement.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
     }
     
     showError(message) {
@@ -627,24 +590,24 @@ class VoiceCoffeeExpert {
     }
     
     getCSRFToken() {
-        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+       return document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
     }
 }
 
 // Global functions
 let voiceExpert;
 
-function saveApiKey() {
-    const apiKey = document.getElementById('apiKeyInput').value.trim();
-    if (!apiKey) {
-        voiceExpert.showError('Please enter a valid API key.');
-        return;
-    }
+// function saveApiKey() {
+//     const apiKey = document.getElementById('apiKeyInput').value.trim();
+//     if (!apiKey) {
+//         voiceExpert.showError('Please enter a valid API key.');
+//         return;
+//     }
     
-    localStorage.setItem('openai_api_key', apiKey);
-    voiceExpert.apiKey = apiKey;
-    voiceExpert.initializeAI();
-}
+//     // localStorage.setItem('openai_api_key', apiKey);
+//     // voiceExpert.apiKey = apiKey;
+//     // voiceExpert.initializeAI();
+// }
 
 function startVoiceRecognition() {
     voiceExpert.startVoiceRecognition();
@@ -659,17 +622,15 @@ function toggleMute() {
 }
 
 function toggleSettings() {
-    const apiSection = document.getElementById('apiKeySection');
-    if (apiSection.style.display === 'none') {
-        apiSection.style.display = 'block';
-    } else {
-        apiSection.style.display = 'none';
-    }
+    // const apiSection = document.getElementById('apiKeySection');
+    // if (apiSection.style.display === 'none') {
+    //     apiSection.style.display = 'block';
+    // } else {
+    //     apiSection.style.display = 'none';
+    // }
 }
 
 // Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    voiceExpert = new VoiceCoffeeExpert();
-});
+
 </script>
 {% endblock %}
