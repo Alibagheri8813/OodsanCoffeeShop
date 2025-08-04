@@ -91,6 +91,8 @@ urlpatterns = [
     # API Endpoints
     path('api/recommendations/', views.api_recommendations, name='api_recommendations'),
     path('api/analytics/', views.api_analytics, name='api_analytics'),
+    # New order workflow transition endpoint
+    path('api/orders/<int:order_id>/transition/', views.order_transition, name='order_transition'),
     
     # Voice AI Assistant
     path('voice-ai/', views.voice_ai_assistant_page, name='voice_ai_assistant'),

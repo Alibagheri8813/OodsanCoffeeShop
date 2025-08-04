@@ -69,3 +69,16 @@ def order_post_save(sender, instance, created, **kwargs):
                     message=f'سفارش #{instance.id} اکنون "{status_names.get(instance.status, instance.status)}" است.',
                     related_object=instance,
                 )
+
+    # === Automatic workflow transitions ===
+    # 1. After payment success → move to 'preparing' if necessary
+    if instance.status in ['paid']:
+        # Avoid recursion: only update if not already converted
+        instance.status = 'preparing'
+        instance.save(update_fields=['status'])
+        return  # Further signals will handle notification
+
+    # 2. Ready → auto pickup_ready for pickup orders
+    if instance.status == 'ready' and instance.delivery_method == 'pickup':
+        instance.status = 'pickup_ready'
+        instance.save(update_fields=['status'])
