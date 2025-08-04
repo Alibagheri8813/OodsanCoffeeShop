@@ -70,6 +70,8 @@ class Order(models.Model):
         ('shipped', 'ارسال شده'),
         ('delivered', 'تحویل داده شده'),
         ('cancelled', 'لغو شده'),
+        ('making', 'در حال آماده‌سازی غذا'),
+        ('made', 'غذا آماده است'),
     ]
     
     DELIVERY_CHOICES = [
