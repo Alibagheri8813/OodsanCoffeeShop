@@ -37,11 +37,12 @@ class OrderStatusFilter(SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('pending', _('در انتظار')),
-            ('processing', _('در حال پردازش')),
-            ('shipped', _('ارسال شده')),
-            ('delivered', _('تحویل شده')),
-            ('cancelled', _('لغو شده')),
+            ('pending_payment', _('در انتظار پرداخت')),
+            ('preparing', _('در حال آمــاده‌سازی')),
+            ('ready', _('آماده شده')),
+            ('shipping_preparation', _('در حال ارسال به اداره پست')),
+            ('in_transit', _('بسته در حال رسیدن به مقصد است')),
+            ('pickup_ready', _('آماده شده است و لطفاً مراجعه کنید')),
         )
 
     def queryset(self, request, queryset):
@@ -189,7 +190,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_per_page = 30
     ordering = ('-created_at',)
-    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered', 'mark_as_cancelled', 'export_orders', 'send_order_notifications']
+    actions = ['mark_as_paid', 'mark_as_ready', 'start_shipping_preparation', 'mark_in_transit', 'export_orders', 'send_order_notifications']
     
     fieldsets = (
         ('اطلاعات سفارش', {
@@ -205,17 +206,24 @@ class OrderAdmin(admin.ModelAdmin):
     )
     
     def status_badge(self, obj):
-        status_colors = {
-            'pending': '#ffc107',
-            'processing': '#17a2b8',
-            'shipped': '#007bff',
-            'delivered': '#28a745',
-            'cancelled': '#dc3545'
+        """Enhanced status badge with coffee shop brand colors"""
+        color = obj.get_status_badge_color()
+        
+        # Special styling for different statuses
+        style_map = {
+            'pending_payment': 'background: linear-gradient(135deg, #8B4513, #A0522D); color: white; box-shadow: 0 2px 8px rgba(139,69,19,0.3);',
+            'preparing': 'background: linear-gradient(135deg, #D2691E, #CD853F); color: white; box-shadow: 0 2px 8px rgba(210,105,30,0.3);',
+            'ready': 'background: linear-gradient(135deg, #CD853F, #DEB887); color: white; box-shadow: 0 2px 8px rgba(205,133,63,0.3);',
+            'shipping_preparation': 'background: linear-gradient(135deg, #A0522D, #8B4513); color: white; box-shadow: 0 2px 8px rgba(160,82,45,0.3);',
+            'in_transit': 'background: linear-gradient(135deg, #654321, #8B4513); color: white; box-shadow: 0 2px 8px rgba(101,67,33,0.3);',
+            'pickup_ready': 'background: linear-gradient(135deg, #228B22, #32CD32); color: white; box-shadow: 0 2px 8px rgba(34,139,34,0.3);',
         }
-        color = status_colors.get(obj.status, '#6c757d')
+        
+        style = style_map.get(obj.status, f'background: {color}; color: white;')
+        
         return format_html(
-            '<span style="background: {}; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold;">{}</span>',
-            color, obj.get_status_display()
+            '<span style="{} padding: 6px 16px; border-radius: 25px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border: 2px solid white; display: inline-block; min-width: 120px; text-align: center;">{}</span>',
+            style, obj.get_status_display()
         )
     status_badge.short_description = 'وضعیت'
     
@@ -225,25 +233,41 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html('<span style="color: #dc3545;">✗</span>')
     has_feedback.short_description = 'بازخورد'
     
-    def mark_as_processing(self, request, queryset):
-        updated = queryset.update(status='processing')
-        self.message_user(request, f'{updated} سفارش در حال پردازش قرار گرفت.')
-    mark_as_processing.short_description = "قرار دادن در حال پردازش"
+    def mark_as_paid(self, request, queryset):
+        """Mark orders as paid and transition to preparing"""
+        updated = 0
+        for order in queryset:
+            if order.mark_as_paid(request.user):
+                updated += 1
+        self.message_user(request, f'{updated} سفارش پرداخت شده و در حال آماده‌سازی قرار گرفت.')
+    mark_as_paid.short_description = "علامت‌گذاری به عنوان پرداخت شده"
     
-    def mark_as_shipped(self, request, queryset):
-        updated = queryset.update(status='shipped')
-        self.message_user(request, f'{updated} سفارش ارسال شد.')
-    mark_as_shipped.short_description = "علامت‌گذاری به عنوان ارسال شده"
+    def mark_as_ready(self, request, queryset):
+        """Mark orders as ready and handle delivery method logic"""
+        updated = 0
+        for order in queryset:
+            if order.mark_as_ready(request.user):
+                updated += 1
+        self.message_user(request, f'{updated} سفارش آماده شد.')
+    mark_as_ready.short_description = "علامت‌گذاری به عنوان آماده شده"
     
-    def mark_as_delivered(self, request, queryset):
-        updated = queryset.update(status='delivered')
-        self.message_user(request, f'{updated} سفارش تحویل شد.')
-    mark_as_delivered.short_description = "علامت‌گذاری به عنوان تحویل شده"
+    def start_shipping_preparation(self, request, queryset):
+        """Start shipping preparation for postal orders"""
+        updated = 0
+        for order in queryset.filter(delivery_method='postal'):
+            if order.start_shipping_preparation(request.user):
+                updated += 1
+        self.message_user(request, f'{updated} سفارش پستی وارد مرحله آماده‌سازی ارسال شد.')
+    start_shipping_preparation.short_description = "شروع آماده‌سازی ارسال (فقط پستی)"
     
-    def mark_as_cancelled(self, request, queryset):
-        updated = queryset.update(status='cancelled')
-        self.message_user(request, f'{updated} سفارش لغو شد.')
-    mark_as_cancelled.short_description = "لغو سفارشات"
+    def mark_in_transit(self, request, queryset):
+        """Mark orders as in transit"""
+        updated = 0
+        for order in queryset:
+            if order.mark_in_transit(request.user):
+                updated += 1
+        self.message_user(request, f'{updated} سفارش در حال ارسال قرار گرفت.')
+    mark_in_transit.short_description = "علامت‌گذاری به عنوان در حال ارسال"
     
     def export_orders(self, request, queryset):
         self.message_user(request, f'{queryset.count()} سفارش برای صادرات آماده شد.')

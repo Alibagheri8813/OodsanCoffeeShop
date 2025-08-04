@@ -1,0 +1,215 @@
+{% comment %}
+Sensational Order Status Badge Component
+Usage: {% include 'shop/components/status_badge.html' with order=order %}
+{% endcomment %}
+
+<style>
+.coffee-status-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    position: relative;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 140px;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+}
+
+.coffee-status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+}
+
+.coffee-status-badge:hover::before {
+    left: 100%;
+}
+
+.coffee-status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Persian Coffee Shop Status Styles */
+.status-pending_payment {
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    color: #ffffff;
+    animation: pulse-brown 2s infinite;
+}
+
+.status-preparing {
+    background: linear-gradient(135deg, #D2691E 0%, #CD853F 50%, #D2691E 100%);
+    color: #ffffff;
+    animation: preparing-glow 3s infinite;
+}
+
+.status-ready {
+    background: linear-gradient(135deg, #CD853F 0%, #DEB887 50%, #CD853F 100%);
+    color: #ffffff;
+    animation: ready-shine 2s infinite;
+}
+
+.status-shipping_preparation {
+    background: linear-gradient(135deg, #A0522D 0%, #8B4513 50%, #A0522D 100%);
+    color: #ffffff;
+    animation: shipping-prep 1.5s infinite;
+}
+
+.status-in_transit {
+    background: linear-gradient(135deg, #654321 0%, #8B4513 50%, #654321 100%);
+    color: #ffffff;
+    animation: in-transit-move 3s infinite linear;
+}
+
+.status-pickup_ready {
+    background: linear-gradient(135deg, #228B22 0%, #32CD32 50%, #228B22 100%);
+    color: #ffffff;
+    animation: pickup-ready-bounce 2s infinite;
+}
+
+/* Sensational Animations */
+@keyframes pulse-brown {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 6px 25px rgba(139, 69, 19, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes preparing-glow {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(210, 105, 30, 0.4);
+    }
+    25% { 
+        box-shadow: 0 6px 25px rgba(210, 105, 30, 0.6);
+    }
+    50% { 
+        box-shadow: 0 8px 35px rgba(210, 105, 30, 0.8);
+    }
+    75% { 
+        box-shadow: 0 6px 25px rgba(210, 105, 30, 0.6);
+    }
+}
+
+@keyframes ready-shine {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(205, 133, 63, 0.4);
+    }
+    50% { 
+        box-shadow: 0 6px 25px rgba(205, 133, 63, 0.7);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shipping-prep {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(160, 82, 45, 0.4);
+    }
+    50% { 
+        box-shadow: 0 6px 25px rgba(160, 82, 45, 0.6);
+        transform: translateX(2px);
+    }
+}
+
+@keyframes in-transit-move {
+    0% { 
+        box-shadow: 0 4px 15px rgba(101, 67, 33, 0.4);
+        transform: translateX(0);
+    }
+    25% { 
+        transform: translateX(3px);
+    }
+    50% { 
+        box-shadow: 0 6px 25px rgba(101, 67, 33, 0.6);
+        transform: translateX(0);
+    }
+    75% { 
+        transform: translateX(-3px);
+    }
+    100% { 
+        transform: translateX(0);
+    }
+}
+
+@keyframes pickup-ready-bounce {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(34, 139, 34, 0.4);
+        transform: translateY(0);
+    }
+    50% { 
+        box-shadow: 0 8px 30px rgba(34, 139, 34, 0.7);
+        transform: translateY(-4px);
+    }
+}
+
+/* Status Icons */
+.status-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .coffee-status-badge {
+        padding: 6px 16px;
+        font-size: 12px;
+        min-width: 120px;
+    }
+}
+
+/* Special Effects for High-End Feel */
+.coffee-status-badge {
+    background-attachment: fixed;
+    background-size: 200% 200%;
+}
+
+.status-pending_payment::after {
+    content: '⏳';
+    margin-left: 8px;
+}
+
+.status-preparing::after {
+    content: '👨‍🍳';
+    margin-left: 8px;
+}
+
+.status-ready::after {
+    content: '✅';
+    margin-left: 8px;
+}
+
+.status-shipping_preparation::after {
+    content: '📦';
+    margin-left: 8px;
+}
+
+.status-in_transit::after {
+    content: '🚛';
+    margin-left: 8px;
+}
+
+.status-pickup_ready::after {
+    content: '🏪';
+    margin-left: 8px;
+}
+</style>
+
+<span class="coffee-status-badge status-{{ order.status }}" title="{{ order.get_status_display }}">
+    {{ order.get_status_display }}
+</span>
