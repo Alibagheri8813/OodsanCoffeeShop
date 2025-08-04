@@ -30,25 +30,33 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
         if not hasattr(self.local, 'request_stack'):
             self.local.request_stack = []
             self.local.start_time = time.time()
+            self.local.admin_request_count = 0
         
         current_path = request.path
+        
+        # Special handling for admin requests
+        if current_path.startswith('/admin/'):
+            self.local.admin_request_count += 1
+            if self.local.admin_request_count > 10:  # Limit admin recursion
+                logger.error(f"Admin recursion detected: {current_path}")
+                return self._handle_admin_recursion_error(request, current_path)
         
         # Check for immediate loops (same path called repeatedly)
         if len(self.local.request_stack) > 0:
             if current_path == self.local.request_stack[-1]:
                 count = sum(1 for path in self.local.request_stack if path == current_path)
-                if count > 3:  # Allow up to 3 redirects
+                if count > 2:  # Reduced from 3 to 2 for faster detection
                     logger.error(f"Potential infinite loop detected for path: {current_path}")
                     return self._handle_recursion_error(request, current_path)
         
         # Check for deep recursion (too many nested requests)
-        if len(self.local.request_stack) > 20:
+        if len(self.local.request_stack) > 15:  # Reduced from 20 to 15
             logger.error(f"Deep recursion detected. Stack: {self.local.request_stack}")
             return self._handle_recursion_error(request, current_path)
         
         # Check for long-running request chains
         if hasattr(self.local, 'start_time'):
-            if time.time() - self.local.start_time > 30:  # 30 seconds timeout
+            if time.time() - self.local.start_time > 20:  # Reduced from 30 to 20 seconds
                 logger.error(f"Request chain timeout. Current path: {current_path}")
                 return self._handle_recursion_error(request, current_path)
         
@@ -67,6 +75,8 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
             # Reset if stack is empty
             if not self.local.request_stack:
                 self.local.start_time = time.time()
+                if hasattr(self.local, 'admin_request_count'):
+                    self.local.admin_request_count = 0
         
         return response
     
@@ -163,6 +173,28 @@ class RecursionPreventionMiddleware(MiddlewareMixin):
             </html>
             """
             return HttpResponse(html, status=500)
+    
+    def _handle_admin_recursion_error(self, request, path):
+        """
+        Handle admin-specific recursion errors
+        """
+        # Clear the request stack and admin counter
+        if hasattr(self.local, 'request_stack'):
+            self.local.request_stack.clear()
+        if hasattr(self.local, 'admin_request_count'):
+            self.local.admin_request_count = 0
+        
+        # For AJAX requests in admin
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'error': 'خطای بازگشت بی‌نهایت در پنل مدیریت شناسایی شد.',
+                'redirect': '/admin/',
+                'success': False
+            }, status=500)
+        
+        # For regular admin requests, redirect to admin home
+        from django.shortcuts import redirect
+        return redirect('/admin/')
 
 class SafeURLRedirectMiddleware(MiddlewareMixin):
     """

@@ -132,9 +132,9 @@
                 <p>لطفاً از لینک زیر برای بازگشت به صفحه اصلی استفاده کنید:</p>
             </div>
             
-            <a href="{{ safe_url|default:'/shop/' }}" class="btn-home">
+            <a href="{{ safe_url|default:'/home/' }}" class="btn-home">
                 <i class="fas fa-home"></i>
-                بازگشت به کافی شاپ
+                بازگشت به صفحه اصلی
             </a>
             
             <div class="technical-info">
@@ -148,7 +148,7 @@
         // Automatically redirect after 10 seconds if user doesn't click
         setTimeout(function() {
             if (confirm('آیا می‌خواهید به صفحه اصلی منتقل شوید؟')) {
-                window.location.href = '{{ safe_url|default:"/shop/" }}';
+                window.location.href = '{{ safe_url|default:"/home/" }}';
             }
         }, 10000);
         

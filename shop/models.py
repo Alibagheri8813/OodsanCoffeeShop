@@ -200,7 +200,11 @@ class UserAddress(models.Model):
     def save(self, *args, **kwargs):
         # Ensure only one default address per user
         if self.is_default:
-            UserAddress.objects.filter(user=self.user, is_default=True).update(is_default=False)
+            # Exclude current instance to prevent recursion
+            UserAddress.objects.filter(
+                user=self.user, 
+                is_default=True
+            ).exclude(id=self.id).update(is_default=False)
         super().save(*args, **kwargs)
 
 class Notification(models.Model):
