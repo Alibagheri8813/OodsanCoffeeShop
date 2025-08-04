@@ -121,4 +121,12 @@ urlpatterns = [
     path('address/add/', views.add_address, name='add_address'),
     path('address/edit/<int:address_id>/', views.edit_address, name='edit_address'),
     path('address/delete/<int:address_id>/', views.delete_address, name='delete_address'),
+    
+    # Order Status Management API
+    path('api/orders/<int:order_id>/transition/', views.transition_order_status, name='transition_order_status'),
+    path('api/orders/<int:order_id>/mark-paid/', views.mark_order_as_paid, name='mark_order_as_paid'),
+    path('api/orders/<int:order_id>/mark-ready/', views.mark_order_as_ready, name='mark_order_as_ready'),
+    path('api/orders/<int:order_id>/start-shipping/', views.start_order_shipping_preparation, name='start_order_shipping_preparation'),
+    path('api/orders/<int:order_id>/mark-transit/', views.mark_order_in_transit, name='mark_order_in_transit'),
+    path('api/orders/<int:order_id>/status/', views.get_order_status, name='get_order_status'),
 ] 

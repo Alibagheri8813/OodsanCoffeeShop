@@ -413,15 +413,7 @@
                             اطلاعات سفارش
                         </h3>
                         
-                        <div class="order-status status-{{ order.status }}">
-                            {% if order.status == 'pending' %}در انتظار پرداخت
-                            {% elif order.status == 'paid' %}پرداخت شده
-                            {% elif order.status == 'processing' %}در حال پردازش
-                            {% elif order.status == 'shipped' %}ارسال شده
-                            {% elif order.status == 'delivered' %}تحویل داده شده
-                            {% elif order.status == 'cancelled' %}لغو شده
-                            {% endif %}
-                        </div>
+                                        {% include 'shop/components/status_badge.html' with order=order %}
                         
                         <div class="info-grid">
                             <div class="info-card">
