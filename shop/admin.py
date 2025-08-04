@@ -10,6 +10,34 @@ from django.http import HttpResponseRedirect
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import gettext_lazy as _
 from .models import Category, Product, Order, OrderItem, OrderFeedback, Comment, ProductLike, UserProfile, Notification, ProductFavorite, Video, Cart, CartItem, UserActivity, ProductRecommendation, SearchQuery, CustomerSegment, LoyaltyProgram, ProductInteraction
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Safe Admin Base Class to prevent recursion
+class SafeAdminMixin:
+    """Mixin to add safe error handling to admin classes"""
+    
+    def get_queryset(self, request):
+        try:
+            return super().get_queryset(request)
+        except Exception as e:
+            logger.error(f"Error in {self.__class__.__name__}.get_queryset: {e}")
+            return self.model.objects.none()
+    
+    def save_model(self, request, obj, form, change):
+        try:
+            super().save_model(request, obj, form, change)
+        except Exception as e:
+            logger.error(f"Error in {self.__class__.__name__}.save_model: {e}")
+            messages.error(request, f"خطا در ذخیره: {str(e)}")
+    
+    def delete_model(self, request, obj):
+        try:
+            super().delete_model(request, obj)
+        except Exception as e:
+            logger.error(f"Error in {self.__class__.__name__}.delete_model: {e}")
+            messages.error(request, f"خطا در حذف: {str(e)}")
 
 # Custom Admin Filters
 class StockFilter(SimpleListFilter):
@@ -49,7 +77,7 @@ class OrderStatusFilter(SimpleListFilter):
             return queryset.filter(status=self.value())
 
 # Enhanced Category Admin
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(SafeAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'parent', 'product_count', 'image_preview')
     search_fields = ('name',)
     list_filter = ('parent',)
@@ -86,7 +114,7 @@ class CategoryAdmin(admin.ModelAdmin):
     export_categories.short_description = "صادرات دسته‌بندی‌ها"
 
 # Enhanced Product Admin
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SafeAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'category', 'price', 'stock', 'featured', 'image_preview', 'like_count', 'favorite_count', 'created_at', 'status_badge')
     list_filter = (StockFilter, 'category', 'created_at', 'featured')
     search_fields = ('name', 'description')
@@ -181,7 +209,7 @@ class ProductAdmin(admin.ModelAdmin):
     image_preview.short_description = 'تصویر'
 
 # Enhanced Order Admin
-class OrderAdmin(admin.ModelAdmin):
+class OrderAdmin(SafeAdminMixin, admin.ModelAdmin):
     list_display = ('id', 'user', 'status', 'status_badge', 'total_amount', 'item_count', 'created_at', 'payment_status', 'has_feedback')
     list_filter = (OrderStatusFilter, 'created_at', 'delivery_method')
     search_fields = ('user__username', 'shipping_address', 'id', 'user__email')
@@ -268,10 +296,14 @@ class OrderAdmin(admin.ModelAdmin):
     payment_status.short_description = 'وضعیت پرداخت'
     
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related('user').prefetch_related('items')
+        try:
+            return super().get_queryset(request).select_related('user').prefetch_related('items')
+        except Exception as e:
+            logger.error(f"Error in OrderAdmin.get_queryset: {e}")
+            return super().get_queryset(request)
 
 # Enhanced OrderItem Admin
-class OrderItemAdmin(admin.ModelAdmin):
+class OrderItemAdmin(SafeAdminMixin, admin.ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'price', 'total_price')
     list_filter = ('order__status', 'product__category')
     search_fields = ('order__user__username', 'product__name')
@@ -401,7 +433,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     profile_image_preview.short_description = 'تصویر پروفایل'
 
 # Enhanced Notification Admin
-class NotificationAdmin(admin.ModelAdmin):
+class NotificationAdmin(SafeAdminMixin, admin.ModelAdmin):
     list_display = ('user', 'notification_type', 'title', 'is_read', 'created_at', 'status_badge')
     list_filter = ('notification_type', 'is_read', 'created_at')
     search_fields = ('user__username', 'title', 'message')
