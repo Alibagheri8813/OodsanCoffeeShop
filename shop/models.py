@@ -64,23 +64,21 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'در انتظار پرداخت'),
-        ('paid', 'پرداخت شده'),
-        ('processing', 'در حال پردازش'),
-        ('shipped', 'ارسال شده'),
-        ('delivered', 'تحویل داده شده'),
-        ('cancelled', 'لغو شده'),
-        ('making', 'در حال آماده‌سازی غذا'),
-        ('made', 'غذا آماده است'),
+        ('pending_payment', 'در انتظار پرداخت'),
+        ('preparing', 'در حال آمــاده‌سازی'),
+        ('ready', 'آماده شده'),
+        ('shipping_preparation', 'در حال ارسال به اداره پست'),
+        ('in_transit', 'بسته در حال رسیدن به مقصد است'),
+        ('pickup_ready', 'آماده شده است و لطفاً مراجعه کنید'),
     ]
     
     DELIVERY_CHOICES = [
         ('pickup', 'دریافت حضوری'),
-        ('post', 'ارسال پستی'),
+        ('postal', 'ارسال پستی'),
     ]
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='pending_payment')
     delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='pickup')
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -94,6 +92,79 @@ class Order(models.Model):
 
     def __str__(self):
         return f"سفارش {self.id} - {self.user.username}"
+    
+    def can_transition_to(self, new_status):
+        """Check if the order can transition to the given status"""
+        valid_transitions = {
+            'pending_payment': ['preparing'],
+            'preparing': ['ready'],
+            'ready': ['shipping_preparation', 'pickup_ready'],
+            'shipping_preparation': ['in_transit'],
+            'in_transit': [],
+            'pickup_ready': [],
+        }
+        return new_status in valid_transitions.get(self.status, [])
+    
+    def transition_to(self, new_status, user=None):
+        """Transition the order to a new status with validation"""
+        if not self.can_transition_to(new_status):
+            raise ValueError(f"Cannot transition from {self.status} to {new_status}")
+        
+        old_status = self.status
+        self.status = new_status
+        self.save()
+        
+        # Create notification for the customer
+        from .models import Notification
+        Notification.create_notification(
+            user=self.user,
+            notification_type='order_status',
+            title=f'تغییر وضعیت سفارش #{self.id}',
+            message=f'وضعیت سفارش شما از "{dict(self.STATUS_CHOICES)[old_status]}" به "{dict(self.STATUS_CHOICES)[new_status]}" تغییر کرد.',
+            related_object=self
+        )
+        
+        return True
+    
+    def mark_as_paid(self, user=None):
+        """Mark order as paid and automatically transition to preparing"""
+        if self.status == 'pending_payment':
+            return self.transition_to('preparing', user)
+        return False
+    
+    def mark_as_ready(self, user=None):
+        """Mark order as ready and handle delivery method logic"""
+        if self.status == 'preparing':
+            if self.transition_to('ready', user):
+                # Auto-transition based on delivery method
+                if self.delivery_method == 'pickup':
+                    return self.transition_to('pickup_ready', user)
+                return True
+        return False
+    
+    def start_shipping_preparation(self, user=None):
+        """Start shipping preparation for postal orders"""
+        if self.status == 'ready' and self.delivery_method == 'postal':
+            return self.transition_to('shipping_preparation', user)
+        return False
+    
+    def mark_in_transit(self, user=None):
+        """Mark order as in transit"""
+        if self.status == 'shipping_preparation':
+            return self.transition_to('in_transit', user)
+        return False
+    
+    def get_status_badge_color(self):
+        """Get the appropriate color for status badge"""
+        status_colors = {
+            'pending_payment': '#8B4513',  # Coffee brown
+            'preparing': '#D2691E',       # Chocolate brown  
+            'ready': '#CD853F',           # Peru brown
+            'shipping_preparation': '#A0522D',  # Sienna
+            'in_transit': '#654321',      # Dark brown
+            'pickup_ready': '#228B22',    # Forest green
+        }
+        return status_colors.get(self.status, '#8B4513')
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)

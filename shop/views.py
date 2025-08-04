@@ -24,6 +24,7 @@ import logging
 from django.conf import settings
 from decimal import Decimal
 from django.contrib.admin.views.decorators import user_passes_test
+from django.views.decorators.http import require_http_methods
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -1277,8 +1278,6 @@ def search_products(request):
     elif sort_by == 'price_high':
         products = products.order_by('-price')
     elif sort_by == 'newest':
-        products = products.order_by('-created_at')
-    elif sort_by == 'popular':
         products = products.order_by('-likes_count')
     else:
         products = products.order_by('name')
@@ -1779,6 +1778,167 @@ def api_analytics(request):
     except Exception as e:
         logger.error(f"Error in API analytics: {e}")
         return JsonResponse({'error': 'خطا در بارگیری تحلیلات'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+def transition_order_status(request, order_id):
+    """API endpoint for transitioning order status"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        # Check permissions - only staff can transition orders beyond pending_payment
+        if not request.user.is_staff and order.user != request.user:
+            return JsonResponse({'error': 'عدم دسترسی'}, status=403)
+        
+        data = json.loads(request.body)
+        new_status = data.get('status')
+        
+        if not new_status:
+            return JsonResponse({'error': 'وضعیت جدید مشخص نشده است'}, status=400)
+        
+        # Validate status choice
+        valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
+        if new_status not in valid_statuses:
+            return JsonResponse({'error': 'وضعیت نامعتبر'}, status=400)
+        
+        # Attempt transition
+        if order.transition_to(new_status, request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': f'وضعیت سفارش به "{order.get_status_display()}" تغییر کرد'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
+            
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    except Exception as e:
+        logger.error(f"Error transitioning order status: {e}")
+        return JsonResponse({'error': 'خطا در تغییر وضعیت سفارش'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def mark_order_as_paid(request, order_id):
+    """API endpoint for marking order as paid (staff only)"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        if order.mark_as_paid(request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': 'سفارش پرداخت شده و در حال آماده‌سازی قرار گرفت'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
+            
+    except Exception as e:
+        logger.error(f"Error marking order as paid: {e}")
+        return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def mark_order_as_ready(request, order_id):
+    """API endpoint for marking order as ready (staff only)"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        if order.mark_as_ready(request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': 'سفارش آماده شد'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
+            
+    except Exception as e:
+        logger.error(f"Error marking order as ready: {e}")
+        return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def start_order_shipping_preparation(request, order_id):
+    """API endpoint for starting shipping preparation (staff only)"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        if order.start_shipping_preparation(request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': 'سفارش وارد مرحله آماده‌سازی ارسال شد'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد یا سفارش پستی نیست'}, status=400)
+            
+    except Exception as e:
+        logger.error(f"Error starting shipping preparation: {e}")
+        return JsonResponse({'error': 'خطا در آماده‌سازی ارسال'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def mark_order_in_transit(request, order_id):
+    """API endpoint for marking order as in transit (staff only)"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        if order.mark_in_transit(request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': 'سفارش در حال ارسال قرار گرفت'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
+            
+    except Exception as e:
+        logger.error(f"Error marking order in transit: {e}")
+        return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
+
+@require_http_methods(["GET"])
+@login_required
+def get_order_status(request, order_id):
+    """API endpoint to get current order status"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        # Check permissions
+        if not request.user.is_staff and order.user != request.user:
+            return JsonResponse({'error': 'عدم دسترسی'}, status=403)
+        
+        return JsonResponse({
+            'success': True,
+            'order_id': order.id,
+            'status': order.status,
+            'status_display': order.get_status_display(),
+            'status_color': order.get_status_badge_color(),
+            'delivery_method': order.delivery_method,
+            'delivery_method_display': order.get_delivery_method_display(),
+            'can_transition_to': {
+                status: label for status, label in Order.STATUS_CHOICES 
+                if order.can_transition_to(status)
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting order status: {e}")
+        return JsonResponse({'error': 'خطا در دریافت وضعیت سفارش'}, status=500)
 
 def voice_ai_assistant_page(request):
     """Voice AI Assistant page"""
