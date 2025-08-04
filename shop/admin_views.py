@@ -37,6 +37,8 @@ def admin_dashboard(request):
     pending_orders = Order.objects.filter(status='pending').count()
     processing_orders = Order.objects.filter(status='processing').count()
     shipped_orders = Order.objects.filter(status='shipped').count()
+    making_orders = Order.objects.filter(status='making').count()
+    made_orders = Order.objects.filter(status='made').count()
     
     # Weekly and monthly revenue
     week_ago = today - timedelta(days=7)
@@ -69,6 +71,17 @@ def admin_dashboard(request):
     # Unread notifications count
     unread_notifications = Notification.objects.filter(is_read=False).count()
     
+    # Popular products by number of times viewed
+    top_viewed_products = Product.objects.annotate(
+        view_count=Count('interactions', filter=Q(interactions__interaction_type='view'))
+    ).order_by('-view_count')[:5]
+
+    # Most active users (by number of orders)
+    most_active_users = User.objects.annotate(
+        order_count=Count('order')
+    ).order_by('-order_count')[:5]
+
+    # Include data in context
     context = {
         'total_orders': total_orders,
         'revenue_today': revenue_today,
@@ -89,7 +102,14 @@ def admin_dashboard(request):
         'recent_orders': recent_orders,
         'top_products': top_products,
         'unread_notifications': unread_notifications,
+        'making_orders': making_orders,
+        'made_orders': made_orders,
     }
+    
+    context.update({
+        'top_viewed_products': top_viewed_products,
+        'most_active_users': most_active_users,
+    })
     
     return render(request, 'admin/dashboard.html', context)
 
@@ -207,6 +227,8 @@ def admin_order_list(request):
     processing_count = Order.objects.filter(status='processing').count()
     shipped_count = Order.objects.filter(status='shipped').count()
     delivered_count = Order.objects.filter(status='delivered').count()
+    making_orders = Order.objects.filter(status='making').count()
+    made_orders = Order.objects.filter(status='made').count()
     
     context = {
         'orders': orders,
@@ -218,6 +240,8 @@ def admin_order_list(request):
         'processing_count': processing_count,
         'shipped_count': shipped_count,
         'delivered_count': delivered_count,
+        'making_count': making_orders,
+        'made_count': made_orders,
     }
     
     return render(request, 'admin/order_list.html', context)
@@ -246,3 +270,31 @@ def admin_bulk_order_status(request):
             messages.success(request, f'{updated_count} سفارش به وضعیت {status_names[new_status]} تغییر یافت.')
         
     return redirect('admin_order_list')
+
+
+# ---------------------------------------------------------------------------
+# User Tier Management
+# ---------------------------------------------------------------------------
+@staff_member_required
+def admin_update_user_tier(request, user_id):
+    """Promote or demote a user's loyalty tier.
+
+    Accepts only POST requests containing the new `tier` in the request body.
+    Returns JSON with the human-readable tier name on success so the front-end
+    can update the UI without a full refresh."""
+    from .models import LoyaltyProgram  # local import to avoid circular deps
+
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+    user = get_object_or_404(User, id=user_id)
+    new_tier = request.POST.get('tier')
+
+    if new_tier not in dict(LoyaltyProgram.TIER_CHOICES):
+        return JsonResponse({'success': False, 'error': 'Tier نامعتبر است.'}, status=400)
+
+    loyalty, _ = LoyaltyProgram.objects.get_or_create(user=user)
+    loyalty.tier = new_tier
+    loyalty.save()
+
+    return JsonResponse({'success': True, 'tier': loyalty.get_tier_display()})
