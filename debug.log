@@ -27,3 +27,15 @@ INFO 2025-08-05 03:33:59,184 error_handling 10772 2604 Starting operation: produ
 INFO 2025-08-05 03:33:59,186 error_handling 10772 2604 Operation completed: product_detail in 0.00s
 WARNING 2025-08-05 03:34:33,655 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
 WARNING 2025-08-05 03:34:34,671 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
+INFO 2025-08-05 03:53:34,471 autoreload 12592 7456 Watching for file changes with StatReloader
+WARNING 2025-08-05 04:00:45,606 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:08:18,729 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:09:37,496 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:09:54,575 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:11:59,388 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 06:36:09,310 autoreload 5024 7392 Watching for file changes with StatReloader
+WARNING 2025-08-05 06:36:35,591 log 5024 11480 Not Found: /favicon.ico
+WARNING 2025-08-05 06:36:51,908 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:39:05,982 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:43:05,384 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:43:13,687 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json

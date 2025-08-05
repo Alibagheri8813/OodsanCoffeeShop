@@ -367,6 +367,8 @@
 
 {% block content %}
 <div class="cart-container">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
     <div class="container">
         <div class="cart-card">
             <div class="cart-header">
@@ -393,10 +395,17 @@
                         
                         <div class="quantity-controls">
                             <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)" title="کاهش تعداد">-</button>
-                            <input type="number" class="quantity-input" value="{{ item.quantity }}" 
-                                   min="1" max="{{ item.product.stock }}" 
-                                   onchange="updateQuantity({{ item.id }}, this.value, true)"
-                                   title="تعداد محصول">
+                            <input
+                                type="number"
+                                class="quantity-input"
+                                data-item-id="{{ item.id }}"
+                                value="{{ item.quantity }}"
+                                min="1"
+                                max="{{ item.product.stock }}"
+                                onchange="updateQuantity({{ item.id }}, this.value, true)"
+                                title="تعداد محصول"
+                            />
+                                   
                             <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)" title="افزایش تعداد">+</button>
                         </div>
                         
@@ -480,16 +489,17 @@ function getCookie(name) {
     }
     
     // Fallback: try to get from meta tag
-    if (!cookieValue) {
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-        if (csrfMeta) {
-            cookieValue = csrfMeta.getAttribute('content');
-        }
-    }
+    // if (!cookieValue) {
+    //     const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    //     if (csrfMeta) {
+    //         cookieValue = csrfMeta.getAttribute('content');
+    //     }
+    // }
     
     // Fallback: try to get from input field
     if (!cookieValue) {
-        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]')
+
         if (csrfInput) {
             cookieValue = csrfInput.value;
         }
@@ -547,7 +557,9 @@ function updateQuantity(itemId, change, isDirectInput = false) {
     // Show loading state
     itemElement.classList.add('loading');
     
-    const csrfToken = getCookie('csrftoken');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    console.log(csrfToken)
     if (!csrfToken) {
         showMessage('خطا: توکن امنیتی یافت نشد. لطفاً صفحه را رفرش کنید', 'error');
         itemElement.classList.remove('loading');
@@ -565,7 +577,8 @@ function updateQuantity(itemId, change, isDirectInput = false) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+,
             'X-Requested-With': 'XMLHttpRequest'
         },
         body: JSON.stringify(requestData)
@@ -650,7 +663,9 @@ function removeItem(itemId) {
     
     itemElement.classList.add('loading');
     
-    const csrfToken = getCookie('csrftoken');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+
     if (!csrfToken) {
         showMessage('خطا: توکن امنیتی یافت نشد. لطفاً صفحه را رفرش کنید', 'error');
         itemElement.classList.remove('loading');
