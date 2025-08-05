@@ -77,3 +77,17 @@ WARNING 2025-08-05 13:13:29,678 log 3016 11140 Not Found: /.well-known/appspecif
 WARNING 2025-08-05 13:13:29,990 log 3016 11140 Not Found: /home/roast-bg.jpg
 WARNING 2025-08-05 13:14:13,012 log 3016 11140 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 INFO 2025-08-05 13:20:28,992 autoreload 4488 10248 Watching for file changes with StatReloader
+INFO 2025-08-05 13:33:27,076 autoreload 8168 11428 Watching for file changes with StatReloader
+INFO 2025-08-05 13:34:24,428 autoreload 13452 13876 Watching for file changes with StatReloader
+WARNING 2025-08-05 13:46:07,572 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:47:07,553 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:48:07,576 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:49:07,570 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:50:07,553 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:51:07,562 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:52:07,564 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:53:07,567 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:54:07,556 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:55:07,571 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:56:07,554 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:57:07,564 log 13452 15804 Not Found: /accounts/login/
