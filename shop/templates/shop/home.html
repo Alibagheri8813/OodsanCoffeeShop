@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}خانه | کافی شاپ{% endblock %}
+{% block title %}خانه | اودسان کافی{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,6 +16,11 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('home-page');
+    // Hide the navbar on home page
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        navbar.style.display = 'none';
+    }
 });
 </script>
 <style>
@@ -35,6 +40,383 @@ document.addEventListener('DOMContentLoaded', function() {
     overflow: hidden;
     margin-top: 0;
     padding-top: 0;
+}
+
+/* Integrated Navigation Bar in Hero */
+.hero-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+/* Sensational Logo */
+.hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    position: relative;
+    animation: float-logo 4s ease-in-out infinite;
+}
+
+@keyframes float-logo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.hero-logo-icon {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #F5DEB3 0%, #D2B48C 50%, #8B4513 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #2C1810;
+    box-shadow: 
+        0 0 30px rgba(245, 222, 179, 0.8),
+        0 0 60px rgba(210, 180, 140, 0.6),
+        inset 0 0 20px rgba(139, 69, 19, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-logo-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hero-logo-text {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #F5DEB3;
+    text-shadow: 
+        3px 3px 6px rgba(0,0,0,0.8),
+        0 0 30px rgba(245, 222, 179, 0.5);
+    font-family: 'Vazirmatn', sans-serif;
+    letter-spacing: 2px;
+}
+
+/* Sensational Navigation Links */
+.hero-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-nav-link {
+    color: #F5DEB3;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    background: rgba(139, 69, 19, 0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(245, 222, 179, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.hero-nav-link:hover::before {
+    left: 100%;
+}
+
+.hero-nav-link:hover {
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    border-color: #F5DEB3;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 10px 30px rgba(139, 69, 19, 0.6),
+        0 0 20px rgba(245, 222, 179, 0.4);
+    color: #FFF8F0;
+}
+
+.hero-nav-link i {
+    font-size: 1.2rem;
+}
+
+/* Profile Dropdown in Hero */
+.hero-profile-dropdown {
+    position: relative;
+}
+
+.hero-dropdown-toggle {
+    background: rgba(139, 69, 19, 0.3);
+    color: #F5DEB3;
+    border: 2px solid transparent;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.hero-dropdown-toggle:hover {
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    border-color: #F5DEB3;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 10px 30px rgba(139, 69, 19, 0.6),
+        0 0 20px rgba(245, 222, 179, 0.4);
+}
+
+.hero-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 1rem;
+    background: rgba(44, 24, 16, 0.95);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(245, 222, 179, 0.3);
+    border-radius: 20px;
+    padding: 1rem;
+    min-width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(139, 69, 19, 0.4);
+}
+
+.hero-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.hero-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #F5DEB3;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    margin: 0.3rem 0;
+}
+
+.hero-dropdown-item:hover {
+    background: rgba(139, 69, 19, 0.4);
+    transform: translateX(5px);
+    color: #FFF8F0;
+}
+
+.hero-dropdown-divider {
+    height: 1px;
+    background: rgba(245, 222, 179, 0.3);
+    margin: 0.5rem 0;
+}
+
+/* Cart Count Badge */
+.hero-cart-count {
+    background: linear-gradient(45deg, #F5DEB3, #D2B48C);
+    color: #2C1810;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 900;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(245, 222, 179, 0.8);
+}
+
+/* Sensational Visual Effects */
+.hero-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(245, 222, 179, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(210, 180, 140, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 30%);
+    animation: pulse-glow 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Coffee Steam Animation */
+.hero-logo-icon::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 40px;
+    background: linear-gradient(180deg, transparent, rgba(245, 222, 179, 0.3), transparent);
+    filter: blur(8px);
+    animation: steam-rise 3s ease-in-out infinite;
+}
+
+@keyframes steam-rise {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0) scaleY(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-20px) scaleY(1.5) scaleX(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-40px) scaleY(2) scaleX(1.5);
+    }
+}
+
+/* Magical Hover Effects */
+.hero-nav-link {
+    position: relative;
+    isolation: isolate;
+}
+
+.hero-nav-link::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #F5DEB3, #D2B48C, #8B4513, #D2B48C, #F5DEB3);
+    border-radius: 50px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    animation: gradient-rotate 3s linear infinite;
+}
+
+@keyframes gradient-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hero-nav-link:hover::after {
+    opacity: 0.8;
+}
+
+/* Coffee Bean Particles */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(139, 69, 19, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 30% 40%, rgba(160, 82, 45, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 50% 60%, rgba(101, 67, 33, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 70% 80%, rgba(139, 69, 19, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 90% 10%, rgba(160, 82, 45, 0.3) 0%, transparent 2%);
+    animation: float-particles 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes float-particles {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+}
+
+/* Glowing Text Effect */
+.hero-logo-text {
+    position: relative;
+    display: inline-block;
+}
+
+.hero-logo-text::before {
+    content: 'اودسان کافی';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #F5DEB3;
+    filter: blur(10px);
+    opacity: 0.5;
+    animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes text-glow {
+    0% { 
+        filter: blur(10px);
+        opacity: 0.5;
+    }
+    100% { 
+        filter: blur(20px);
+        opacity: 0.8;
+    }
+}
+
+/* Interactive Background Effect */
+.hero-section {
+    cursor: crosshair;
+}
+
+.coffee-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 222, 179, 0.3), transparent);
+    pointer-events: none;
+    animation: ripple 1s ease-out forwards;
+}
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
 }
 
 .hero-background {
@@ -60,6 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
     max-width: 800px;
     padding: 0 2rem;
     animation: fadeInUp 1s ease-out;
+    margin-top: 8rem;
 }
 
 @keyframes fadeInUp {
@@ -182,6 +565,49 @@ document.addEventListener('DOMContentLoaded', function() {
     100% {
         transform: translateY(-100px) rotate(360deg);
         opacity: 0;
+    }
+}
+
+/* Responsive Design for Hero Navigation */
+@media (max-width: 768px) {
+    .hero-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    .hero-nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .hero-nav-link {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .hero-logo-text {
+        font-size: 2rem;
+    }
+    
+    .hero-logo-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -944,7 +1370,84 @@ html {
 
 {% block content %}
 <!-- Hero Section -->
+<<<<<<< HEAD
 <!-- <section class="hero-section">
+=======
+<section class="hero-section">
+    <!-- Integrated Navigation -->
+    <nav class="hero-nav">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="hero-logo">
+            <div class="hero-logo-icon">
+                <i class="fas fa-coffee"></i>
+            </div>
+            <span class="hero-logo-text">اودسان کافی</span>
+        </a>
+        
+        <!-- Navigation Links -->
+        <div class="hero-nav-links">
+            <a href="{% url 'home' %}" class="hero-nav-link">
+                <i class="fas fa-home"></i>
+                خانه
+            </a>
+            <a href="{% url 'product_list' %}" class="hero-nav-link">
+                <i class="fas fa-store"></i>
+                فروشگاه
+            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorite_products' %}" class="hero-nav-link">
+                    <i class="fas fa-heart"></i>
+                    علاقه‌مندی‌ها
+                </a>
+                <a href="{% url 'user_notifications' %}" class="hero-nav-link">
+                    <i class="fas fa-bell"></i>
+                    اعلان‌ها
+                </a>
+            {% endif %}
+            
+            <!-- Profile Dropdown -->
+            {% if user.is_authenticated %}
+                <div class="hero-profile-dropdown">
+                    <button class="hero-dropdown-toggle" onclick="toggleHeroDropdown()">
+                        <i class="fas fa-user"></i>
+                        پروفایل
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="hero-dropdown-menu" id="heroProfileDropdown">
+                        <a href="{% url 'user_profile' %}" class="hero-dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            پروفایل من
+                        </a>
+                        <a href="{% url 'cart_view' %}" class="hero-dropdown-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            سبد خرید
+                            <span class="hero-cart-count" id="heroCartCount">0</span>
+                        </a>
+                        <a href="{% url 'order_history' %}" class="hero-dropdown-item">
+                            <i class="fas fa-history"></i>
+                            سفارشات
+                        </a>
+                        <div class="hero-dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="hero-dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            خروج
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="hero-nav-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    ورود
+                </a>
+                <a href="{% url 'signup' %}" class="hero-nav-link">
+                    <i class="fas fa-user-plus"></i>
+                    ثبت نام
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+    
+>>>>>>> e59018f741394053c24a1a4f52e4d8bdcbd17442
     <div class="hero-background"></div>
     <div class="floating-beans">
         <div class="bean"></div>
@@ -1267,6 +1770,87 @@ window.addEventListener('scroll', () => {
     if (heroBackground) {
         heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
     }
+});
+
+// Hero Dropdown Toggle
+function toggleHeroDropdown() {
+    const dropdown = document.getElementById('heroProfileDropdown');
+    dropdown.classList.toggle('show');
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function closeDropdown(e) {
+        if (!e.target.closest('.hero-profile-dropdown')) {
+            dropdown.classList.remove('show');
+            document.removeEventListener('click', closeDropdown);
+        }
+    });
+}
+
+// Update cart count in hero
+async function updateHeroCartCount() {
+    try {
+        const response = await fetch('/cart/count/');
+        const data = await response.json();
+        const cartCountElement = document.getElementById('heroCartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = data.count || 0;
+            if (data.count > 0) {
+                cartCountElement.style.display = 'inline-block';
+            } else {
+                cartCountElement.style.display = 'none';
+            }
+        }
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+    }
+}
+
+// Update cart count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateHeroCartCount();
+    
+    // Add smooth animations to hero elements
+    const heroElements = document.querySelectorAll('.hero-nav-link, .hero-logo');
+    heroElements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            element.style.transition = 'all 0.6s ease';
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+    
+    // Interactive ripple effect on hero section
+    const heroSection = document.querySelector('.hero-section');
+    heroSection.addEventListener('click', function(e) {
+        const ripple = document.createElement('div');
+        ripple.className = 'coffee-ripple';
+        ripple.style.left = e.clientX - 150 + 'px';
+        ripple.style.top = e.clientY - 150 + 'px';
+        heroSection.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 1000);
+    });
+    
+    // Animated coffee beans on mouse move
+    let mouseX = 0, mouseY = 0;
+    heroSection.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+        
+        const beans = document.querySelectorAll('.bean');
+        beans.forEach((bean, index) => {
+            const speed = (index + 1) * 0.5;
+            bean.style.transform = `
+                translateX(${mouseX * speed * 20}px) 
+                translateY(${mouseY * speed * 20}px)
+                rotate(${mouseX * 360}deg)
+            `;
+        });
+    });
 });
 </script>
 {% endblock %}
