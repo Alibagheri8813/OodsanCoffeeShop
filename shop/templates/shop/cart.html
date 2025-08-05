@@ -101,16 +101,23 @@
         height: 35px;
         border: none;
         border-radius: 8px;
-        background: #4B2E2B;
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
         color: #FFF8F0;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 8px rgba(75, 46, 43, 0.3);
     }
     
     .quantity-btn:hover {
-        background: #7B3F00;
+        background: linear-gradient(135deg, #7B3F00 0%, #C97C5D 100%);
         transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(75, 46, 43, 0.4);
+    }
+    
+    .quantity-btn:active {
+        transform: scale(0.95);
     }
     
     .quantity-input {
@@ -120,10 +127,17 @@
         border: 2px solid #e9ecef;
         border-radius: 8px;
         font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .quantity-input:focus {
+        border-color: #7B3F00;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(123, 63, 0, 0.1);
     }
     
     .remove-btn {
-        background: #7B3F00;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         color: #FFF8F0;
         border: none;
         padding: 8px 15px;
@@ -131,51 +145,87 @@
         cursor: pointer;
         transition: all 0.3s ease;
         font-size: 0.9rem;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
     }
     
     .remove-btn:hover {
-        background: #C97C5D;
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
         transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
     }
     
     .cart-summary {
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #FFF8F0 0%, #F3E9DC 100%);
         padding: 30px;
         border-radius: 0 0 20px 20px;
+        border-top: 3px solid #7B3F00;
     }
     
     .summary-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #e9ecef;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(123, 63, 0, 0.2);
+        font-size: 1.1rem;
+    }
+    
+    .summary-row span:first-child {
+        color: #4B2E2B;
+        font-weight: 600;
+    }
+    
+    .summary-row span:last-child {
+        color: #7B3F00;
+        font-weight: 700;
     }
     
     .summary-row:last-child {
         border-bottom: none;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 700;
-        color: #2c3e50;
+        padding: 20px 0 10px 0;
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 4px rgba(75, 46, 43, 0.2);
+    }
+    
+    .summary-row:last-child span {
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5rem;
+        text-shadow: 0 2px 4px rgba(75, 46, 43, 0.3);
     }
     
     .checkout-btn {
-        background: linear-gradient(135deg, #4B2E2B, #7B3F00);
+        background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
         color: #FFF8F0;
         border: none;
-        padding: 15px 40px;
+        padding: 18px 40px;
         border-radius: 12px;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         width: 100%;
         margin-top: 20px;
+        box-shadow: 0 6px 20px rgba(75, 46, 43, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
     .checkout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(75, 46, 43, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(75, 46, 43, 0.4);
+        background: linear-gradient(135deg, #7B3F00 0%, #C97C5D 50%, #4B2E2B 100%);
+    }
+    
+    .checkout-btn:active {
+        transform: translateY(-1px);
     }
     
     .empty-cart {
@@ -222,24 +272,66 @@
     .loading {
         opacity: 0.6;
         pointer-events: none;
+        position: relative;
+    }
+    
+    .loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid #7B3F00;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
     
     .success-message {
-        background: #d4edda;
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
         color: #155724;
-        padding: 15px;
-        border-radius: 8px;
+        padding: 15px 20px;
+        border-radius: 12px;
         margin-bottom: 20px;
         border: 1px solid #c3e6cb;
+        box-shadow: 0 2px 8px rgba(21, 87, 36, 0.1);
+        animation: slideInDown 0.3s ease;
     }
     
     .error-message {
-        background: #f8d7da;
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
         color: #721c24;
-        padding: 15px;
-        border-radius: 8px;
+        padding: 15px 20px;
+        border-radius: 12px;
         margin-bottom: 20px;
         border: 1px solid #f5c6cb;
+        box-shadow: 0 2px 8px rgba(114, 28, 36, 0.1);
+        animation: slideInDown 0.3s ease;
+    }
+    
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .item-total {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #7B3F00;
+        text-shadow: 0 1px 2px rgba(123, 63, 0, 0.1);
     }
     
     @media (max-width: 768px) {
@@ -255,6 +347,19 @@
         
         .cart-header h1 {
             font-size: 2rem;
+        }
+        
+        .summary-row {
+            font-size: 1rem;
+        }
+        
+        .summary-row:last-child {
+            font-size: 1.2rem;
+        }
+        
+        .checkout-btn {
+            font-size: 1.1rem;
+            padding: 15px 30px;
         }
     }
 </style>
@@ -287,18 +392,19 @@
                         </div>
                         
                         <div class="quantity-controls">
-                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)">-</button>
+                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)" title="کاهش تعداد">-</button>
                             <input type="number" class="quantity-input" value="{{ item.quantity }}" 
                                    min="1" max="{{ item.product.stock }}" 
-                                   onchange="updateQuantity({{ item.id }}, this.value, true)">
-                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)">+</button>
+                                   onchange="updateQuantity({{ item.id }}, this.value, true)"
+                                   title="تعداد محصول">
+                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)" title="افزایش تعداد">+</button>
                         </div>
                         
                         <div class="item-total">
                             <strong>{{ item.get_total_price }} تومان</strong>
                         </div>
                         
-                        <button class="remove-btn" onclick="removeItem({{ item.id }})">
+                        <button class="remove-btn" onclick="removeItem({{ item.id }})" title="حذف از سبد خرید">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -342,139 +448,24 @@
 </div>
 
 <script>
-// Real-time cart updates
-function updateQuantity(itemId, change, isDirectInput = false) {
-    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
-    const quantityInput = itemElement.querySelector('.quantity-input');
-    
-    let newQuantity;
-    if (isDirectInput) {
-        newQuantity = parseInt(change);
-    } else {
-        newQuantity = parseInt(quantityInput.value) + parseInt(change);
-    }
-    
-    if (newQuantity < 1) {
-        showMessage('تعداد نمی‌تواند کمتر از 1 باشد', 'error');
-        return;
-    }
-    
-    // Show loading state
-    itemElement.classList.add('loading');
-    
-    fetch('{% url "update_cart_item" %}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            item_id: itemId,
-            quantity: newQuantity
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            quantityInput.value = newQuantity;
-            updateCartTotals(data);
-            updateCartCount(data.cart_count);
-            
-            if (newQuantity === 0) {
-                itemElement.remove();
-                checkEmptyCart();
-            }
-            
-            showMessage('سبد خرید به‌روزرسانی شد', 'success');
-        } else {
-            showMessage(data.message, 'error');
-            quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
-        }
-    })
-    .catch(error => {
-        showMessage('خطا در به‌روزرسانی سبد خرید', 'error');
-    })
-    .finally(() => {
-        itemElement.classList.remove('loading');
-    });
+// Enhanced error logging and debugging
+function logError(message, error, context = {}) {
+    console.group('🛒 Cart Error');
+    console.error('Message:', message);
+    console.error('Error:', error);
+    console.error('Context:', context);
+    console.error('Stack:', error?.stack);
+    console.groupEnd();
 }
 
-function removeItem(itemId) {
-    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
-    
-    if (!confirm('آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟')) {
-        return;
-    }
-    
-    itemElement.classList.add('loading');
-    
-    fetch('{% url "remove_from_cart" %}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            item_id: itemId
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            itemElement.remove();
-            updateCartTotals(data);
-            updateCartCount(data.cart_count);
-            checkEmptyCart();
-            showMessage('محصول از سبد خرید حذف شد', 'success');
-        } else {
-            showMessage(data.message, 'error');
-        }
-    })
-    .catch(error => {
-        showMessage('خطا در حذف محصول', 'error');
-    })
-    .finally(() => {
-        itemElement.classList.remove('loading');
-    });
+function logSuccess(message, data = {}) {
+    console.group('✅ Cart Success');
+    console.log('Message:', message);
+    console.log('Data:', data);
+    console.groupEnd();
 }
 
-function updateCartTotals(data) {
-    document.getElementById('subtotal').textContent = data.cart_total + ' تومان';
-    document.getElementById('total').textContent = (data.cart_total + {{ delivery_fee }}) + ' تومان';
-}
-
-function updateCartCount(count) {
-    // Update cart count in header if it exists
-    const cartBadge = document.querySelector('.cart-badge');
-    if (cartBadge) {
-        cartBadge.textContent = count;
-    }
-}
-
-function checkEmptyCart() {
-    const cartItems = document.querySelectorAll('.cart-item');
-    if (cartItems.length === 0) {
-        location.reload(); // Reload to show empty cart message
-    }
-}
-
-function proceedToCheckout() {
-    window.location.href = '{% url "checkout" %}';
-}
-
-function showMessage(message, type) {
-    const messagesContainer = document.getElementById('cart-messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-    messageDiv.textContent = message;
-    
-    messagesContainer.appendChild(messageDiv);
-    
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 3000);
-}
-
+// Enhanced CSRF token retrieval with fallback
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -487,16 +478,353 @@ function getCookie(name) {
             }
         }
     }
+    
+    // Fallback: try to get from meta tag
+    if (!cookieValue) {
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        if (csrfMeta) {
+            cookieValue = csrfMeta.getAttribute('content');
+        }
+    }
+    
+    // Fallback: try to get from input field
+    if (!cookieValue) {
+        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        if (csrfInput) {
+            cookieValue = csrfInput.value;
+        }
+    }
+    
+    console.log('CSRF Token retrieved:', cookieValue ? 'Found' : 'Not found');
     return cookieValue;
 }
 
-// Auto-update cart count on page load
+// Enhanced cart update function with better error handling
+function updateQuantity(itemId, change, isDirectInput = false) {
+    console.log('🔄 Updating quantity:', { itemId, change, isDirectInput });
+    
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (!itemElement) {
+        showMessage('خطا: آیتم مورد نظر یافت نشد', 'error');
+        logError('Item element not found', new Error('Element missing'), { itemId });
+        return;
+    }
+    
+    const quantityInput = itemElement.querySelector('.quantity-input');
+    if (!quantityInput) {
+        showMessage('خطا: فیلد تعداد یافت نشد', 'error');
+        logError('Quantity input not found', new Error('Input missing'), { itemId });
+        return;
+    }
+    
+    let newQuantity;
+    if (isDirectInput) {
+        newQuantity = parseInt(change);
+    } else {
+        const currentQuantity = parseInt(quantityInput.value) || 0;
+        newQuantity = currentQuantity + parseInt(change);
+    }
+    
+    console.log('📊 Quantity calculation:', { 
+        current: quantityInput.value, 
+        change, 
+        newQuantity 
+    });
+    
+    if (isNaN(newQuantity) || newQuantity < 1) {
+        showMessage('تعداد نمی‌تواند کمتر از 1 باشد', 'error');
+        quantityInput.value = Math.max(1, parseInt(quantityInput.value) || 1);
+        return;
+    }
+    
+    const maxStock = parseInt(quantityInput.getAttribute('max')) || 999;
+    if (newQuantity > maxStock) {
+        showMessage(`حداکثر ${maxStock} عدد قابل انتخاب است`, 'error');
+        quantityInput.value = maxStock;
+        return;
+    }
+    
+    // Show loading state
+    itemElement.classList.add('loading');
+    
+    const csrfToken = getCookie('csrftoken');
+    if (!csrfToken) {
+        showMessage('خطا: توکن امنیتی یافت نشد. لطفاً صفحه را رفرش کنید', 'error');
+        itemElement.classList.remove('loading');
+        return;
+    }
+    
+    const requestData = {
+        item_id: itemId,
+        quantity: newQuantity
+    };
+    
+    console.log('🚀 Sending request:', requestData);
+    
+    fetch('{% url "update_cart_item" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        console.log('📡 Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        return response.json();
+    })
+    .then(data => {
+        console.log('📥 Response data:', data);
+        
+        if (data.success) {
+            quantityInput.value = newQuantity;
+            updateCartTotals(data);
+            updateCartCount(data.cart_count);
+            
+            // Update item total if provided
+            if (data.item_total !== undefined) {
+                const itemTotalElement = itemElement.querySelector('.item-total strong');
+                if (itemTotalElement) {
+                    itemTotalElement.textContent = data.item_total + ' تومان';
+                }
+            }
+            
+            if (newQuantity === 0) {
+                itemElement.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    itemElement.remove();
+                    checkEmptyCart();
+                }, 300);
+            }
+            
+            showMessage('سبد خرید به‌روزرسانی شد', 'success');
+            logSuccess('Cart updated successfully', data);
+        } else {
+            showMessage(data.message || 'خطا در به‌روزرسانی سبد خرید', 'error');
+            // Revert quantity on error
+            if (!isDirectInput) {
+                quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
+            }
+            logError('Server returned error', new Error(data.message), data);
+        }
+    })
+    .catch(error => {
+        const errorMessage = error.message.includes('HTTP') 
+            ? `خطا در ارتباط با سرور: ${error.message}`
+            : 'خطا در به‌روزرسانی سبد خرید. لطفاً اتصال اینترنت خود را بررسی کنید';
+        
+        showMessage(errorMessage, 'error');
+        logError('Request failed', error, { itemId, newQuantity });
+        
+        // Revert quantity on error
+        if (!isDirectInput) {
+            quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
+        }
+    })
+    .finally(() => {
+        itemElement.classList.remove('loading');
+    });
+}
+
+// Enhanced remove item function
+function removeItem(itemId) {
+    console.log('🗑️ Removing item:', itemId);
+    
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (!itemElement) {
+        showMessage('خطا: آیتم مورد نظر یافت نشد', 'error');
+        return;
+    }
+    
+    const productName = itemElement.querySelector('.item-details h3')?.textContent || 'محصول';
+    
+    if (!confirm(`آیا مطمئن هستید که می‌خواهید "${productName}" را از سبد خرید حذف کنید؟`)) {
+        return;
+    }
+    
+    itemElement.classList.add('loading');
+    
+    const csrfToken = getCookie('csrftoken');
+    if (!csrfToken) {
+        showMessage('خطا: توکن امنیتی یافت نشد. لطفاً صفحه را رفرش کنید', 'error');
+        itemElement.classList.remove('loading');
+        return;
+    }
+    
+    fetch('{% url "remove_from_cart" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+            item_id: itemId
+        })
+    })
+    .then(response => {
+        console.log('📡 Remove response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        return response.json();
+    })
+    .then(data => {
+        console.log('📥 Remove response data:', data);
+        
+        if (data.success) {
+            itemElement.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                itemElement.remove();
+                updateCartTotals(data);
+                updateCartCount(data.cart_count);
+                checkEmptyCart();
+            }, 300);
+            
+            showMessage(data.message || 'محصول از سبد خرید حذف شد', 'success');
+            logSuccess('Item removed successfully', data);
+        } else {
+            showMessage(data.message || 'خطا در حذف محصول', 'error');
+            logError('Server returned error', new Error(data.message), data);
+        }
+    })
+    .catch(error => {
+        const errorMessage = error.message.includes('HTTP') 
+            ? `خطا در ارتباط با سرور: ${error.message}`
+            : 'خطا در حذف محصول. لطفاً اتصال اینترنت خود را بررسی کنید';
+        
+        showMessage(errorMessage, 'error');
+        logError('Remove request failed', error, { itemId });
+    })
+    .finally(() => {
+        itemElement.classList.remove('loading');
+    });
+}
+
+function updateCartTotals(data) {
+    const subtotalElement = document.getElementById('subtotal');
+    const totalElement = document.getElementById('total');
+    const deliveryFeeElement = document.getElementById('delivery-fee');
+    
+    if (subtotalElement && data.cart_total !== undefined) {
+        subtotalElement.textContent = data.cart_total + ' تومان';
+    }
+    
+    if (totalElement) {
+        const deliveryFee = {{ delivery_fee }};
+        const newTotal = (data.cart_total || 0) + deliveryFee;
+        totalElement.textContent = newTotal + ' تومان';
+    }
+    
+    console.log('💰 Cart totals updated:', data);
+}
+
+function updateCartCount(count) {
+    // Update cart count in header if it exists
+    const cartBadges = document.querySelectorAll('.cart-badge, .cart-count');
+    cartBadges.forEach(badge => {
+        if (badge) {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'inline' : 'none';
+        }
+    });
+    
+    console.log('🔢 Cart count updated:', count);
+}
+
+function checkEmptyCart() {
+    const cartItems = document.querySelectorAll('.cart-item');
+    console.log('🔍 Checking empty cart, items found:', cartItems.length);
+    
+    if (cartItems.length === 0) {
+        setTimeout(() => {
+            location.reload(); // Reload to show empty cart message
+        }, 500);
+    }
+}
+
+function proceedToCheckout() {
+    console.log('🛒 Proceeding to checkout');
+    window.location.href = '{% url "checkout" %}';
+}
+
+// Enhanced message display with better styling
+function showMessage(message, type) {
+    const messagesContainer = document.getElementById('cart-messages');
+    if (!messagesContainer) {
+        console.warn('Messages container not found');
+        return;
+    }
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    messageDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+        ${message}
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 300);
+        }
+    }, 4000);
+    
+    console.log(`📢 Message shown (${type}):`, message);
+}
+
+// Add fadeOut animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+`;
+document.head.appendChild(style);
+
+// Auto-update cart count on page load with error handling
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Page loaded, fetching cart count');
+    
     fetch('{% url "cart_count" %}')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             updateCartCount(data.count);
+            logSuccess('Cart count loaded', data);
+        })
+        .catch(error => {
+            console.warn('Failed to load cart count:', error);
         });
 });
+
+// Add keyboard support for quantity inputs
+document.addEventListener('keydown', function(e) {
+    if (e.target.classList.contains('quantity-input')) {
+        if (e.key === 'Enter') {
+            e.target.blur();
+        }
+    }
+});
+
+console.log('🎯 Cart JavaScript loaded successfully');
 </script>
 {% endblock %} 
