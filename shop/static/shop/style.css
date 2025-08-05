@@ -860,13 +860,109 @@ header, main, footer, section, div {
     z-index: 99999999 !important;
 }
 
+/* Overlay Navbar for Hero Section */
+.navbar-overlay {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(60, 36, 21, 0.1) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(245, 222, 179, 0.2) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease;
+}
+
+.navbar-overlay:hover {
+    background: rgba(60, 36, 21, 0.2) !important;
+    border-bottom: 1px solid rgba(245, 222, 179, 0.3) !important;
+}
+
+.navbar-overlay .nav-brand a,
+.navbar-overlay .nav-link {
+    color: #FFF8F0 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-overlay .nav-brand a:hover,
+.navbar-overlay .nav-link:hover {
+    color: #F5DEB3 !important;
+    background: rgba(139, 69, 19, 0.2) !important;
+}
+
+.navbar-overlay .dropdown-menu {
+    background: rgba(60, 36, 21, 0.95) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(245, 222, 179, 0.2) !important;
+}
+
+.navbar-overlay .dropdown-item {
+    color: #FFF8F0 !important;
+}
+
+.navbar-overlay .dropdown-item:hover {
+    background: rgba(139, 69, 19, 0.3) !important;
+    color: #F5DEB3 !important;
+}
+
+/* Responsive adjustments for overlay navbar */
+@media (max-width: 768px) {
+    .navbar-overlay {
+        background: rgba(60, 36, 21, 0.3) !important;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .navbar-overlay .nav-menu {
+        background: rgba(60, 36, 21, 0.95) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px;
+    }
+    
+    .main-content {
+        padding-top: 70px;
+    }
+    
+    .home-page .main-content {
+        padding-top: 0 !important;
+    }
+}
+
+/* Adjust main content to account for fixed navbar on non-home pages */
+.main-content {
+    position: relative;
+}
+
+/* For home page with hero section, no top padding needed */
+.home-page .main-content {
+    padding-top: 0;
+}
+
+/* For other pages, add padding to account for fixed navbar */
+.main-content {
+    padding-top: 80px;
+}
+
+/* Override for home page */
+.home-page .main-content {
+    padding-top: 0 !important;
+}
+
 .nav-menu {
     position: relative;
     z-index: 99999999 !important;
 }
 
 .site-header {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 99999999 !important;
 }
 
