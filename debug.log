@@ -39,3 +39,26 @@ WARNING 2025-08-05 06:36:51,908 log 5024 11480 Not Found: /.well-known/appspecif
 WARNING 2025-08-05 06:39:05,982 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 WARNING 2025-08-05 06:43:05,384 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 WARNING 2025-08-05 06:43:13,687 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 06:55:25,458 autoreload 12104 4532 Watching for file changes with StatReloader
+INFO 2025-08-05 11:22:07,597 autoreload 9104 3976 Watching for file changes with StatReloader
+WARNING 2025-08-05 11:22:15,979 log 9104 8384 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:22:59,555 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:24:30,993 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:26:08,804 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:26:48,459 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:29:24,226 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:32:46,517 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:32:59,181 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:36:58,531 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:02,448 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:05,883 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:10,593 log 9104 15276 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 11:38:30,456 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:43:32,104 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:44:59,439 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:51:45,735 log 9104 984 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 11:52:40,392 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:56:21,751 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:58:59,762 log 9104 984 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 12:01:11,896 log 9104 984 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 12:47:24,653 log 9104 15904 Not Found: /images/roast-bg.jpg

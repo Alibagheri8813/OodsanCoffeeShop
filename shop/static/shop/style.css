@@ -158,10 +158,7 @@ header, main, footer, section, div {
 }
 
 /* Specific fix for hero section */
-.hero-section {
-    margin: 0 !important;
-    padding: 0 !important;
-}
+
 
 .site-header, .site-footer {
     background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
