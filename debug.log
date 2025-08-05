@@ -76,3 +76,4 @@ INFO 2025-08-05 13:13:25,114 autoreload 3016 14916 Watching for file changes wit
 WARNING 2025-08-05 13:13:29,678 log 3016 11140 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 WARNING 2025-08-05 13:13:29,990 log 3016 11140 Not Found: /home/roast-bg.jpg
 WARNING 2025-08-05 13:14:13,012 log 3016 11140 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:20:28,992 autoreload 4488 10248 Watching for file changes with StatReloader
