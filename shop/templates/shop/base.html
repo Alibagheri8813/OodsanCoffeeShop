@@ -150,6 +150,196 @@
         </nav>
     </header>
 
+    <!-- Sensational Navbar Enhancement Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('.navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const brandLink = document.querySelector('.nav-brand a');
+        
+        // Scroll effect for navbar
+        let scrolled = false;
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 50 && !scrolled) {
+                navbar.classList.add('scrolled');
+                scrolled = true;
+            } else if (scrollTop <= 50 && scrolled) {
+                navbar.classList.remove('scrolled');
+                scrolled = false;
+            }
+        });
+        
+        // Dynamic coffee bean particles on hover
+        function createCoffeeParticle(element) {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: radial-gradient(circle, #F5DEB3, #D2B48C);
+                border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+                pointer-events: none;
+                z-index: 1000;
+                animation: particle-float 1.5s ease-out forwards;
+            `;
+            
+            const rect = element.getBoundingClientRect();
+            particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+            particle.style.top = (rect.top + rect.height) + 'px';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 1500);
+        }
+        
+        // Add particle animation CSS
+        const particleStyle = document.createElement('style');
+        particleStyle.textContent = `
+            @keyframes particle-float {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0px) rotate(0deg) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-30px) rotate(360deg) scale(0.5);
+                }
+            }
+        `;
+        document.head.appendChild(particleStyle);
+        
+        // Enhanced hover effects
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                if (Math.random() > 0.7) { // 30% chance to create particle
+                    createCoffeeParticle(this);
+                }
+                
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(245, 222, 179, 0.3);
+                    pointer-events: none;
+                    transform: scale(0);
+                    animation: ripple-effect 0.6s ease-out;
+                    width: 100px;
+                    height: 100px;
+                    left: 50%;
+                    top: 50%;
+                    margin-left: -50px;
+                    margin-top: -50px;
+                `;
+                
+                const linkRect = this.getBoundingClientRect();
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 600);
+            });
+        });
+        
+        // Brand link special effects
+        if (brandLink) {
+            brandLink.addEventListener('mouseenter', function() {
+                // Create multiple coffee particles for brand
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => createCoffeeParticle(this), i * 100);
+                }
+            });
+        }
+        
+        // Add ripple effect CSS
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple-effect {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+        
+        // Coffee steam effect for coffee icon
+        const coffeeIcon = document.querySelector('.nav-brand i');
+        if (coffeeIcon) {
+            setInterval(() => {
+                if (Math.random() > 0.8) { // 20% chance every interval
+                    const steam = document.createElement('div');
+                    steam.style.cssText = `
+                        position: absolute;
+                        width: 2px;
+                        height: 8px;
+                        background: rgba(245, 222, 179, 0.6);
+                        border-radius: 1px;
+                        pointer-events: none;
+                        z-index: 1001;
+                        animation: steam-rise 2s ease-out forwards;
+                    `;
+                    
+                    const iconRect = coffeeIcon.getBoundingClientRect();
+                    steam.style.left = (iconRect.left + iconRect.width/2 + (Math.random() - 0.5) * 10) + 'px';
+                    steam.style.top = (iconRect.top - 5) + 'px';
+                    
+                    document.body.appendChild(steam);
+                    
+                    setTimeout(() => {
+                        if (steam.parentNode) {
+                            steam.parentNode.removeChild(steam);
+                        }
+                    }, 2000);
+                }
+            }, 1000);
+        }
+        
+        // Navbar background animation on mouse movement
+        navbar.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            this.style.setProperty('--mouse-x', x + '%');
+            this.style.setProperty('--mouse-y', y + '%');
+        });
+        
+        // Add dynamic background CSS
+        const dynamicStyle = document.createElement('style');
+        dynamicStyle.textContent = `
+            .navbar {
+                --mouse-x: 50%;
+                --mouse-y: 50%;
+            }
+            
+            .navbar::before {
+                background-image: 
+                    radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(245, 222, 179, 0.1) 0%, transparent 50%),
+                    radial-gradient(ellipse 8px 4px at 15% 20%, rgba(139, 69, 19, 0.6) 0%, transparent 50%),
+                    radial-gradient(ellipse 6px 3px at 85% 30%, rgba(160, 82, 45, 0.5) 0%, transparent 50%),
+                    radial-gradient(ellipse 7px 3.5px at 35% 70%, rgba(101, 67, 33, 0.6) 0%, transparent 50%),
+                    radial-gradient(ellipse 5px 2.5px at 75% 80%, rgba(139, 69, 19, 0.4) 0%, transparent 50%),
+                    radial-gradient(ellipse 9px 4.5px at 55% 15%, rgba(160, 82, 45, 0.5) 0%, transparent 50%);
+            }
+        `;
+        document.head.appendChild(dynamicStyle);
+    });
+    </script>
+
     <main class="main-content">
         {% if messages %}
             <div class="messages">
