@@ -13,6 +13,11 @@
 {% endblock %}
 
 {% block extra_head %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.classList.add('home-page');
+});
+</script>
 <style>
 
 /* Modern Hero Section with Coffee Beans Background */
@@ -29,6 +34,7 @@
     justify-content: center;
     overflow: hidden;
     margin-top: 0;
+    padding-top: 0;
 }
 
 .hero-background {
