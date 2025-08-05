@@ -20,3 +20,10 @@ INFO 2025-08-04 13:54:27,948 autoreload 12060 9116 Watching for file changes wit
 INFO 2025-08-04 13:56:30,672 autoreload 11964 11148 Watching for file changes with StatReloader
 INFO 2025-08-04 13:57:03,046 autoreload 11964 11148 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\coffe_shop\settings.py changed, reloading.
 INFO 2025-08-04 13:57:03,944 autoreload 7140 5992 Watching for file changes with StatReloader
+INFO 2025-08-05 02:41:07,920 autoreload 12400 9392 Watching for file changes with StatReloader
+INFO 2025-08-05 03:15:12,412 autoreload 10772 8896 Watching for file changes with StatReloader
+WARNING 2025-08-05 03:15:20,799 log 10772 12680 Not Found: /favicon.ico
+INFO 2025-08-05 03:33:59,184 error_handling 10772 2604 Starting operation: product_detail
+INFO 2025-08-05 03:33:59,186 error_handling 10772 2604 Operation completed: product_detail in 0.00s
+WARNING 2025-08-05 03:34:33,655 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
+WARNING 2025-08-05 03:34:34,671 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
