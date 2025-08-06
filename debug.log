@@ -155,3 +155,12 @@ WARNING 2025-08-06 03:09:21,280 log 15080 13892 Not Found: /cart/count/
 WARNING 2025-08-06 03:09:49,611 log 15080 11244 Not Found: /cart/count/
 WARNING 2025-08-06 03:10:07,872 log 15080 11244 Not Found: /cart/count/
 WARNING 2025-08-06 03:14:43,446 log 15080 11244 Not Found: /cart/count/
+INFO 2025-08-06 03:26:48,794 autoreload 12072 10568 Watching for file changes with StatReloader
+WARNING 2025-08-06 03:26:54,082 log 12072 2052 Not Found: /cart/count/
+INFO 2025-08-06 03:27:35,820 error_handling 12072 2052 Starting operation: product_detail
+INFO 2025-08-06 03:27:35,822 error_handling 12072 2052 Operation completed: product_detail in 0.00s
+WARNING 2025-08-06 03:28:13,289 log 12072 11616 Not Found: /cart/count/
+INFO 2025-08-06 03:56:05,206 error_handling 12072 3828 Starting operation: product_detail
+INFO 2025-08-06 03:56:05,208 error_handling 12072 3828 Operation completed: product_detail in 0.00s
+WARNING 2025-08-06 03:56:22,746 log 12072 3828 Not Found: /cart/count/
+WARNING 2025-08-06 03:57:18,360 log 12072 3828 Not Found: /cart/count/
