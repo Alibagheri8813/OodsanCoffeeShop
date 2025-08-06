@@ -8,8 +8,8 @@
     .checkout-container {
         background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%);
         background-attachment: fixed;
-        min-height: 100vh;
-        padding: 40px 0;
+        min-height: calc(100vh - 100px); /* Account for navbar */
+        padding: 140px 0 40px 0; /* Extra top padding for navbar */
     }
     
     .checkout-card {
