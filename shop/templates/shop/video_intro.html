@@ -317,8 +317,8 @@
     </div>
     
     <!-- Ending Animation Overlay -->
-    <div class="ending-overlay" id="endingOverlay">
-        <!-- Flame particles -->
+    <!-- <div class="ending-overlay" id="endingOverlay">
+
         <div class="flame-particle"></div>
         <div class="flame-particle"></div>
         <div class="flame-particle"></div>
@@ -330,7 +330,7 @@
         <div class="flame-particle"></div>
         <div class="flame-particle"></div>
         
-        <!-- Phoenix wings -->
+
         <div class="phoenix-wing left"></div>
         <div class="phoenix-wing right"></div>
         
@@ -343,7 +343,7 @@
                 <div class="ending-progress-bar" id="endingProgress"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
         let countdown = 6;
@@ -365,7 +365,7 @@
         // Skip video function
         function skipVideo() {
             clearInterval(timer);
-            showEndingAnimation();
+
         }
         
         // Show ending animation
@@ -373,18 +373,15 @@
             // Hide video container
             document.querySelector('.video-container').style.display = 'none';
             
-            // Show ending overlay
-            endingOverlay.classList.add('show');
+
             
             // Start progress bar animation
-            setTimeout(() => {
-                endingProgress.style.width = '100%';
-            }, 500);
+
             
             // Redirect to homepage after 4 seconds
-            setTimeout(() => {
-                window.location.href = '/home/';
-            }, 4000);
+
+            window.location.href = '/home/';
+
         }
         
         // Auto redirect after video ends (if video is shorter than 6 seconds)
