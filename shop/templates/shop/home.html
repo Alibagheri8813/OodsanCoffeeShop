@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     text-decoration: none;
     position: relative;
     animation: float-logo 4s ease-in-out infinite;
+    pointer-events: auto;
+    z-index: 101;
 }
 
 @keyframes float-logo {
@@ -139,6 +141,9 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     align-items: center;
     gap: 1.2rem;
+    pointer-events: auto;
+    z-index: 101;
+    position: relative;
 }
 
 .hero-nav-link {
@@ -200,6 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Profile Dropdown in Hero */
 .hero-profile-dropdown {
     position: relative;
+    pointer-events: auto;
+    z-index: 102;
 }
 
 .hero-dropdown-toggle {
@@ -254,6 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 
         0 15px 50px rgba(0, 0, 0, 0.8),
         0 0 30px rgba(139, 69, 19, 0.4);
+    pointer-events: auto;
+    z-index: 103;
 }
 
 .hero-dropdown-menu.show {
@@ -459,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Interactive Background Effect */
 .hero-section {
-    cursor: crosshair;
+    cursor: default;
 }
 
 .coffee-ripple {
@@ -503,6 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
     animation: fadeInUp 1s ease-out;
     margin-top: 6rem;
     position: relative;
+    pointer-events: auto;
 }
 
 @keyframes fadeInUp {
@@ -525,6 +535,10 @@ document.addEventListener('DOMContentLoaded', function() {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 
 .hero-subtitle {
@@ -532,6 +546,10 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-bottom: 2rem;
     opacity: 0.9;
     line-height: 1.6;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 
 .hero-buttons {
@@ -539,6 +557,9 @@ document.addEventListener('DOMContentLoaded', function() {
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+    pointer-events: auto;
+    z-index: 11;
+    position: relative;
 }
 
 .hero-btn {
@@ -1752,19 +1773,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
     
-    // Interactive ripple effect on hero section
-    const heroSection = document.querySelector('.hero-section');
-    heroSection.addEventListener('click', function(e) {
-        const ripple = document.createElement('div');
-        ripple.className = 'coffee-ripple';
-        ripple.style.left = e.clientX - 150 + 'px';
-        ripple.style.top = e.clientY - 150 + 'px';
-        heroSection.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 1000);
-    });
+    // Interactive ripple effect on hero section (disabled to prevent click interference)
+    // const heroSection = document.querySelector('.hero-section');
+    // heroSection.addEventListener('click', function(e) {
+    //     const ripple = document.createElement('div');
+    //     ripple.className = 'coffee-ripple';
+    //     ripple.style.left = e.clientX - 150 + 'px';
+    //     ripple.style.top = e.clientY - 150 + 'px';
+    //     heroSection.appendChild(ripple);
+    //     
+    //     setTimeout(() => {
+    //         ripple.remove();
+    //     }, 1000);
+    // });
     
     // Animated coffee beans on mouse move
     let mouseX = 0, mouseY = 0;
