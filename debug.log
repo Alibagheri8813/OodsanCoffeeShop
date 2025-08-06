@@ -120,3 +120,13 @@ WARNING 2025-08-06 01:20:47,907 log 5072 10732 Not Found: /products/
 WARNING 2025-08-06 01:21:05,982 log 5072 10732 Not Found: /products/arabika.jpg
 WARNING 2025-08-06 01:21:13,466 log 5072 10732 Not Found: /media/roat-bg.jpg
 WARNING 2025-08-06 01:21:13,487 log 5072 10732 Not Found: /cart/count/
+INFO 2025-08-06 01:56:12,138 autoreload 14524 7784 Watching for file changes with StatReloader
+WARNING 2025-08-06 01:56:29,547 log 14524 13660 Not Found: /cart/count/
+WARNING 2025-08-06 01:59:51,931 log 14524 9176 Not Found: /cart/count/
+WARNING 2025-08-06 01:59:52,000 log 14524 15416 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:08,899 log 14524 15416 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:08,903 log 14524 9176 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:16,833 log 14524 9176 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:16,837 log 14524 15416 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:27,045 log 14524 15416 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:27,049 log 14524 9176 Not Found: /media/roat-bg.jpg
