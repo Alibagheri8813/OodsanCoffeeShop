@@ -99,3 +99,24 @@ WARNING 2025-08-05 14:00:57,317 log 15072 7376 Not Found: /cart/count/
 INFO 2025-08-06 00:57:18,558 autoreload 11396 11860 Watching for file changes with StatReloader
 WARNING 2025-08-06 00:58:08,323 log 11396 10088 Not Found: /favicon.ico
 WARNING 2025-08-06 00:58:18,378 log 11396 14208 Not Found: /cart/count/
+INFO 2025-08-06 01:06:05,109 autoreload 5072 10988 Watching for file changes with StatReloader
+WARNING 2025-08-06 01:06:16,358 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:08:59,230 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:09:23,943 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:09:45,574 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:08,525 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:49,047 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:57,224 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:13:11,204 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:13:11,208 log 5072 13580 Not Found: /home/media/roat-bg.jpg
+WARNING 2025-08-06 01:13:23,045 log 5072 13580 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-06 01:13:42,332 log 5072 13580 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:13:42,350 log 5072 13580 Not Found: /cart/count/
+WARNING 2025-08-06 01:14:06,001 log 5072 13580 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:20:14,109 log 5072 10732 Not Found: /home/media/roat-bg.jpg
+WARNING 2025-08-06 01:20:20,213 log 5072 10732 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:20:39,932 log 5072 10732 Not Found: /videos
+WARNING 2025-08-06 01:20:47,907 log 5072 10732 Not Found: /products/
+WARNING 2025-08-06 01:21:05,982 log 5072 10732 Not Found: /products/arabika.jpg
+WARNING 2025-08-06 01:21:13,466 log 5072 10732 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:21:13,487 log 5072 10732 Not Found: /cart/count/
