@@ -5,7 +5,7 @@ from . import voice_ai_assistant
 # from . import advanced_views
 # from django.contrib.auth import views as auth_views
 
-app_name = 'shop'
+# app_name = 'shop'  # Commented out to remove namespace conflict
 
 urlpatterns = [
     # Main pages
