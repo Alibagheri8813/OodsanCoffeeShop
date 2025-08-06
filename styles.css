@@ -13,6 +13,64 @@ html, body {
   overflow-x: hidden;
 }
 
+/* 1.5 NavBar */
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: url('images/roast-bg.jpg') center/cover no-repeat;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.6); /* dark overlay for readability */
+  z-index: 1000;
+}
+.navbar .nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.navbar .nav-brand i {
+  font-size: 1.3rem;
+}
+.navbar .nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+.navbar .nav-menu .nav-link {
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.navbar .nav-menu .nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+.navbar .nav-menu .nav-link:hover {
+  color: #ffc107;
+}
+.navbar .nav-menu .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Add some spacing so hero content isn't hidden behind the fixed navbar */
+#hero { padding-top: 80px; }
+
 /* 2. Hero Section */
 #hero {
   position: relative;
