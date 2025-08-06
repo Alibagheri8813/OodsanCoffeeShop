@@ -5,3 +5,11 @@ WARNING 2025-08-06 07:51:13,367 log 9432 2944 Not Found: /cart/count/
 WARNING 2025-08-06 07:51:21,203 log 9432 2944 Not Found: /cart/count/
 WARNING 2025-08-06 09:02:12,807 log 9432 4608 Not Found: /cart/count/
 WARNING 2025-08-06 09:02:28,069 log 9432 4608 Not Found: /cart/count/
+INFO 2025-08-06 09:30:11,899 autoreload 7944 12812 Watching for file changes with StatReloader
+WARNING 2025-08-06 09:30:29,585 log 7944 6588 Not Found: /cart/count/
+WARNING 2025-08-06 09:30:37,615 log 7944 6588 Not Found: /cart/count/
+WARNING 2025-08-06 09:34:09,373 log 7944 14168 Not Found: /cart/count/
+WARNING 2025-08-06 09:38:37,696 log 7944 14168 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-06 09:38:51,258 log 7944 14168 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-06 09:38:51,588 log 7944 14168 Not Found: /cart/count/
+WARNING 2025-08-06 09:38:58,005 log 7944 14168 Not Found: /.well-known/appspecific/com.chrome.devtools.json

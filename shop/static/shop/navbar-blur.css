@@ -206,7 +206,7 @@ body:not(.home-page) .navbar .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   background: rgba(44, 24, 16, 0.95);
   backdrop-filter: blur(20px);
   border: 2px solid rgba(245, 222, 179, 0.3);
