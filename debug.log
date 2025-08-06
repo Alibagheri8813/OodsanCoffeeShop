@@ -130,3 +130,6 @@ WARNING 2025-08-06 02:00:16,833 log 14524 9176 Not Found: /cart/count/
 WARNING 2025-08-06 02:00:16,837 log 14524 15416 Not Found: /media/roat-bg.jpg
 WARNING 2025-08-06 02:00:27,045 log 14524 15416 Not Found: /cart/count/
 WARNING 2025-08-06 02:00:27,049 log 14524 9176 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:11:03,119 autoreload 12584 14036 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:11:12,296 log 12584 15904 Not Found: /cart/count/
+WARNING 2025-08-06 02:11:12,301 log 12584 11696 Not Found: /media/roat-bg.jpg
