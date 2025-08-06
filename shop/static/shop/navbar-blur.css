@@ -316,11 +316,11 @@ body:not(.home-page) .navbar .cart-count {
 
 /* Ensure content doesn't get hidden behind fixed navbar */
 body:not(.home-page) {
-  padding-top: 100px;
+  padding-top: 0 !important; /* eliminate gap above navbar */
 }
 
 @media (max-width: 768px) {
   body:not(.home-page) {
-    padding-top: 80px;
+    padding-top: 0 !important; /* keep gap removed on smaller screens */
   }
 }
