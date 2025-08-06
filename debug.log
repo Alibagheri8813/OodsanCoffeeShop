@@ -26,3 +26,7 @@ WARNING 2025-08-06 11:57:27,160 log 2944 6300 Not Found: /cart/count/
 WARNING 2025-08-06 11:59:15,457 log 2944 6300 Not Found: /cart/count/
 WARNING 2025-08-06 12:19:41,062 log 2944 1116 Not Found: /cart/count/
 WARNING 2025-08-06 12:20:02,304 log 2944 1116 Not Found: /cart/count/
+INFO 2025-08-06 12:36:41,267 autoreload 13740 5452 Watching for file changes with StatReloader
+WARNING 2025-08-06 12:36:57,303 log 13740 14132 Not Found: /cart/count/
+INFO 2025-08-06 12:37:05,721 error_handling 13740 14132 Starting operation: product_detail
+INFO 2025-08-06 12:37:05,722 error_handling 13740 14132 Operation completed: product_detail in 0.00s
