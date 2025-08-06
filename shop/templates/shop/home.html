@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rgba(75, 46, 43, 0.4) 100%
     );
     z-index: 1;
+    pointer-events: none;
 }
 
 /* Integrated Navigation Bar in Hero */
@@ -69,9 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
     backdrop-filter: blur(15px);
     background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    pointer-events: auto;
 }
 
 /* Sensational Logo */
@@ -83,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     position: relative;
     animation: float-logo 4s ease-in-out infinite;
     pointer-events: auto;
-    z-index: 101;
+    z-index: 1001;
 }
 
 @keyframes float-logo {
@@ -142,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
     align-items: center;
     gap: 1.2rem;
     pointer-events: auto;
-    z-index: 101;
+    z-index: 1001;
     position: relative;
 }
 
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hero-profile-dropdown {
     position: relative;
     pointer-events: auto;
-    z-index: 102;
+    z-index: 1002;
 }
 
 .hero-dropdown-toggle {
@@ -262,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         0 15px 50px rgba(0, 0, 0, 0.8),
         0 0 30px rgba(139, 69, 19, 0.4);
     pointer-events: auto;
-    z-index: 103;
+    z-index: 1003;
 }
 
 .hero-dropdown-menu.show {
@@ -397,9 +399,10 @@ document.addEventListener('DOMContentLoaded', function() {
     font-size: 2rem;
     color: #F5DEB3;
     animation: bounce 2s infinite;
-    z-index: 10;
+    z-index: 100;
     cursor: pointer;
     transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
 .scroll-indicator:hover {
@@ -425,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 2;
+    z-index: 3;
 }
 
 .bean {
@@ -506,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .hero-content {
     text-align: center;
     color: #FFF8F0;
-    z-index: 10;
+    z-index: 100;
     max-width: 900px;
     padding: 0 2rem;
     animation: fadeInUp 1s ease-out;
@@ -558,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
     justify-content: center;
     flex-wrap: wrap;
     pointer-events: auto;
-    z-index: 11;
+    z-index: 101;
     position: relative;
 }
 
@@ -573,8 +576,9 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    z-index: 10;
+    z-index: 102;
     user-select: none;
+    pointer-events: auto;
 }
 
 
@@ -1296,7 +1300,7 @@ html {
     background-size: 200px 100px;
     animation: sparkle 8s linear infinite;
     pointer-events: none;
-    z-index: 3;
+    z-index: 2;
 }
 
 @keyframes sparkle {
