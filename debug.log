@@ -138,3 +138,6 @@ WARNING 2025-08-06 02:12:01,073 log 11052 3828 Not Found: /cart/count/
 WARNING 2025-08-06 02:12:01,077 log 11052 16144 Not Found: /media/roat-bg.jpg
 WARNING 2025-08-06 02:12:53,469 log 11052 16144 Not Found: /cart/count/
 WARNING 2025-08-06 02:12:53,474 log 11052 3828 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:22:43,516 autoreload 1276 11000 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:22:49,689 log 1276 3268 Not Found: /cart/count/
+WARNING 2025-08-06 02:22:49,694 log 1276 7192 Not Found: /media/roat-bg.jpg
