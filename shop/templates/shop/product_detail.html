@@ -45,7 +45,7 @@
 
     /* Main content starts with proper top margin for base navbar */
     .main-content {
-        margin-top: 120px; /* Space for base navbar - increased for better spacing */
+        margin-top: 0; /* Removed excessive margin - navbar is fixed positioned */
     }
 
 
@@ -97,8 +97,8 @@
 
     /* Add top margin to main content to account for fixed navbar */
     .product-detail-container {
-        margin-top: 120px;
-        min-height: calc(100vh - 120px);
+        margin-top: 0; /* Removed excessive margin - navbar is fixed positioned */
+        min-height: 100vh;
         padding: 2rem 1rem;
         display: flex;
         align-items: center;
