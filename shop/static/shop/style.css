@@ -666,6 +666,7 @@ header, main, footer, section, div {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 1000;
     padding: 0.8rem 2rem;
     background: 
         radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.8) 0%, transparent 50%),
@@ -1172,7 +1173,7 @@ header, main, footer, section, div {
 
 /* Ensure navbar doesn't create stacking context issues */
 .navbar {
-    position: relative;
+    position: absolute;
     z-index: 99999999 !important;
 }
 
@@ -1302,7 +1303,7 @@ header, main, footer, section, div {
 
 /* MAGICAL GRADIENT BORDER ANIMATION */
 .navbar {
-    position: relative;
+    position: absolute;
 }
 
 .navbar::before {
