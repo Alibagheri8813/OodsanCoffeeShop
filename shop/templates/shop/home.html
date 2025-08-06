@@ -25,14 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <style>
 
-/* Modern Hero Section with Coffee Beans Background */
+/* Modern Hero Section with Unified Stable Background */
 .hero-section {
     position: relative;
     min-height: 100vh;
-    background: linear-gradient(rgba(75, 46, 43, 0.7), rgba(123, 63, 0, 0.8)), url('/media/roast-bg.jpg');
+    background: url('/media/roast-bg.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,27 +42,36 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-top: 0;
 }
 
+/* Subtle overlay for better text readability without covering the background */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(75, 46, 43, 0.3) 0%,
+        rgba(123, 63, 0, 0.2) 50%,
+        rgba(75, 46, 43, 0.4) 100%
+    );
+    z-index: 1;
+}
+
 /* Integrated Navigation Bar in Hero */
 .hero-nav {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    padding: 2rem 3rem;
+    padding: 1.5rem 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%), url('/media/roast-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 0;
-    padding-top: 0;
+    backdrop-filter: blur(15px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
 }
 
 /* Sensational Logo */
@@ -124,29 +134,38 @@ document.addEventListener('DOMContentLoaded', function() {
     letter-spacing: 2px;
 }
 
-/* Sensational Navigation Links */
+/* Elegant Navigation Links */
 .hero-nav-links {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.2rem;
 }
 
 .hero-nav-link {
     color: #F5DEB3;
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 700;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    background: rgba(139, 69, 19, 0.3);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: rgba(139, 69, 19, 0.2);
     backdrop-filter: blur(10px);
-    border: 2px solid transparent;
+    border: 1px solid rgba(245, 222, 179, 0.3);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+}
+
+.hero-nav-link span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.hero-nav-link i {
+    font-size: 0.9rem;
 }
 
 .hero-nav-link::before {
@@ -184,19 +203,28 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .hero-dropdown-toggle {
-    background: rgba(139, 69, 19, 0.3);
+    background: rgba(139, 69, 19, 0.2);
     color: #F5DEB3;
-    border: 2px solid transparent;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 700;
+    border: 1px solid rgba(245, 222, 179, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     backdrop-filter: blur(10px);
+}
+
+.hero-dropdown-toggle span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.hero-dropdown-toggle i {
+    font-size: 0.9rem;
 }
 
 .hero-dropdown-toggle:hover {
@@ -351,25 +379,54 @@ document.addEventListener('DOMContentLoaded', function() {
     opacity: 0.8;
 }
 
-/* Coffee Bean Particles */
-.hero-section::before {
-    content: '';
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: #F5DEB3;
+    animation: bounce 2s infinite;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    color: #FFF8F0;
+    transform: translateX(-50%) scale(1.1);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { 
+        transform: translateX(-50%) translateY(0); 
+    }
+    40% { 
+        transform: translateX(-50%) translateY(-15px); 
+    }
+    60% { 
+        transform: translateX(-50%) translateY(-8px); 
+    }
+}
+
+/* Enhanced floating beans with better animation */
+.floating-beans {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: 
-        radial-gradient(circle at 10% 20%, rgba(139, 69, 19, 0.3) 0%, transparent 2%),
-        radial-gradient(circle at 30% 40%, rgba(160, 82, 45, 0.3) 0%, transparent 2%),
-        radial-gradient(circle at 50% 60%, rgba(101, 67, 33, 0.3) 0%, transparent 2%),
-        radial-gradient(circle at 70% 80%, rgba(139, 69, 19, 0.3) 0%, transparent 2%),
-        radial-gradient(circle at 90% 10%, rgba(160, 82, 45, 0.3) 0%, transparent 2%);
-    animation: float-particles 20s linear infinite;
     pointer-events: none;
+    z-index: 2;
 }
 
-@keyframes float-particles {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(-100vh) rotate(360deg); }
+.bean {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: rgba(245, 222, 179, 0.4);
+    border-radius: 50%;
+    animation: floatBean 12s infinite linear;
+    box-shadow: 0 0 10px rgba(245, 222, 179, 0.3);
 }
 
 /* Glowing Text Effect */
@@ -426,30 +483,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-.hero-background {
+/* Three.js Canvas for interactive effects */
+#three-canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="coffee-beans" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><ellipse cx="20" cy="15" rx="6" ry="3" fill="rgba(139, 69, 19, 0.3)" transform="rotate(45 20 15)"/><ellipse cx="20" cy="25" rx="6" ry="3" fill="rgba(160, 82, 45, 0.3)" transform="rotate(-45 20 25)"/><ellipse cx="10" cy="30" rx="5" ry="2.5" fill="rgba(101, 67, 33, 0.3)" transform="rotate(30 10 30)"/><ellipse cx="30" cy="35" rx="5" ry="2.5" fill="rgba(139, 69, 19, 0.3)" transform="rotate(-30 30 35)"/></pattern></defs><rect width="100" height="100" fill="url(%23coffee-beans)"/></svg>');
-    opacity: 0.4;
-    animation: float 8s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    z-index: 0;
+    pointer-events: none;
 }
 
 .hero-content {
     text-align: center;
     color: #FFF8F0;
-    z-index: 2;
-    max-width: 800px;
+    z-index: 10;
+    max-width: 900px;
     padding: 0 2rem;
     animation: fadeInUp 1s ease-out;
-    margin-top: 8rem;
+    margin-top: 6rem;
+    position: relative;
 }
 
 @keyframes fadeInUp {
@@ -532,22 +585,7 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
 }
 
-/* Floating Coffee Beans Animation */
-.floating-beans {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.bean {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: rgba(255,248,240,0.2);
-    border-radius: 50%;
-    animation: floatBean 8s infinite linear;
-}
+/* Coffee bean positioning for better visual effect */
 
 .bean:nth-child(1) { left: 10%; animation-delay: 0s; }
 .bean:nth-child(2) { left: 20%; animation-delay: 2s; }
@@ -1158,210 +1196,8 @@ html {
         border-color: #4B2E2B;
     }
 }
-/* styles.css */
-
-/* 1. Reset & Base */
-
-
-/* 2. Hero Section */
-#hero {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: url('/media/roast-bg.jpg') center/cover no-repeat;
-}
-
-/* 2.1. Animated Background Image */
-.hero-bg {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
- 
-  z-index: 2;
-  animation: zoom 20s ease-in-out infinite alternate;
-}
-@keyframes zoom {
-  from { transform: scale(1); }
-  to   { transform: scale(1.1); }
-}
-
-/* 2.2. Parallax Layers */
-.parallax-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  pointer-events: none;
-}
-.layer-back  { z-index: 2; /* add background image via inline style or CSS */ }
-.layer-mid   { z-index: 2; }
-.layer-front { z-index: 2; }
-
-/* 2.3. Hero Content */
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #fff;
-  z-index: 1;
-  padding: 1rem;
-}
-.hero-content .title {
-  font-size: 4rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-}
-.hero-content .subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-}
-
-#cta-btn {
-  font-size: 1.2rem;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 0.8rem 1.5rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-#cta-btn:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-#sound-toggle,
-#theme-toggle {
-  display: inline-block;
-  margin-left: 1rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-#sound-toggle:hover,
-#theme-toggle:hover {
-  transform: scale(1.1);
-}
-
-/* 2.4. Scroll Indicator */
-#scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: #fff;
-  animation: bounce 2s infinite;
-  z-index: 1;
-}
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-  40% { transform: translateX(-50%) translateY(-15px); }
-  60% { transform: translateX(-50%) translateY(-8px); }
-}
-
-/* 3. Canvas for Three.js */
-#three-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-/* 4. Responsive Adjustments */
-@media (max-width: 768px) {
-  .hero-content .title { font-size: 3rem; }
-  .hero-content .subtitle { font-size: 1.2rem; }
-  #cta-btn { font-size: 1rem; padding: 0.6rem 1.2rem; }
-}
-/* . */
-/* .hero-section {
-    position: relative;
-    min-height: 100vh;
-    /* background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 50%, #C97C5D 100%); */
-    /* display: flex; */
-    /* align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 0;  
- }   */
-
- .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('/media/roat-bg.jpg');
-    opacity: 0.3;
-    animation: float 6s ease-in-out infinite;
-} 
-
- @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-/* .hero-content {
-    text-align: center;
-    color: #FFF8F0;
-    z-index: 2;
-    max-width: 800px;
-    padding: 0 2rem;
-    animation: fadeInUp 1s ease-out;
-} */ 
-
-/* @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-} */
-
-/* .hero-title {
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    background: linear-gradient(45deg, #FFF8F0, #F3E9DC);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-} */
-
-/* .hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-    line-height: 1.6;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-} */
-
-/* .hero-btn {
+/* Enhanced hero button styling */
+.hero-btn {
     padding: 1rem 2rem;
     border-radius: 50px;
     font-size: 1.1rem;
@@ -1370,15 +1206,117 @@ html {
     transition: all 0.3s ease;
     border: 2px solid transparent;
     cursor: pointer;
-    display: inline-block;
-} */ 
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 10;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Enhanced visual effects for sensational look */
+.hero-section {
+    background-blend-mode: overlay;
+}
+
+/* Animated gradient text for hero title */
+.hero-title {
+    background: linear-gradient(45deg, #FFF8F0, #F5DEB3, #D2B48C, #FFF8F0);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+    text-shadow: none;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Enhanced logo with pulsing glow */
+.hero-logo-icon {
+    animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+    0% { 
+        box-shadow: 
+            0 0 30px rgba(245, 222, 179, 0.8),
+            0 0 60px rgba(210, 180, 140, 0.6),
+            inset 0 0 20px rgba(139, 69, 19, 0.3);
+    }
+    100% { 
+        box-shadow: 
+            0 0 50px rgba(245, 222, 179, 1),
+            0 0 80px rgba(210, 180, 140, 0.8),
+            inset 0 0 30px rgba(139, 69, 19, 0.5);
+    }
+}
+
+/* Particle effect enhancement */
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(245, 222, 179, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(210, 180, 140, 0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(245, 222, 179, 0.4), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(210, 180, 140, 0.3), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(245, 222, 179, 0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: sparkle 8s linear infinite;
+    pointer-events: none;
+    z-index: 3;
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.8; transform: translateY(-10px); }
+    100% { opacity: 0.3; transform: translateY(0); }
+}
+
+/* Enhanced navigation with better hover effects */
+.hero-nav-link:hover,
+.hero-dropdown-toggle:hover {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(160, 82, 45, 0.8));
+    border-color: #F5DEB3;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 8px 20px rgba(139, 69, 19, 0.4),
+        0 0 15px rgba(245, 222, 179, 0.3);
+    color: #FFF8F0;
+}
+
+/* Enhanced subtitle with subtle animation */
+.hero-subtitle {
+    animation: fadeInSubtle 2s ease-out 0.5s both;
+}
+
+@keyframes fadeInSubtle {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 0.9;
+        transform: translateY(0);
+    }
+} 
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-
-<section class="hero-section">
+<!-- Unified Hero Section -->
+<section class="hero-section" id="hero">
     <!-- Integrated Navigation -->
     <nav class="hero-nav">
         <!-- Logo -->
@@ -1393,20 +1331,20 @@ html {
         <div class="hero-nav-links">
             <a href="{% url 'home' %}" class="hero-nav-link">
                 <i class="fas fa-home"></i>
-                خانه
+                <span>خانه</span>
             </a>
             <a href="{% url 'product_list' %}" class="hero-nav-link">
                 <i class="fas fa-store"></i>
-                فروشگاه
+                <span>فروشگاه</span>
             </a>
             {% if user.is_authenticated %}
                 <a href="{% url 'favorite_products' %}" class="hero-nav-link">
                     <i class="fas fa-heart"></i>
-                    علاقه‌مندی‌ها
+                    <span>علاقه‌مندی‌ها</span>
                 </a>
                 <a href="{% url 'user_notifications' %}" class="hero-nav-link">
                     <i class="fas fa-bell"></i>
-                    اعلان‌ها
+                    <span>اعلان‌ها</span>
                 </a>
             {% endif %}
             
@@ -1415,7 +1353,7 @@ html {
                 <div class="hero-profile-dropdown">
                     <button class="hero-dropdown-toggle" onclick="toggleHeroDropdown()">
                         <i class="fas fa-user"></i>
-                        پروفایل
+                        <span>پروفایل</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="hero-dropdown-menu" id="heroProfileDropdown">
@@ -1442,18 +1380,17 @@ html {
             {% else %}
                 <a href="{% url 'login' %}" class="hero-nav-link">
                     <i class="fas fa-sign-in-alt"></i>
-                    ورود
+                    <span>ورود</span>
                 </a>
                 <a href="{% url 'signup' %}" class="hero-nav-link">
                     <i class="fas fa-user-plus"></i>
-                    ثبت نام
+                    <span>ثبت نام</span>
                 </a>
             {% endif %}
         </div>
     </nav>
-    
 
-    <div class="hero-background"></div>
+    <!-- Floating coffee beans animation -->
     <div class="floating-beans">
         <div class="bean"></div>
         <div class="bean"></div>
@@ -1465,39 +1402,27 @@ html {
         <div class="bean"></div>
     </div>
     
-    <div class="hero-content loading-animation">
+    <!-- Hero Content -->
+    <div class="hero-content">
         <h1 class="hero-title">قهوه‌ای که عاشقش می‌شوید</h1>
         <p class="hero-subtitle">بهترین دانه‌های قهوه، تجهیزات حرفه‌ای و تجربه‌ای منحصر به فرد در دنیای قهوه</p>
         <div class="hero-buttons">
-            <a href="{% url 'product_list' %}" class="hero-btn hero-btn-primary">مشاهده محصولات</a>
+            <a href="{% url 'product_list' %}" class="hero-btn hero-btn-primary">
+                <i class="fas fa-seedling"></i>
+                مشاهده محصولات
+            </a>
             <a href="#categories" class="hero-btn hero-btn-secondary">دسته‌بندی‌ها</a>
         </div>
-    </div> 
-</section> 
-<section id="hero">
-
-
-    <div class="hero-bg"></div>
-
-    <div class="parallax-layer layer-back"></div>
-    <div class="parallax-layer layer-mid"></div>
-    <div class="parallax-layer layer-front"></div>
-
-
-    <div class="hero-content">
-      <h1 class="title" data-text="دانه قهوه ناب"> خرید دانه قهوه ناب</h1>
-      <br>
-      <br>
-      <button id="cta-btn"><i class="fas fa-seedling"></i> خرید دانه قهوه</button>
-      
     </div>
 
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+    </div>
 
-    <div id="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
-
+    <!-- Three.js Canvas for interactive effects -->
     <canvas id="three-canvas"></canvas>
-
-  </section>
+</section>
 <!-- Product Value Section -->
 <section id="product-value" class="product-value-section">
     <div class="wave-divider">
@@ -1856,6 +1781,32 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
     });
+
+    // Enhanced scroll indicator functionality
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', function() {
+            const nextSection = document.querySelector('#product-value');
+            if (nextSection) {
+                nextSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+
+        // Hide scroll indicator when user scrolls
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            if (scrolled > 100) {
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.transform = 'translateX(-50%) translateY(20px)';
+            } else {
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.transform = 'translateX(-50%) translateY(0)';
+            }
+        });
+    }
 });
 </script>
 {% endblock %}
