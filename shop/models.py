@@ -12,13 +12,34 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    GRIND_TYPE_CHOICES = [
+        ('whole_bean', 'دانه کامل'),
+        ('coarse', 'درشت (فرنچ پرس)'),
+        ('medium_coarse', 'متوسط درشت (کمکس)'),
+        ('medium', 'متوسط (دریپ)'),
+        ('medium_fine', 'متوسط ریز (اروپرس)'),
+        ('fine', 'ریز (اسپرسو)'),
+        ('extra_fine', 'فوق ریز (ترک)'),
+    ]
+    
+    WEIGHT_CHOICES = [
+        ('250g', '250 گرم'),
+        ('500g', '500 گرم'),
+        ('1kg', '1 کیلوگرم'),
+        ('5kg', '5 کیلوگرم'),
+        ('10kg', '10 کیلوگرم'),
+    ]
+    
     name = models.CharField(max_length=200, db_index=True)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True)  # Base price for 250g
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True)
     stock = models.IntegerField(default=0, db_index=True)
     featured = models.BooleanField(default=False, verbose_name='ویژه', db_index=True)
+    available_grinds = models.JSONField(default=list, blank=True, help_text='Available grind types')
+    available_weights = models.JSONField(default=list, blank=True, help_text='Available weight options')
+    weight_multipliers = models.JSONField(default=dict, blank=True, help_text='Price multipliers for different weights')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,6 +53,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_price_for_weight(self, weight):
+        """Get price for specific weight"""
+        multiplier = self.weight_multipliers.get(weight, 1.0)
+        return self.price * multiplier
+    
+    def get_available_grinds_display(self):
+        """Get display names for available grinds"""
+        grind_dict = dict(self.GRIND_TYPE_CHOICES)
+        return [grind_dict.get(grind, grind) for grind in self.available_grinds]
+    
+    def get_available_weights_display(self):
+        """Get display names for available weights"""
+        weight_dict = dict(self.WEIGHT_CHOICES)
+        return [weight_dict.get(weight, weight) for weight in self.available_weights]
 
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
@@ -51,16 +87,24 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    grind_type = models.CharField(max_length=20, choices=Product.GRIND_TYPE_CHOICES, default='whole_bean')
+    weight = models.CharField(max_length=10, choices=Product.WEIGHT_CHOICES, default='250g')
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('cart', 'product')
+        unique_together = ('cart', 'product', 'grind_type', 'weight')
 
     def __str__(self):
-        return f"{self.quantity}x {self.product.name}"
+        grind_display = dict(Product.GRIND_TYPE_CHOICES).get(self.grind_type, self.grind_type)
+        weight_display = dict(Product.WEIGHT_CHOICES).get(self.weight, self.weight)
+        return f"{self.quantity}x {self.product.name} - {grind_display} - {weight_display}"
+
+    def get_unit_price(self):
+        """Get price per unit with weight multiplier"""
+        return self.product.get_price_for_weight(self.weight)
 
     def get_total_price(self):
-        return self.product.price * self.quantity
+        return self.get_unit_price() * self.quantity
 
 class Order(models.Model):
     STATUS_CHOICES = [

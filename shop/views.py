@@ -244,6 +244,23 @@ def product_detail(request, product_id):
                 like.delete()
             return redirect('product_detail', product_id=product_id)
     
+    # Prepare default weight multipliers if not set
+    default_multipliers = {
+        '250g': 1.0,
+        '500g': 1.8,
+        '1kg': 3.5,
+        '5kg': 16.0,
+        '10kg': 30.0
+    }
+    
+    # Set default available options if not configured
+    if not product.available_grinds:
+        product.available_grinds = ['whole_bean', 'coarse', 'medium', 'fine']
+    if not product.available_weights:
+        product.available_weights = ['250g', '500g', '1kg']
+    if not product.weight_multipliers:
+        product.weight_multipliers = {k: v for k, v in default_multipliers.items() if k in product.available_weights}
+
     context = {
         'product': product,
         'comments': comments,
@@ -258,6 +275,13 @@ def product_detail(request, product_id):
         'user_favorites': user_favorites,
         'cart_quantity': cart_quantity,
         'available_stock': max(0, product.stock - cart_quantity),
+        # New context for enhanced product detail
+        'grind_choices': Product.GRIND_TYPE_CHOICES,
+        'weight_choices': Product.WEIGHT_CHOICES,
+        'available_grinds': product.available_grinds,
+        'available_weights': product.available_weights,
+        'weight_multipliers': product.weight_multipliers or default_multipliers,
+        'base_price': product.price,
     }
     return render(request, 'shop/product_detail.html', context)
 
@@ -778,7 +802,7 @@ def cart_view(request):
 @ajax_error_handler
 @safe_transaction
 def add_to_cart(request):
-    """Add product to cart with AJAX support"""
+    """Add product to cart with AJAX support - Enhanced with grind type and weight options"""
     if not request.user.is_authenticated:
         return JsonResponse({
             'success': False,
@@ -788,11 +812,27 @@ def add_to_cart(request):
     
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            # Handle both JSON and form data
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+            else:
+                data = request.POST
+                
             product_id = data.get('product_id')
             quantity = int(data.get('quantity', 1))
+            grind_type = data.get('grind_type', 'whole_bean')
+            weight = data.get('weight', '250g')
             
             product = get_object_or_404(Product, id=product_id)
+            
+            # Validate grind type and weight
+            valid_grinds = [choice[0] for choice in Product.GRIND_TYPE_CHOICES]
+            valid_weights = [choice[0] for choice in Product.WEIGHT_CHOICES]
+            
+            if grind_type not in valid_grinds:
+                grind_type = 'whole_bean'
+            if weight not in valid_weights:
+                weight = '250g'
             
             # Check stock availability
             if product.stock < quantity:
@@ -805,10 +845,12 @@ def add_to_cart(request):
             # Get or create cart
             cart, created = Cart.objects.get_or_create(user=request.user)
             
-            # Get or create cart item
+            # Get or create cart item with specific grind type and weight
             cart_item, created = CartItem.objects.get_or_create(
                 cart=cart,
                 product=product,
+                grind_type=grind_type,
+                weight=weight,
                 defaults={'quantity': quantity}
             )
             
@@ -832,17 +874,26 @@ def add_to_cart(request):
             cart_total = cart.get_total_price()
             cart_count = cart.get_total_quantity()
             
+            # Get display names for response
+            grind_display = dict(Product.GRIND_TYPE_CHOICES).get(grind_type, grind_type)
+            weight_display = dict(Product.WEIGHT_CHOICES).get(weight, weight)
+            
             return JsonResponse({
                 'success': True,
-                'message': f'{product.name} به سبد خرید اضافه شد!',
-                'cart_total': cart_total,
+                'message': f'{product.name} ({grind_display} - {weight_display}) به سبد خرید اضافه شد!',
+                'cart_total': float(cart_total),
                 'cart_count': cart_count,
                 'product_name': product.name,
                 'product_image': product.image.url if product.image else None,
+                'grind_type': grind_display,
+                'weight': weight_display,
+                'unit_price': float(cart_item.get_unit_price()),
+                'total_price': float(cart_item.get_total_price()),
                 'new_stock': product.stock  # Send current stock to frontend
             })
             
         except Exception as e:
+            logger.error(f"Error in add_to_cart: {str(e)}")
             return JsonResponse({
                 'success': False,
                 'message': f'خطا در افزودن به سبد خرید: {str(e)}'
@@ -1947,3 +1998,79 @@ def voice_ai_assistant_page(request):
         'page_description': 'Your Professional Coffee Industry Expert'
     }
     return render(request, 'shop/voice_ai_assistant.html', context)
+
+@require_POST
+@login_required
+def toggle_product_like(request, product_id):
+    """Toggle like status for a specific product via AJAX"""
+    try:
+        product = get_object_or_404(Product, id=product_id)
+        
+        like, created = ProductLike.objects.get_or_create(
+            product=product,
+            user=request.user
+        )
+        
+        if not created:
+            # Unlike the product
+            like.delete()
+            is_liked = False
+            message = 'پسند برداشته شد'
+        else:
+            # Like the product
+            is_liked = True
+            message = 'محصول پسندیده شد'
+            
+        total_likes = ProductLike.objects.filter(product=product).count()
+        
+        return JsonResponse({
+            'success': True,
+            'is_liked': is_liked,
+            'total_likes': total_likes,
+            'message': message
+        })
+        
+    except Exception as e:
+        logger.error(f"Error toggling product like: {e}")
+        return JsonResponse({
+            'success': False,
+            'message': 'خطا در پردازش درخواست'
+        }, status=500)
+
+@require_POST
+@login_required
+def toggle_product_favorite(request, product_id):
+    """Toggle favorite status for a specific product via AJAX"""
+    try:
+        product = get_object_or_404(Product, id=product_id)
+        
+        favorite, created = ProductFavorite.objects.get_or_create(
+            product=product,
+            user=request.user
+        )
+        
+        if not created:
+            # Remove from favorites
+            favorite.delete()
+            is_favorited = False
+            message = 'از علاقه‌مندی‌ها حذف شد'
+        else:
+            # Add to favorites
+            is_favorited = True
+            message = 'به علاقه‌مندی‌ها اضافه شد'
+            
+        total_favorites = ProductFavorite.objects.filter(product=product).count()
+        
+        return JsonResponse({
+            'success': True,
+            'is_favorited': is_favorited,
+            'total_favorites': total_favorites,
+            'message': message
+        })
+        
+    except Exception as e:
+        logger.error(f"Error toggling product favorite: {e}")
+        return JsonResponse({
+            'success': False,
+            'message': 'خطا در پردازش درخواست'
+        }, status=500)
