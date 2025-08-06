@@ -147,3 +147,5 @@ WARNING 2025-08-06 02:36:42,316 log 3500 12300 Not Found: /cart/count/
 WARNING 2025-08-06 02:39:13,810 log 3500 12300 Not Found: /cart/count/
 WARNING 2025-08-06 02:41:30,897 log 3500 12300 Not Found: /cart/count/
 WARNING 2025-08-06 02:44:22,210 log 3500 12300 Not Found: /cart/count/
+INFO 2025-08-06 02:56:08,012 autoreload 16312 3764 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:56:13,913 log 16312 14648 Not Found: /cart/count/
