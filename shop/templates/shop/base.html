@@ -52,6 +52,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'shop/style.css' %}?v=4.1">
     <link rel="stylesheet" href="{% static 'shop/style-enhancements.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     {% block extra_css %}{% endblock %}
     
@@ -99,9 +100,85 @@
         </div>
     </div>
 
-    <!-- Navbar removed - integrated into hero section on home page -->
+    <!-- Unified Navbar for all non-home pages -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="nav-brand">
+            <div class="nav-brand-icon">
+                <i class="fas fa-coffee"></i>
+            </div>
+            <span class="nav-brand-text">اودسان کافی</span>
+        </a>
 
+        <div class="nav-links">
+            <a href="{% url 'home' %}" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>خانه</span>
+            </a>
+            <a href="{% url 'product_list' %}" class="nav-link">
+                <i class="fas fa-coffee"></i>
+                <span>محصولات</span>
+            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorite_products' %}" class="nav-link">
+                    <i class="fas fa-heart"></i>
+                    <span>علاقه‌مندی‌ها</span>
+                </a>
+                <a href="{% url 'user_notifications' %}" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span>اعلان‌ها</span>
+                </a>
+                <a href="{% url 'cart' %}" class="nav-link" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>سبد خرید</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+            {% endif %}
+        </div>
 
+        {% if user.is_authenticated %}
+            <div class="profile-dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown()">
+                    <i class="fas fa-user"></i>
+                    <span>{{ user.first_name|default:user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="{% url 'user_profile' %}" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>پروفایل من</span>
+                    </a>
+                    <a href="{% url 'order_history' %}" class="dropdown-item">
+                        <i class="fas fa-history"></i>
+                        <span>تاریخچه سفارشات</span>
+                    </a>
+                    <a href="{% url 'favorite_products' %}" class="dropdown-item">
+                        <i class="fas fa-heart"></i>
+                        <span>علاقه‌مندی‌ها</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{% url 'change_password' %}" class="dropdown-item">
+                        <i class="fas fa-key"></i>
+                        <span>تغییر رمز عبور</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>خروج</span>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="nav-links">
+                <a href="{% url 'login' %}" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>ورود</span>
+                </a>
+                <a href="{% url 'signup' %}" class="nav-link">
+                    <i class="fas fa-user-plus"></i>
+                    <span>ثبت نام</span>
+                </a>
+            </div>
+        {% endif %}
+    </nav>
 
     <main class="main-content">
         {% if messages %}
