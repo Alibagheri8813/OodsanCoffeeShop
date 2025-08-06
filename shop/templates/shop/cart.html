@@ -41,9 +41,8 @@
 
     .cart-container {
         background: #FFFFFF;
-        min-height: 100vh;
-        padding: 40px 0;
-        margin-top: 120px;
+        min-height: calc(100vh - 100px); /* Account for navbar */
+        padding: 140px 0 40px 0; /* Extra top padding for navbar, replacing margin-top */
     }
     
     .cart-card {

@@ -95,7 +95,8 @@
 
 <style>
 .signup-container {
-    min-height: 100vh;
+    min-height: calc(100vh - 100px); /* Account for navbar */
+    padding-top: 20px; /* Additional spacing from navbar */
     display: flex;
     align-items: center;
     justify-content: center;
