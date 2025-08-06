@@ -91,3 +91,11 @@ WARNING 2025-08-05 13:54:07,556 log 13452 15804 Not Found: /accounts/login/
 WARNING 2025-08-05 13:55:07,571 log 13452 15804 Not Found: /accounts/login/
 WARNING 2025-08-05 13:56:07,554 log 13452 15804 Not Found: /accounts/login/
 WARNING 2025-08-05 13:57:07,564 log 13452 15804 Not Found: /accounts/login/
+INFO 2025-08-05 13:59:53,427 autoreload 15168 14352 Watching for file changes with StatReloader
+WARNING 2025-08-05 14:00:04,883 log 15168 14420 Not Found: /accounts/login/
+WARNING 2025-08-05 14:00:06,207 log 15168 14420 Not Found: /cart/count/
+INFO 2025-08-05 14:00:51,972 autoreload 15072 6448 Watching for file changes with StatReloader
+WARNING 2025-08-05 14:00:57,317 log 15072 7376 Not Found: /cart/count/
+INFO 2025-08-06 00:57:18,558 autoreload 11396 11860 Watching for file changes with StatReloader
+WARNING 2025-08-06 00:58:08,323 log 11396 10088 Not Found: /favicon.ico
+WARNING 2025-08-06 00:58:18,378 log 11396 14208 Not Found: /cart/count/
