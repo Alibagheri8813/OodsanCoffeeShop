@@ -5,6 +5,8 @@ from . import voice_ai_assistant
 # from . import advanced_views
 # from django.contrib.auth import views as auth_views
 
+app_name = 'shop'
+
 urlpatterns = [
     # Main pages
     path('', views.product_list, name='shop_home'),
@@ -36,6 +38,8 @@ urlpatterns = [
     path('like/', views.toggle_like, name='toggle_like'),
     path('like/<int:product_id>/', views.like_product, name='like_product'),
     path('unlike/<int:product_id>/', views.unlike_product, name='unlike_product'),
+    path('product/<int:product_id>/like/', views.toggle_product_like, name='toggle_product_like'),
+    path('product/<int:product_id>/favorite/', views.toggle_product_favorite, name='toggle_product_favorite'),
     path('favorite/', views.toggle_favorite, name='toggle_favorite'),
     path('favorites/', views.favorite_products, name='favorite_products'),
     path('add-to-favorites/<int:product_id>/', views.add_to_favorites, name='add_to_favorites'),
