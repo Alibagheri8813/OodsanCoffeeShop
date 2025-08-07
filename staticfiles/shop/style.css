@@ -2959,6 +2959,29 @@ header, main, footer, section, div {
 .profile-dropdown,
 .profile-dropdown *,
 .dropdown-menu,
-.dropdown-menu * {
+.dropdown-menu *,
+.custom-select,
+.select-options,
+.select-options.show,
+.dropdown-toggle {
     z-index: 2147483647 !important;
+}
+
+/* Additional dropdown fixes for all pages */
+.select-options {
+    position: absolute !important;
+    z-index: 2147483647 !important;
+}
+
+.custom-select {
+    position: relative !important;
+    z-index: 2147483647 !important;
+}
+
+/* Ensure dropdown menus are always visible */
+.dropdown-menu.show {
+    z-index: 2147483647 !important;
+    position: absolute !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 } 
