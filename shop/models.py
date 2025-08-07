@@ -217,10 +217,33 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    # Store user selected grind type (نحوه آسیاب) and weight (وزن) directly on the order item
+    grind_type = models.CharField(max_length=20, choices=Product.GRIND_TYPE_CHOICES, default='whole_bean')
+    weight = models.CharField(max_length=10, choices=Product.WEIGHT_CHOICES, default='250g')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    
+    def get_unit_price(self):
+        """Return price for a single unit taking weight multiplier into account."""
+        return self.product.get_price_for_weight(self.weight)
+
+    def get_total_price(self):
+        """Total line price (unit price * quantity)."""
+        return self.get_unit_price() * self.quantity
+    
+    def save(self, *args, **kwargs):
+        # Ensure price reflects the selected weight before saving
+        if not self.price or self.price == 0:
+            self.price = self.get_unit_price()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        # Ensure no duplicate identical line items inside a single order
+        unique_together = ('order', 'product', 'grind_type', 'weight')
 
     def __str__(self):
-        return f"{self.quantity}x {self.product.name}"
+        grind_display = dict(Product.GRIND_TYPE_CHOICES).get(self.grind_type, self.grind_type)
+        weight_display = dict(Product.WEIGHT_CHOICES).get(self.weight, self.weight)
+        return f"{self.quantity}x {self.product.name} - {grind_display} - {weight_display}"
 
 class OrderFeedback(models.Model):
     RATING_CHOICES = [
