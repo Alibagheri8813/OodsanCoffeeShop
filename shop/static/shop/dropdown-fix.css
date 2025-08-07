@@ -104,17 +104,4 @@
     }
 }
 
-/* Debug styles - remove in production */
-.profile-dropdown:hover::after,
-.hero-profile-dropdown:hover::after {
-    content: "Z-INDEX: 2147483647";
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    font-size: 10px;
-    color: red;
-    background: yellow;
-    padding: 2px;
-    z-index: 2147483647;
-    pointer-events: none;
-}
+/* Debug styles removed */
