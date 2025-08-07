@@ -118,6 +118,27 @@
         font-size: 0.9rem;
     }
     
+    .item-specs {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    
+    .spec-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 6px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        font-size: 0.8em;
+        color: #666;
+    }
+    
+    .spec-item i {
+        color: #4B2E2B;
+    }
+    
     .item-price {
         font-size: 1.1rem;
         font-weight: 600;
@@ -423,6 +444,20 @@
                         <div class="item-details">
                             <h3>{{ item.product.name }}</h3>
                             <p>{{ item.product.category.name }}</p>
+                            <div class="item-specs">
+                                <span class="spec-item">
+                                    <i class="fas fa-cog"></i>
+                                    {% for choice in item.product.GRIND_TYPE_CHOICES %}
+                                        {% if choice.0 == item.grind_type %}{{ choice.1 }}{% endif %}
+                                    {% endfor %}
+                                </span>
+                                <span class="spec-item">
+                                    <i class="fas fa-weight-hanging"></i>
+                                    {% for choice in item.product.WEIGHT_CHOICES %}
+                                        {% if choice.0 == item.weight %}{{ choice.1 }}{% endif %}
+                                    {% endfor %}
+                                </span>
+                            </div>
                         </div>
                         
                         <div class="item-price">

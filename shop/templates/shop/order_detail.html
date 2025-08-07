@@ -214,6 +214,27 @@
         margin-bottom: 8px;
     }
     
+    .item-specs {
+        display: flex;
+        gap: 15px;
+        margin: 8px 0;
+    }
+    
+    .spec-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 8px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        font-size: 0.85em;
+        color: #666;
+    }
+    
+    .spec-item i {
+        color: #4B2E2B;
+    }
+    
     .item-quantity {
         color: #4B2E2B;
         font-weight: 600;
@@ -467,6 +488,20 @@
                                     <div class="item-details">
                                         <div class="item-name">{{ item.product.name }}</div>
                                         <div class="item-description">{{ item.product.description|truncatewords:10 }}</div>
+                                        <div class="item-specs">
+                                            <span class="spec-item">
+                                                <i class="fas fa-cog"></i> 
+                                                {% for choice in item.product.GRIND_TYPE_CHOICES %}
+                                                    {% if choice.0 == item.grind_type %}{{ choice.1 }}{% endif %}
+                                                {% endfor %}
+                                            </span>
+                                            <span class="spec-item">
+                                                <i class="fas fa-weight-hanging"></i> 
+                                                {% for choice in item.product.WEIGHT_CHOICES %}
+                                                    {% if choice.0 == item.weight %}{{ choice.1 }}{% endif %}
+                                                {% endfor %}
+                                            </span>
+                                        </div>
                                         <div class="item-quantity">تعداد: {{ item.quantity }}</div>
                                     </div>
                                     <div class="item-price">{{ item.price|floatformat:0 }} تومان</div>
