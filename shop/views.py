@@ -1103,7 +1103,9 @@ def checkout(request):
                         order=order,
                         product=cart_item.product,
                         quantity=cart_item.quantity,
-                        price=cart_item.product.price
+                        price=cart_item.get_unit_price(),  # Use weight-adjusted price
+                        grind_type=cart_item.grind_type,
+                        weight=cart_item.weight
                     )
                 
                 # Clear cart

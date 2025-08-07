@@ -218,9 +218,21 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    grind_type = models.CharField(max_length=20, choices=Product.GRIND_TYPE_CHOICES, default='whole_bean')
+    weight = models.CharField(max_length=10, choices=Product.WEIGHT_CHOICES, default='250g')
 
     def __str__(self):
-        return f"{self.quantity}x {self.product.name}"
+        grind_display = dict(Product.GRIND_TYPE_CHOICES).get(self.grind_type, self.grind_type)
+        weight_display = dict(Product.WEIGHT_CHOICES).get(self.weight, self.weight)
+        return f"{self.quantity}x {self.product.name} - {grind_display} - {weight_display}"
+    
+    def get_unit_price(self):
+        """Get price per unit with weight multiplier"""
+        return self.product.get_price_for_weight(self.weight)
+
+    def get_total_price(self):
+        """Calculate total price considering weight multiplier"""
+        return self.get_unit_price() * self.quantity
 
 class OrderFeedback(models.Model):
     RATING_CHOICES = [
