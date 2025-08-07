@@ -229,6 +229,7 @@
 
     /* Sensational Dropdown Styles - More Compact */
     .options-container {
+        z-index: 10000000000000000 ;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.6rem;
@@ -1061,6 +1062,9 @@
     .dropdown-menu,
     .dropdown-toggle {
         z-index: 999999999 !important;
+    }
+    .custom-select,.profile-dropdown,.dropdown-menu,.dropdown-toggle{
+        z-index: 9999999999 !important;
     }
 
     /* Fix for specific dropdown elements */
