@@ -1271,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Send AJAX request
-        fetch('{% url "shop:add_to_cart" %}', {
+        fetch('{% url "add_to_cart" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
