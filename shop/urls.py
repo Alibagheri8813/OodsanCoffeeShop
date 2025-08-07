@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from . import voice_ai_assistant
+# from . import voice_ai_assistant
 # from . import ai_assistant
 # from . import advanced_views
 # from django.contrib.auth import views as auth_views
@@ -40,6 +40,7 @@ urlpatterns = [
     path('unlike/<int:product_id>/', views.unlike_product, name='unlike_product'),
     path('product/<int:product_id>/like/', views.toggle_product_like, name='toggle_product_like'),
     path('product/<int:product_id>/favorite/', views.toggle_product_favorite, name='toggle_product_favorite'),
+    path('product/<int:product_id>/comment/', views.add_product_comment, name='add_product_comment'),
     path('favorite/', views.toggle_favorite, name='toggle_favorite'),
     path('favorites/', views.favorite_products, name='favorite_products'),
     path('add-to-favorites/<int:product_id>/', views.add_to_favorites, name='add_to_favorites'),
@@ -96,13 +97,13 @@ urlpatterns = [
     path('api/recommendations/', views.api_recommendations, name='api_recommendations'),
     path('api/analytics/', views.api_analytics, name='api_analytics'),
     
-    # Voice AI Assistant
-    path('voice-ai/', views.voice_ai_assistant_page, name='voice_ai_assistant'),
-    path('voice-ai/initialize/', voice_ai_assistant.initialize_ai, name='voice_ai_initialize'),
-    path('voice-ai/chat/', voice_ai_assistant.voice_chat, name='voice_ai_chat'),
-    path('voice-ai/text-chat/', voice_ai_assistant.text_chat, name='voice_ai_text_chat'),
-    path('voice-ai/stop/', voice_ai_assistant.stop_speech, name='voice_ai_stop'),
-    path('voice-ai/status/', voice_ai_assistant.ai_status, name='voice_ai_status'),
+    # Voice AI Assistant - Temporarily disabled
+    # path('voice-ai/', views.voice_ai_assistant_page, name='voice_ai_assistant'),
+    # path('voice-ai/initialize/', voice_ai_assistant.initialize_ai, name='voice_ai_initialize'),
+    # path('voice-ai/chat/', voice_ai_assistant.voice_chat, name='voice_ai_chat'),
+    # path('voice-ai/text-chat/', voice_ai_assistant.text_chat, name='voice_ai_text_chat'),
+    # path('voice-ai/stop/', voice_ai_assistant.stop_speech, name='voice_ai_stop'),
+    # path('voice-ai/status/', voice_ai_assistant.ai_status, name='voice_ai_status'),
     
     # Existing URLs (keep them for compatibility)
     path('categories/', views.category_list, name='category_list'),

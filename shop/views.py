@@ -247,10 +247,10 @@ def product_detail(request, product_id):
     # Prepare default weight multipliers if not set
     default_multipliers = {
         '250g': 1.0,
-        '500g': 1.8,
-        '1kg': 3.5,
-        '5kg': 16.0,
-        '10kg': 30.0
+        '500g': 2.0,
+        '1kg': 4.0,
+        '5kg': 18.0,
+        '10kg': 35.0
     }
     
     # Set default available options if not configured
@@ -2073,4 +2073,61 @@ def toggle_product_favorite(request, product_id):
         return JsonResponse({
             'success': False,
             'message': 'خطا در پردازش درخواست'
+        }, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@ajax_error_handler
+def add_product_comment(request, product_id):
+    """Add a comment to a product via AJAX"""
+    try:
+        # Get product
+        product = get_object_or_404(Product, id=product_id)
+        
+        # Parse JSON data
+        data = json.loads(request.body)
+        comment_text = data.get('text', '').strip()
+        
+        if not comment_text:
+            return JsonResponse({
+                'success': False,
+                'message': 'نظر نمی‌تواند خالی باشد.'
+            })
+        
+        # Create comment
+        comment = Comment.objects.create(
+            product=product,
+            user=request.user,
+            text=comment_text
+        )
+        
+        # Format the date for display
+        from django.utils import timezone
+        import jdatetime
+        
+        # Convert to Jalali date
+        jalali_date = jdatetime.datetime.fromgregorian(datetime=comment.created_at)
+        formatted_date = jalali_date.strftime('%d %B %Y - %H:%M')
+        
+        # Return success response with comment data
+        return JsonResponse({
+            'success': True,
+            'message': 'نظر شما با موفقیت ثبت شد.',
+            'comment': {
+                'user': comment.user.username,
+                'text': comment.text,
+                'date': formatted_date
+            }
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': 'داده‌های ارسالی نامعتبر است.'
+        })
+    except Exception as e:
+        logger.error(f"Error adding product comment: {e}")
+        return JsonResponse({
+            'success': False,
+            'message': 'خطا در ثبت نظر'
         }, status=500)
