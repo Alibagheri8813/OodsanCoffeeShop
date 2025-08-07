@@ -8,7 +8,7 @@ body:not(.home-page) .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 9999; /* Increased z-index to ensure navbar is always on top */
+  z-index: 99999999; /* High z-index for navbar, but still below dropdown */
   overflow: hidden;
 }
 
