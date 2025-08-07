@@ -1,0 +1,3 @@
+INFO 2025-08-07 02:27:29,552 autoreload 6896 4172 Watching for file changes with StatReloader
+INFO 2025-08-07 02:27:32,386 error_handling 6896 14320 Starting operation: product_detail
+INFO 2025-08-07 02:27:32,386 error_handling 6896 14320 Operation completed: product_detail in 0.00s
