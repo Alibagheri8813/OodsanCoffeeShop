@@ -266,11 +266,10 @@
         color: var(--secondary-brown);
     }
 
-    /* Custom Dropdown Styling - Maximum Z-Index */
+    /* Custom Dropdown Styling */
     .custom-select {
         position: relative;
         width: 100%;
-        z-index: 999999999 !important;
     }
 
     .select-display {
@@ -327,31 +326,7 @@
         transform: rotate(180deg);
     }
 
-    .select-options {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255, 248, 240, 0.98);
-        border: 2px solid var(--coffee-gold);
-        border-radius: 10px;
-        margin-top: 0.2rem;
-        box-shadow: var(--shadow-strong);
-        backdrop-filter: blur(20px);
-        z-index: 999999999 !important;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        max-height: 200px;
-        overflow-y: auto;
-    }
-
-    .select-options.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
+    /* Original select-options styles moved to z-index fix section above */
 
     .select-option {
         padding: 0.6rem 0.8rem;
@@ -1054,33 +1029,138 @@
     }
 
     /* ===== DROPDOWN Z-INDEX FIX ===== */
-    /* Ensure all dropdowns appear above other content */
-    .custom-select,
-    .select-options,
-    .profile-dropdown,
-    .dropdown-menu,
-    .dropdown-toggle {
-        z-index: 999999999 !important;
+    /* Create new stacking context for dropdowns */
+    .option-group {
+        position: relative !important;
+        z-index: 1000 !important;
+        isolation: isolate !important;
     }
 
-    /* Fix for specific dropdown elements */
-    .select-options.show {
-        z-index: 999999999 !important;
+    /* Ensure custom select containers have proper stacking */
+    .custom-select {
+        position: relative !important;
+        z-index: 1001 !important;
+        isolation: isolate !important;
+    }
+
+    /* Dropdown options with maximum z-index and proper positioning */
+    .select-options {
         position: absolute !important;
-    }
-
-    /* Profile dropdown specific fix */
-    .profile-dropdown * {
-        z-index: 999999999 !important;
-    }
-
-    /* Ensure dropdown options appear above everything */
-    .option-group .select-options {
-        z-index: 999999999 !important;
-        position: absolute !important;
+        z-index: 99999999 !important;
         top: 100% !important;
         left: 0 !important;
         right: 0 !important;
+        background: rgba(255, 248, 240, 0.98) !important;
+        border: 2px solid var(--coffee-gold) !important;
+        border-radius: 10px !important;
+        margin-top: 0.2rem !important;
+        box-shadow: var(--shadow-strong) !important;
+        backdrop-filter: blur(20px) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px) !important;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        max-height: 200px !important;
+        overflow-y: auto !important;
+        /* Force hardware acceleration */
+        will-change: transform, opacity !important;
+        /* Create new stacking context */
+        isolation: isolate !important;
+    }
+
+    /* Show state for dropdowns */
+    .select-options.show {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        z-index: 2147483647 !important; /* Maximum possible z-index value */
+        /* Force to front */
+        position: absolute !important;
+        /* Ensure it's above everything */
+        isolation: isolate !important;
+        /* Force layer creation */
+        will-change: transform !important;
+        /* Prevent clipping */
+        contain: none !important;
+    }
+
+    /* Quantity container should have lower z-index */
+    .quantity-container {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* Ensure all other containers have lower z-index */
+    .price-container,
+    .action-buttons,
+    .product-stats,
+    .main-image-container {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* Force dropdown options to be on top of everything */
+    .option-group .select-options {
+        position: absolute !important;
+        z-index: 99999999 !important;
+        top: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+
+    /* Fix for any conflicting Bootstrap or other framework styles */
+    .select-options,
+    .select-options.show {
+        position: absolute !important;
+        z-index: 99999999 !important;
+        display: block !important;
+    }
+
+    /* Additional fixes for stacking context issues */
+    .product-main-grid {
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    .product-info-side {
+        position: relative !important;
+        z-index: 100 !important;
+    }
+
+    .product-image-side {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* Ensure options container has higher stacking order */
+    .options-container {
+        position: relative !important;
+        z-index: 1000 !important;
+        /* Prevent overflow clipping of dropdowns */
+        overflow: visible !important;
+    }
+
+    /* Ensure body doesn't clip dropdowns */
+    body {
+        overflow-x: hidden;
+        overflow-y: auto !important;
+    }
+
+    /* Prevent container clipping */
+    .product-detail-container,
+    .product-main-grid,
+    .product-info-side {
+        overflow: visible !important;
+    }
+
+    /* Ensure dropdowns don't get clipped by parent containers */
+    .select-options {
+        position: absolute !important;
+        z-index: 999999999 !important;
+        /* Ensure it doesn't get clipped */
+        clip: auto !important;
+        -webkit-clip-path: none !important;
+        clip-path: none !important;
     }
 
     .loading-overlay.hidden {
@@ -1441,19 +1521,44 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.select-display.open').forEach(dropdown => {
             dropdown.classList.remove('open');
         });
-        document.querySelectorAll('.select-options.show').forEach(options => {
-            options.classList.remove('show');
+        document.querySelectorAll('.select-options.show').forEach(optionsEl => {
+            optionsEl.classList.remove('show');
         });
 
         if (!isOpen) {
             select.classList.add('open');
             options.classList.add('show');
+            
+            // Force reflow to ensure proper positioning
+            options.offsetHeight;
+            
+            // Add additional z-index boost for the active dropdown
+            options.style.zIndex = '999999999';
+            options.style.position = 'absolute';
+            
+            // Ensure dropdown is properly positioned
+            const rect = select.getBoundingClientRect();
+            const parentRect = select.closest('.option-group').getBoundingClientRect();
+            
+            // Force the dropdown to appear above other content
+            setTimeout(() => {
+                options.style.transform = 'translateY(0)';
+                options.style.opacity = '1';
+                options.style.visibility = 'visible';
+            }, 10);
         }
     }
 
     function closeDropdown(select, options) {
         select.classList.remove('open');
         options.classList.remove('show');
+        
+        // Clean up any inline styles
+        options.style.zIndex = '';
+        options.style.position = '';
+        options.style.transform = '';
+        options.style.opacity = '';
+        options.style.visibility = '';
     }
 
     function initializeQuantityControls() {
