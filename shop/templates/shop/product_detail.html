@@ -243,6 +243,8 @@
         box-shadow: var(--shadow-soft);
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         backdrop-filter: blur(10px);
+        position: relative; /* Ensure stacking context positioning */
+        z-index: 2; /* Bring dropdown group above quantity container */
     }
 
     .option-group:hover {
