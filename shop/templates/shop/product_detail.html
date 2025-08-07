@@ -54,7 +54,7 @@
     /* Sensational Background with Floating Elements */
     .product-detail-container {
         min-height: 100vh;
-        padding: 2rem;
+        padding: 1.5rem;
         background: var(--gradient-cream);
         position: relative;
         overflow: hidden;
@@ -67,13 +67,13 @@
         height: 100%;
         pointer-events: none;
         z-index: 1;
-        opacity: 0.4;
+        opacity: 0.3;
     }
 
     .bean {
         position: absolute;
-        width: 15px;
-        height: 15px;
+        width: 12px;
+        height: 12px;
         background: var(--gradient-gold);
         border-radius: 50%;
         animation: floatBean 20s infinite linear;
@@ -95,11 +95,11 @@
             opacity: 0;
         }
         10% {
-            opacity: 0.8;
+            opacity: 0.6;
             transform: translateY(90vh) rotate(36deg) scale(1);
         }
         90% {
-            opacity: 0.8;
+            opacity: 0.6;
             transform: translateY(10vh) rotate(324deg) scale(1);
         }
         100% {
@@ -108,23 +108,23 @@
         }
     }
 
-    /* Main Product Grid */
+    /* Improved Main Product Grid - More Compact */
     .product-main-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        max-width: 1400px;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+        max-width: 1200px;
         margin: 0 auto;
         position: relative;
         z-index: 10;
-        padding: 2rem 0;
+        padding: 1rem 0;
     }
 
-    /* Left Side - Product Information */
+    /* Left Side - Product Information - More Compact */
     .product-info-side {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
         animation: slideInLeft 1s ease-out;
     }
 
@@ -139,9 +139,9 @@
         }
     }
 
-    /* Product Title with Magical Effect */
+    /* Product Title with Magical Effect - Smaller */
     .product-title {
-        font-size: 3rem;
+        font-size: 2.2rem;
         font-weight: 900;
         background: var(--gradient-magical);
         background-size: 400% 400%;
@@ -150,7 +150,7 @@
         background-clip: text;
         animation: gradient-shift 4s ease-in-out infinite, float-title 6s ease-in-out infinite;
         text-shadow: 0 0 30px rgba(245, 222, 179, 0.3);
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         line-height: 1.2;
     }
 
@@ -161,34 +161,34 @@
 
     @keyframes float-title {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+        50% { transform: translateY(-3px); }
     }
 
-    /* Product Description */
+    /* Product Description - More Compact */
     .product-description {
         background: rgba(255, 248, 240, 0.9);
-        padding: 2rem;
-        border-radius: 25px;
+        padding: 1.2rem;
+        border-radius: 20px;
         border: 2px solid rgba(245, 222, 179, 0.3);
         box-shadow: var(--shadow-soft);
-        font-size: 1.1rem;
-        line-height: 1.8;
+        font-size: 1rem;
+        line-height: 1.6;
         color: var(--primary-brown);
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
     }
 
     .product-description:hover {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
         box-shadow: var(--shadow-medium);
         border-color: var(--coffee-gold);
     }
 
-    /* Price Display with Animation */
+    /* Price Display with Animation - Smaller */
     .price-container {
         background: var(--gradient-accent);
-        padding: 2rem;
-        border-radius: 25px;
+        padding: 1.2rem;
+        border-radius: 20px;
         text-align: center;
         box-shadow: var(--shadow-medium);
         position: relative;
@@ -207,36 +207,36 @@
 
     .price-label {
         color: var(--coffee-cream);
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
         opacity: 0.9;
     }
 
     .price-amount {
         color: var(--coffee-cream);
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 900;
         text-shadow: 0 0 20px rgba(255, 248, 240, 0.5);
     }
 
     .price-currency {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         margin-right: 0.5rem;
     }
 
-    /* Sensational Dropdown Styles */
+    /* Sensational Dropdown Styles - More Compact */
     .options-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        margin: 2rem 0;
+        gap: 1rem;
+        margin: 1rem 0;
     }
 
     .option-group {
         background: rgba(255, 248, 240, 0.95);
-        border-radius: 20px;
-        padding: 1.5rem;
+        border-radius: 15px;
+        padding: 1rem;
         border: 2px solid rgba(245, 222, 179, 0.3);
         box-shadow: var(--shadow-soft);
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -244,7 +244,7 @@
     }
 
     .option-group:hover {
-        transform: translateY(-5px) scale(1.02);
+        transform: translateY(-3px) scale(1.01);
         box-shadow: var(--shadow-medium), var(--shadow-glow);
         border-color: var(--coffee-gold);
     }
@@ -253,18 +253,18 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: var(--primary-brown);
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
     }
 
     .option-label i {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color: var(--secondary-brown);
     }
 
-    /* Custom Dropdown Styling */
+    /* Custom Dropdown Styling - Higher Z-Index */
     .custom-select {
         position: relative;
         width: 100%;
@@ -273,9 +273,9 @@
     .select-display {
         background: var(--gradient-cream);
         border: 2px solid rgba(75, 46, 43, 0.2);
-        border-radius: 15px;
-        padding: 1rem 1.5rem;
-        font-size: 1rem;
+        border-radius: 12px;
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
         font-weight: 600;
         color: var(--primary-brown);
         cursor: pointer;
@@ -305,7 +305,7 @@
 
     .select-display:hover {
         border-color: var(--secondary-brown);
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         box-shadow: var(--shadow-medium);
     }
 
@@ -317,7 +317,7 @@
     .select-arrow {
         transition: transform 0.3s ease;
         color: var(--secondary-brown);
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .select-display.open .select-arrow {
@@ -331,16 +331,16 @@
         right: 0;
         background: rgba(255, 248, 240, 0.98);
         border: 2px solid var(--coffee-gold);
-        border-radius: 15px;
-        margin-top: 0.5rem;
+        border-radius: 12px;
+        margin-top: 0.3rem;
         box-shadow: var(--shadow-strong);
         backdrop-filter: blur(20px);
-        z-index: 1000;
+        z-index: 9999;
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        max-height: 300px;
+        max-height: 250px;
         overflow-y: auto;
     }
 
@@ -351,7 +351,7 @@
     }
 
     .select-option {
-        padding: 1rem 1.5rem;
+        padding: 0.8rem 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
         border-bottom: 1px solid rgba(245, 222, 179, 0.2);
@@ -360,6 +360,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-size: 0.85rem;
     }
 
     .select-option:last-child {
@@ -369,7 +370,7 @@
     .select-option:hover {
         background: var(--gradient-gold);
         color: var(--primary-brown);
-        transform: translateX(5px);
+        transform: translateX(3px);
     }
 
     .select-option.selected {
@@ -379,16 +380,16 @@
     }
 
     .option-price {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         font-weight: 700;
         color: var(--secondary-brown);
     }
 
-    /* Quantity Selector */
+    /* Quantity Selector - More Compact */
     .quantity-container {
         background: rgba(255, 248, 240, 0.95);
-        border-radius: 20px;
-        padding: 1.5rem;
+        border-radius: 15px;
+        padding: 1rem;
         border: 2px solid rgba(245, 222, 179, 0.3);
         box-shadow: var(--shadow-soft);
         text-align: center;
@@ -397,7 +398,7 @@
     }
 
     .quantity-container:hover {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
         box-shadow: var(--shadow-medium);
         border-color: var(--coffee-gold);
     }
@@ -407,31 +408,31 @@
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: var(--primary-brown);
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
     }
 
     .quantity-controls {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: 0.8rem;
         background: var(--gradient-cream);
-        border-radius: 50px;
-        padding: 0.5rem;
+        border-radius: 40px;
+        padding: 0.3rem;
         box-shadow: inset 0 2px 10px rgba(75, 46, 43, 0.1);
     }
 
     .quantity-btn {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: none;
         background: var(--gradient-accent);
         color: var(--coffee-cream);
         border-radius: 50%;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 900;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -453,12 +454,12 @@
     }
 
     .quantity-input {
-        width: 80px;
-        height: 50px;
+        width: 60px;
+        height: 40px;
         border: 2px solid rgba(75, 46, 43, 0.2);
-        border-radius: 15px;
+        border-radius: 12px;
         text-align: center;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 700;
         color: var(--primary-brown);
         background: var(--coffee-cream);
@@ -471,12 +472,12 @@
         box-shadow: var(--shadow-glow);
     }
 
-    /* Sensational Action Buttons */
+    /* Sensational Action Buttons - More Compact */
     .action-buttons {
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
-        gap: 1.5rem;
-        margin: 3rem 0;
+        gap: 1rem;
+        margin: 1.5rem 0;
     }
 
     /* Add to Cart Button - Hero Style */
@@ -484,9 +485,9 @@
         background: var(--gradient-accent);
         color: var(--coffee-cream);
         border: none;
-        padding: 1.5rem 2rem;
-        border-radius: 25px;
-        font-size: 1.3rem;
+        padding: 1rem 1.5rem;
+        border-radius: 20px;
+        font-size: 1.1rem;
         font-weight: 900;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -498,7 +499,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: 0.8rem;
         animation: cart-pulse 2s ease-in-out infinite;
     }
 
@@ -529,32 +530,32 @@
     .add-to-cart-btn:hover {
         background: var(--gradient-gold);
         color: var(--primary-brown);
-        transform: translateY(-5px) scale(1.05);
+        transform: translateY(-3px) scale(1.03);
         box-shadow: var(--shadow-strong), var(--shadow-magical);
     }
 
     .add-to-cart-btn:active {
-        transform: translateY(-2px) scale(1.02);
+        transform: translateY(-1px) scale(1.01);
     }
 
     .add-to-cart-btn i {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         animation: cart-bounce 1s ease-in-out infinite;
     }
 
     @keyframes cart-bounce {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
+        50% { transform: translateY(-2px); }
     }
 
-    /* Like and Favorite Buttons */
+    /* Like and Favorite Buttons - Smaller */
     .social-btn {
         background: rgba(255, 248, 240, 0.9);
         border: 2px solid rgba(245, 222, 179, 0.3);
         color: var(--primary-brown);
-        padding: 1.5rem;
-        border-radius: 20px;
-        font-size: 1.1rem;
+        padding: 1rem;
+        border-radius: 15px;
+        font-size: 0.95rem;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -564,7 +565,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
         backdrop-filter: blur(10px);
     }
 
@@ -586,7 +587,7 @@
     .social-btn:hover {
         background: var(--gradient-gold);
         border-color: var(--secondary-brown);
-        transform: translateY(-5px) scale(1.05);
+        transform: translateY(-3px) scale(1.03);
         box-shadow: var(--shadow-medium), var(--shadow-glow);
     }
 
@@ -599,7 +600,7 @@
 
     @keyframes heart-beat {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
+        50% { transform: scale(1.03); }
     }
 
     .social-btn.favorited {
@@ -618,11 +619,11 @@
         }
     }
 
-    /* Right Side - Product Image */
+    /* Right Side - Product Image - Smaller */
     .product-image-side {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
         animation: slideInRight 1s ease-out;
     }
 
@@ -637,10 +638,10 @@
         }
     }
 
-    /* Main Image Container with Magical Effects */
+    /* Main Image Container with Magical Effects - Smaller */
     .main-image-container {
         position: relative;
-        border-radius: 25px;
+        border-radius: 20px;
         overflow: hidden;
         background: var(--gradient-cream);
         border: 3px solid rgba(245, 222, 179, 0.3);
@@ -650,20 +651,20 @@
     }
 
     .main-image-container:hover {
-        transform: translateY(-10px) scale(1.02);
+        transform: translateY(-5px) scale(1.01);
         box-shadow: var(--shadow-strong), var(--shadow-magical);
         border-color: var(--coffee-gold);
     }
 
     .main-image {
         width: 100%;
-        height: 600px;
+        height: 400px;
         object-fit: cover;
         transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .main-image:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     /* Magical Image Overlay */
@@ -692,10 +693,10 @@
         top: 20%;
         left: 50%;
         transform: translateX(-50%);
-        width: 100px;
-        height: 200px;
+        width: 80px;
+        height: 150px;
         background: linear-gradient(180deg, transparent, rgba(245, 222, 179, 0.3), transparent);
-        filter: blur(15px);
+        filter: blur(12px);
         opacity: 0;
         animation: steam-rise-image 4s ease-in-out infinite;
         pointer-events: none;
@@ -707,12 +708,12 @@
             transform: translateX(-50%) translateY(0) scaleY(0.5);
         }
         50% {
-            opacity: 0.8;
-            transform: translateX(-50%) translateY(-50px) scaleY(1.5) scaleX(1.2);
+            opacity: 0.6;
+            transform: translateX(-50%) translateY(-40px) scaleY(1.3) scaleX(1.1);
         }
         100% {
             opacity: 0;
-            transform: translateX(-50%) translateY(-100px) scaleY(2) scaleX(1.5);
+            transform: translateX(-50%) translateY(-80px) scaleY(1.8) scaleX(1.3);
         }
     }
 
@@ -720,19 +721,19 @@
         opacity: 1;
     }
 
-    /* Product Stats with Beautiful Animation */
+    /* Product Stats with Beautiful Animation - Smaller */
     .product-stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        margin-top: 2rem;
+        gap: 0.8rem;
+        margin-top: 1rem;
     }
 
     .stat-item {
         text-align: center;
         background: rgba(255, 248, 240, 0.95);
-        padding: 2rem 1rem;
-        border-radius: 25px;
+        padding: 1rem 0.5rem;
+        border-radius: 20px;
         border: 2px solid rgba(245, 222, 179, 0.3);
         box-shadow: var(--shadow-soft);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -764,50 +765,193 @@
     }
 
     .stat-item:hover {
-        transform: translateY(-8px) scale(1.05);
+        transform: translateY(-5px) scale(1.03);
         box-shadow: var(--shadow-medium), var(--shadow-glow);
         border-color: var(--coffee-gold);
     }
 
     .stat-number {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
         font-weight: 900;
         background: var(--gradient-accent);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
         position: relative;
         z-index: 2;
     }
 
     .stat-label {
-        font-size: 1rem;
+        font-size: 0.85rem;
         color: var(--primary-brown);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.3rem;
         font-weight: 600;
         position: relative;
         z-index: 2;
     }
 
     .stat-label i {
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: var(--secondary-brown);
     }
 
+    /* Comments Section */
+    .comments-section {
+        max-width: 1200px;
+        margin: 3rem auto 2rem;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .comments-header {
+        background: var(--gradient-accent);
+        color: var(--coffee-cream);
+        padding: 1.5rem;
+        border-radius: 20px 20px 0 0;
+        text-align: center;
+        margin-bottom: 0;
+        box-shadow: var(--shadow-medium);
+    }
+
+    .comments-header h3 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .comments-container {
+        background: rgba(255, 248, 240, 0.95);
+        border: 2px solid rgba(245, 222, 179, 0.3);
+        border-radius: 0 0 20px 20px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .comment-form {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid rgba(245, 222, 179, 0.3);
+    }
+
+    .comment-form textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 1rem;
+        border: 2px solid rgba(75, 46, 43, 0.2);
+        border-radius: 15px;
+        background: var(--coffee-cream);
+        color: var(--primary-brown);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        resize: vertical;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .comment-form textarea:focus {
+        outline: none;
+        border-color: var(--secondary-brown);
+        box-shadow: var(--shadow-glow);
+    }
+
+    .comment-form textarea::placeholder {
+        color: rgba(75, 46, 43, 0.6);
+    }
+
+    .comment-submit-btn {
+        background: var(--gradient-accent);
+        color: var(--coffee-cream);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: var(--shadow-medium);
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comment-submit-btn:hover {
+        background: var(--gradient-gold);
+        color: var(--primary-brown);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-strong);
+    }
+
+    .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .comment-item {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 1.5rem;
+        border-radius: 15px;
+        border: 2px solid rgba(245, 222, 179, 0.2);
+        box-shadow: var(--shadow-soft);
+        transition: all 0.3s ease;
+    }
+
+    .comment-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+        border-color: var(--coffee-gold);
+    }
+
+    .comment-header-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(245, 222, 179, 0.3);
+    }
+
+    .comment-author {
+        font-weight: 700;
+        color: var(--primary-brown);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comment-date {
+        color: var(--secondary-brown);
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+
+    .comment-text {
+        color: var(--coffee-dark);
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
     /* Responsive Design */
-    @media (max-width: 1200px) {
+    @media (max-width: 1024px) {
         .product-main-grid {
             grid-template-columns: 1fr;
-            gap: 3rem;
+            gap: 2rem;
             padding: 1rem;
         }
         
         .product-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
         
         .options-container {
@@ -821,6 +965,10 @@
         .product-stats {
             grid-template-columns: 1fr 1fr;
         }
+
+        .main-image {
+            height: 300px;
+        }
     }
 
     @media (max-width: 768px) {
@@ -829,15 +977,19 @@
         }
         
         .product-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
         
         .main-image {
-            height: 400px;
+            height: 250px;
         }
         
         .product-stats {
             grid-template-columns: 1fr;
+        }
+
+        .comments-section {
+            padding: 0 1rem;
         }
     }
 
@@ -863,10 +1015,10 @@
     }
 
     .coffee-loader {
-        width: 100px;
-        height: 100px;
-        border: 8px solid rgba(245, 222, 179, 0.3);
-        border-top: 8px solid var(--secondary-brown);
+        width: 80px;
+        height: 80px;
+        border: 6px solid rgba(245, 222, 179, 0.3);
+        border-top: 6px solid var(--secondary-brown);
         border-radius: 50%;
         animation: spin-coffee 2s linear infinite;
     }
@@ -927,30 +1079,27 @@
                     </div>
                     <div class="custom-select">
                         <div class="select-display" id="grindSelect">
-                            <span id="grindDisplay">دانه کامل</span>
+                            <span id="grindDisplay">اسیاب نشده</span>
                             <i class="fas fa-chevron-down select-arrow"></i>
                         </div>
                         <div class="select-options" id="grindOptions">
                             <div class="select-option selected" data-value="whole_bean">
-                                <span>دانه کامل</span>
+                                <span>اسیاب نشده</span>
                             </div>
                             <div class="select-option" data-value="coarse">
-                                <span>درشت (فرنچ پرس)</span>
+                                <span>ترک</span>
                             </div>
                             <div class="select-option" data-value="medium_coarse">
-                                <span>متوسط درشت (کمکس)</span>
+                                <span>موکاپات</span>
                             </div>
                             <div class="select-option" data-value="medium">
-                                <span>متوسط (دریپ)</span>
+                                <span>اسپرسو ساز نیمه صنعتی</span>
                             </div>
                             <div class="select-option" data-value="medium_fine">
-                                <span>متوسط ریز (اروپرس)</span>
+                                <span>اسپرسوساز صنعتی</span>
                             </div>
                             <div class="select-option" data-value="fine">
-                                <span>ریز (اسپرسو)</span>
-                            </div>
-                            <div class="select-option" data-value="extra_fine">
-                                <span>فوق ریز (ترک)</span>
+                                <span>اسپرسوساز خانگی</span>
                             </div>
                         </div>
                     </div>
@@ -972,19 +1121,19 @@
                                 <span>250 گرم</span>
                                 <span class="option-price">{{ product.price|floatformat:0 }} تومان</span>
                             </div>
-                            <div class="select-option" data-value="500g" data-multiplier="1.8">
+                            <div class="select-option" data-value="500g" data-multiplier="2">
                                 <span>500 گرم</span>
                                 <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
                             </div>
-                            <div class="select-option" data-value="1kg" data-multiplier="3.5">
+                            <div class="select-option" data-value="1kg" data-multiplier="4">
                                 <span>1 کیلوگرم</span>
                                 <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
                             </div>
-                            <div class="select-option" data-value="5kg" data-multiplier="16">
+                            <div class="select-option" data-value="5kg" data-multiplier="18">
                                 <span>5 کیلوگرم</span>
                                 <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
                             </div>
-                            <div class="select-option" data-value="10kg" data-multiplier="30">
+                            <div class="select-option" data-value="10kg" data-multiplier="35">
                                 <span>10 کیلوگرم</span>
                                 <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
                             </div>
@@ -1067,6 +1216,57 @@
             </div>
         </div>
     </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <div class="comments-header">
+            <h3>
+                <i class="fas fa-comments"></i>
+                نظرات و دیدگاه‌ها
+            </h3>
+        </div>
+        <div class="comments-container">
+            {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <textarea id="commentText" placeholder="نظر خود را در مورد این محصول بنویسید..."></textarea>
+                    <button class="comment-submit-btn" id="submitCommentBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        ارسال نظر
+                    </button>
+                </div>
+            {% else %}
+                <div class="comment-form">
+                    <p style="text-align: center; color: var(--primary-brown); margin-bottom: 1rem;">
+                        برای ثبت نظر لطفاً <a href="{% url 'login' %}" style="color: var(--secondary-brown); text-decoration: none; font-weight: bold;">وارد شوید</a>
+                    </p>
+                </div>
+            {% endif %}
+
+            <div class="comments-list" id="commentsList">
+                {% for comment in product.comments.all %}
+                    <div class="comment-item">
+                        <div class="comment-header-info">
+                            <div class="comment-author">
+                                <i class="fas fa-user-circle"></i>
+                                {{ comment.user.username }}
+                            </div>
+                            <div class="comment-date">
+                                {{ comment.created_at|date:"d F Y - H:i" }}
+                            </div>
+                        </div>
+                        <div class="comment-text">
+                            {{ comment.text }}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="comment-item" style="text-align: center; color: var(--secondary-brown);">
+                        <i class="fas fa-comment-slash" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>هنوز نظری برای این محصول ثبت نشده است. اولین نفری باشید که نظر می‌دهد!</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -1074,19 +1274,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hide loading overlay
     setTimeout(() => {
         document.getElementById('loadingOverlay').classList.add('hidden');
-    }, 1500);
+    }, 1200);
 
     // Product data
     const basePrice = {{ product.price }};
     const productId = {{ product.id }};
     
-    // Weight multipliers
+    // Weight multipliers - FIXED: 500g = 2x, 1kg = 4x
     const weightMultipliers = {
         '250g': 1,
-        '500g': 1.8,
-        '1kg': 3.5,
-        '5kg': 16,
-        '10kg': 30
+        '500g': 2,
+        '1kg': 4,
+        '5kg': 18,
+        '10kg': 35
     };
 
     // Current selections
@@ -1098,6 +1298,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDropdowns();
     initializeQuantityControls();
     initializeActionButtons();
+    initializeComments();
     updatePriceDisplay();
 
     function initializeDropdowns() {
@@ -1250,6 +1451,98 @@ document.addEventListener('DOMContentLoaded', function() {
         const favoriteBtn = document.getElementById('favoriteBtn');
         favoriteBtn.addEventListener('click', function() {
             toggleFavorite();
+        });
+    }
+
+    function initializeComments() {
+        const submitBtn = document.getElementById('submitCommentBtn');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', function() {
+                submitComment();
+            });
+        }
+    }
+
+    function submitComment() {
+        const commentText = document.getElementById('commentText').value.trim();
+        const submitBtn = document.getElementById('submitCommentBtn');
+        
+        if (!commentText) {
+            alert('لطفاً نظر خود را بنویسید.');
+            return;
+        }
+
+        // Show loading state
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
+        submitBtn.disabled = true;
+
+        // Send AJAX request
+        fetch(`/shop/product/${productId}/comment/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                text: commentText
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear the textarea
+                document.getElementById('commentText').value = '';
+                
+                // Add the new comment to the list
+                const commentsList = document.getElementById('commentsList');
+                const emptyMessage = commentsList.querySelector('.comment-item:has(.fa-comment-slash)');
+                if (emptyMessage) {
+                    emptyMessage.remove();
+                }
+                
+                const newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.innerHTML = `
+                    <div class="comment-header-info">
+                        <div class="comment-author">
+                            <i class="fas fa-user-circle"></i>
+                            ${data.comment.user}
+                        </div>
+                        <div class="comment-date">
+                            ${data.comment.date}
+                        </div>
+                    </div>
+                    <div class="comment-text">
+                        ${data.comment.text}
+                    </div>
+                `;
+                
+                commentsList.insertBefore(newComment, commentsList.firstChild);
+                
+                // Success animation
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> ارسال شد!';
+                submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                }, 2000);
+            } else {
+                throw new Error(data.message || 'خطا در ارسال نظر');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> خطا!';
+            submitBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                submitBtn.disabled = false;
+            }, 2000);
         });
     }
 

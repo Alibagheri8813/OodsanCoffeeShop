@@ -13,13 +13,12 @@ class Category(models.Model):
 
 class Product(models.Model):
     GRIND_TYPE_CHOICES = [
-        ('whole_bean', 'دانه کامل'),
-        ('coarse', 'درشت (فرنچ پرس)'),
-        ('medium_coarse', 'متوسط درشت (کمکس)'),
-        ('medium', 'متوسط (دریپ)'),
-        ('medium_fine', 'متوسط ریز (اروپرس)'),
-        ('fine', 'ریز (اسپرسو)'),
-        ('extra_fine', 'فوق ریز (ترک)'),
+        ('whole_bean', 'اسیاب نشده'),
+        ('coarse', 'ترک'),
+        ('medium_coarse', 'موکاپات'),
+        ('medium', 'اسپرسو ساز نیمه صنعتی'),
+        ('medium_fine', 'اسپرسوساز صنعتی'),
+        ('fine', 'اسپرسوساز خانگی'),
     ]
     
     WEIGHT_CHOICES = [
@@ -56,7 +55,11 @@ class Product(models.Model):
     
     def get_price_for_weight(self, weight):
         """Get price for specific weight"""
+        from decimal import Decimal
         multiplier = self.weight_multipliers.get(weight, 1.0)
+        # Convert multiplier to Decimal to avoid float multiplication error
+        if isinstance(multiplier, float):
+            multiplier = Decimal(str(multiplier))
         return self.price * multiplier
     
     def get_available_grinds_display(self):
