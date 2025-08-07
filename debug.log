@@ -1,0 +1,5 @@
+INFO 2025-08-07 06:41:24,634 autoreload 8208 11668 Watching for file changes with StatReloader
+INFO 2025-08-07 06:41:28,803 error_handling 8208 11592 Starting operation: product_detail
+INFO 2025-08-07 06:41:28,805 error_handling 8208 11592 Operation completed: product_detail in 0.00s
+INFO 2025-08-07 06:41:33,134 error_handling 8208 11592 Starting operation: product_detail
+INFO 2025-08-07 06:41:33,150 error_handling 8208 11592 Operation completed: product_detail in 0.02s
