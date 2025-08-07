@@ -1,0 +1,120 @@
+/* PROFILE DROPDOWN Z-INDEX FIX - ENSURE DROPDOWN IS ABOVE ALL ELEMENTS */
+
+/* Base Profile Dropdown - Used in most pages */
+.profile-dropdown {
+    position: relative !important;
+    display: inline-block !important;
+    z-index: 2147483647 !important; /* Maximum z-index value */
+    direction: ltr !important;
+}
+
+.dropdown-toggle {
+    position: relative !important;
+    z-index: 2147483647 !important;
+    cursor: pointer !important;
+}
+
+.dropdown-menu {
+    position: absolute !important;
+    z-index: 2147483647 !important;
+    top: 100% !important;
+    left: 0 !important;
+    pointer-events: auto !important;
+}
+
+.dropdown-menu.show {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+}
+
+/* Hero Profile Dropdown - Used in home page */
+.hero-profile-dropdown {
+    position: relative !important;
+    pointer-events: auto !important;
+    z-index: 2147483647 !important;
+}
+
+.hero-dropdown-toggle {
+    position: relative !important;
+    z-index: 2147483647 !important;
+}
+
+.hero-dropdown-menu {
+    position: absolute !important;
+    z-index: 2147483647 !important;
+    top: 100% !important;
+    right: 0 !important;
+    pointer-events: auto !important;
+}
+
+.hero-dropdown-menu.show {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+}
+
+/* Ensure navbar and other elements stay below dropdown */
+.navbar,
+.navbar-overlay,
+.site-header {
+    z-index: 99999999 !important;
+}
+
+/* Ensure modals don't interfere with dropdown */
+.modal {
+    z-index: 999999 !important;
+}
+
+/* Ensure messages don't interfere with dropdown */
+.messages {
+    z-index: 999999 !important;
+}
+
+/* Fix any potential stacking context issues */
+.container,
+.main-content,
+.content {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Ensure dropdown items are clickable */
+.dropdown-item,
+.hero-dropdown-item {
+    position: relative !important;
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+}
+
+/* Fix for any fixed positioned elements that might interfere */
+.fixed-element {
+    z-index: 99999999 !important;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .profile-dropdown,
+    .hero-profile-dropdown {
+        z-index: 2147483647 !important;
+    }
+    
+    .dropdown-menu,
+    .hero-dropdown-menu {
+        z-index: 2147483647 !important;
+        position: absolute !important;
+    }
+}
+
+/* Debug styles - remove in production */
+.profile-dropdown:hover::after,
+.hero-profile-dropdown:hover::after {
+    content: "Z-INDEX: 2147483647";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    font-size: 10px;
+    color: red;
+    background: yellow;
+    padding: 2px;
+    z-index: 2147483647;
+    pointer-events: none;
+}
