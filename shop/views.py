@@ -327,65 +327,32 @@ def cart_view(request):
 @login_required
 @require_POST
 def add_to_cart(request):
-    """Add a product to the user's cart. Accepts JSON body."""
+    """Add a product to the user's cart.
+    Accepts JSON (application/json) or form-encoded (application/x-www-form-urlencoded) bodies.
+    """
     try:
-        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
-        product_id = int(data.get('product_id'))
-        quantity = int(data.get('quantity', 1))
+        # Safely parse body as JSON when appropriate; otherwise fallback to POST dict
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                data = json.loads(request.body.decode('utf-8')) if request.body else {}
+            except json.JSONDecodeError:
+                data = {}
+        else:
+            data = request.POST
+
+        product_id = data.get('product_id')
+        quantity = data.get('quantity', 1)
         grind_type = data.get('grind_type', 'whole_bean')
         weight = data.get('weight', '250g')
 
-        product = get_object_or_404(Product, id=product_id)
-        if quantity <= 0:
-            return JsonResponse({'success': False, 'message': 'تعداد نامعتبر است'})
+        if not product_id:
+            return JsonResponse({'success': False, 'message': 'شناسه محصول ارسال نشده است'}, status=400)
 
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        cart_item, created = CartItem.objects.get_or_create(
-            cart=cart,
-            product=product,
-            grind_type=grind_type,
-            weight=weight,
-            defaults={'quantity': 0}
-        )
+        from .services.cart_service import add_to_cart as svc_add
+        response = svc_add(request.user, int(product_id), int(quantity or 1), grind_type, weight)
+        status_code = 200 if response.get('success') else 400
+        return JsonResponse(response, status=status_code)
 
-        # Calculate required additional stock
-        additional_needed = quantity if created else max(0, quantity)
-        # Increase quantity by requested amount
-        new_quantity = cart_item.quantity + quantity
-        if new_quantity <= 0:
-            new_quantity = 0
-
-        # Determine stock delta (only if quantity is increasing)
-        delta = new_quantity - cart_item.quantity
-        if delta > 0:
-            if product.stock < delta:
-                return JsonResponse({
-                    'success': False,
-                    'message': 'موجودی کافی نیست',
-                    'available_stock': product.stock
-                })
-            product.stock -= delta
-            product.save(update_fields=['stock'])
-
-        cart_item.quantity = new_quantity
-        if cart_item.quantity == 0:
-            cart_item.delete()
-        else:
-            cart_item.save(update_fields=['quantity'])
-
-        # Return updated cart totals
-        cart_total = sum((item.get_total_price() for item in cart.items.all()), Decimal('0'))
-        cart_count = sum((item.quantity for item in cart.items.all()), 0)
-
-        return JsonResponse({
-            'success': True,
-            'cart_total': int(cart_total),
-            'cart_count': cart_count
-        })
-    except Product.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'محصول یافت نشد'}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
     except Exception as exc:
         logger.error(f"add_to_cart error: {exc}")
         return JsonResponse({'success': False, 'message': 'خطا در افزودن به سبد خرید'}, status=500)
@@ -397,56 +364,27 @@ def update_cart_item(request):
         return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
 
     try:
-        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
-        item_id = int(data.get('item_id'))
-        new_quantity = int(data.get('quantity'))
-
-        cart = Cart.objects.get(user=request.user)
-        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
-        product = cart_item.product
-
-        if new_quantity < 0:
-            return JsonResponse({'success': False, 'message': 'تعداد نامعتبر است'})
-
-        if new_quantity == 0:
-            # Restore stock and delete item
-            product.stock += cart_item.quantity
-            product.save(update_fields=['stock'])
-            cart_item.delete()
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                data = json.loads(request.body.decode('utf-8')) if request.body else {}
+            except json.JSONDecodeError:
+                data = {}
         else:
-            delta = new_quantity - cart_item.quantity
-            if delta > 0:
-                if product.stock < delta:
-                    return JsonResponse({
-                        'success': False,
-                        'message': 'موجودی کافی نیست',
-                        'available_stock': product.stock
-                    })
-                product.stock -= delta
-                product.save(update_fields=['stock'])
-            elif delta < 0:
-                product.stock += (-delta)
-                product.save(update_fields=['stock'])
+            data = request.POST
 
-            cart_item.quantity = new_quantity
-            cart_item.save(update_fields=['quantity'])
+        item_id = data.get('item_id')
+        new_quantity = data.get('quantity')
 
-        # Totals
-        cart_items_qs = CartItem.objects.filter(cart=cart)
-        cart_total = sum((item.get_total_price() for item in cart_items_qs), Decimal('0'))
-        cart_count = sum((item.quantity for item in cart_items_qs), 0)
+        if item_id is None or new_quantity is None:
+            return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
 
-        return JsonResponse({
-            'success': True,
-            'cart_total': int(cart_total),
-            'cart_count': cart_count
-        })
+        from .services.cart_service import update_cart_item as svc_update
+        response = svc_update(request.user, int(item_id), int(new_quantity))
+        status_code = 200 if response.get('success') else 400
+        return JsonResponse(response, status=status_code)
+
     except Cart.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'سبد خرید یافت نشد'}, status=404)
-    except CartItem.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'آیتم یافت نشد'}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'message': 'خطا در به‌روزرسانی سبد خرید: داده‌های نامعتبر'})
     except Exception as exc:
         logger.error(f"update_cart_item error: {exc}")
         return JsonResponse({'success': False, 'message': 'خطا در به‌روزرسانی سبد خرید'})
@@ -456,34 +394,25 @@ def update_cart_item(request):
 def remove_from_cart(request):
     """Remove an item from cart and restore product stock."""
     try:
-        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
-        item_id = int(data.get('item_id'))
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                data = json.loads(request.body.decode('utf-8')) if request.body else {}
+            except json.JSONDecodeError:
+                data = {}
+        else:
+            data = request.POST
 
-        cart = Cart.objects.get(user=request.user)
-        cart_item = CartItem.objects.get(id=item_id, cart=cart)
-        product = cart_item.product
+        item_id = data.get('item_id')
+        if item_id is None:
+            return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
 
-        product.stock += cart_item.quantity
-        product.save(update_fields=['stock'])
-        cart_item.delete()
+        from .services.cart_service import remove_from_cart as svc_remove
+        response = svc_remove(request.user, int(item_id))
+        status_code = 200 if response.get('success') else 400
+        return JsonResponse(response, status=status_code)
 
-        # Totals after deletion
-        remaining_items = CartItem.objects.filter(cart=cart)
-        cart_total = sum((item.get_total_price() for item in remaining_items), Decimal('0'))
-        cart_count = sum((item.quantity for item in remaining_items), 0)
-
-        return JsonResponse({
-            'success': True,
-            'message': 'آیتم با موفقیت حذف شد',
-            'cart_total': int(cart_total),
-            'cart_count': cart_count
-        })
     except Cart.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'سبد خرید یافت نشد'}, status=404)
-    except CartItem.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'آیتم یافت نشد'}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
     except Exception as exc:
         logger.error(f"remove_from_cart error: {exc}")
         return JsonResponse({'success': False, 'message': 'خطا در حذف آیتم از سبد خرید'}, status=500)
@@ -529,7 +458,7 @@ def profile(request):
 
 @login_required
 def checkout(request):
-    """Minimal checkout page that displays totals and collects delivery info."""
+    """Checkout page that creates an order from the user's cart using services."""
     cart, _ = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart).select_related('product')
 
@@ -538,14 +467,27 @@ def checkout(request):
     total = subtotal + delivery_fee
 
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
-        form.fields['address'].queryset = request.user.addresses.all()
+        form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
-            messages.success(request, 'سفارش شما ثبت شد. (شبیه‌سازی)')
-            return redirect('order_list')
+            delivery_method = form.cleaned_data['delivery_method']
+            address = form.cleaned_data['address']
+            postal_code = form.cleaned_data['postal_code']
+            notes = form.cleaned_data.get('notes', '')
+            from .services.order_service import create_order_from_cart
+            result = create_order_from_cart(
+                request.user,
+                delivery_method=delivery_method,
+                address_id=address.id if address else None,
+                postal_code=postal_code,
+                notes=notes,
+            )
+            if result.get('success'):
+                messages.success(request, 'سفارش شما با موفقیت ثبت شد.')
+                return redirect('order_detail', result['order_id'])
+            else:
+                messages.error(request, result.get('message', 'خطا در ثبت سفارش'))
     else:
-        form = CheckoutForm()
-        form.fields['address'].queryset = request.user.addresses.all()
+        form = CheckoutForm(user=request.user)
 
     context = {
         'form': form,
