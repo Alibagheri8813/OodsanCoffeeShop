@@ -250,6 +250,13 @@ class Order(models.Model):
         }
         return status_colors.get(self.status, '#8B4513')
 
+    class Meta:
+        permissions = (
+            ("view_advanced_analytics", "Can view advanced analytics"),
+            ("export_data", "Can export analytics data"),
+            ("manage_promotions", "Can manage promotions and campaigns"),
+        )
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

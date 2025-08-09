@@ -10,6 +10,11 @@ from django.core.cache import cache
 import csv
 from .models import Order, OrderItem, Product, UserProfile, Notification, OrderFeedback
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import user_passes_test
+
+# Helper to check advanced analytics permission
+def _can_view_advanced(user):
+    return user.is_staff and (user.is_superuser or user.has_perm('shop.view_advanced_analytics'))
 
 @staff_member_required
 def admin_dashboard(request):
@@ -306,6 +311,7 @@ def admin_update_user_tier(request, user_id):
     return JsonResponse({'success': True, 'tier': loyalty.get_tier_display()})
 
 @staff_member_required
+@user_passes_test(_can_view_advanced)
 def admin_analytics_data(request):
     """Return analytics datasets for the admin dashboard as JSON.
     Supports ?range=7d|30d|90d and optional ?granularity=day (default).
@@ -388,6 +394,37 @@ def admin_analytics_data(request):
         {"id": u['id'], "username": u['username'], "order_count": u['order_count']} for u in active_users_qs
     ]
 
+    # KPIs
+    total_orders_window = Order.objects.filter(created_at__date__gte=start_date).count()
+    total_revenue_window = (
+        Order.objects.filter(created_at__date__gte=start_date, status__in=revenue_statuses)
+        .aggregate(s=Sum('total_amount'))['s'] or 0
+    )
+    aov = float(total_revenue_window) / total_orders_window if total_orders_window else 0.0
+
+    # Repeat rate (users with >1 order in window / users with >=1 order)
+    users_with_orders = (
+        User.objects.filter(order__created_at__date__gte=start_date)
+        .annotate(c=Count('order'))
+    )
+    repeat_customers = users_with_orders.filter(c__gt=1).count()
+    total_unique_customers = users_with_orders.count()
+    repeat_rate = (repeat_customers / total_unique_customers) * 100 if total_unique_customers else 0.0
+
+    # Conversion approximation: orders in window / active users (basic placeholder)
+    active_users_count = UserProfile.objects.filter(created_at__date__lte=now.date()).count() or 1
+    conversion_rate = (total_orders_window / active_users_count) * 100
+
+    # Cohort by week: new users per week
+    cohort_qs = (
+        UserProfile.objects.filter(created_at__date__gte=start_date)
+        .annotate(week=TruncDate('created_at'))
+        .values('week')
+        .annotate(new_users=Count('id'))
+        .order_by('week')
+    )
+    cohort = [{ 'week': row['week'].strftime('%Y-%m-%d'), 'new_users': row['new_users']} for row in cohort_qs]
+
     payload = {
         'range': date_range,
         'granularity': granularity,
@@ -402,8 +439,50 @@ def admin_analytics_data(request):
         'active_users': active_users,
     }
 
+    payload.update({
+        'kpi': {
+            'aov': aov,
+            'repeat_rate': repeat_rate,
+            'conversion_rate': conversion_rate,
+        },
+        'cohort_new_users': cohort,
+    })
+
     cache.set(cache_key, payload, 60)  # cache for 60 seconds
     return JsonResponse(payload)
+
+@staff_member_required
+@user_passes_test(_can_view_advanced)
+def admin_analytics_top_products(request):
+    date_range = request.GET.get('range', '30d')
+    days_map = {'7d': 7, '30d': 30, '90d': 90}
+    days = days_map.get(date_range, 30)
+    start_date = (timezone.now() - timedelta(days=days)).date()
+
+    qs = (
+        Product.objects.annotate(total_qty=Sum('orderitem__quantity'))
+        .filter(orderitem__order__created_at__date__gte=start_date)
+        .order_by('-total_qty')[:50]
+        .values('id', 'name', 'total_qty')
+    )
+    return JsonResponse(list(qs), safe=False)
+
+@staff_member_required
+@user_passes_test(_can_view_advanced)
+def admin_analytics_category_breakdown(request):
+    date_range = request.GET.get('range', '30d')
+    days_map = {'7d': 7, '30d': 30, '90d': 90}
+    days = days_map.get(date_range, 30)
+    start_date = (timezone.now() - timedelta(days=days)).date()
+
+    items = (
+        OrderItem.objects.filter(order__created_at__date__gte=start_date)
+        .values('product__category__name')
+        .annotate(revenue=Sum(F('price') * F('quantity'), output_field=DecimalField(max_digits=12, decimal_places=2)))
+        .order_by('-revenue')
+    )
+    data = [{ 'category': r['product__category__name'] or 'نامشخص', 'revenue': float(r['revenue'] or 0)} for r in items]
+    return JsonResponse(data, safe=False)
 
 
 @staff_member_required
