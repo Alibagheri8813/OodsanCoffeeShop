@@ -215,9 +215,10 @@ def product_detail(request, product_id):
     if request.user.is_authenticated:
         try:
             cart = Cart.objects.get(user=request.user)
-            cart_item = CartItem.objects.get(cart=cart, product=product)
-            cart_quantity = cart_item.quantity
-        except (Cart.DoesNotExist, CartItem.DoesNotExist):
+            cart_quantity = sum(
+                item.quantity for item in CartItem.objects.filter(cart=cart, product=product)
+            )
+        except Cart.DoesNotExist:
             cart_quantity = 0
     
     # Handle POST requests for comments and likes
