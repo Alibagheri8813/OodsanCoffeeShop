@@ -25,20 +25,23 @@ def admin_dashboard(request):
     orders_yesterday = Order.objects.filter(created_at__date=yesterday).count()
     orders_growth = ((orders_today - orders_yesterday) / orders_yesterday * 100) if orders_yesterday > 0 else 0
     
-    revenue_today = Order.objects.filter(created_at__date=today, status__in=['delivered', 'shipped']).aggregate(
-        total=Sum('total_amount'))['total'] or 0
-    revenue_yesterday = Order.objects.filter(created_at__date=yesterday, status__in=['delivered', 'shipped']).aggregate(
-        total=Sum('total_amount'))['total'] or 0
+    # Map legacy concepts (delivered/shipped) to existing statuses
+    revenue_statuses = ['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
+    
+    revenue_today = Order.objects.filter(created_at__date=today, status__in=revenue_statuses).aggregate(
+        total=Sum('total_amount'))["total"] or 0
+    revenue_yesterday = Order.objects.filter(created_at__date=yesterday, status__in=revenue_statuses).aggregate(
+        total=Sum('total_amount'))["total"] or 0
     revenue_growth = ((revenue_today - revenue_yesterday) / revenue_yesterday * 100) if revenue_yesterday > 0 else 0
     
     new_users_today = UserProfile.objects.filter(created_at__date=today).count()
     
-    # Order status counts
-    pending_orders = Order.objects.filter(status='pending').count()
-    processing_orders = Order.objects.filter(status='processing').count()
-    shipped_orders = Order.objects.filter(status='shipped').count()
-    making_orders = Order.objects.filter(status='making').count()
-    made_orders = Order.objects.filter(status='made').count()
+    # Order status counts (mapped to current statuses)
+    pending_orders = Order.objects.filter(status='pending_payment').count()
+    processing_orders = Order.objects.filter(status='preparing').count()
+    shipped_orders = Order.objects.filter(status__in=['shipping_preparation', 'in_transit']).count()
+    making_orders = Order.objects.filter(status='preparing').count()
+    made_orders = Order.objects.filter(status='ready').count()
     
     # Weekly and monthly revenue
     week_ago = today - timedelta(days=7)
@@ -46,16 +49,16 @@ def admin_dashboard(request):
     
     revenue_week = Order.objects.filter(
         created_at__date__gte=week_ago,
-        status__in=['delivered', 'shipped']
+        status__in=revenue_statuses
     ).aggregate(total=Sum('total_amount'))['total'] or 0
     
     revenue_month = Order.objects.filter(
         created_at__date__gte=month_ago,
-        status__in=['delivered', 'shipped']
+        status__in=revenue_statuses
     ).aggregate(total=Sum('total_amount'))['total'] or 0
     
     # Alerts
-    urgent_orders = Order.objects.filter(status='pending').order_by('created_at')[:5]
+    urgent_orders = Order.objects.filter(status='pending_payment').order_by('created_at')[:5]
     low_stock_products = Product.objects.filter(stock__lte=5)[:5]
     low_stock_products_list = Product.objects.filter(stock__lte=5)
     recent_feedback = OrderFeedback.objects.select_related('order__user').order_by('-created_at')[:5]
@@ -223,12 +226,12 @@ def admin_order_list(request):
     
     # Statistics
     total_orders = Order.objects.count()
-    pending_count = Order.objects.filter(status='pending').count()
-    processing_count = Order.objects.filter(status='processing').count()
-    shipped_count = Order.objects.filter(status='shipped').count()
-    delivered_count = Order.objects.filter(status='delivered').count()
-    making_orders = Order.objects.filter(status='making').count()
-    made_orders = Order.objects.filter(status='made').count()
+    pending_count = Order.objects.filter(status='pending_payment').count()
+    processing_count = Order.objects.filter(status='preparing').count()
+    shipped_count = Order.objects.filter(status__in=['shipping_preparation', 'in_transit']).count()
+    delivered_count = Order.objects.filter(status='pickup_ready').count()
+    making_orders = Order.objects.filter(status='preparing').count()
+    made_orders = Order.objects.filter(status='ready').count()
     
     context = {
         'orders': orders,
