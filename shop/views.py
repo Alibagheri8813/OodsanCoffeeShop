@@ -595,569 +595,49 @@ def order_history(request):
 
 @login_required
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    
-    # Check if feedback already exists
-    feedback = None
-    if hasattr(order, 'feedback'):
-        feedback = order.feedback
-    
-    return render(request, 'shop/order_detail.html', {
-        'order': order,
-        'profile': request.user.profile,
-        'feedback': feedback
-    })
-
-@login_required
-@require_POST
-def submit_order_feedback(request, order_id):
-    """Submit feedback for a delivered order"""
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    
-    # Only allow feedback for delivered orders
-    if order.status != 'delivered':
-        return JsonResponse({'success': False, 'message': 'فقط برای سفارشات تحویل شده می‌توانید بازخورد ارسال کنید'})
-    
-    # Check if feedback already exists
-    if hasattr(order, 'feedback'):
-        return JsonResponse({'success': False, 'message': 'شما قبلاً برای این سفارش بازخورد ارسال کرده‌اید'})
-    
-    rating = request.POST.get('rating')
-    comment = request.POST.get('comment', '')
-    
-    if not rating:
-        return JsonResponse({'success': False, 'message': 'لطفاً امتیاز خود را انتخاب کنید'})
-    
-    try:
-        rating = int(rating)
-        if rating < 1 or rating > 5:
-            return JsonResponse({'success': False, 'message': 'امتیاز باید بین 1 تا 5 باشد'})
-    except ValueError:
-        return JsonResponse({'success': False, 'message': 'امتیاز نامعتبر است'})
-    
-    # Create feedback
-    from .models import OrderFeedback
-    feedback = OrderFeedback.objects.create(
-        order=order,
-        rating=rating,
-        comment=comment
-    )
-    
-    # Create notification for admin users
-    admin_users = User.objects.filter(is_staff=True)
-    for admin_user in admin_users:
-        Notification.objects.create(
-            user=admin_user,
-            notification_type='feedback_new',
-            title=f'بازخورد جدید برای سفارش #{order.id}',
-            message=f'بازخورد جدید از {request.user.username} با امتیاز {rating} ستاره برای سفارش #{order.id}',
-            related_object_id=feedback.id,
-            related_object_type='OrderFeedback'
-        )
-    
-    messages.success(request, 'بازخورد شما با موفقیت ثبت شد. از شما متشکریم!')
-    return JsonResponse({'success': True, 'message': 'بازخورد شما با موفقیت ثبت شد'})
-
-@login_required
-def notifications(request):
-    notifications_list = Notification.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'shop/notifications.html', {'notifications': notifications_list})
-
-@login_required
-@require_POST
-def mark_notification_read(request, notification_id):
-    try:
-        notification = Notification.objects.get(id=notification_id, user=request.user)
-        notification.is_read = True
-        notification.save()
-        return JsonResponse({'success': True})
-    except Notification.DoesNotExist:
-        return JsonResponse({'success': False}, status=404)
-
-@login_required
-@require_POST
-def mark_all_notifications_read(request):
-    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
-    return JsonResponse({'success': True})
-
-@login_required
-@require_POST
-def delete_notification(request, notification_id):
-    """Delete a notification"""
-    try:
-        notification = Notification.objects.get(id=notification_id, user=request.user)
-        notification.delete()
-        return JsonResponse({'success': True, 'message': 'اعلان با موفقیت حذف شد'})
-    except Notification.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'اعلان یافت نشد'}, status=404)
-
-@login_required
-def address_completion_check(request):
-    """Check if user has completed their address information"""
-    try:
-        profile = request.user.profile
-        # Check if all required address fields are filled
-        has_complete_address = bool(
-            profile.address and 
-            profile.address.strip() and
-            profile.postal_code and 
-            profile.postal_code.strip() and
-            profile.city and 
-            profile.city.strip() and
-            profile.province and 
-            profile.province.strip()
-        )
-        return JsonResponse({'has_complete_address': has_complete_address})
-    except UserProfile.DoesNotExist:
-        return JsonResponse({'has_complete_address': False})
-
-@login_required
-@require_POST
-def like_product(request, product_id):
-    """Like a product"""
-    product = get_object_or_404(Product, id=product_id)
-    like, created = ProductLike.objects.get_or_create(
-        product=product,
-        user=request.user
-    )
-    
-    like_count = ProductLike.objects.filter(product=product).count()
-    return JsonResponse({
-        'status': 'liked',
-        'like_count': like_count
-    })
-
-@login_required
-@require_POST
-def unlike_product(request, product_id):
-    """Unlike a product"""
-    product = get_object_or_404(Product, id=product_id)
-    try:
-        like = ProductLike.objects.get(product=product, user=request.user)
-        like.delete()
-        like_count = ProductLike.objects.filter(product=product).count()
-        return JsonResponse({
-            'status': 'unliked',
-            'like_count': like_count
-        })
-    except ProductLike.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Like not found'}, status=404)
-
-@login_required
-def change_password(request):
-    """Change user password"""
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            # Update session to prevent logout
-            update_session_auth_hash(request, form.user)
-            messages.success(request, 'رمز عبور شما با موفقیت تغییر یافت.')
-            return redirect('user_profile')
-        else:
-            messages.error(request, 'لطفاً اطلاعات را به درستی وارد کنید.')
-    else:
-        form = PasswordChangeForm(request.user)
-    
-    return render(request, 'shop/change_password.html', {'form': form})
-
-# Cart Views
-@login_required
-def cart_view(request):
-    """Display user's cart"""
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    
-
-    
-    # Check if user has completed address information
-    try:
-        profile = request.user.profile
-        has_complete_address = bool(
-            profile.address and 
-            profile.address.strip() and
-            profile.postal_code and 
-            profile.postal_code.strip() and
-            profile.city and 
-            profile.city.strip() and
-            profile.province and 
-            profile.province.strip() and
-            profile.phone_number and
-            profile.phone_number.strip()
-        )
-    except UserProfile.DoesNotExist:
-        has_complete_address = False
-    
-    return render(request, 'shop/cart.html', {
-        'cart': cart,
-        'cart_items': cart.items.all(),
-        'subtotal': cart.get_total_price(),
-        'delivery_fee': 50000 if cart.get_total_price() < 500000 else 0,
-        'total': cart.get_total_price() + (50000 if cart.get_total_price() < 500000 else 0),
-        'is_cart_empty': cart.items.count() == 0,
-        'has_complete_address': has_complete_address
-    })
-
-# ===== SENSATIONAL SHOPPING CART SYSTEM =====
-
-@rate_limit(requests_per_minute=30)  # Limit cart operations
-@ajax_error_handler
-@safe_transaction
-def add_to_cart(request):
-    """Add product to cart with AJAX support - Enhanced with grind type and weight options"""
-    if not request.user.is_authenticated:
-        return JsonResponse({
-            'success': False,
-            'message': 'برای افزودن به سبد خرید باید وارد شوید',
-            'redirect': '/login/'
-        })
-    
-    if request.method == 'POST':
-        try:
-            # Handle both JSON and form data
-            if request.content_type == 'application/json':
-                data = json.loads(request.body)
-            else:
-                data = request.POST
-                
-            product_id = data.get('product_id')
-            quantity = int(data.get('quantity', 1))
-            grind_type = data.get('grind_type', 'whole_bean')
-            weight = data.get('weight', '250g')
-            
-            product = get_object_or_404(Product, id=product_id)
-            
-            # Validate grind type and weight
-            valid_grinds = [choice[0] for choice in Product.GRIND_TYPE_CHOICES]
-            valid_weights = [choice[0] for choice in Product.WEIGHT_CHOICES]
-            
-            if grind_type not in valid_grinds:
-                grind_type = 'whole_bean'
-            if weight not in valid_weights:
-                weight = '250g'
-            
-            # Check stock availability
-            if product.stock < quantity:
-                return JsonResponse({
-                    'success': False,
-                    'message': f'موجودی کافی نیست. فقط {product.stock} عدد موجود است.',
-                    'available_stock': product.stock
-                })
-            
-            # Get or create cart
-            cart, created = Cart.objects.get_or_create(user=request.user)
-            
-            # Get or create cart item with specific grind type and weight
-            cart_item, created = CartItem.objects.get_or_create(
-                cart=cart,
-                product=product,
-                grind_type=grind_type,
-                weight=weight,
-                defaults={'quantity': quantity}
-            )
-            
-            if not created:
-                # Check if total quantity exceeds stock
-                total_quantity = cart_item.quantity + quantity
-                if total_quantity > product.stock:
-                    return JsonResponse({
-                        'success': False,
-                        'message': f'موجودی کافی نیست. حداکثر {product.stock} عدد قابل افزودن است.',
-                        'available_stock': product.stock,
-                        'current_in_cart': cart_item.quantity
-                    })
-                # Update quantity if item already exists
-                cart_item.quantity += quantity
-                cart_item.save()
-            
-            # Note: Stock is NOT reduced here - only when order is confirmed
-            
-            # Calculate cart totals
-            cart_total = cart.get_total_price()
-            cart_count = cart.get_total_quantity()
-            
-            # Get display names for response
-            grind_display = dict(Product.GRIND_TYPE_CHOICES).get(grind_type, grind_type)
-            weight_display = dict(Product.WEIGHT_CHOICES).get(weight, weight)
-            
-            return JsonResponse({
-                'success': True,
-                'message': f'{product.name} ({grind_display} - {weight_display}) به سبد خرید اضافه شد!',
-                'cart_total': float(cart_total),
-                'cart_count': cart_count,
-                'product_name': product.name,
-                'product_image': product.image.url if product.image else None,
-                'grind_type': grind_display,
-                'weight': weight_display,
-                'unit_price': float(cart_item.get_unit_price()),
-                'total_price': float(cart_item.get_total_price()),
-                'new_stock': product.stock  # Send current stock to frontend
-            })
-            
-        except Exception as e:
-            logger.error(f"Error in add_to_cart: {str(e)}")
-            return JsonResponse({
-                'success': False,
-                'message': f'خطا در افزودن به سبد خرید: {str(e)}'
-            })
-    
-    return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
-
-@login_required
-def update_cart_item(request):
-    """Update cart item quantity with AJAX"""
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            item_id = data.get('item_id')
-            quantity = int(data.get('quantity', 1))
-            
-            cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
-            product = cart_item.product
-            
-            if quantity <= 0:
-                # Remove item if quantity is 0 or negative
-                cart_item.delete()
-                # Note: No stock changes needed as stock isn't reduced when adding to cart
-            else:
-                # Check if we have enough stock
-                if quantity > product.stock:
-                    return JsonResponse({
-                        'success': False,
-                        'message': f'موجودی کافی نیست. فقط {product.stock} عدد موجود است.',
-                        'available_stock': product.stock
-                    })
-                
-                # Update cart item (no stock changes)
-                cart_item.quantity = quantity
-                cart_item.save()
-            
-            # Calculate new totals
-            cart = request.user.cart
-            cart_total = cart.get_total_price()
-            cart_count = cart.get_total_quantity()
-            
-            return JsonResponse({
-                'success': True,
-                'cart_total': cart_total,
-                'cart_count': cart_count,
-                'item_total': cart_item.get_total_price() if quantity > 0 else 0
-            })
-            
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': f'خطا در به‌روزرسانی سبد خرید: {str(e)}'
-            })
-    
-    return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
-
-@login_required
-def remove_from_cart(request):
-    """Remove item from cart with AJAX"""
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            item_id = data.get('item_id')
-            
-            cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
-            product = cart_item.product
-            
-            # Restore stock
-            product.stock += cart_item.quantity
-            product.save()
-            
-            # Remove item
-            cart_item.delete()
-            
-            # Calculate new totals
-            cart = request.user.cart
-            cart_total = cart.get_total_price()
-            cart_count = cart.get_total_quantity()
-            
-            return JsonResponse({
-                'success': True,
-                'message': 'محصول از سبد خرید حذف شد',
-                'cart_total': cart_total,
-                'cart_count': cart_count
-            })
-            
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': f'خطا در حذف از سبد خرید: {str(e)}'
-            })
-    
-    return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
-
-@login_required
-def cart_count(request):
-    """Get cart count for header display"""
-    try:
-        cart = request.user.cart
-        count = cart.get_total_quantity()
-    except Cart.DoesNotExist:
-        count = 0
-    
-    return JsonResponse({'count': count})
-
-# ===== ENHANCED PRODUCT VIEWS =====
-# Note: Duplicate product_detail function removed to prevent conflicts
-
-# ===== USER AUTHENTICATION & PROFILE =====
-
-def register(request):
-    """Beautiful user registration with profile creation"""
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            
-            # Create user profile
-            UserProfile.objects.create(
-                user=user,
-                phone_number=form.cleaned_data.get('phone_number', ''),
-                city=form.cleaned_data.get('city', ''),
-                province=form.cleaned_data.get('province', '')
-            )
-            
-            # Create cart for new user
-            Cart.objects.create(user=user)
-            
-            messages.success(request, 'حساب کاربری شما با موفقیت ایجاد شد!')
-            return redirect('login')
-    else:
-        form = UserRegistrationForm()
-    
-    return render(request, 'shop/register.html', {'form': form})
-
-@login_required
-def profile(request):
-    """Enhanced user profile with order history and preferences"""
-    # Create profile if it doesn't exist
-    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')[:10]
-    favorites = ProductFavorite.objects.filter(user=request.user).select_related('product')[:6]
-    
-    # Get user statistics
-    total_orders = Order.objects.filter(user=request.user).count()
-    total_spent = Order.objects.filter(
-        user=request.user, 
-        status__in=['delivered', 'shipped']
-    ).aggregate(total=Sum('total_amount'))['total'] or 0
-    
-    context = {
-        'user_profile': user_profile,
-        'orders': orders,
-        'favorites': favorites,
-        'total_orders': total_orders,
-        'total_spent': total_spent
-    }
-    
-    return render(request, 'shop/user_profile.html', context)
-
-# ===== ORDER MANAGEMENT =====
-
-@login_required
-def checkout(request):
-    """Enhanced checkout with address selection"""
-    try:
-        cart = get_object_or_404(Cart, user=request.user)
-        
-        if not cart.items.exists():
-            messages.warning(request, 'سبد خرید شما خالی است.')
-            return redirect('cart')
-        
-        # Check if user has any addresses
-        user_addresses = UserAddress.objects.filter(user=request.user)
-        if not user_addresses.exists():
-            messages.info(request, 'لطفاً ابتدا آدرس خود را ثبت کنید.')
-            return redirect('add_address')
-        
-        if request.method == 'POST':
-            form = CheckoutForm(request.POST, user=request.user)
-            if form.is_valid():
-                selected_address = form.cleaned_data['address']
-                postal_code = form.cleaned_data['postal_code']
-                
-                # Create order
-                order = Order.objects.create(
-                    user=request.user,
-                    delivery_method=form.cleaned_data['delivery_method'],
-                    shipping_address=f"{selected_address.full_address}, {selected_address.city}, {selected_address.state}",
-                    postal_code=postal_code,
-                    phone_number=request.user.profile.phone_number or '',
-                    notes=form.cleaned_data.get('notes', ''),
-                    subtotal=cart.get_total_price(),
-                    total_amount=cart.get_total_price()
-                )
-                
-                # Add delivery fee if needed
-                if form.cleaned_data['delivery_method'] == 'post':
-                    delivery_fee = Decimal('50000')  # 50,000 Toman
-                    order.delivery_fee = delivery_fee
-                    order.total_amount += delivery_fee
-                    order.save()
-                
-                # Create order items
-                for cart_item in cart.items.all():
-                    OrderItem.objects.create(
-                        order=order,
-                        product=cart_item.product,
-                        quantity=cart_item.quantity,
-                        price=cart_item.get_unit_price(),  # Use weight-adjusted price
-                        grind_type=cart_item.grind_type,
-                        weight=cart_item.weight
-                    )
-                
-                # Clear cart
-                cart.items.all().delete()
-                
-                # Create notification
-                Notification.create_notification(
-                    user=request.user,
-                    notification_type='order',
-                    title='سفارش جدید ثبت شد',
-                    message=f'سفارش شما با شماره {order.id} با موفقیت ثبت شد.',
-                    related_object=order
-                )
-                
-                messages.success(request, f'سفارش شما با شماره {order.id} با موفقیت ثبت شد.')
-                return redirect('order_detail', order.id)
-            else:
-                messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
-        else:
-            form = CheckoutForm(user=request.user)
-            # Set default address if exists
-            default_address = user_addresses.filter(is_default=True).first()
-            if default_address:
-                form.fields['address'].initial = default_address
-        
-        context = {
-            'form': form,
-            'cart': cart,
-            'user_addresses': user_addresses,
-            'total_price': cart.get_total_price(),
-        }
-        
-        return render(request, 'shop/checkout.html', context)
-        
-    except Exception as e:
-        logger.error(f"Error in checkout view: {str(e)}")
-        messages.error(request, 'خطایی در پردازش سفارش رخ داد.')
-        return redirect('cart')
-
-@login_required
-def order_detail(request, order_id):
     """Beautiful order detail page with tracking"""
     order = get_object_or_404(Order, id=order_id, user=request.user)
     order_items = order.items.select_related('product').all()
     
+    # Include feedback if exists for template conditional rendering
+    feedback = getattr(order, 'feedback', None)
+    
     context = {
         'order': order,
-        'order_items': order_items
+        'order_items': order_items,
+        'feedback': feedback,
     }
     
     return render(request, 'shop/order_detail.html', context)
+
+@require_http_methods(["POST"])
+@login_required
+def pay_order(request, order_id):
+    """Simulate payment for an order owned by the user and mark it as paid."""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    if order.status != 'pending_payment':
+        messages.warning(request, 'این سفارش در وضعیت قابل پرداخت نیست.')
+        return redirect('order_detail', order_id)
+    
+    try:
+        if order.mark_as_paid(request.user):
+            # Optional: create a notification for the user
+            Notification.create_notification(
+                user=request.user,
+                notification_type='order_status',
+                title=f'پرداخت سفارش #{order.id} تایید شد',
+                message='پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.',
+                related_object=order
+            )
+            messages.success(request, 'پرداخت با موفقیت انجام شد. سفارش شما در حال آماده‌سازی است.')
+        else:
+            messages.error(request, 'خطا در به‌روزرسانی وضعیت سفارش برای پرداخت.')
+    except Exception as e:
+        logger.error(f"Error in pay_order: {e}")
+        messages.error(request, 'در پردازش پرداخت مشکلی رخ داد.')
+    
+    return redirect('order_detail', order_id)
 
 @login_required
 def order_list(request):
@@ -1265,38 +745,77 @@ def toggle_favorite(request):
 # ===== NOTIFICATION SYSTEM =====
 
 @login_required
-def notifications_legacy(request):
-    """User notifications page"""
-    notifications = request.user.notifications.all()[:20]
-    
-    context = {
-        'notifications': notifications
-    }
-    
-    return render(request, 'shop/notifications.html', context)
+def notifications(request):
+    """User notifications page (compatible name)"""
+    notifications_list = Notification.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'shop/notifications.html', {'notifications': notifications_list})
 
 @login_required
 @require_POST
-def mark_notification_read_legacy(request, notification_id):
-    """Mark notification as read"""
-    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
-    notification.mark_as_read()
-    
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+def mark_notification_read(request, notification_id):
+    """Mark a single notification as read (compatible name)"""
+    try:
+        notification = Notification.objects.get(id=notification_id, user=request.user)
+        notification.is_read = True
+        notification.save()
         return JsonResponse({'success': True})
-    
-    return redirect('notifications')
+    except Notification.DoesNotExist:
+        return JsonResponse({'success': False}, status=404)
 
 @login_required
 @require_POST
-def mark_all_notifications_read_legacy(request):
-    """Mark all notifications as read"""
-    request.user.notifications.filter(is_read=False).update(is_read=True)
-    
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({'success': True})
-    
-    return redirect('notifications')
+def mark_all_notifications_read(request):
+    """Mark all notifications as read (compatible name)"""
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+    return JsonResponse({'success': True})
+
+@login_required
+@require_POST
+def delete_notification(request, notification_id):
+    """Delete a notification (compatible name)"""
+    try:
+        notification = Notification.objects.get(id=notification_id, user=request.user)
+        notification.delete()
+        return JsonResponse({'success': True, 'message': 'اعلان با موفقیت حذف شد'})
+    except Notification.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'اعلان یافت نشد'}, status=404)
+
+@login_required
+def address_completion_check(request):
+    """Check if user has completed their address information"""
+    try:
+        profile = request.user.profile
+        has_complete_address = bool(
+            profile.address and profile.address.strip() and
+            profile.postal_code and profile.postal_code.strip() and
+            profile.city and profile.city.strip() and
+            profile.province and profile.province.strip()
+        )
+        return JsonResponse({'has_complete_address': has_complete_address})
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'has_complete_address': False})
+
+@login_required
+@require_POST
+def like_product(request, product_id):
+    """Like a product (compatible endpoint)"""
+    product = get_object_or_404(Product, id=product_id)
+    like, created = ProductLike.objects.get_or_create(product=product, user=request.user)
+    like_count = ProductLike.objects.filter(product=product).count()
+    return JsonResponse({'status': 'liked', 'like_count': like_count})
+
+@login_required
+@require_POST
+def unlike_product(request, product_id):
+    """Unlike a product (compatible endpoint)"""
+    product = get_object_or_404(Product, id=product_id)
+    try:
+        like = ProductLike.objects.get(product=product, user=request.user)
+        like.delete()
+        like_count = ProductLike.objects.filter(product=product).count()
+        return JsonResponse({'status': 'unliked', 'like_count': like_count})
+    except ProductLike.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Like not found'}, status=404)
 
 def search_products(request):
     """Search products with filters"""
@@ -2134,3 +1653,51 @@ def add_product_comment(request, product_id):
             'success': False,
             'message': 'خطا در ثبت نظر'
         }, status=500)
+
+@login_required
+@require_POST
+def submit_order_feedback(request, order_id):
+    """Submit feedback for an order once it's ready for pickup (as delivered status does not exist)."""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Only allow feedback when order is effectively completed for user
+    if order.status != 'pickup_ready':
+        return JsonResponse({'success': False, 'message': 'در این مرحله امکان ارسال بازخورد وجود ندارد'})
+    
+    # Prevent duplicate feedback
+    if hasattr(order, 'feedback'):
+        return JsonResponse({'success': False, 'message': 'شما قبلاً برای این سفارش بازخورد ارسال کرده‌اید'})
+    
+    rating = request.POST.get('rating')
+    comment = request.POST.get('comment', '')
+    
+    if not rating:
+        return JsonResponse({'success': False, 'message': 'لطفاً امتیاز خود را انتخاب کنید'})
+    
+    try:
+        rating = int(rating)
+        if rating < 1 or rating > 5:
+            return JsonResponse({'success': False, 'message': 'امتیاز باید بین 1 تا 5 باشد'})
+    except ValueError:
+        return JsonResponse({'success': False, 'message': 'امتیاز نامعتبر است'})
+    
+    # Create feedback
+    feedback = OrderFeedback.objects.create(
+        order=order,
+        rating=rating,
+        comment=comment
+    )
+    
+    # Notify admins about new feedback (optional)
+    for admin_user in User.objects.filter(is_staff=True):
+        Notification.objects.create(
+            user=admin_user,
+            notification_type='feedback_new',
+            title=f'بازخورد جدید برای سفارش #{order.id}',
+            message=f'بازخورد جدید از {request.user.username} با امتیاز {rating} ستاره برای سفارش #{order.id}',
+            related_object_id=feedback.id,
+            related_object_type='OrderFeedback'
+        )
+    
+    messages.success(request, 'بازخورد شما با موفقیت ثبت شد. از شما متشکریم!')
+    return JsonResponse({'success': True, 'message': 'بازخورد شما با موفقیت ثبت شد'})

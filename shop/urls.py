@@ -33,6 +33,7 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('orders/', views.order_list, name='order_list'),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('order/<int:order_id>/pay/', views.pay_order, name='pay_order'),
     
     # Social Features
     path('like/', views.toggle_like, name='toggle_like'),
