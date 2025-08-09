@@ -1548,3 +1548,6 @@ INFO 2025-08-06 20:37:42,564 error_handling 8473 140088734381760 Starting operat
 INFO 2025-08-06 20:37:42,566 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
 INFO 2025-08-06 20:37:47,978 error_handling 8473 140088734381760 Starting operation: product_detail
 INFO 2025-08-06 20:37:47,980 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 AI Assistant initialization failed: OpenAI SDK not available
+ERROR 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 Speech recognition initialization failed: speech_recognition not available
+WARNING 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
