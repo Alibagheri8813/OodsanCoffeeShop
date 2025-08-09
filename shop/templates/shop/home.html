@@ -1569,7 +1569,7 @@ html {
                         <div class="ai-reason" style="background: #F3E9DC; padding: 0.8rem; border-radius: 10px; margin-bottom: 1rem; border-right: 4px solid #7B3F00;">
                             <p style="font-size: 0.9rem; color: #4B2E2B; margin: 0;">💡 پیشنهاد بر اساس محبوبیت و کیفیت</p>
                         </div>
-                        <a href="{% url 'product_detail' product.id %}" class="view-product-btn" style="display: block; width: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); color: #FFF8F0; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(75, 46, 43, 0.3);">مشاهده محصول</a>
+                        <a href="{{ product.get_absolute_url }}" class="view-product-btn" style="display: block; width: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); color: #FFF8F0; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(75, 46, 43, 0.3);">مشاهده محصول</a>
                     </div>
                 </div>
                 {% endfor %}

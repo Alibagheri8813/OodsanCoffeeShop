@@ -369,7 +369,7 @@
                     <div class="ai-reason">
                         <p class="reason-text">{{ item.reason }}</p>
                     </div>
-                    <a href="{% url 'product_detail' item.product.id %}" class="view-product-btn" onclick="trackRecommendationView({{ item.product.id }})">
+                    <a href="{{ item.product.get_absolute_url }}" class="view-product-btn" onclick="trackRecommendationView({{ item.product.id }})">
                         مشاهده محصول
                     </a>
                 </div>

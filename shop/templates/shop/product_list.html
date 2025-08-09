@@ -148,7 +148,7 @@
                         <p class="product-description">{{ product.description|truncatewords:15 }}</p>
                         <div class="product-price">{{ product.price }} تومان</div>
                         <div class="product-category">{{ product.category.name }}</div>
-                        <a href="{% url 'product_detail' product.id %}" class="view-details-btn">مشاهده جزئیات</a>
+                        <a href="{{ product.get_absolute_url }}" class="view-details-btn">مشاهده جزئیات</a>
                     </div>
                 </div>
                 {% endfor %}

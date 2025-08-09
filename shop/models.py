@@ -1,15 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.text import slugify
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=160, unique=True, allow_unicode=True, blank=True, db_index=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name, allow_unicode=True)
+            candidate = base_slug
+            suffix = 1
+            while Category.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+                suffix += 1
+                candidate = f"{base_slug}-{suffix}"
+            self.slug = candidate or None
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        try:
+            return reverse('category_detail_slug', args=[self.slug])
+        except Exception:
+            return reverse('category_detail', args=[self.id])
 
 class Product(models.Model):
     GRIND_TYPE_CHOICES = [
@@ -41,6 +61,7 @@ class Product(models.Model):
     weight_multipliers = models.JSONField(default=dict, blank=True, help_text='Price multipliers for different weights')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(max_length=220, unique=True, allow_unicode=True, blank=True, db_index=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -52,6 +73,23 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name, allow_unicode=True)
+            candidate = base_slug
+            suffix = 1
+            while Product.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+                suffix += 1
+                candidate = f"{base_slug}-{suffix}"
+            self.slug = candidate or None
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        try:
+            return reverse('product_detail_slug', args=[self.slug])
+        except Exception:
+            return reverse('product_detail', args=[self.id])
     
     def get_price_for_weight(self, weight):
         """Get price for specific weight"""

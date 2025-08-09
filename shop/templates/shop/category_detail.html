@@ -235,7 +235,7 @@
                 <h4>{{ product.name }}</h4>
                 <p>{{ product.description|truncatewords:15 }}</p>
                 <div class="price">{{ product.price|floatformat:0 }} تومان</div>
-                <a href="{% url 'product_detail' product.id %}">مشاهده جزئیات</a>
+                <a href="{{ product.get_absolute_url }}">مشاهده جزئیات</a>
             </div>
         {% empty %}
             <div class="empty-state">
