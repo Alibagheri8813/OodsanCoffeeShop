@@ -121,7 +121,6 @@
     .status-paid { background: #D1ECF1; color: #0C5460; }
     .status-processing { background: #D4EDDA; color: #155724; }
     .status-shipped { background: #CCE5FF; color: #004085; }
-    .status-delivered { background: #D1E7DD; color: #0F5132; }
     .status-cancelled { background: #F8D7DA; color: #721C24; }
     
     .info-grid {
@@ -434,7 +433,7 @@
                             اطلاعات سفارش
                         </h3>
                         
-                                        {% include 'shop/components/status_badge.html' with order=order %}
+                        {% include 'shop/components/status_badge.html' with order=order %}
                         
                         <div class="info-grid">
                             <div class="info-card">
@@ -442,12 +441,12 @@
                                 <div class="info-value">{{ order.created_at|date:"Y/m/d H:i" }}</div>
                             </div>
                             
-                                                         <div class="info-card">
-                                 <div class="info-label">روش تحویل</div>
-                                 <div class="info-value">
-                                     {% if order.delivery_method == 'post' %}ارسال پستی{% else %}تعیین نشده{% endif %}
-                                 </div>
-                             </div>
+                            <div class="info-card">
+                                <div class="info-label">روش تحویل</div>
+                                <div class="info-value">
+                                    {% if order.delivery_method == 'post' %}ارسال پستی{% else %}تعیین نشده{% endif %}
+                                </div>
+                            </div>
                             
                             <div class="info-card">
                                 <div class="info-label">آدرس تحویل</div>
@@ -521,7 +520,7 @@
                                     </div>
                                 </div>
                                 
-                                {% if order.status != 'pending' %}
+                                {% if order.status != 'pending_payment' %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
                                         <div class="timeline-title">پرداخت تایید شد</div>
@@ -530,28 +529,47 @@
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.status in 'processing,shipped,delivered' %}
+                                {% if order.status in 'preparing,ready,shipping_preparation,in_transit,pickup_ready' %}{% endif %}
+                                {% if order.status in ['preparing','ready','shipping_preparation','in_transit','pickup_ready'] %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
-                                        <div class="timeline-title">در حال پردازش</div>
+                                        <div class="timeline-title">در حال آماده‌سازی</div>
                                         <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
                                     </div>
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.status in 'shipped,delivered' %}
+                                {% if order.status in ['ready','shipping_preparation','in_transit','pickup_ready'] %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
-                                        <div class="timeline-title">ارسال شده</div>
+                                        <div class="timeline-title">آماده شد</div>
                                         <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
                                     </div>
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.status == 'delivered' %}
+                                {% if order.delivery_method == 'post' and order.status in ['shipping_preparation','in_transit'] %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
-                                        <div class="timeline-title">تحویل داده شد</div>
+                                        <div class="timeline-title">در حال ارسال به اداره پست</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.status == 'in_transit' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">بسته در حال رسیدن به مقصد است</div>
+                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if order.status == 'pickup_ready' %}
+                                <div class="timeline-item active">
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">آماده برای دریافت حضوری</div>
                                         <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
                                     </div>
                                 </div>
@@ -578,26 +596,29 @@
                             <span class="summary-value">{{ order.total_amount|floatformat:0 }} تومان</span>
                         </div>
                         
-                                                 <div class="action-buttons">
-                             <a href="{% url 'order_history' %}" class="btn btn-secondary">
-                                 <i class="fas fa-arrow-right"></i>
-                                 بازگشت به سفارشات
-                             </a>
-                             
-                             {% if order.status == 'pending' %}
-                             <button class="btn btn-primary" onclick="processPayment()">
-                                 <i class="fas fa-credit-card"></i>
-                                 پرداخت آنلاین
-                             </button>
-                             {% endif %}
-                             
-                             {% if order.status == 'delivered' and not feedback %}
-                             <button class="btn btn-primary" onclick="showFeedbackModal()">
-                                 <i class="fas fa-star"></i>
-                                 ارسال بازخورد
-                             </button>
-                             {% endif %}
-                         </div>
+                        <div class="action-buttons">
+                            <a href="{% url 'order_history' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-right"></i>
+                                بازگشت به سفارشات
+                            </a>
+                            
+                            {% if order.status == 'pending_payment' %}
+                            <form method="post" action="{% url 'pay_order' order.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-credit-card"></i>
+                                    پرداخت آنلاین
+                                </button>
+                            </form>
+                            {% endif %}
+                            
+                            {% if order.status == 'pickup_ready' and not feedback %}
+                            <button class="btn btn-primary" onclick="showFeedbackModal()">
+                                <i class="fas fa-star"></i>
+                                ارسال بازخورد
+                            </button>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -606,7 +627,7 @@
 </div>
 
 <!-- Feedback Modal -->
-{% if order.status == 'delivered' and not feedback %}
+{% if order.status == 'pickup_ready' and not feedback %}
 <div id="feedbackModal" class="modal" style="display: none;">
     <div class="modal-content">
         <h3>ارسال بازخورد</h3>
