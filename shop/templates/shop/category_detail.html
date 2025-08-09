@@ -212,9 +212,9 @@
     {% if subcategories %}
         <div class="subcategory-list">
             {% for subcat in subcategories %}
-                <a href="/shop/category/{{ subcat.id }}/" class="subcategory-item">
+                <a href="{{ subcat.get_absolute_url }}" class="subcategory-item">
                     {% if subcat.image %}
-                        <img src="{{ subcat.image.url }}" alt="{{ subcat.name }}">
+                        <img src="{{ subcat.image.url }}" alt="{{ subcat.name }}" loading="lazy" decoding="async" width="100" height="100">
                     {% else %}
                         <img src="https://placehold.co/100x100/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر">
                     {% endif %}
@@ -228,14 +228,14 @@
         {% for product in products %}
             <div class="product-card">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" decoding="async" width="400" height="300">
                 {% else %}
                     <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر">
                 {% endif %}
                 <h4>{{ product.name }}</h4>
                 <p>{{ product.description|truncatewords:15 }}</p>
                 <div class="price">{{ product.price|floatformat:0 }} تومان</div>
-                <a href="{% url 'product_detail' product.id %}">مشاهده جزئیات</a>
+                <a href="{{ product.get_absolute_url }}">مشاهده جزئیات</a>
             </div>
         {% empty %}
             <div class="empty-state">

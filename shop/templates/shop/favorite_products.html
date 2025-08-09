@@ -21,7 +21,7 @@
                     <div class="favorite-card">
                         <div class="product-image">
                             {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="300" height="300">
                             {% else %}
                                 <div class="no-image">
                                     <i class="fas fa-coffee"></i>

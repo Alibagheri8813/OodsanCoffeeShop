@@ -160,8 +160,11 @@ def category_list(request):
     categories = Category.objects.all()
     return render(request, 'shop/category_list.html', {'categories': categories})
 
-def category_detail(request, category_id):
-    category = Category.objects.get(id=category_id)
+def category_detail(request, category_id=None, slug=None):
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+    else:
+        category = get_object_or_404(Category, id=category_id)
     subcategories = Category.objects.filter(parent=category)
     products = Product.objects.filter(category=category)
     return render(request, 'shop/category_detail.html', {
@@ -172,14 +175,20 @@ def category_detail(request, category_id):
 
 @monitor_performance
 @view_error_handler
-def product_detail(request, product_id):
+def product_detail(request, product_id=None, slug=None):
     """Enhanced product detail with premium features"""
     with LoggingContext('product_detail', request.user, {'product_id': product_id}):
         # Optimize main product query
-        product = get_object_or_404(
-            Product.objects.select_related('category'), 
-            id=product_id
-        )
+        if slug:
+            product = get_object_or_404(
+                Product.objects.select_related('category'),
+                slug=slug
+            )
+        else:
+            product = get_object_or_404(
+                Product.objects.select_related('category'),
+                id=product_id
+            )
         
         # Optimize comments query
         comments = optimize_queryset(

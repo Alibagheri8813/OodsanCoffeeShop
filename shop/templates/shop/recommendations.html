@@ -355,7 +355,7 @@
             <div class="recommendation-item">
                 <div class="product-image">
                     {% if item.product.image %}
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" loading="lazy" width="400" height="300">
                     {% else %}
                         <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); display: flex; align-items: center; justify-content: center; color: #FFF8F0; font-size: 4rem;">☕</div>
                     {% endif %}
@@ -369,7 +369,7 @@
                     <div class="ai-reason">
                         <p class="reason-text">{{ item.reason }}</p>
                     </div>
-                    <a href="{% url 'product_detail' item.product.id %}" class="view-product-btn" onclick="trackRecommendationView({{ item.product.id }})">
+                    <a href="{{ item.product.get_absolute_url }}" class="view-product-btn" onclick="trackRecommendationView({{ item.product.id }})">
                         مشاهده محصول
                     </a>
                 </div>

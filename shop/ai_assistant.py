@@ -23,7 +23,7 @@ except Exception:  # pragma: no cover
     OpenAI = None  # Fallback so module import does not fail
 
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .ai_config import  AI_MODEL, AI_MAX_TOKENS, AI_TEMPERATURE, AI_TOP_P, FALLBACK_RESPONSES
 
@@ -339,7 +339,6 @@ except Exception as e:  # pragma: no cover
     logger.error(f"Failed to initialize Coffee Expert AI: {str(e)}")
     coffee_ai = None
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def ai_chat(request):
     """Handle text-based chat with AI assistant"""
@@ -386,7 +385,6 @@ def ai_chat(request):
             'fallback': True
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def voice_chat(request):
     """Enhanced voice chat functionality with speech recognition and TTS"""
@@ -434,7 +432,6 @@ def voice_chat(request):
             'debug_info': f'Voice exception: {str(e)}'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def speech_to_text(request):
     """Handle speech-to-text conversion"""
@@ -484,7 +481,6 @@ def speech_to_text(request):
             'debug_info': f'STT exception: {str(e)}'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def text_to_speech(request):
     """Handle text-to-speech conversion"""
