@@ -120,7 +120,6 @@ urlpatterns = [
     path('system-status/', views.system_status, name='system_status'),
     
     # Profile management
-    path('profile/', views.user_profile, name='user_profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     
     # Address management
