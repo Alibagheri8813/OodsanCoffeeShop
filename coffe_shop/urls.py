@@ -21,7 +21,15 @@ from django.conf.urls.static import static
 # Explicit imports to prevent namespace clashes between user-facing and admin views
 from shop import views as shop_views
 from shop import admin_views as admin_views
+from django.contrib.sitemaps.views import sitemap
+from shop.sitemaps import ProductSitemap, CategorySitemap
+from django.http import HttpResponse
 # from shop.ai_assistant import ai_chat, voice_chat
+
+sitemaps = {
+    'products': ProductSitemap,
+    'categories': CategorySitemap,
+}
 
 urlpatterns = [
     # Admin URLs (must come before admin.site.urls)
@@ -33,6 +41,10 @@ urlpatterns = [
     path('admin/orders/', admin_views.admin_order_list, name='admin_order_list'),
     path('admin/orders/<int:order_id>/', admin_views.admin_order_detail, name='admin_order_detail'),
     path('admin/orders/bulk-status/', admin_views.admin_bulk_order_status, name='admin_bulk_order_status'),
+    path('admin/analytics/data/', admin_views.admin_analytics_data, name='admin_analytics_data'),
+    path('admin/analytics/export.csv', admin_views.admin_export_orders_csv, name='admin_export_orders_csv'),
+    path('admin/analytics/top-products/', admin_views.admin_analytics_top_products, name='admin_analytics_top_products'),
+    path('admin/analytics/category-breakdown/', admin_views.admin_analytics_category_breakdown, name='admin_analytics_category_breakdown'),
     path('admin/users/<int:user_id>/update-tier/', admin_views.admin_update_user_tier, name='admin_update_user_tier'),
     
     # Django Admin (must come after custom admin URLs)
@@ -51,6 +63,22 @@ urlpatterns = [
     # AI Assistant URLs
     # path('ai/chat/', ai_chat, name='ai_chat'),
     # path('ai/voice/', voice_chat, name='voice_chat'),
+
+    # SEO
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+]
+
+# Simple robots.txt
+def robots_txt(_request):
+    lines = [
+        "User-agent: *",
+        "Disallow:",
+        "Sitemap: " + _request.build_absolute_uri('/sitemap.xml')
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+urlpatterns += [
+    path('robots.txt', robots_txt, name='robots_txt'),
 ]
 
 if settings.DEBUG:

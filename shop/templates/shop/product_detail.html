@@ -2,6 +2,10 @@
 {% load static %}
 
 {% block title %}{{ product.name }} - Premium Coffee Experience{% endblock %}
+{% block meta_description %}خرید {{ product.name }} با عطر و طعم بی‌نظیر. وزن‌ها و آسیاب‌های مختلف، ارسال سریع.{% endblock %}
+{% block og_title %}{{ product.name }}{% endblock %}
+{% block og_description %}{{ product.description|truncatechars:160 }}{% endblock %}
+{% block og_image %}{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endif %}{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1338,9 +1342,9 @@
         <div class="product-image-side">
             <div class="main-image-container">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
                 {% else %}
-                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image">
+                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
                 {% endif %}
                 <div class="image-overlay"></div>
                 <div class="steam-effect"></div>
