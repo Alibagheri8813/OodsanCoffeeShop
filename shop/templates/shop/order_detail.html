@@ -529,8 +529,7 @@
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.status in 'preparing,ready,shipping_preparation,in_transit,pickup_ready' %}{% endif %}
-                                {% if order.status in ['preparing','ready','shipping_preparation','in_transit','pickup_ready'] %}
+                                {% if order.status in preparing_or_beyond_statuses %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
                                         <div class="timeline-title">در حال آماده‌سازی</div>
@@ -539,7 +538,7 @@
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.status in ['ready','shipping_preparation','in_transit','pickup_ready'] %}
+                                {% if order.status in ready_or_beyond_statuses %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
                                         <div class="timeline-title">آماده شد</div>
@@ -548,7 +547,7 @@
                                 </div>
                                 {% endif %}
                                 
-                                {% if order.delivery_method == 'post' and order.status in ['shipping_preparation','in_transit'] %}
+                                {% if order.delivery_method == 'post' and order.status in shipping_prep_or_transit_statuses %}
                                 <div class="timeline-item active">
                                     <div class="timeline-content">
                                         <div class="timeline-title">در حال ارسال به اداره پست</div>
