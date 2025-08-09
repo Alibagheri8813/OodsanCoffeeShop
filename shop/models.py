@@ -120,13 +120,12 @@ class Order(models.Model):
     ]
     
     DELIVERY_CHOICES = [
-        ('pickup', 'دریافت حضوری'),
-        ('postal', 'ارسال پستی'),
+        ('post', 'ارسال پستی'),
     ]
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='pending_payment')
-    delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='pickup')
+    delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='post')
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -191,7 +190,7 @@ class Order(models.Model):
     
     def start_shipping_preparation(self, user=None):
         """Start shipping preparation for postal orders"""
-        if self.status == 'ready' and self.delivery_method == 'postal':
+        if self.status == 'ready' and self.delivery_method == 'post':
             return self.transition_to('shipping_preparation', user)
         return False
     

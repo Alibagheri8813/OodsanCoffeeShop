@@ -445,10 +445,7 @@
                                                          <div class="info-card">
                                  <div class="info-label">روش تحویل</div>
                                  <div class="info-value">
-                                     {% if order.delivery_method == 'delivery' %}تحویل در محل
-                                     {% elif order.delivery_method == 'pickup' %}تحویل حضوری
-                                     {% else %}تعیین نشده
-                                     {% endif %}
+                                     {% if order.delivery_method == 'post' %}ارسال پستی{% else %}تعیین نشده{% endif %}
                                  </div>
                              </div>
                             
