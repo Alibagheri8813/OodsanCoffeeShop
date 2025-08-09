@@ -1334,9 +1334,9 @@
         <div class="product-image-side">
             <div class="main-image-container">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
                 {% else %}
-                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image">
+                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
                 {% endif %}
                 <div class="image-overlay"></div>
                 <div class="steam-effect"></div>

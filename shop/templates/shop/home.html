@@ -1519,9 +1519,9 @@ html {
             {% for category in categories %}
             <a href="{% url 'category_detail' category.id %}" class="category-card">
                 {% if category.image %}
-                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image" loading="lazy" width="120" height="120">
                 {% else %}
-                    <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="{{ category.name }}" class="category-image">
+                    <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="{{ category.name }}" class="category-image" loading="lazy" width="120" height="120">
                 {% endif %}
                 <h3 class="category-name">{{ category.name }}</h3>
                 <p class="category-description">
@@ -1557,7 +1557,7 @@ html {
                 <div class="recommendation-card" style="background: white; border-radius: 15px; box-shadow: 0 8px 25px rgba(75, 46, 43, 0.1); overflow: hidden; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent;">
                     <div class="card-image" style="height: 200px; overflow: hidden; position: relative;">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" width="400" height="200">
                         {% else %}
                             <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #4B2E2B, #7B3F00); display: flex; align-items: center; justify-content: center; color: #FFF8F0; font-size: 3rem;">☕</div>
                         {% endif %}
