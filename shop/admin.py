@@ -254,7 +254,7 @@ class OrderAdmin(admin.ModelAdmin):
     def start_shipping_preparation(self, request, queryset):
         """Start shipping preparation for postal orders"""
         updated = 0
-        for order in queryset.filter(delivery_method='postal'):
+        for order in queryset.filter(delivery_method='post'):
             if order.start_shipping_preparation(request.user):
                 updated += 1
         self.message_user(request, f'{updated} سفارش پستی وارد مرحله آماده‌سازی ارسال شد.')
