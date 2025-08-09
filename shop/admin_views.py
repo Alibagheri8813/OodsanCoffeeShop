@@ -4,7 +4,10 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime, timedelta
-from django.db.models import Count, Sum, Q
+from django.db.models import Count, Sum, Q, F, DecimalField
+from django.db.models.functions import TruncDate
+from django.core.cache import cache
+import csv
 from .models import Order, OrderItem, Product, UserProfile, Notification, OrderFeedback
 from django.contrib.auth.models import User
 
@@ -301,3 +304,154 @@ def admin_update_user_tier(request, user_id):
     loyalty.save()
 
     return JsonResponse({'success': True, 'tier': loyalty.get_tier_display()})
+
+@staff_member_required
+def admin_analytics_data(request):
+    """Return analytics datasets for the admin dashboard as JSON.
+    Supports ?range=7d|30d|90d and optional ?granularity=day (default).
+    """
+    date_range = request.GET.get('range', '30d')
+    granularity = request.GET.get('granularity', 'day')
+
+    # Normalize range
+    days_map = {'7d': 7, '30d': 30, '90d': 90}
+    days = days_map.get(date_range, 30)
+
+    now = timezone.now()
+    start_date = (now - timedelta(days=days)).date()
+
+    cache_key = f"admin_analytics:{days}:{granularity}"
+    cached = cache.get(cache_key)
+    if cached:
+        return JsonResponse(cached)
+
+    # Map revenue statuses to realized revenue states
+    revenue_statuses = ['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
+
+    # Time series revenue (by day)
+    orders_qs = (
+        Order.objects.filter(created_at__date__gte=start_date, status__in=revenue_statuses)
+        .annotate(day=TruncDate('created_at'))
+        .values('day')
+        .annotate(total=Sum('total_amount'))
+        .order_by('day')
+    )
+    revenue_labels = [o['day'].strftime('%Y-%m-%d') for o in orders_qs]
+    revenue_values = [float(o['total'] or 0) for o in orders_qs]
+
+    # Orders by status counts (current window)
+    status_counts = (
+        Order.objects.filter(created_at__date__gte=start_date)
+        .values('status')
+        .annotate(count=Count('id'))
+        .order_by('-count')
+    )
+    orders_by_status = {row['status']: row['count'] for row in status_counts}
+
+    # Top products (by qty sold)
+    top_products_qs = (
+        Product.objects.annotate(total_qty=Sum('orderitem__quantity'))
+        .order_by('-total_qty')[:10]
+        .values('id', 'name', 'total_qty')
+    )
+    top_products = [
+        {"id": p['id'], "name": p['name'], "total_qty": int(p['total_qty'] or 0)} for p in top_products_qs
+    ]
+
+    # Revenue by category (sum of order items price*qty)
+    order_items = (
+        OrderItem.objects.filter(order__created_at__date__gte=start_date)
+        .values('product__category__name')
+        .annotate(
+            revenue=Sum(F('price') * F('quantity'), output_field=DecimalField(max_digits=12, decimal_places=2))
+        )
+        .order_by('-revenue')[:10]
+    )
+    revenue_by_category = [
+        {"category": row['product__category__name'] or 'نامشخص', "revenue": float(row['revenue'] or 0)}
+        for row in order_items
+    ]
+
+    # Low stock list (top 10)
+    low_stock = list(
+        Product.objects.filter(stock__lte=5).values('id', 'name', 'stock').order_by('stock')[:10]
+    )
+
+    # Active users (by orders in range)
+    active_users_qs = (
+        User.objects.filter(order__created_at__date__gte=start_date)
+        .annotate(order_count=Count('order'))
+        .order_by('-order_count')[:10]
+        .values('id', 'username', 'order_count')
+    )
+    active_users = [
+        {"id": u['id'], "username": u['username'], "order_count": u['order_count']} for u in active_users_qs
+    ]
+
+    payload = {
+        'range': date_range,
+        'granularity': granularity,
+        'revenue_timeseries': {
+            'labels': revenue_labels,
+            'values': revenue_values,
+        },
+        'orders_by_status': orders_by_status,
+        'top_products': top_products,
+        'revenue_by_category': revenue_by_category,
+        'low_stock': low_stock,
+        'active_users': active_users,
+    }
+
+    cache.set(cache_key, payload, 60)  # cache for 60 seconds
+    return JsonResponse(payload)
+
+
+@staff_member_required
+def admin_export_orders_csv(request):
+    """Export orders within a date range as CSV. Supports ?from=YYYY-MM-DD&to=YYYY-MM-DD"""
+    date_from = request.GET.get('from')
+    date_to = request.GET.get('to')
+
+    today = timezone.now().date()
+    if not date_from:
+        date_from = (today - timedelta(days=30)).strftime('%Y-%m-%d')
+    if not date_to:
+        date_to = today.strftime('%Y-%m-%d')
+
+    try:
+        start = datetime.strptime(date_from, '%Y-%m-%d').date()
+        end = datetime.strptime(date_to, '%Y-%m-%d').date()
+    except ValueError:
+        return JsonResponse({'error': 'Invalid date format, expected YYYY-MM-DD'}, status=400)
+
+    qs = (
+        Order.objects.filter(created_at__date__gte=start, created_at__date__lte=end)
+        .select_related('user')
+        .order_by('-created_at')
+    )
+
+    response = redirect('/')  # placeholder to make type checker happy
+    # Build CSV response
+    response = render(request, 'admin/index.html')
+    response = JsonResponse({'ok': True})
+
+    # Rebuild as HttpResponse CSV
+    from django.http import HttpResponse
+    resp = HttpResponse(content_type='text/csv')
+    filename = f"orders_{date_from}_to_{date_to}.csv"
+    resp['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    writer = csv.writer(resp)
+    writer.writerow(['Order ID', 'User', 'Status', 'Subtotal', 'Delivery Fee', 'Total', 'Created At'])
+    for o in qs:
+        writer.writerow([
+            o.id,
+            getattr(o.user, 'username', ''),
+            o.status,
+            o.subtotal,
+            o.delivery_fee,
+            o.total_amount,
+            o.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        ])
+
+    return resp

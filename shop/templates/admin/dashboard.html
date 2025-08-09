@@ -223,6 +223,13 @@
         font-size: 1rem;
         margin: 0;
     }
+    .filter-bar { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-bottom: 10px; }
+    .filter-bar select, .filter-bar a { padding: 8px 10px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; }
+    .card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+    .card h3 { margin-bottom: 10px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+    canvas { max-width: 100%; height: 320px; }
 </style>
 {% endblock %}
 
@@ -293,41 +300,35 @@
     </div>
 
     <!-- Charts and Analytics -->
-    <div class="chart-grid">
-        <div class="revenue-chart">
-            <h3><i class="fas fa-chart-line"></i> نمودار درآمد هفتگی</h3>
-            <div class="chart-placeholder">
-                <div>
-                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px; display: block; opacity: 0.3;"></i>
-                    <p>نمودار درآمد هفتگی</p>
-                    <small>درآمد هفته: {{ revenue_week|floatformat:0 }} تومان</small>
-                </div>
+    <div class="card">
+        <div class="filter-bar">
+            <label>بازه:</label>
+            <select id="rangeSelect">
+                <option value="7d">7 روز</option>
+                <option value="30d" selected>30 روز</option>
+                <option value="90d">90 روز</option>
+            </select>
+            <a id="exportCsvBtn" href="#">خروجی CSV</a>
+        </div>
+        <div class="grid-2">
+            <div>
+                <h3><i class="fas fa-chart-line"></i> روند درآمد</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div>
+                <h3><i class="fas fa-stream"></i> سفارش‌ها بر اساس وضعیت</h3>
+                <canvas id="statusChart"></canvas>
             </div>
         </div>
-        
-        <div class="top-products">
-            <h3><i class="fas fa-star"></i> محصولات پرفروش</h3>
-            {% if top_products %}
-                {% for product in top_products %}
-                <div class="product-item">
-                    <div class="product-rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% else %}other{% endif %}">
-                        {{ forloop.counter }}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">{{ product.name }}</div>
-                        <div class="product-stats">
-                            {{ product.total_sold }} فروش • {{ product.price|floatformat:0 }} تومان
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-coffee"></i>
-                    <h3>هنوز محصولی فروخته نشده</h3>
-                    <p>محصولات خود را تبلیغ کنید</p>
-                </div>
-            {% endif %}
+        <div class="grid-2" style="margin-top: 20px;">
+            <div>
+                <h3><i class="fas fa-list"></i> محصولات برتر</h3>
+                <canvas id="topProductsChart"></canvas>
+            </div>
+            <div>
+                <h3><i class="fas fa-layer-group"></i> درآمد به تفکیک دسته‌بندی</h3>
+                <canvas id="categoryRevenueChart"></canvas>
+            </div>
         </div>
     </div>
 
@@ -478,51 +479,71 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-// Dashboard Interactions
-document.addEventListener('DOMContentLoaded', function() {
-    // Auto-refresh dashboard every 5 minutes
-    setInterval(function() {
-        location.reload();
-    }, 300000);
-    
-    // Add click handlers for quick actions
-    document.querySelectorAll('.quick-action-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // Add loading state
-            this.style.opacity = '0.7';
-            this.style.pointerEvents = 'none';
-        });
-    });
-    
-    // Add hover effects for stat cards
-    document.querySelectorAll('.stat-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Show notification count
-    const notificationBadge = document.querySelector('.notification-badge');
-    const unreadCount = parseInt('{{ unread_notifications }}');
-    if (notificationBadge && unreadCount > 0) {
-        notificationBadge.style.animation = 'pulse 2s infinite';
-    }
-});
+(function(){
+    const rangeSelect = document.getElementById('rangeSelect');
+    const exportBtn = document.getElementById('exportCsvBtn');
+    const apiBase = '{% url "admin_analytics_data" %}';
+    const exportBase = '{% url "admin_export_orders_csv" %}';
 
-// Add pulse animation for notifications
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+    let charts = {};
+
+    function fmt(num){
+        try { return new Intl.NumberFormat('fa-IR').format(num); } catch(e){ return num; }
     }
-`;
-document.head.appendChild(style);
+
+    function buildChart(ctx, type, data, options){
+        if (charts[ctx]) { charts[ctx].destroy(); }
+        charts[ctx] = new Chart(document.getElementById(ctx), { type, data, options });
+    }
+
+    async function loadData(){
+        const range = rangeSelect.value;
+        const url = `${apiBase}?range=${encodeURIComponent(range)}`;
+        const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+        const json = await res.json();
+
+        // Revenue timeseries
+        buildChart('revenueChart', 'line', {
+            labels: json.revenue_timeseries.labels,
+            datasets: [{ label: 'درآمد (تومان)', data: json.revenue_timeseries.values, tension: 0.3, borderColor: '#4B2E2B', backgroundColor: 'rgba(75,46,43,0.1)', fill: true }]
+        }, { plugins: { legend: { display: true } }, scales: { y: { ticks: { callback: v => fmt(v) }}}});
+
+        // Orders by status
+        const statusLabels = Object.keys(json.orders_by_status);
+        const statusData = Object.values(json.orders_by_status);
+        buildChart('statusChart', 'doughnut', {
+            labels: statusLabels,
+            datasets: [{ data: statusData, backgroundColor: ['#4B2E2B','#7B3F00','#C97C5D','#D2B48C','#8B5E34','#97704F'] }]
+        });
+
+        // Top products
+        const tpLabels = json.top_products.map(p => p.name);
+        const tpValues = json.top_products.map(p => p.total_qty);
+        buildChart('topProductsChart', 'bar', {
+            labels: tpLabels,
+            datasets: [{ label: 'تعداد فروش', data: tpValues, backgroundColor: '#7B3F00' }]
+        }, { indexAxis: 'y', scales: { x: { ticks: { callback: v => fmt(v) }}}});
+
+        // Revenue by category
+        const catLabels = json.revenue_by_category.map(c => c.category);
+        const catValues = json.revenue_by_category.map(c => c.revenue);
+        buildChart('categoryRevenueChart', 'bar', {
+            labels: catLabels,
+            datasets: [{ label: 'درآمد (تومان)', data: catValues, backgroundColor: '#C97C5D' }]
+        }, { scales: { y: { ticks: { callback: v => fmt(v) }}}});
+
+        // Update export link
+        const today = new Date();
+        const from = new Date(today.getTime() - (parseInt(range) || 30) * 24*60*60*1000);
+        const toStr = today.toISOString().slice(0,10);
+        const fromStr = from.toISOString().slice(0,10);
+        exportBtn.href = `${exportBase}?from=${fromStr}&to=${toStr}`;
+    }
+
+    rangeSelect.addEventListener('change', loadData);
+    loadData();
+})();
 </script>
 {% endblock %}

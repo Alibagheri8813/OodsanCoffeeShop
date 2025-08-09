@@ -41,6 +41,8 @@ urlpatterns = [
     path('admin/orders/', admin_views.admin_order_list, name='admin_order_list'),
     path('admin/orders/<int:order_id>/', admin_views.admin_order_detail, name='admin_order_detail'),
     path('admin/orders/bulk-status/', admin_views.admin_bulk_order_status, name='admin_bulk_order_status'),
+    path('admin/analytics/data/', admin_views.admin_analytics_data, name='admin_analytics_data'),
+    path('admin/analytics/export.csv', admin_views.admin_export_orders_csv, name='admin_export_orders_csv'),
     path('admin/users/<int:user_id>/update-tier/', admin_views.admin_update_user_tier, name='admin_update_user_tier'),
     
     # Django Admin (must come after custom admin URLs)
