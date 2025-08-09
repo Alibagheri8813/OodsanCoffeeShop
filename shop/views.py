@@ -829,11 +829,19 @@ def order_detail(request, order_id):
     
     # Include feedback if exists for template conditional rendering
     feedback = getattr(order, 'feedback', None)
+
+    # Provide explicit status lists for template membership checks
+    preparing_or_beyond_statuses = ['preparing', 'ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
+    ready_or_beyond_statuses = ['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
+    shipping_prep_or_transit_statuses = ['shipping_preparation', 'in_transit']
     
     context = {
         'order': order,
         'order_items': order_items,
         'feedback': feedback,
+        'preparing_or_beyond_statuses': preparing_or_beyond_statuses,
+        'ready_or_beyond_statuses': ready_or_beyond_statuses,
+        'shipping_prep_or_transit_statuses': shipping_prep_or_transit_statuses,
     }
     
     return render(request, 'shop/order_detail.html', context)
