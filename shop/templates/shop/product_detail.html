@@ -360,6 +360,9 @@
         font-weight: 700;
     }
 
+    /* Make inner text non-interactive so clicks target the option container */
+    .select-option span { pointer-events: none; }
+
     .option-price {
         font-size: 0.8rem;
         font-weight: 700;
@@ -1075,16 +1078,8 @@
     .select-options.show {
         opacity: 1 !important;
         visibility: visible !important;
-        transform: translateY(0) !important;
-        z-index: 2147483647 !important; /* Maximum possible z-index value */
-        /* Force to front */
-        position: absolute !important;
-        /* Ensure it's above everything */
-        isolation: isolate !important;
-        /* Force layer creation */
-        will-change: transform !important;
-        /* Prevent clipping */
-        contain: none !important;
+        pointer-events: auto !important;
+        z-index: 2147483647 !important; /* max practical */
     }
 
     /* Quantity container should have lower z-index */
@@ -1470,15 +1465,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         grindOptions.addEventListener('click', function(e) {
-            if (e.target.classList.contains('select-option')) {
-                // Remove previous selection
-                grindOptions.querySelector('.selected').classList.remove('selected');
-                // Add new selection
-                e.target.classList.add('selected');
-                // Update display
-                grindDisplay.textContent = e.target.querySelector('span').textContent;
-                currentGrind = e.target.dataset.value;
-                // Close dropdown
+            const optionEl = e.target.closest('.select-option');
+            if (optionEl && grindOptions.contains(optionEl)) {
+                const prev = grindOptions.querySelector('.selected');
+                if (prev) prev.classList.remove('selected');
+                optionEl.classList.add('selected');
+                grindDisplay.textContent = optionEl.querySelector('span').textContent;
+                currentGrind = optionEl.dataset.value;
                 closeDropdown(grindSelect, grindOptions);
             }
         });
@@ -1494,18 +1487,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         weightOptions.addEventListener('click', function(e) {
-            if (e.target.classList.contains('select-option')) {
-                // Remove previous selection
-                weightOptions.querySelector('.selected').classList.remove('selected');
-                // Add new selection
-                e.target.classList.add('selected');
-                // Update display
-                weightDisplay.textContent = e.target.querySelector('span').textContent;
-                currentWeight = e.target.dataset.value;
-                // Update price
+            const optionEl = e.target.closest('.select-option');
+            if (optionEl && weightOptions.contains(optionEl)) {
+                const prev = weightOptions.querySelector('.selected');
+                if (prev) prev.classList.remove('selected');
+                optionEl.classList.add('selected');
+                weightDisplay.textContent = optionEl.querySelector('span').textContent;
+                currentWeight = optionEl.dataset.value;
                 updatePriceDisplay();
                 updateWeightPrices();
-                // Close dropdown
                 closeDropdown(weightSelect, weightOptions);
             }
         });
