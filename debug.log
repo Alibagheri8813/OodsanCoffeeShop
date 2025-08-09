@@ -1,0 +1,7 @@
+INFO 2025-08-09 08:19:11,115 autoreload 3808 6188 Watching for file changes with StatReloader
+INFO 2025-08-09 08:30:45,019 error_handling 3808 6856 Starting operation: product_detail
+INFO 2025-08-09 08:30:45,019 error_handling 3808 6856 Operation completed: product_detail in 0.00s
+WARNING 2025-08-09 08:31:23,188 log 3808 6856 Not Found: /cart/count/
+WARNING 2025-08-09 08:31:36,873 log 3808 6856 Not Found: /cart/count/
+WARNING 2025-08-09 08:41:38,868 log 3808 9608 Not Found: /cart/count/
+WARNING 2025-08-09 08:42:57,792 log 3808 9608 Not Found: /cart/count/
