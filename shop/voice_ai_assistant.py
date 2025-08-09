@@ -9,7 +9,7 @@ import tempfile
 import wave
 from pathlib import Path
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from openai import OpenAI
@@ -282,7 +282,6 @@ class VoiceCoffeeExpert:
 # Initialize the voice coffee expert
 voice_coffee_expert = VoiceCoffeeExpert()
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def initialize_ai(request):
     """Initialize AI with OpenAI API key"""
@@ -316,7 +315,6 @@ def initialize_ai(request):
             'error': 'Something went wrong. Please try again.'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def voice_chat(request):
     """Handle voice-based chat with coffee expert"""
@@ -351,7 +349,6 @@ def voice_chat(request):
             'error': 'Something went wrong processing your question. Please try again.'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def text_chat(request):
     """Handle text-based chat as fallback"""
@@ -380,7 +377,6 @@ def text_chat(request):
             'error': 'Something went wrong. Please try again.'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def stop_speech(request):
     """Stop current AI speech"""
@@ -399,7 +395,6 @@ def stop_speech(request):
             'error': 'Something went wrong.'
         }, status=500)
 
-@csrf_exempt
 @require_http_methods(["GET"])
 def ai_status(request):
     """Get current AI status"""

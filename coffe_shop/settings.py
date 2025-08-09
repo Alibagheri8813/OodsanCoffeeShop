@@ -13,6 +13,19 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+# Optional packages availability flags
+try:
+    import whitenoise  # noqa: F401
+    _WHITENOISE_AVAILABLE = True
+except Exception:
+    _WHITENOISE_AVAILABLE = False
+
+try:
+    import rest_framework  # noqa: F401
+    _DRF_AVAILABLE = True
+except Exception:
+    _DRF_AVAILABLE = False
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,6 +42,9 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 
+# CSRF trusted origins (for reverse proxies / custom domains)
+CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS') else []
+
 
 # Application definition
 
@@ -41,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
 ]
+if _DRF_AVAILABLE:
+    INSTALLED_APPS.append('rest_framework')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +75,13 @@ MIDDLEWARE = [
     # 'shop.analytics_middleware.RealTimeAnalyticsMiddleware',
     # 'shop.analytics_middleware.PerformanceMonitoringMiddleware',
 ]
+# Insert WhiteNoise if available (prefer right after SecurityMiddleware)
+if _WHITENOISE_AVAILABLE:
+    try:
+        insert_index = MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1
+        MIDDLEWARE.insert(insert_index, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    except Exception:
+        MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
 
 ROOT_URLCONF = 'coffe_shop.urls'
 
@@ -116,9 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -143,58 +168,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Phase 3: Cache Configuration
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 300,  # 5 minutes
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000,
-        }
-    }
-}
 
-# Phase 3: Logging Configuration
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-            'formatter': 'verbose',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
-    'loggers': {
-        'shop': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
 
 # Phase 3: Performance Settings
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
@@ -204,6 +178,15 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+
+# Production-only secure settings
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_SECURE_HSTS_SECONDS', '31536000'))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Phase 3: Caching Configuration (Enhanced)
 CACHES = {
@@ -229,7 +212,10 @@ CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = True
 
 # Phase 3: Static Files Configuration
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+if _WHITENOISE_AVAILABLE and not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
