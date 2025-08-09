@@ -21,7 +21,15 @@ from django.conf.urls.static import static
 # Explicit imports to prevent namespace clashes between user-facing and admin views
 from shop import views as shop_views
 from shop import admin_views as admin_views
+from django.contrib.sitemaps.views import sitemap
+from shop.sitemaps import ProductSitemap, CategorySitemap
+from django.http import HttpResponse
 # from shop.ai_assistant import ai_chat, voice_chat
+
+sitemaps = {
+    'products': ProductSitemap,
+    'categories': CategorySitemap,
+}
 
 urlpatterns = [
     # Admin URLs (must come before admin.site.urls)
@@ -51,6 +59,22 @@ urlpatterns = [
     # AI Assistant URLs
     # path('ai/chat/', ai_chat, name='ai_chat'),
     # path('ai/voice/', voice_chat, name='voice_chat'),
+
+    # SEO
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+]
+
+# Simple robots.txt
+def robots_txt(_request):
+    lines = [
+        "User-agent: *",
+        "Disallow:",
+        "Sitemap: " + _request.build_absolute_uri('/sitemap.xml')
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+urlpatterns += [
+    path('robots.txt', robots_txt, name='robots_txt'),
 ]
 
 if settings.DEBUG:

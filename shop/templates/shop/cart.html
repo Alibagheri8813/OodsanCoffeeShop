@@ -439,7 +439,7 @@
                     
                     {% for item in cart_items %}
                     <div class="cart-item" data-item-id="{{ item.id }}">
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image" loading="lazy" width="80" height="80">
                         
                         <div class="item-details">
                             <h3>{{ item.product.name }}</h3>
