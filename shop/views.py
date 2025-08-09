@@ -286,6 +286,292 @@ def product_detail(request, product_id):
     }
     return render(request, 'shop/product_detail.html', context)
 
+# ===== CART: Views and APIs =====
+
+@login_required
+def cart_view(request):
+    """Display the shopping cart page with totals and delivery fee."""
+    try:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_items = CartItem.objects.filter(cart=cart).select_related('product').order_by('-added_at')
+        subtotal = sum((item.get_total_price() for item in cart_items), Decimal('0'))
+        delivery_fee = Decimal('0')
+        if subtotal and subtotal < Decimal('500000'):
+            delivery_fee = Decimal('50000')
+        total = subtotal + delivery_fee
+
+        has_complete_address = False
+        profile = getattr(request.user, 'profile', None)
+        if profile:
+            has_complete_address = all([
+                bool(profile.address),
+                bool(profile.city),
+                bool(profile.province),
+                bool(profile.postal_code),
+            ])
+
+        context = {
+            'cart_items': list(cart_items),
+            'subtotal': subtotal,
+            'delivery_fee': delivery_fee,
+            'total': total,
+            'is_cart_empty': cart_items.count() == 0,
+            'has_complete_address': has_complete_address,
+        }
+        return render(request, 'shop/cart.html', context)
+    except Exception as exc:
+        logger.error(f"Error rendering cart view: {exc}")
+        messages.error(request, 'خطا در نمایش سبد خرید')
+        return redirect('product_list')
+
+@login_required
+@require_POST
+def add_to_cart(request):
+    """Add a product to the user's cart. Accepts JSON body."""
+    try:
+        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
+        product_id = int(data.get('product_id'))
+        quantity = int(data.get('quantity', 1))
+        grind_type = data.get('grind_type', 'whole_bean')
+        weight = data.get('weight', '250g')
+
+        product = get_object_or_404(Product, id=product_id)
+        if quantity <= 0:
+            return JsonResponse({'success': False, 'message': 'تعداد نامعتبر است'})
+
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_item, created = CartItem.objects.get_or_create(
+            cart=cart,
+            product=product,
+            grind_type=grind_type,
+            weight=weight,
+            defaults={'quantity': 0}
+        )
+
+        # Calculate required additional stock
+        additional_needed = quantity if created else max(0, quantity)
+        # Increase quantity by requested amount
+        new_quantity = cart_item.quantity + quantity
+        if new_quantity <= 0:
+            new_quantity = 0
+
+        # Determine stock delta (only if quantity is increasing)
+        delta = new_quantity - cart_item.quantity
+        if delta > 0:
+            if product.stock < delta:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'موجودی کافی نیست',
+                    'available_stock': product.stock
+                })
+            product.stock -= delta
+            product.save(update_fields=['stock'])
+
+        cart_item.quantity = new_quantity
+        if cart_item.quantity == 0:
+            cart_item.delete()
+        else:
+            cart_item.save(update_fields=['quantity'])
+
+        # Return updated cart totals
+        cart_total = sum((item.get_total_price() for item in cart.items.all()), Decimal('0'))
+        cart_count = sum((item.quantity for item in cart.items.all()), 0)
+
+        return JsonResponse({
+            'success': True,
+            'cart_total': int(cart_total),
+            'cart_count': cart_count
+        })
+    except Product.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'محصول یافت نشد'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
+    except Exception as exc:
+        logger.error(f"add_to_cart error: {exc}")
+        return JsonResponse({'success': False, 'message': 'خطا در افزودن به سبد خرید'}, status=500)
+
+@login_required
+def update_cart_item(request):
+    """Update the quantity of a specific cart item. Accepts JSON POST. GET returns invalid request JSON."""
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
+
+    try:
+        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
+        item_id = int(data.get('item_id'))
+        new_quantity = int(data.get('quantity'))
+
+        cart = Cart.objects.get(user=request.user)
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        product = cart_item.product
+
+        if new_quantity < 0:
+            return JsonResponse({'success': False, 'message': 'تعداد نامعتبر است'})
+
+        if new_quantity == 0:
+            # Restore stock and delete item
+            product.stock += cart_item.quantity
+            product.save(update_fields=['stock'])
+            cart_item.delete()
+        else:
+            delta = new_quantity - cart_item.quantity
+            if delta > 0:
+                if product.stock < delta:
+                    return JsonResponse({
+                        'success': False,
+                        'message': 'موجودی کافی نیست',
+                        'available_stock': product.stock
+                    })
+                product.stock -= delta
+                product.save(update_fields=['stock'])
+            elif delta < 0:
+                product.stock += (-delta)
+                product.save(update_fields=['stock'])
+
+            cart_item.quantity = new_quantity
+            cart_item.save(update_fields=['quantity'])
+
+        # Totals
+        cart_items_qs = CartItem.objects.filter(cart=cart)
+        cart_total = sum((item.get_total_price() for item in cart_items_qs), Decimal('0'))
+        cart_count = sum((item.quantity for item in cart_items_qs), 0)
+
+        return JsonResponse({
+            'success': True,
+            'cart_total': int(cart_total),
+            'cart_count': cart_count
+        })
+    except Cart.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'سبد خرید یافت نشد'}, status=404)
+    except CartItem.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'آیتم یافت نشد'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'خطا در به‌روزرسانی سبد خرید: داده‌های نامعتبر'})
+    except Exception as exc:
+        logger.error(f"update_cart_item error: {exc}")
+        return JsonResponse({'success': False, 'message': 'خطا در به‌روزرسانی سبد خرید'})
+
+@login_required
+@require_POST
+def remove_from_cart(request):
+    """Remove an item from cart and restore product stock."""
+    try:
+        data = json.loads(request.body.decode('utf-8')) if request.body else request.POST
+        item_id = int(data.get('item_id'))
+
+        cart = Cart.objects.get(user=request.user)
+        cart_item = CartItem.objects.get(id=item_id, cart=cart)
+        product = cart_item.product
+
+        product.stock += cart_item.quantity
+        product.save(update_fields=['stock'])
+        cart_item.delete()
+
+        # Totals after deletion
+        remaining_items = CartItem.objects.filter(cart=cart)
+        cart_total = sum((item.get_total_price() for item in remaining_items), Decimal('0'))
+        cart_count = sum((item.quantity for item in remaining_items), 0)
+
+        return JsonResponse({
+            'success': True,
+            'message': 'آیتم با موفقیت حذف شد',
+            'cart_total': int(cart_total),
+            'cart_count': cart_count
+        })
+    except Cart.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'سبد خرید یافت نشد'}, status=404)
+    except CartItem.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'آیتم یافت نشد'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'داده‌های نامعتبر'}, status=400)
+    except Exception as exc:
+        logger.error(f"remove_from_cart error: {exc}")
+        return JsonResponse({'success': False, 'message': 'خطا در حذف آیتم از سبد خرید'}, status=500)
+
+@login_required
+def cart_count(request):
+    """Return total quantity of items in cart."""
+    try:
+        cart = Cart.objects.get(user=request.user)
+        total_count = sum((item.quantity for item in cart.items.all()), 0)
+    except Cart.DoesNotExist:
+        total_count = 0
+    return JsonResponse({'count': total_count})
+
+# ===== AUTH/PROFILE & CHECKOUT (URL compatibility) =====
+
+def register(request):
+    """User registration using the enhanced UserRegistrationForm."""
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Create related profile with optional fields
+            UserProfile.objects.create(
+                user=user,
+                phone_number=form.cleaned_data.get('phone_number', ''),
+                city=form.cleaned_data.get('city', ''),
+                province=form.cleaned_data.get('province', ''),
+            )
+            messages.success(request, 'ثبت‌نام با موفقیت انجام شد. لطفاً وارد شوید.')
+            return redirect('login')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'shop/register.html', {'form': form})
+
+@login_required
+def profile(request):
+    """Compatibility route that forwards to the detailed user profile view."""
+    return redirect('user_profile')
+
+@login_required
+def checkout(request):
+    """Minimal checkout page that displays totals and collects delivery info."""
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart).select_related('product')
+
+    subtotal = sum((item.get_total_price() for item in cart_items), Decimal('0'))
+    delivery_fee = Decimal('0') if subtotal >= Decimal('500000') else Decimal('50000') if subtotal > 0 else Decimal('0')
+    total = subtotal + delivery_fee
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        form.fields['address'].queryset = request.user.addresses.all()
+        if form.is_valid():
+            messages.success(request, 'سفارش شما ثبت شد. (شبیه‌سازی)')
+            return redirect('order_list')
+    else:
+        form = CheckoutForm()
+        form.fields['address'].queryset = request.user.addresses.all()
+
+    context = {
+        'form': form,
+        'cart_items': list(cart_items),
+        'subtotal': subtotal,
+        'delivery_fee': delivery_fee,
+        'total': total,
+    }
+    return render(request, 'shop/checkout.html', context)
+
+@login_required
+def change_password(request):
+    """Allow the user to change their password using Django's PasswordChangeForm."""
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'رمز عبور شما با موفقیت تغییر یافت.')
+            return redirect('user_profile')
+        else:
+            messages.error(request, 'لطفاً خطاهای فرم را بررسی کنید.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'shop/change_password.html', {'form': form})
+
 @login_required
 @require_POST
 def add_to_favorites(request, product_id):

@@ -1,0 +1,1555 @@
+
+INFO 2025-08-04 06:19:45,448 autoreload 14184 4220 Watching for file changes with StatReloader
+INFO 2025-08-04 13:44:21,324 autoreload 5292 1772 Watching for file changes with StatReloader
+WARNING 2025-08-04 13:45:03,181 log 5292 9968 Not Found: /favicon.ico
+ERROR 2025-08-04 13:46:15,207 recursion_prevention 5292 10864 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:46:15,253 log 5292 10864 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:46:20,021 recursion_prevention 5292 4388 Request chain timeout. Current path: /admin/shop/userprofile/
+ERROR 2025-08-04 13:46:20,022 log 5292 4388 Internal Server Error: /admin/shop/userprofile/
+ERROR 2025-08-04 13:46:36,949 recursion_prevention 5292 13116 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:46:36,950 log 5292 13116 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:50:19,943 recursion_prevention 5292 6652 Request chain timeout. Current path: /admin/shop/notification/
+ERROR 2025-08-04 13:50:19,944 log 5292 6652 Internal Server Error: /admin/shop/notification/
+ERROR 2025-08-04 13:51:05,313 recursion_prevention 5292 11196 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-04 13:51:05,315 log 5292 11196 Internal Server Error: /shop/cart/count/
+ERROR 2025-08-04 13:52:05,310 recursion_prevention 5292 11796 Request chain timeout. Current path: /shop/cart/count/
+ERROR 2025-08-04 13:52:05,311 log 5292 11796 Internal Server Error: /shop/cart/count/
+INFO 2025-08-04 13:53:01,447 autoreload 5292 1772 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\shop\recursion_prevention.py changed, reloading.
+INFO 2025-08-04 13:53:02,381 autoreload 11320 2512 Watching for file changes with StatReloader
+INFO 2025-08-04 13:54:27,068 autoreload 11320 2512 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\coffe_shop\settings.py changed, reloading.
+INFO 2025-08-04 13:54:27,948 autoreload 12060 9116 Watching for file changes with StatReloader
+INFO 2025-08-04 13:56:30,672 autoreload 11964 11148 Watching for file changes with StatReloader
+INFO 2025-08-04 13:57:03,046 autoreload 11964 11148 C:\Users\Mobile Gandom\Desktop\programming\coffee_shop_3_different\coffe_shop_page_o3\coffe_shop\settings.py changed, reloading.
+INFO 2025-08-04 13:57:03,944 autoreload 7140 5992 Watching for file changes with StatReloader
+INFO 2025-08-05 02:41:07,920 autoreload 12400 9392 Watching for file changes with StatReloader
+INFO 2025-08-05 03:15:12,412 autoreload 10772 8896 Watching for file changes with StatReloader
+WARNING 2025-08-05 03:15:20,799 log 10772 12680 Not Found: /favicon.ico
+INFO 2025-08-05 03:33:59,184 error_handling 10772 2604 Starting operation: product_detail
+INFO 2025-08-05 03:33:59,186 error_handling 10772 2604 Operation completed: product_detail in 0.00s
+WARNING 2025-08-05 03:34:33,655 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
+WARNING 2025-08-05 03:34:34,671 log 10772 2604 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/cart/update/
+INFO 2025-08-05 03:53:34,471 autoreload 12592 7456 Watching for file changes with StatReloader
+WARNING 2025-08-05 04:00:45,606 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:08:18,729 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:09:37,496 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:09:54,575 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 04:11:59,388 log 12592 10488 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 06:36:09,310 autoreload 5024 7392 Watching for file changes with StatReloader
+WARNING 2025-08-05 06:36:35,591 log 5024 11480 Not Found: /favicon.ico
+WARNING 2025-08-05 06:36:51,908 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:39:05,982 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:43:05,384 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 06:43:13,687 log 5024 11480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 06:55:25,458 autoreload 12104 4532 Watching for file changes with StatReloader
+INFO 2025-08-05 11:22:07,597 autoreload 9104 3976 Watching for file changes with StatReloader
+WARNING 2025-08-05 11:22:15,979 log 9104 8384 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:22:59,555 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:24:30,993 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:26:08,804 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:26:48,459 log 9104 15276 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 11:29:24,226 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:32:46,517 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:32:59,181 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:36:58,531 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:02,448 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:05,883 log 9104 15276 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:38:10,593 log 9104 15276 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 11:38:30,456 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:43:32,104 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:44:59,439 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:51:45,735 log 9104 984 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 11:52:40,392 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:56:21,751 log 9104 984 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 11:58:59,762 log 9104 984 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 12:01:11,896 log 9104 984 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 12:47:24,653 log 9104 15904 Not Found: /images/roast-bg.jpg
+INFO 2025-08-05 13:04:43,135 autoreload 13472 16172 Watching for file changes with StatReloader
+WARNING 2025-08-05 13:04:48,875 log 13472 13496 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 13:05:43,846 log 13472 13496 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 13:07:01,644 log 13472 13496 Not Found: /home/images/roast-bg.jpg
+INFO 2025-08-05 13:08:34,420 autoreload 9740 10976 Watching for file changes with StatReloader
+WARNING 2025-08-05 13:08:38,856 log 9740 8376 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 13:09:35,206 log 9740 8376 Not Found: /images/roast-bg.jpg
+WARNING 2025-08-05 13:09:47,418 log 9740 8376 Not Found: /home/images/roast-bg.jpg
+WARNING 2025-08-05 13:09:59,874 log 9740 8376 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 13:12:28,468 log 9740 8376 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:13:25,114 autoreload 3016 14916 Watching for file changes with StatReloader
+WARNING 2025-08-05 13:13:29,678 log 3016 11140 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 13:13:29,990 log 3016 11140 Not Found: /home/roast-bg.jpg
+WARNING 2025-08-05 13:14:13,012 log 3016 11140 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:20:28,992 autoreload 4488 10248 Watching for file changes with StatReloader
+INFO 2025-08-05 13:33:27,076 autoreload 8168 11428 Watching for file changes with StatReloader
+INFO 2025-08-05 13:34:24,428 autoreload 13452 13876 Watching for file changes with StatReloader
+WARNING 2025-08-05 13:46:07,572 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:47:07,553 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:48:07,576 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:49:07,570 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:50:07,553 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:51:07,562 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:52:07,564 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:53:07,567 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:54:07,556 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:55:07,571 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:56:07,554 log 13452 15804 Not Found: /accounts/login/
+WARNING 2025-08-05 13:57:07,564 log 13452 15804 Not Found: /accounts/login/
+INFO 2025-08-05 13:59:53,427 autoreload 15168 14352 Watching for file changes with StatReloader
+WARNING 2025-08-05 14:00:04,883 log 15168 14420 Not Found: /accounts/login/
+WARNING 2025-08-05 14:00:06,207 log 15168 14420 Not Found: /cart/count/
+INFO 2025-08-05 14:00:51,972 autoreload 15072 6448 Watching for file changes with StatReloader
+WARNING 2025-08-05 14:00:57,317 log 15072 7376 Not Found: /cart/count/
+INFO 2025-08-06 00:57:18,558 autoreload 11396 11860 Watching for file changes with StatReloader
+WARNING 2025-08-06 00:58:08,323 log 11396 10088 Not Found: /favicon.ico
+WARNING 2025-08-06 00:58:18,378 log 11396 14208 Not Found: /cart/count/
+INFO 2025-08-06 01:06:05,109 autoreload 5072 10988 Watching for file changes with StatReloader
+WARNING 2025-08-06 01:06:16,358 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:08:59,230 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:09:23,943 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:09:45,574 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:08,525 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:49,047 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:10:57,224 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:13:11,204 log 5072 11392 Not Found: /cart/count/
+WARNING 2025-08-06 01:13:11,208 log 5072 13580 Not Found: /home/media/roat-bg.jpg
+WARNING 2025-08-06 01:13:23,045 log 5072 13580 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-06 01:13:42,332 log 5072 13580 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:13:42,350 log 5072 13580 Not Found: /cart/count/
+WARNING 2025-08-06 01:14:06,001 log 5072 13580 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:20:14,109 log 5072 10732 Not Found: /home/media/roat-bg.jpg
+WARNING 2025-08-06 01:20:20,213 log 5072 10732 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:20:39,932 log 5072 10732 Not Found: /videos
+WARNING 2025-08-06 01:20:47,907 log 5072 10732 Not Found: /products/
+WARNING 2025-08-06 01:21:05,982 log 5072 10732 Not Found: /products/arabika.jpg
+WARNING 2025-08-06 01:21:13,466 log 5072 10732 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 01:21:13,487 log 5072 10732 Not Found: /cart/count/
+INFO 2025-08-06 01:56:12,138 autoreload 14524 7784 Watching for file changes with StatReloader
+WARNING 2025-08-06 01:56:29,547 log 14524 13660 Not Found: /cart/count/
+WARNING 2025-08-06 01:59:51,931 log 14524 9176 Not Found: /cart/count/
+WARNING 2025-08-06 01:59:52,000 log 14524 15416 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:08,899 log 14524 15416 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:08,903 log 14524 9176 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:16,833 log 14524 9176 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:16,837 log 14524 15416 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:00:27,045 log 14524 15416 Not Found: /cart/count/
+WARNING 2025-08-06 02:00:27,049 log 14524 9176 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:11:03,119 autoreload 12584 14036 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:11:12,296 log 12584 15904 Not Found: /cart/count/
+WARNING 2025-08-06 02:11:12,301 log 12584 11696 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:11:55,836 autoreload 11052 11628 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:12:01,073 log 11052 3828 Not Found: /cart/count/
+WARNING 2025-08-06 02:12:01,077 log 11052 16144 Not Found: /media/roat-bg.jpg
+WARNING 2025-08-06 02:12:53,469 log 11052 16144 Not Found: /cart/count/
+WARNING 2025-08-06 02:12:53,474 log 11052 3828 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:22:43,516 autoreload 1276 11000 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:22:49,689 log 1276 3268 Not Found: /cart/count/
+WARNING 2025-08-06 02:22:49,694 log 1276 7192 Not Found: /media/roat-bg.jpg
+INFO 2025-08-06 02:33:06,200 autoreload 3500 6404 Watching for file changes with StatReloader
+WARNING 2025-08-06 02:33:16,656 log 3500 12300 Not Found: /cart/count/
+WARNING 2025-08-06 02:36:42,316 log 3500 12300 Not Found: /cart/count/
+WARNING 2025-08-06 02:39:13,810 log 3500 12300 Not Found: /cart/count/
+WARNING 2025-08-06 02:41:30,897 log 3500 12300 Not Found: /cart/count/
+WARNING 2025-08-06 02:44:22,210 log 3500 12300 Not Found: /cart/count/
+WARNING 2025-08-06 11:24:22,145 voice_ai_assistant 2190 140336103031040 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 11:24:36,755 voice_ai_assistant 2274 140577267843328 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 11:24:56,021 voice_ai_assistant 2513 140244753678592 Audio libraries not available. Install pydub and pygame for full functionality.
+ERROR 2025-08-06 11:24:59,672 log 2513 140244687443648 Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: shop_product
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/views.py", line 380, in product_list
+    page_obj = paginator.get_page(page_number)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/paginator.py", line 85, in get_page
+    return self.page(number)
+           ~~~~~~~~~^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/paginator.py", line 89, in page
+    number = self.validate_number(number)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/paginator.py", line 70, in validate_number
+    if number > self.num_pages:
+                ^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/paginator.py", line 116, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+       ^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/core/paginator.py", line 110, in count
+    return c()
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/models/query.py", line 620, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/models/sql/query.py", line 630, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/models/sql/query.py", line 616, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: shop_product
+WARNING 2025-08-06 19:56:11,100 voice_ai_assistant 2475 139627462889728 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 19:56:16,261 voice_ai_assistant 2496 140058912723200 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 19:56:25,682 autoreload 2748 139876869329152 Watching for file changes with StatReloader
+WARNING 2025-08-06 19:56:25,943 voice_ai_assistant 2748 139876869329152 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 19:56:29,992 error_handling 2748 139876725946048 Starting operation: product_detail
+ERROR 2025-08-06 19:56:29,998 error_handling 2748 139876725946048 Operation failed: product_detail after 0.01s
+ERROR 2025-08-06 19:56:29,998 error_handling 2748 139876725946048 Unexpected error in product_detail: no such column: shop_product.available_grinds
+ERROR 2025-08-06 19:56:30,001 error_handling 2748 139876725946048 Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: shop_product.available_grinds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 179, in product_detail
+    product = get_object_or_404(
+        Product.objects.select_related('category'),
+        id=product_id
+    )
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 645, in get
+    num = len(clone)
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: shop_product.available_grinds
+
+ERROR 2025-08-06 19:56:30,015 error_handling 2748 139876725946048 Error in product_detail after 0.02s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 19:56:30,043 log 2748 139876725946048 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: shop_product.available_grinds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 179, in product_detail
+    product = get_object_or_404(
+        Product.objects.select_related('category'),
+        id=product_id
+    )
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 645, in get
+    num = len(clone)
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 382, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: shop_product.available_grinds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+WARNING 2025-08-06 19:57:11,075 voice_ai_assistant 2950 139901933842688 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:12:26,182 voice_ai_assistant 4488 139711827927296 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:18:26,948 voice_ai_assistant 5675 140262586528000 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:33:38,057 voice_ai_assistant 7449 139784762753280 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:33:59,929 autoreload 7685 140245592461568 Watching for file changes with StatReloader
+WARNING 2025-08-06 20:34:00,188 voice_ai_assistant 7685 140245553407680 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:34:05,590 error_handling 2748 139876715456192 Starting operation: product_detail
+INFO 2025-08-06 20:34:05,594 error_handling 2748 139876715456192 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:34:05,599 error_handling 2748 139876715456192 Unexpected error in product_detail: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:05,601 error_handling 2748 139876715456192 Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+ERROR 2025-08-06 20:34:05,602 error_handling 2748 139876715456192 Error in product_detail after 0.01s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:05,641 log 2748 139876715456192 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:34:09,359 error_handling 2748 139876715456192 Starting operation: product_detail
+INFO 2025-08-06 20:34:09,361 error_handling 2748 139876715456192 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:34:09,363 error_handling 2748 139876715456192 Unexpected error in product_detail: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:09,365 error_handling 2748 139876715456192 Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+ERROR 2025-08-06 20:34:09,366 error_handling 2748 139876715456192 Error in product_detail after 0.01s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:09,408 log 2748 139876715456192 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:34:24,894 error_handling 2748 139876715456192 Starting operation: product_detail
+INFO 2025-08-06 20:34:24,895 error_handling 2748 139876715456192 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:34:24,898 error_handling 2748 139876715456192 Unexpected error in product_detail: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:24,899 error_handling 2748 139876715456192 Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+ERROR 2025-08-06 20:34:24,900 error_handling 2748 139876715456192 Error in product_detail after 0.01s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:34:24,937 log 2748 139876715456192 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:35:20,724 error_handling 2748 139876715456192 Starting operation: product_detail
+INFO 2025-08-06 20:35:20,725 error_handling 2748 139876715456192 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:35:20,729 error_handling 2748 139876715456192 Unexpected error in product_detail: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:20,730 error_handling 2748 139876715456192 Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+ERROR 2025-08-06 20:35:20,732 error_handling 2748 139876715456192 Error in product_detail after 0.01s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:20,770 log 2748 139876715456192 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:35:25,394 error_handling 2748 139876715456192 Starting operation: product_detail
+INFO 2025-08-06 20:35:25,396 error_handling 2748 139876715456192 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:35:25,398 error_handling 2748 139876715456192 Unexpected error in product_detail: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:25,399 error_handling 2748 139876715456192 Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+ERROR 2025-08-06 20:35:25,400 error_handling 2748 139876715456192 Error in product_detail after 0.01s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:25,436 log 2748 139876715456192 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/error_handling.py", line 128, in wrapper
+    return render(request, 'shop/error.html', {
+        'error_message': 'خطای سیستمی رخ داده است',
+        'error_code': '500'
+    }, status=500)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:35:45,875 autoreload 2748 139876869329152 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-06 20:35:46,175 autoreload 8106 140341271191808 Watching for file changes with StatReloader
+WARNING 2025-08-06 20:35:46,421 voice_ai_assistant 8106 140341232137920 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:35:48,618 error_handling 8106 140341127673536 Starting operation: product_detail
+INFO 2025-08-06 20:35:48,620 error_handling 8106 140341127673536 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:35:48,634 error_handling 8106 140341127673536 Error in product_detail after 0.02s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:48,667 log 8106 140341127673536 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+INFO 2025-08-06 20:35:54,287 error_handling 8106 140341127673536 Starting operation: product_detail
+INFO 2025-08-06 20:35:54,288 error_handling 8106 140341127673536 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:35:54,290 error_handling 8106 140341127673536 Error in product_detail after 0.00s: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+ERROR 2025-08-06 20:35:54,322 log 8106 140341127673536 Internal Server Error: /shop/product/4/
+Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/workspace/shop/error_handling.py", line 22, in wrapper
+    result = func(*args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'product_list' not found. 'product_list' is not a valid view function or pattern name.
+WARNING 2025-08-06 20:36:18,237 voice_ai_assistant 8229 140289479086336 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:36:32,469 voice_ai_assistant 8356 140185854066944 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:36:42,810 voice_ai_assistant 8377 139788162380032 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:36:58,838 autoreload 8106 140341271191808 /workspace/shop/urls.py changed, reloading.
+INFO 2025-08-06 20:36:59,109 autoreload 8405 140508905533696 Watching for file changes with StatReloader
+WARNING 2025-08-06 20:36:59,362 voice_ai_assistant 8405 140508905533696 Audio libraries not available. Install pydub and pygame for full functionality.
+WARNING 2025-08-06 20:37:02,759 voice_ai_assistant 8430 140137792565504 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:37:08,491 autoreload 8405 140508905533696 /workspace/shop/views.py changed, reloading.
+INFO 2025-08-06 20:37:08,759 autoreload 8473 140088878133504 Watching for file changes with StatReloader
+WARNING 2025-08-06 20:37:09,001 voice_ai_assistant 8473 140088839079616 Audio libraries not available. Install pydub and pygame for full functionality.
+INFO 2025-08-06 20:37:11,763 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:11,765 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:37:11,782 error_handling 8473 140088734381760 Unexpected error in product_detail: 'shop' is not a registered namespace
+ERROR 2025-08-06 20:37:11,784 error_handling 8473 140088734381760 Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'shop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'shop' is not a registered namespace
+
+ERROR 2025-08-06 20:37:11,786 log 8473 140088734381760 Internal Server Error: /shop/product/4/
+INFO 2025-08-06 20:37:16,902 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:16,904 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:37:16,907 error_handling 8473 140088734381760 Unexpected error in product_detail: 'shop' is not a registered namespace
+ERROR 2025-08-06 20:37:16,908 error_handling 8473 140088734381760 Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'shop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'shop' is not a registered namespace
+
+ERROR 2025-08-06 20:37:16,909 log 8473 140088734381760 Internal Server Error: /shop/product/4/
+INFO 2025-08-06 20:37:21,159 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:21,160 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:37:21,164 error_handling 8473 140088734381760 Unexpected error in product_detail: 'shop' is not a registered namespace
+ERROR 2025-08-06 20:37:21,165 error_handling 8473 140088734381760 Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'shop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'shop' is not a registered namespace
+
+ERROR 2025-08-06 20:37:21,166 log 8473 140088734381760 Internal Server Error: /shop/product/4/
+INFO 2025-08-06 20:37:26,767 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:26,769 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-06 20:37:26,772 error_handling 8473 140088734381760 Unexpected error in product_detail: 'shop' is not a registered namespace
+ERROR 2025-08-06 20:37:26,773 error_handling 8473 140088734381760 Traceback (most recent call last):
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'shop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/shop/error_handling.py", line 112, in wrapper
+    return func(request, *args, **kwargs)
+  File "/workspace/shop/views.py", line 286, in product_detail
+    return render(request, 'shop/product_detail.html', context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/base.py", line 969, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "/workspace/venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/workspace/venv/lib/python3.13/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'shop' is not a registered namespace
+
+ERROR 2025-08-06 20:37:26,774 log 8473 140088734381760 Internal Server Error: /shop/product/4/
+INFO 2025-08-06 20:37:37,086 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:37,088 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+INFO 2025-08-06 20:37:42,564 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:42,566 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+INFO 2025-08-06 20:37:47,978 error_handling 8473 140088734381760 Starting operation: product_detail
+INFO 2025-08-06 20:37:47,980 error_handling 8473 140088734381760 Operation completed: product_detail in 0.00s
+ERROR 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 AI Assistant initialization failed: OpenAI SDK not available
+ERROR 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 Speech recognition initialization failed: speech_recognition not available
+WARNING 2025-08-09 14:22:01,647 ai_assistant 2731 139834018509056 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
+>>>>>>> dec82f754cfff67c85a2d86f5637a95d47df0664
