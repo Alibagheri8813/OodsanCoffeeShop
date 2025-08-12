@@ -908,7 +908,7 @@
         justify-content: space-between;
         margin-bottom: 0.7rem;
         padding-bottom: 0.4rem;
-        border-bottom: 1px solid rgba(245, 222, 179, 0.3);
+        border-bottom: 2px solid rgba(245, 222, 179, 0.3);
     }
 
     .comment-author {
@@ -1425,6 +1425,10 @@
     </div>
 </div>
 
+{{ weight_multipliers|json_script:"weight_multipliers_json" }}
+{{ available_grinds|json_script:"available_grinds_json" }}
+{{ available_weights|json_script:"available_weights_json" }}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Hide loading overlay
@@ -1435,11 +1439,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Product data
     const basePrice = {{ product.price }};
     const productId = {{ product.id }};
+    let currentQuantity = 1;
     
     // Weight multipliers - FIXED: 500g = 2x, 1kg = 4x
-    const weightMultipliers = JSON.parse(document.getElementById('weight_multipliers_json').textContent || '{}');
-    const availableGrinds = JSON.parse(document.getElementById('available_grinds_json').textContent || '[]');
-    const availableWeights = JSON.parse(document.getElementById('available_weights_json').textContent || '[]');
+    const weightMultipliers = JSON.parse(document.getElementById('weight_multipliers_json')?.textContent || '{}');
+    const availableGrinds = JSON.parse(document.getElementById('available_grinds_json')?.textContent || '[]');
+    const availableWeights = JSON.parse(document.getElementById('available_weights_json')?.textContent || '[]');
 
     let currentGrind = availableGrinds.length ? availableGrinds[0] : '';
     let currentWeight = availableWeights.length ? availableWeights[0] : '';
@@ -1447,6 +1452,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function getCurrentMultiplier() {
         if (!availableWeights.length) { return 1; }
         return weightMultipliers[currentWeight] || 1;
+    }
+
+    function getCSRFToken() {
+        const input = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (input && input.value) return input.value;
+        const match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+        return match ? decodeURIComponent(match[1]) : '';
     }
 
     // Initialize dropdowns
@@ -1462,54 +1474,59 @@ document.addEventListener('DOMContentLoaded', function() {
         const grindOptions = document.getElementById('grindOptions');
         const grindDisplay = document.getElementById('grindDisplay');
 
-        grindSelect.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleDropdown(grindSelect, grindOptions);
-        });
+        if (grindSelect && grindOptions && grindDisplay) {
+            grindSelect.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown(grindSelect, grindOptions);
+            });
 
-        grindOptions.addEventListener('click', function(e) {
-            const optionEl = e.target.closest('.select-option');
-            if (optionEl && grindOptions.contains(optionEl)) {
-                const prev = grindOptions.querySelector('.selected');
-                if (prev) prev.classList.remove('selected');
-                optionEl.classList.add('selected');
-                grindDisplay.textContent = optionEl.querySelector('span').textContent;
-                currentGrind = optionEl.dataset.value;
-                closeDropdown(grindSelect, grindOptions);
-            }
-        });
+            grindOptions.addEventListener('click', function(e) {
+                const optionEl = e.target.closest('.select-option');
+                if (optionEl && grindOptions.contains(optionEl)) {
+                    const prev = grindOptions.querySelector('.selected');
+                    if (prev) prev.classList.remove('selected');
+                    optionEl.classList.add('selected');
+                    grindDisplay.textContent = optionEl.querySelector('span').textContent;
+                    currentGrind = optionEl.dataset.value;
+                    closeDropdown(grindSelect, grindOptions);
+                }
+            });
+        }
 
         // Weight dropdown
         const weightSelect = document.getElementById('weightSelect');
         const weightOptions = document.getElementById('weightOptions');
         const weightDisplay = document.getElementById('weightDisplay');
 
-        weightSelect.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleDropdown(weightSelect, weightOptions);
-        });
+        if (weightSelect && weightOptions && weightDisplay) {
+            weightSelect.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown(weightSelect, weightOptions);
+            });
 
-        weightOptions.addEventListener('click', function(e) {
-            const optionEl = e.target.closest('.select-option');
-            if (optionEl && weightOptions.contains(optionEl)) {
-                const prev = weightOptions.querySelector('.selected');
-                if (prev) prev.classList.remove('selected');
-                optionEl.classList.add('selected');
-                weightDisplay.textContent = optionEl.querySelector('span').textContent;
-                currentWeight = optionEl.dataset.value;
-                updatePriceDisplay();
-                closeDropdown(weightSelect, weightOptions);
-            }
-        });
+            weightOptions.addEventListener('click', function(e) {
+                const optionEl = e.target.closest('.select-option');
+                if (optionEl && weightOptions.contains(optionEl)) {
+                    const prev = weightOptions.querySelector('.selected');
+                    if (prev) prev.classList.remove('selected');
+                    optionEl.classList.add('selected');
+                    weightDisplay.textContent = optionEl.querySelector('span').textContent;
+                    currentWeight = optionEl.dataset.value;
+                    updatePriceDisplay();
+                    closeDropdown(weightSelect, weightOptions);
+                }
+            });
+        }
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function() {
-            closeDropdown(grindSelect, grindOptions);
-            closeDropdown(weightSelect, weightOptions);
+            if (grindSelect && grindOptions) closeDropdown(grindSelect, grindOptions);
+            if (weightSelect && weightOptions) closeDropdown(weightSelect, weightOptions);
         });
     }
 
     function toggleDropdown(select, options) {
+        if (!select || !options) return;
         const isOpen = select.classList.contains('open');
         
         // Close all dropdowns first
@@ -1533,7 +1550,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Ensure dropdown is properly positioned
             const rect = select.getBoundingClientRect();
-            const parentRect = select.closest('.option-group').getBoundingClientRect();
+            const parentRect = select.closest('.option-group')?.getBoundingClientRect();
             
             // Force the dropdown to appear above other content
             setTimeout(() => {
@@ -1545,6 +1562,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function closeDropdown(select, options) {
+        if (!select || !options) return;
         select.classList.remove('open');
         options.classList.remove('show');
         
@@ -1561,31 +1579,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const increaseBtn = document.getElementById('increaseBtn');
         const quantityInput = document.getElementById('quantityInput');
 
-        decreaseBtn.addEventListener('click', function() {
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                quantityInput.value = currentQuantity;
-                updatePriceDisplay();
-            }
-        });
+        if (decreaseBtn) {
+            decreaseBtn.addEventListener('click', function() {
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    if (quantityInput) quantityInput.value = currentQuantity;
+                    updatePriceDisplay();
+                }
+            });
+        }
 
-        increaseBtn.addEventListener('click', function() {
-            if (currentQuantity < 10) {
-                currentQuantity++;
-                quantityInput.value = currentQuantity;
-                updatePriceDisplay();
-            }
-        });
+        if (increaseBtn) {
+            increaseBtn.addEventListener('click', function() {
+                if (currentQuantity < 10) {
+                    currentQuantity++;
+                    if (quantityInput) quantityInput.value = currentQuantity;
+                    updatePriceDisplay();
+                }
+            });
+        }
 
-        quantityInput.addEventListener('change', function() {
-            const value = parseInt(this.value);
-            if (value >= 1 && value <= 10) {
-                currentQuantity = value;
-                updatePriceDisplay();
-            } else {
-                this.value = currentQuantity;
-            }
-        });
+        if (quantityInput) {
+            quantityInput.addEventListener('change', function() {
+                const value = parseInt(this.value);
+                if (value >= 1 && value <= 10) {
+                    currentQuantity = value;
+                    updatePriceDisplay();
+                } else {
+                    this.value = currentQuantity;
+                }
+            });
+        }
     }
 
     function updatePriceDisplay() {
@@ -1593,27 +1617,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const unitPrice = basePrice * multiplier;
         const totalPrice = unitPrice * currentQuantity;
         
-        document.getElementById('priceValue').textContent = Math.round(totalPrice).toLocaleString();
+        const priceEl = document.getElementById('priceValue');
+        if (priceEl) priceEl.textContent = Math.round(totalPrice).toLocaleString();
     }
 
     function initializeActionButtons() {
         // Add to Cart Button
         const addToCartBtn = document.getElementById('addToCartBtn');
-        addToCartBtn.addEventListener('click', function() {
-            addToCart();
-        });
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', function() {
+                addToCart();
+            });
+        }
 
         // Like Button
         const likeBtn = document.getElementById('likeBtn');
-        likeBtn.addEventListener('click', function() {
-            toggleLike();
-        });
+        if (likeBtn) {
+            likeBtn.addEventListener('click', function() {
+                toggleLike();
+            });
+        }
 
         // Favorite Button
         const favoriteBtn = document.getElementById('favoriteBtn');
-        favoriteBtn.addEventListener('click', function() {
-            toggleFavorite();
-        });
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', function() {
+                toggleFavorite();
+            });
+        }
     }
 
     function initializeComments() {
@@ -1626,7 +1657,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function submitComment() {
-        const commentText = document.getElementById('commentText').value.trim();
+        const commentTextEl = document.getElementById('commentText');
+        if (!commentTextEl) return;
+        const commentText = commentTextEl.value.trim();
         const submitBtn = document.getElementById('submitCommentBtn');
         
         if (!commentText) {
@@ -1644,7 +1677,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                'X-CSRFToken': getCSRFToken()
             },
             body: JSON.stringify({
                 text: commentText
@@ -1654,33 +1687,33 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 // Clear the textarea
-                document.getElementById('commentText').value = '';
+                commentTextEl.value = '';
                 
                 // Add the new comment to the list
                 const commentsList = document.getElementById('commentsList');
-                const emptyMessage = commentsList.querySelector('.comment-item:has(.fa-comment-slash)');
-                if (emptyMessage) {
-                    emptyMessage.remove();
+                if (commentsList) {
+                    const emptyMessage = commentsList.querySelector('.comment-item:has(.fa-comment-slash)');
+                    if (emptyMessage) {
+                        emptyMessage.remove();
+                    }
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment-item';
+                    newComment.innerHTML = `
+                        <div class="comment-header-info">
+                            <div class="comment-author">
+                                <i class="fas fa-user-circle"></i>
+                                ${data.comment.user}
+                            </div>
+                            <div class="comment-date">
+                                ${data.comment.date}
+                            </div>
+                        </div>
+                        <div class="comment-text">
+                            ${data.comment.text}
+                        </div>
+                    `;
+                    commentsList.insertBefore(newComment, commentsList.firstChild);
                 }
-                
-                const newComment = document.createElement('div');
-                newComment.className = 'comment-item';
-                newComment.innerHTML = `
-                    <div class="comment-header-info">
-                        <div class="comment-author">
-                            <i class="fas fa-user-circle"></i>
-                            ${data.comment.user}
-                        </div>
-                        <div class="comment-date">
-                            ${data.comment.date}
-                        </div>
-                    </div>
-                    <div class="comment-text">
-                        ${data.comment.text}
-                    </div>
-                `;
-                
-                commentsList.insertBefore(newComment, commentsList.firstChild);
                 
                 // Success animation
                 submitBtn.innerHTML = '<i class="fas fa-check"></i> ارسال شد!';
@@ -1721,8 +1754,7 @@ document.addEventListener('DOMContentLoaded', function() {
             product_id: productId,
             quantity: currentQuantity,
             grind_type: currentGrind,
-            weight: currentWeight,
-            csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value
+            weight: currentWeight
         };
 
         // Send AJAX request
@@ -1730,7 +1762,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': cartData.csrfmiddlewaretoken
+                'X-CSRFToken': getCSRFToken()
             },
             body: new URLSearchParams(cartData)
         })
@@ -1771,6 +1803,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleLike() {
         const likeBtn = document.getElementById('likeBtn');
+        if (!likeBtn) return;
         const isLiked = likeBtn.classList.contains('liked');
         
         // Optimistic update
@@ -1786,7 +1819,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/shop/product/${productId}/like/`, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-CSRFToken': getCSRFToken(),
                 'Content-Type': 'application/json'
             }
         })
@@ -1805,6 +1838,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleFavorite() {
         const favoriteBtn = document.getElementById('favoriteBtn');
+        if (!favoriteBtn) return;
         const isFavorited = favoriteBtn.classList.contains('favorited');
         
         // Optimistic update
@@ -1820,7 +1854,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/shop/product/${productId}/favorite/`, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-CSRFToken': getCSRFToken(),
                 'Content-Type': 'application/json'
             }
         })
