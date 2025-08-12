@@ -265,13 +265,13 @@ def product_detail(request, product_id=None, slug=None):
         '10kg': 35.0
     }
     
-    # Set default available options if not configured
-    if not product.available_grinds:
+    # Use product-configured options as-is; only fill safe defaults when completely unset (None)
+    if product.available_grinds is None:
         product.available_grinds = ['whole_bean', 'coarse', 'medium', 'fine']
-    if not product.available_weights:
+    if product.available_weights is None:
         product.available_weights = ['250g', '500g', '1kg']
     if not product.weight_multipliers:
-        product.weight_multipliers = {k: v for k, v in default_multipliers.items() if k in product.available_weights}
+        product.weight_multipliers = {k: v for k, v in default_multipliers.items() if product.available_weights and k in product.available_weights}
 
     context = {
         'product': product,
