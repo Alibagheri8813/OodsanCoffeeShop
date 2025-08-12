@@ -38,16 +38,29 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Step 1: Add nullable, non-unique fields to avoid UNIQUE violations during table rewrite
         migrations.AddField(
             model_name='category',
             name='slug',
-            field=models.SlugField(blank=True, db_index=True, max_length=160, unique=True),
+            field=models.SlugField(blank=True, null=True, db_index=True, max_length=160),
         ),
         migrations.AddField(
             model_name='product',
             name='slug',
-            field=models.SlugField(blank=True, db_index=True, max_length=220, unique=True),
+            field=models.SlugField(blank=True, null=True, db_index=True, max_length=220),
         ),
+        # Step 2: Populate unique slugs for existing rows
         migrations.RunPython(populate_category_slugs, migrations.RunPython.noop),
         migrations.RunPython(populate_product_slugs, migrations.RunPython.noop),
+        # Step 3: Enforce uniqueness and non-null after data backfill
+        migrations.AlterField(
+            model_name='category',
+            name='slug',
+            field=models.SlugField(blank=True, null=False, db_index=True, max_length=160, unique=True),
+        ),
+        migrations.AlterField(
+            model_name='product',
+            name='slug',
+            field=models.SlugField(blank=True, null=False, db_index=True, max_length=220, unique=True),
+        ),
     ]
