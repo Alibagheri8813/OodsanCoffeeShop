@@ -42,6 +42,7 @@ class Product(models.Model):
     ]
     
     WEIGHT_CHOICES = [
+        ('100g', '100 گرم'),
         ('250g', '250 گرم'),
         ('500g', '500 گرم'),
         ('1kg', '1 کیلوگرم'),

@@ -1231,75 +1231,71 @@
 
             <!-- Product Options -->
             <div class="options-container">
-                <!-- Grind Type Selection -->
-                <div class="option-group">
+                {# Grind Selection - rendered only if there are available grinds #}
+                {% if available_grinds %}
+                <div class="option-group" id="grindGroup">
                     <div class="option-label">
                         <i class="fas fa-cog"></i>
                         نحوه آسیاب
                     </div>
                     <div class="custom-select">
                         <div class="select-display" id="grindSelect">
-                            <span id="grindDisplay">اسیاب نشده</span>
+                            <span id="grindDisplay">
+                                {% with first_grind=available_grinds.0 %}
+                                    {% for code,label in grind_choices %}
+                                        {% if code == first_grind %}{{ label }}{% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </span>
                             <i class="fas fa-chevron-down select-arrow"></i>
                         </div>
                         <div class="select-options" id="grindOptions">
-                            <div class="select-option selected" data-value="whole_bean">
-                                <span>اسیاب نشده</span>
+                            {% for g in available_grinds %}
+                            <div class="select-option{% if forloop.first %} selected{% endif %}" data-value="{{ g }}">
+                                <span>
+                                    {% for code,label in grind_choices %}
+                                        {% if code == g %}{{ label }}{% endif %}
+                                    {% endfor %}
+                                </span>
                             </div>
-                            <div class="select-option" data-value="coarse">
-                                <span>ترک</span>
-                            </div>
-                            <div class="select-option" data-value="medium_coarse">
-                                <span>موکاپات</span>
-                            </div>
-                            <div class="select-option" data-value="medium">
-                                <span>اسپرسو ساز نیمه صنعتی</span>
-                            </div>
-                            <div class="select-option" data-value="medium_fine">
-                                <span>اسپرسوساز صنعتی</span>
-                            </div>
-                            <div class="select-option" data-value="fine">
-                                <span>اسپرسوساز خانگی</span>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
-                <!-- Weight Selection -->
-                <div class="option-group">
+                {# Weight Selection - rendered only if there are available weights #}
+                {% if available_weights %}
+                <div class="option-group" id="weightGroup">
                     <div class="option-label">
                         <i class="fas fa-weight-hanging"></i>
                         مقدار وزن
                     </div>
                     <div class="custom-select">
                         <div class="select-display" id="weightSelect">
-                            <span id="weightDisplay">250 گرم</span>
+                            <span id="weightDisplay">
+                                {% with first_weight=available_weights.0 %}
+                                    {% for code,label in weight_choices %}
+                                        {% if code == first_weight %}{{ label }}{% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </span>
                             <i class="fas fa-chevron-down select-arrow"></i>
                         </div>
                         <div class="select-options" id="weightOptions">
-                            <div class="select-option selected" data-value="250g" data-multiplier="1">
-                                <span>250 گرم</span>
-                                <span class="option-price">{{ product.price|floatformat:0 }} تومان</span>
+                            {% for w in available_weights %}
+                            <div class="select-option{% if forloop.first %} selected{% endif %}" data-value="{{ w }}" data-multiplier="{{ weight_multipliers.w|default:1 }}">
+                                <span>
+                                    {% for code,label in weight_choices %}
+                                        {% if code == w %}{{ label }}{% endif %}
+                                    {% endfor %}
+                                </span>
                             </div>
-                            <div class="select-option" data-value="500g" data-multiplier="2">
-                                <span>500 گرم</span>
-                                <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
-                            </div>
-                            <div class="select-option" data-value="1kg" data-multiplier="4">
-                                <span>1 کیلوگرم</span>
-                                <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
-                            </div>
-                            <div class="select-option" data-value="5kg" data-multiplier="18">
-                                <span>5 کیلوگرم</span>
-                                <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
-                            </div>
-                            <div class="select-option" data-value="10kg" data-multiplier="35">
-                                <span>10 کیلوگرم</span>
-                                <span class="option-price">{{ product.price|floatformat:0|add:"0" }} تومان</span>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
 
             <!-- Quantity Selection -->
@@ -1441,18 +1437,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const productId = {{ product.id }};
     
     // Weight multipliers - FIXED: 500g = 2x, 1kg = 4x
-    const weightMultipliers = {
-        '250g': 1,
-        '500g': 2,
-        '1kg': 4,
-        '5kg': 18,
-        '10kg': 35
-    };
+    const weightMultipliers = JSON.parse(document.getElementById('weight_multipliers_json').textContent || '{}');
+    const availableGrinds = JSON.parse(document.getElementById('available_grinds_json').textContent || '[]');
+    const availableWeights = JSON.parse(document.getElementById('available_weights_json').textContent || '[]');
 
-    // Current selections
-    let currentGrind = 'whole_bean';
-    let currentWeight = '250g';
-    let currentQuantity = 1;
+    let currentGrind = availableGrinds.length ? availableGrinds[0] : '';
+    let currentWeight = availableWeights.length ? availableWeights[0] : '';
+
+    function getCurrentMultiplier() {
+        if (!availableWeights.length) { return 1; }
+        return weightMultipliers[currentWeight] || 1;
+    }
 
     // Initialize dropdowns
     initializeDropdowns();
@@ -1503,7 +1498,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 weightDisplay.textContent = optionEl.querySelector('span').textContent;
                 currentWeight = optionEl.dataset.value;
                 updatePriceDisplay();
-                updateWeightPrices();
                 closeDropdown(weightSelect, weightOptions);
             }
         });
@@ -1595,23 +1589,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePriceDisplay() {
-        const multiplier = weightMultipliers[currentWeight];
+        const multiplier = getCurrentMultiplier();
         const unitPrice = basePrice * multiplier;
         const totalPrice = unitPrice * currentQuantity;
         
         document.getElementById('priceValue').textContent = Math.round(totalPrice).toLocaleString();
-    }
-
-    function updateWeightPrices() {
-        const weightOptions = document.querySelectorAll('#weightOptions .select-option');
-        weightOptions.forEach(option => {
-            const multiplier = parseFloat(option.dataset.multiplier);
-            const price = Math.round(basePrice * multiplier);
-            const priceElement = option.querySelector('.option-price');
-            if (priceElement) {
-                priceElement.textContent = price.toLocaleString() + ' تومان';
-            }
-        });
     }
 
     function initializeActionButtons() {
@@ -1854,9 +1836,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // Initialize weight prices
-    updateWeightPrices();
 
     // GSAP Animations
     if (typeof gsap !== 'undefined') {
