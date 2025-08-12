@@ -25,6 +25,8 @@ from django.conf import settings
 from decimal import Decimal
 from django.contrib.admin.views.decorators import user_passes_test
 from django.views.decorators.http import require_http_methods
+from django.db.models import F
+from django.db import transaction as db_transaction
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -504,6 +506,7 @@ def checkout(request):
         'subtotal': subtotal,
         'delivery_fee': delivery_fee,
         'total': total,
+        'user_addresses': list(UserAddress.objects.filter(user=request.user)),
     }
     return render(request, 'shop/checkout.html', context)
 
@@ -678,6 +681,10 @@ def user_profile(request):
         if created:
             messages.info(request, 'پروفایل شما ایجاد شد. لطفاً اطلاعات خود را تکمیل کنید.')
         
+        # Clean up expired unpaid orders before stats
+        for o in Order.objects.filter(user=request.user, status='pending_payment'):
+            _delete_if_expired_unpaid(o)
+        
         # Get or create loyalty program
         loyalty, _ = LoyaltyProgram.objects.get_or_create(user=request.user)
         
@@ -686,9 +693,8 @@ def user_profile(request):
         
         # Get user statistics
         total_orders = Order.objects.filter(user=request.user).count()
-        total_spent = Order.objects.filter(
-            user=request.user, 
-            status__in=['paid', 'processing', 'shipped', 'delivered']
+        total_spent = Order.objects.exclude(status='pending_payment').filter(
+            user=request.user
         ).aggregate(total=Sum('total_amount'))['total'] or 0
         
         favorite_count = ProductFavorite.objects.filter(user=request.user).count()
@@ -827,6 +833,9 @@ def delete_address(request, address_id):
 
 @login_required
 def order_history(request):
+    # Delete expired unpaid orders before listing
+    for o in Order.objects.filter(user=request.user, status='pending_payment'):
+        _delete_if_expired_unpaid(o)
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'shop/order_history.html', {'orders': orders})
 
@@ -834,15 +843,26 @@ def order_history(request):
 def order_detail(request, order_id):
     """Beautiful order detail page with tracking"""
     order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Auto-delete if expired and unpaid
+    if _delete_if_expired_unpaid(order):
+        messages.warning(request, 'مهلت پرداخت این سفارش به پایان رسیده و سفارش حذف شد.')
+        return redirect('order_history')
+    
     order_items = order.items.select_related('product').all()
     
     # Include feedback if exists for template conditional rendering
     feedback = getattr(order, 'feedback', None)
-
+ 
     # Provide explicit status lists for template membership checks
     preparing_or_beyond_statuses = ['preparing', 'ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
     ready_or_beyond_statuses = ['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
     shipping_prep_or_transit_statuses = ['shipping_preparation', 'in_transit']
+ 
+    payment_deadline_ts = None
+    if order.status == 'pending_payment':
+        deadline = order.created_at + timedelta(minutes=5)
+        payment_deadline_ts = int(deadline.timestamp())
     
     context = {
         'order': order,
@@ -851,6 +871,7 @@ def order_detail(request, order_id):
         'preparing_or_beyond_statuses': preparing_or_beyond_statuses,
         'ready_or_beyond_statuses': ready_or_beyond_statuses,
         'shipping_prep_or_transit_statuses': shipping_prep_or_transit_statuses,
+        'payment_deadline_ts': payment_deadline_ts,
     }
     
     return render(request, 'shop/order_detail.html', context)
@@ -861,13 +882,17 @@ def pay_order(request, order_id):
     """Simulate payment for an order owned by the user and mark it as paid."""
     order = get_object_or_404(Order, id=order_id, user=request.user)
     
+    # Auto-delete if expired and unpaid before attempting payment
+    if _delete_if_expired_unpaid(order):
+        messages.warning(request, 'مهلت پرداخت این سفارش به پایان رسیده و سفارش حذف شد.')
+        return redirect('order_history')
+    
     if order.status != 'pending_payment':
         messages.warning(request, 'این سفارش در وضعیت قابل پرداخت نیست.')
         return redirect('order_detail', order_id)
     
     try:
         if order.mark_as_paid(request.user):
-            # Optional: create a notification for the user
             Notification.create_notification(
                 user=request.user,
                 notification_type='order_status',
@@ -887,6 +912,9 @@ def pay_order(request, order_id):
 @login_required
 def order_list(request):
     """User's order history"""
+    # Delete expired unpaid orders before listing
+    for o in Order.objects.filter(user=request.user, status='pending_payment'):
+        _delete_if_expired_unpaid(o)
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     
     context = {
@@ -1600,25 +1628,25 @@ def api_analytics(request):
 @require_http_methods(["POST"])
 @login_required
 def transition_order_status(request, order_id):
-    """API endpoint for transitioning order status"""
+    """API endpoint for transitioning order status (staff-only)"""
     try:
         order = get_object_or_404(Order, id=order_id)
-        
-        # Check permissions - only staff can transition orders beyond pending_payment
-        if not request.user.is_staff and order.user != request.user:
+ 
+        # Staff-only transitions
+        if not request.user.is_staff:
             return JsonResponse({'error': 'عدم دسترسی'}, status=403)
-        
+ 
         data = json.loads(request.body)
         new_status = data.get('status')
-        
+ 
         if not new_status:
             return JsonResponse({'error': 'وضعیت جدید مشخص نشده است'}, status=400)
-        
+ 
         # Validate status choice
         valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
         if new_status not in valid_statuses:
             return JsonResponse({'error': 'وضعیت نامعتبر'}, status=400)
-        
+ 
         # Attempt transition
         if order.transition_to(new_status, request.user):
             return JsonResponse({
@@ -1630,7 +1658,7 @@ def transition_order_status(request, order_id):
             })
         else:
             return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
-            
+             
     except ValueError as e:
         return JsonResponse({'error': str(e)}, status=400)
     except Exception as e:
@@ -1946,3 +1974,18 @@ def submit_order_feedback(request, order_id):
     
     messages.success(request, 'بازخورد شما با موفقیت ثبت شد. از شما متشکریم!')
     return JsonResponse({'success': True, 'message': 'بازخورد شما با موفقیت ثبت شد'})
+
+# Helper to restore stock when deleting an unpaid order
+def _restore_stock_for_order(order: Order):
+    with db_transaction.atomic():
+        for item in order.items.select_related('product').all():
+            Product.objects.filter(id=item.product_id).update(stock=F('stock') + item.quantity)
+
+def _delete_if_expired_unpaid(order: Order) -> bool:
+    if order.status == 'pending_payment':
+        deadline = order.created_at + timedelta(minutes=5)
+        if timezone.now() > deadline:
+            _restore_stock_for_order(order)
+            order.delete()
+            return True
+    return False

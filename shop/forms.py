@@ -134,6 +134,12 @@ class CheckoutForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields['address'].queryset = UserAddress.objects.filter(user=user)
+ 
+    def clean_postal_code(self):
+        postal_code = (self.cleaned_data.get('postal_code') or '').strip()
+        if len(postal_code) != 10 or not postal_code.isdigit():
+            raise forms.ValidationError('کد پستی باید ۱۰ رقم باشد.')
+        return postal_code
 
 class CommentForm(forms.ModelForm):
     """Product review form"""
