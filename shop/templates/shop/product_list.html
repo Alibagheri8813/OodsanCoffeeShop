@@ -96,7 +96,7 @@
             {% for category in categories %}
             <a href="{% url 'product_list_by_category' category.id %}" class="category-item {% if selected_category == category.id %}active{% endif %}">
                 {% if category.image %}
-                    <img src="{{ category.image.url }}" alt="{{ category.name }}" loading="lazy" width="120" height="120">
+                                                <img src="{{ category.image.url }}" alt="{{ category.name }}" loading="lazy" decoding="async" width="120" height="120">
                 {% else %}
                     <div class="category-icon">
                         <i class="fas fa-coffee"></i>
@@ -129,7 +129,7 @@
                 <div class="product-card">
                     <div class="product-image">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="400" height="400">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" decoding="async" width="400" height="400">
                         {% else %}
                             <div class="no-image">بدون تصویر</div>
                         {% endif %}

@@ -3,16 +3,13 @@
 
 {% block title %}خانه | اودسان کافی{% endblock %}
 
-{% block head %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
-{% endblock %}
 
 {% block extra_head %}
+<link rel="preload" as="image" href="/media/roast-bg.jpg">
+<!-- GSAP and Three.js only for home page -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('home-page');
