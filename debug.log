@@ -1,2 +1,10 @@
 INFO 2025-08-09 12:40:02,038 autoreload 5704 1284 Watching for file changes with StatReloader
 INFO 2025-08-12 05:12:33,441 autoreload 14228 13584 Watching for file changes with StatReloader
+INFO 2025-08-12 05:24:28,488 autoreload 10096 5924 Watching for file changes with StatReloader
+WARNING 2025-08-12 05:24:35,723 log 10096 12936 Not Found: /favicon.ico
+WARNING 2025-08-12 05:24:37,261 log 10096 4136 Not Found: /cart/count/
+INFO 2025-08-12 05:25:05,623 error_handling 10096 12904 Starting operation: product_detail
+INFO 2025-08-12 05:25:05,623 error_handling 10096 12904 Operation completed: product_detail in 0.00s
+WARNING 2025-08-12 05:25:16,134 log 10096 12904 Not Found: /cart/count/
+WARNING 2025-08-12 05:25:40,155 log 10096 12904 Not Found: /cart/count/
+WARNING 2025-08-12 05:25:48,297 log 10096 12904 Not Found: /cart/count/
