@@ -187,7 +187,6 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = (OrderStatusFilter, 'created_at', 'delivery_method')
     search_fields = ('user__username', 'shipping_address', 'id', 'user__email')
     readonly_fields = ('created_at', 'updated_at', 'total_amount')
-    list_editable = ('status',)
     list_per_page = 30
     ordering = ('-created_at',)
     actions = ['mark_as_paid', 'mark_as_ready', 'start_shipping_preparation', 'mark_in_transit', 'export_orders', 'send_order_notifications']
@@ -283,12 +282,10 @@ class OrderAdmin(admin.ModelAdmin):
     item_count.short_description = 'تعداد آیتم'
     
     def payment_status(self, obj):
-        if obj.status == 'delivered':
-            return format_html('<span style="color: #28a745;">✓ پرداخت شده</span>')
-        elif obj.status == 'pending':
-            return format_html('<span style="color: #ffc107;">⏳ در انتظار</span>')
+        if obj.status == 'pending_payment':
+            return format_html('<span style="color: #ffc107;">⏳ در انتظار پرداخت</span>')
         else:
-            return format_html('<span style="color: #dc3545;">✗ ناموفق</span>')
+            return format_html('<span style="color: #28a745;">✓ پرداخت شده</span>')
     payment_status.short_description = 'وضعیت پرداخت'
     
     def get_queryset(self, request):

@@ -391,6 +391,17 @@
         color: #6c757d;
     }
     
+    .payment-timer {
+        background: #FFF8F0;
+        border: 2px solid #4B2E2B;
+        color: #4B2E2B;
+        padding: 12px 16px;
+        border-radius: 12px;
+        display: inline-block;
+        font-weight: 700;
+        margin: 10px 0;
+    }
+    
     @media (max-width: 768px) {
         .order-detail-grid {
             grid-template-columns: 1fr;
@@ -434,6 +445,12 @@
                         </h3>
                         
                         {% include 'shop/components/status_badge.html' with order=order %}
+
+                        {% if order.status == 'pending_payment' and payment_deadline_ts %}
+                        <div class="payment-timer" id="payment-timer" data-deadline="{{ payment_deadline_ts }}">
+                            مهلت پرداخت: <span id="timer-remaining">05:00</span>
+                        </div>
+                        {% endif %}
                         
                         <div class="info-grid">
                             <div class="info-card">
@@ -604,7 +621,7 @@
                             {% if order.status == 'pending_payment' %}
                             <form method="post" action="{% url 'pay_order' order.id %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" id="pay-button">
                                     <i class="fas fa-credit-card"></i>
                                     پرداخت آنلاین
                                 </button>
@@ -665,16 +682,44 @@
 function showFeedbackModal() {
     document.getElementById('feedbackModal').style.display = 'flex';
 }
-
 function closeFeedbackModal() {
     document.getElementById('feedbackModal').style.display = 'none';
 }
 
+// Payment timer
+(function() {
+    const timerEl = document.getElementById('payment-timer');
+    const payBtn = document.getElementById('pay-button');
+    if (!timerEl) return;
+    const deadline = parseInt(timerEl.getAttribute('data-deadline'), 10) * 1000;
+
+    function format(ms) {
+        const total = Math.max(0, Math.floor(ms / 1000));
+        const m = String(Math.floor(total / 60)).padStart(2, '0');
+        const s = String(total % 60).padStart(2, '0');
+        return m + ':' + s;
+    }
+
+    function tick() {
+        const now = Date.now();
+        const remaining = deadline - now;
+        const label = document.getElementById('timer-remaining');
+        if (label) label.textContent = format(remaining);
+        if (remaining <= 0) {
+            if (payBtn) payBtn.disabled = true;
+            // Redirect to order history; backend will have deleted on next load
+            setTimeout(() => { window.location.href = '{% url "order_history" %}'; }, 1000);
+            return;
+        }
+        setTimeout(tick, 1000);
+    }
+    tick();
+})();
+
+// Feedback submit
 document.getElementById('feedbackForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const formData = new FormData(this);
-    
     fetch('{% url "submit_order_feedback" order.id %}', {
         method: 'POST',
         body: formData,
@@ -697,22 +742,6 @@ document.getElementById('feedbackForm')?.addEventListener('submit', function(e) 
         alert('خطا در ثبت بازخورد');
     });
 });
-
-// Payment processing function
-function processPayment() {
-    const paymentBtn = event.target;
-    const originalText = paymentBtn.innerHTML;
-    
-    paymentBtn.disabled = true;
-    paymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال اتصال به درگاه پرداخت...';
-    
-    // Simulate payment processing
-    setTimeout(() => {
-        alert('این قابلیت در حال توسعه است. لطفاً از دکمه "ثبت سفارش" استفاده کنید.');
-        paymentBtn.disabled = false;
-        paymentBtn.innerHTML = originalText;
-    }, 2000);
-}
 
 // Close modal when clicking outside
 window.onclick = function(event) {
