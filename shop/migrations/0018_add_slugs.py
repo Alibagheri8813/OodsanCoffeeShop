@@ -37,17 +37,4 @@ class Migration(migrations.Migration):
         ('shop', '0017_alter_order_delivery_method_post_only'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='category',
-            name='slug',
-            field=models.SlugField(blank=True, db_index=True, max_length=160, unique=True),
-        ),
-        migrations.AddField(
-            model_name='product',
-            name='slug',
-            field=models.SlugField(blank=True, db_index=True, max_length=220, unique=True),
-        ),
-        migrations.RunPython(populate_category_slugs, migrations.RunPython.noop),
-        migrations.RunPython(populate_product_slugs, migrations.RunPython.noop),
-    ]
+    operations = []
