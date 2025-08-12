@@ -407,14 +407,7 @@
             <div class="order-item">
                 <div class="order-id">#{{ order.id }}</div>
                 <div class="order-customer">{{ order.user.username }}</div>
-                <div class="order-status {{ order.status }}">
-                    {% if order.status == 'pending' %}در انتظار
-                    {% elif order.status == 'processing' %}در حال پردازش
-                    {% elif order.status == 'shipped' %}ارسال شده
-                    {% elif order.status == 'delivered' %}تحویل شده
-                    {% elif order.status == 'cancelled' %}لغو شده
-                    {% else %}{{ order.status }}{% endif %}
-                </div>
+                <div class="order-status {{ order.status }}">{{ order.get_status_display }}</div>
                 <div class="order-amount">{{ order.total_amount|floatformat:0 }} تومان</div>
                 <div class="order-date">{{ order.created_at|date:"Y/m/d" }}</div>
             </div>
