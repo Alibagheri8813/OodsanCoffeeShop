@@ -46,3 +46,6 @@ ERROR 2025-08-12 11:27:38,068 views 1924 560 Error rendering cart view: The 'ima
 ERROR 2025-08-12 11:27:46,835 views 1924 560 Error rendering cart view: The 'image' attribute has no file associated with it.
 ERROR 2025-08-12 11:27:48,242 views 1924 560 Error rendering cart view: The 'image' attribute has no file associated with it.
 ERROR 2025-08-12 11:27:50,275 views 1924 560 Error rendering cart view: The 'image' attribute has no file associated with it.
+INFO 2025-08-12 11:38:55,435 autoreload 7780 12844 Watching for file changes with StatReloader
+WARNING 2025-08-12 11:39:32,797 log 7780 7612 Not Found: /cart/count/
+WARNING 2025-08-12 11:39:38,327 log 7780 2912 Not Found: /cart/count/
