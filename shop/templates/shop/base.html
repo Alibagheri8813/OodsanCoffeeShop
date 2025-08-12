@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     
     <!-- Enhanced SEO Meta Tags -->
     <title>{% block title %}کافی شاپ | بهترین قهوه‌های تهران{% endblock %}</title>
@@ -39,23 +39,20 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'shop/images/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'shop/images/favicon-16x16.png' %}">
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="{% static 'shop/style.css' %}?v=4.1" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" as="style">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <!-- Preload Critical Resources -->
+        <link rel="preload" href="{% static 'shop/style.css' %}?v=4.1" as="style">
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" as="style">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
-    <!-- Stylesheets -->
+          <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'shop/style.css' %}?v=4.1">
     <link rel="stylesheet" href="{% static 'shop/style-enhancements.css' %}?v=2.0">
-    <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.0">
-    <link rel="stylesheet" href="{% static 'shop/dropdown-fix.css' %}?v=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    {% block extra_css %}{% endblock %}
+            <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'shop/dropdown-fix.css' %}?v=1.0">
+        {% block extra_css %}{% endblock %}
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -347,7 +344,7 @@
     <!-- Performance and UX Scripts -->
     <script>
         // Loading Screen
-        window.addEventListener('load', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             if (loadingScreen) {
                 loadingScreen.style.opacity = '0';
@@ -430,7 +427,15 @@
             });
         }
 
-
+        // Ensure lazy loading and async decoding for images
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('img:not([loading])').forEach(function(img){
+                img.setAttribute('loading','lazy');
+            });
+            document.querySelectorAll('img:not([decoding])').forEach(function(img){
+                img.setAttribute('decoding','async');
+            });
+        });
     </script>
 
     {% if user.is_authenticated %}
@@ -455,7 +460,6 @@
         setInterval(updateCartCount, 30000);
     </script>
     {% endif %}
-    </script>
 
     {% block extra_scripts %}{% endblock %}
 </body>
