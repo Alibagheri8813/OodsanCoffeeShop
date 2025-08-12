@@ -311,7 +311,6 @@ def admin_update_user_tier(request, user_id):
     return JsonResponse({'success': True, 'tier': loyalty.get_tier_display()})
 
 @staff_member_required
-@user_passes_test(_can_view_advanced)
 def admin_analytics_data(request):
     """Return analytics datasets for the admin dashboard as JSON.
     Supports ?range=7d|30d|90d and optional ?granularity=day (default).
@@ -452,7 +451,6 @@ def admin_analytics_data(request):
     return JsonResponse(payload)
 
 @staff_member_required
-@user_passes_test(_can_view_advanced)
 def admin_analytics_top_products(request):
     date_range = request.GET.get('range', '30d')
     days_map = {'7d': 7, '30d': 30, '90d': 90}
@@ -468,7 +466,6 @@ def admin_analytics_top_products(request):
     return JsonResponse(list(qs), safe=False)
 
 @staff_member_required
-@user_passes_test(_can_view_advanced)
 def admin_analytics_category_breakdown(request):
     date_range = request.GET.get('range', '30d')
     days_map = {'7d': 7, '30d': 30, '90d': 90}
