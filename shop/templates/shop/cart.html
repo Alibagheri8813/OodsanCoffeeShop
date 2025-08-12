@@ -439,7 +439,11 @@
                     
                     {% for item in cart_items %}
                     <div class="cart-item" data-item-id="{{ item.id }}">
+                        {% if item.product.image %}
                         <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="item-image" loading="lazy" width="80" height="80">
+                        {% else %}
+                        <img src="/media/roast-bg.jpg" alt="{{ item.product.name }}" class="item-image" loading="lazy" width="80" height="80">
+                        {% endif %}
                         
                         <div class="item-details">
                             <h3>{{ item.product.name }}</h3>
