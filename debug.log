@@ -62,3 +62,9 @@ WARNING 2025-08-13 01:27:31,883 log 8876 7440 Not Found: /favicon.ico
 WARNING 2025-08-13 01:27:32,529 log 8876 7440 Not Found: /cart/count/
 WARNING 2025-08-13 01:27:55,118 log 8876 12916 Not Found: /cart/count/
 WARNING 2025-08-13 01:28:03,129 log 8876 12916 Not Found: /cart/count/
+INFO 2025-08-13 03:26:40,869 autoreload 1496 14100 Watching for file changes with StatReloader
+INFO 2025-08-13 03:29:07,792 autoreload 68 5892 Watching for file changes with StatReloader
+WARNING 2025-08-13 03:29:12,485 log 68 6104 Not Found: /cart/count/
+WARNING 2025-08-13 03:30:10,378 log 68 12792 Bad Request: /shop/profile/send-otp/
+WARNING 2025-08-13 03:30:19,202 log 68 12792 Bad Request: /shop/profile/send-otp/
+WARNING 2025-08-13 03:30:43,710 log 68 12792 Bad Request: /shop/profile/send-otp/
