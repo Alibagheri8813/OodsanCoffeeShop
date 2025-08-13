@@ -606,6 +606,12 @@
                             <span class="summary-label">هزینه ارسال</span>
                             <span class="summary-value">{{ order.delivery_fee|floatformat:0 }} تومان</span>
                         </div>
+                        {% if order.intro_margin_applied_amount and order.intro_margin_applied_amount|floatformat:0 != '0' %}
+                        <div class="summary-item">
+                            <span class="summary-label">اعتبار خوش‌آمدگویی</span>
+                            <span class="summary-value">-{{ order.intro_margin_applied_amount|floatformat:0 }} تومان</span>
+                        </div>
+                        {% endif %}
                         
                         <div class="summary-item">
                             <span class="summary-label">مجموع نهایی</span>

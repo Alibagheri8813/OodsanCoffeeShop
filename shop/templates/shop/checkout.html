@@ -326,6 +326,31 @@
         border-left: 4px solid #dc3545;
     }
     
+    .margin-banner {
+        background: rgba(40, 167, 69, 0.12);
+        color: #155724;
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        border-radius: 12px;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .margin-cta {
+        background: rgba(212, 175, 55, 0.12);
+        color: #7B3F00;
+        border: 1px dashed rgba(212, 175, 55, 0.6);
+        border-radius: 12px;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
     @media (max-width: 1024px) {
         .checkout-grid {
             grid-template-columns: 1fr;
@@ -468,6 +493,18 @@
                             خلاصه سفارش
                         </h3>
                         
+                        {% if intro_margin_preview and intro_margin_preview > 0 %}
+                        <div class="margin-banner">
+                            <i class="fas fa-gift"></i>
+                            اعتبار خوش‌آمدگویی: {{ intro_margin_preview|floatformat:0 }} تومان روی این سفارش اعمال می‌شود ✨
+                        </div>
+                        {% else %}
+                        <div class="margin-cta">
+                            <i class="fas fa-sparkles"></i>
+                            با تکمیل پروفایل (ثبت آدرس و تایید شماره تلفن)، ۵۰,۰۰۰ تومان اعتبار هدیه برای اولین پرداخت دریافت کنید!
+                        </div>
+                        {% endif %}
+
                         <div class="cart-items">
                             {% for item in cart_items %}
                                 <div class="cart-item">
@@ -489,9 +526,19 @@
                                 <span>هزینه ارسال:</span>
                                 <span id="shipping-fee">{{ delivery_fee|floatformat:0 }} {% if delivery_fee == 0 %}رایگان{% else %}تومان{% endif %}</span>
                             </div>
+                            {% if intro_margin_preview and intro_margin_preview > 0 %}
+                            <div class="price-row">
+                                <span>اعتبار خوش‌آمدگویی:</span>
+                                <span>-{{ intro_margin_preview|floatformat:0 }} تومان</span>
+                            </div>
+                            {% endif %}
                             <div class="price-row total">
                                 <span>مبلغ نهایی:</span>
+                                {% if intro_margin_preview and intro_margin_preview > 0 %}
+                                <span id="total-amount">{{ total|add:-intro_margin_preview|floatformat:0 }} تومان</span>
+                                {% else %}
                                 <span id="total-amount">{{ total|floatformat:0 }} تومان</span>
+                                {% endif %}
                             </div>
                         </div>
                         

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.text import slugify
 from django.urls import reverse
+from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -174,6 +175,7 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=10, default='')
     phone_number = models.CharField(max_length=15, default='')
     notes = models.TextField(blank=True)
+    intro_margin_applied_amount = models.DecimalField(max_digits=12, decimal_places=0, default=0, verbose_name='اعتبار خوش‌آمدگویی اعمال شده')
 
     def __str__(self):
         return f"سفارش {self.id} - {self.user.username}"
@@ -345,6 +347,14 @@ class UserProfile(models.Model):
     postal_code = models.CharField(max_length=10, blank=True, verbose_name='کد پستی')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # Phone verification and welcome margin fields
+    is_phone_verified = models.BooleanField(default=False, verbose_name='شماره تایید شده', db_index=True)
+    phone_verify_code = models.CharField(max_length=6, blank=True)
+    phone_verify_expires_at = models.DateTimeField(null=True, blank=True)
+    profile_completed_at = models.DateTimeField(null=True, blank=True)
+    intro_margin_awarded = models.BooleanField(default=False)
+    intro_margin_balance = models.DecimalField(max_digits=12, decimal_places=0, default=0, verbose_name='اعتبار خوش‌آمدگویی')
+    intro_margin_consumed_at = models.DateTimeField(null=True, blank=True)
     
     class Meta:
         verbose_name = 'پروفایل کاربر'
@@ -352,6 +362,35 @@ class UserProfile(models.Model):
     
     def __str__(self):
         return f"پروفایل {self.user.username}"
+
+    def has_any_address(self) -> bool:
+        from .models import UserAddress
+        return (
+            bool(self.address and self.city and self.province and self.postal_code)
+            or UserAddress.objects.filter(user=self.user).exists()
+        )
+
+    def is_profile_complete(self) -> bool:
+        return bool(self.is_phone_verified and self.has_any_address())
+
+    def ensure_intro_margin_awarded(self) -> bool:
+        """Award welcome margin once when profile becomes complete."""
+        if self.is_profile_complete() and not self.intro_margin_awarded:
+            self.intro_margin_awarded = True
+            self.profile_completed_at = timezone.now()
+            self.intro_margin_balance = 50000
+            self.save(update_fields=['intro_margin_awarded', 'profile_completed_at', 'intro_margin_balance'])
+            try:
+                Notification.create_notification(
+                    user=self.user,
+                    notification_type='system',
+                    title='هدیه خوش‌آمدگویی فعال شد 🎉',
+                    message='با تکمیل پروفایل، ۵۰,۰۰۰ تومان اعتبار هدیه برای اولین پرداخت شما فعال شد!'
+                )
+            except Exception:
+                pass
+            return True
+        return False
 
 class UserAddress(models.Model):
     """Multiple addresses for each user"""

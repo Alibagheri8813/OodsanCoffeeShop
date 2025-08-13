@@ -29,6 +29,8 @@ urlpatterns = [
     path('login/', views.custom_login, name='login'),
     path('logout/', views.custom_logout, name='logout'),
     path('signup/', views.signup, name='signup'),
+    path('profile/send-otp/', views.send_phone_verification_code, name='send_phone_verification_code'),
+    path('profile/verify-otp/', views.verify_phone_code, name='verify_phone_code'),
     
     # Order Management
     path('checkout/', views.checkout, name='checkout'),
