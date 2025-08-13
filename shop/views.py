@@ -2012,12 +2012,29 @@ def _delete_if_expired_unpaid(order: Order) -> bool:
 @login_required
 @require_http_methods(["POST"])
 def send_phone_verification_code(request):
-    """Send OTP SMS to user's phone (Iran)."""
+    """Send OTP SMS to user's phone (Iran). Accept a posted phone number and persist it before sending."""
     try:
         profile, _ = UserProfile.objects.get_or_create(user=request.user)
+
+        # Read phone number from request (form or JSON)
+        try:
+            data = request.POST or json.loads(request.body.decode('utf-8') or '{}')
+        except Exception:
+            data = {}
+        posted_phone = (data.get('phone_number') or data.get('phone') or '').strip()
+
+        # If a phone number is provided, persist it and reset verification
+        if posted_phone:
+            normalized_phone = posted_phone
+            if normalized_phone != (profile.phone_number or '').strip():
+                profile.phone_number = normalized_phone
+                profile.is_phone_verified = False
+                profile.save(update_fields=['phone_number', 'is_phone_verified'])
+
         phone = (profile.phone_number or '').strip()
         if not phone:
             return JsonResponse({'success': False, 'message': 'ابتدا شماره تلفن خود را در پروفایل ثبت کنید.'}, status=400)
+
         if profile.is_phone_verified:
             return JsonResponse({'success': True, 'message': 'شماره شما قبلاً تایید شده است.'})
 
