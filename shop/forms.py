@@ -53,7 +53,7 @@ class UserProfileForm(forms.ModelForm):
     """Form for editing user profile"""
     class Meta:
         model = UserProfile
-        fields = ['phone_number', 'birth_date', 'avatar', 'bio', 'city', 'province', 'address', 'postal_code']
+        fields = ['phone_number', 'birth_date', 'bio', 'city', 'province', 'address', 'postal_code']
         widgets = {
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -62,10 +62,6 @@ class UserProfileForm(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={
                 'class': 'form-control',
                 'type': 'date'
-            }),
-            'avatar': forms.FileInput(attrs={
-                'class': 'form-control',
-                'accept': 'image/*'
             }),
             'bio': forms.Textarea(attrs={
                 'class': 'form-control',

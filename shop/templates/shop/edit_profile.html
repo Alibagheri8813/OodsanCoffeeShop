@@ -295,37 +295,11 @@ body {
                 <i class="fas fa-user-edit" style="color: var(--gold);"></i>
                 ویرایش پروفایل
             </h1>
-            <p class="form-subtitle">اطلاعات شخصی خود را بروزرسانی کنید</p>
+                        <p class="form-subtitle">اطلاعات شخصی خود را بروزرسانی کنید</p>
         </div>
-
-        <form method="post" enctype="multipart/form-data" novalidate>
+ 
+        <form method="post" novalidate>
             {% csrf_token %}
-            
-            <!-- Avatar Section -->
-            <div class="profile-avatar-section">
-                {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="پروفایل فعلی" class="current-avatar">
-                {% else %}
-                    <div class="avatar-placeholder">
-                        <i class="fas fa-user"></i>
-                    </div>
-                {% endif %}
-                <div class="avatar-upload-text">عکس پروفایل</div>
-                <div class="form-group">
-                    {{ form.avatar }}
-                    {% if form.avatar.errors %}
-                        <ul class="error-list">
-                            {% for error in form.avatar.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <div class="help-text">
-                        <i class="fas fa-info-circle"></i>
-                        فرمت‌های مجاز: JPG, PNG, GIF - حداکثر ۵ مگابایت
-                    </div>
-                </div>
-            </div>
 
             <!-- Form Fields -->
             <div class="form-grid">
