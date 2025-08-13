@@ -244,6 +244,17 @@ body {
     gap: 5px;
 }
 
+.verify-box {
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px dashed rgba(212, 175, 55, 0.6);
+    border-radius: 12px;
+    padding: 16px;
+}
+.verify-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+.verify-input { max-width: 180px; }
+.badge-verified { background: #28a745; color: #fff; padding: 4px 8px; border-radius: 8px; font-weight: 700; }
+.badge-unverified { background: #ffc107; color: #212529; padding: 4px 8px; border-radius: 8px; font-weight: 700; }
+
 @media (max-width: 768px) {
     .form-container {
         padding: 10px;
@@ -335,6 +346,28 @@ body {
                         <i class="fas fa-info-circle"></i>
                         برای تماس در مورد سفارشات
                     </div>
+                    <div class="verify-box" style="margin-top: 10px;">
+                        <div>
+                            وضعیت: 
+                            {% if profile.is_phone_verified %}
+                                <span class="badge-verified">تایید شده</span>
+                            {% else %}
+                                <span class="badge-unverified">تایید نشده</span>
+                            {% endif %}
+                        </div>
+                        {% if not profile.is_phone_verified %}
+                        <div class="verify-actions">
+                            <button type="button" id="sendOtpBtn" class="btn btn-primary" style="min-width: 140px;">
+                                ارسال کد تایید
+                            </button>
+                            <input id="otpInput" class="form-control verify-input" placeholder="کد ۶ رقمی">
+                            <button type="button" id="verifyOtpBtn" class="btn btn-secondary" style="min-width: 120px;">
+                                تایید کد
+                            </button>
+                        </div>
+                        <div id="otpMsg" class="help-text" style="margin-top:8px;"></div>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -389,4 +422,52 @@ body {
         </form>
     </div>
 </div>
+
+<script>
+(function(){
+  const msgEl = document.getElementById('otpMsg');
+  const sendBtn = document.getElementById('sendOtpBtn');
+  const verifyBtn = document.getElementById('verifyOtpBtn');
+  const codeInput = document.getElementById('otpInput');
+  if (sendBtn) {
+    sendBtn.addEventListener('click', async () => {
+      msgEl.textContent = 'در حال ارسال کد...';
+      try {
+        const res = await fetch('{% url "send_phone_verification_code" %}', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+        });
+        const data = await res.json();
+        msgEl.textContent = data.message || (data.success ? 'کد ارسال شد' : 'خطا در ارسال کد');
+      } catch(e) {
+        msgEl.textContent = 'خطا در ارسال کد';
+      }
+    });
+  }
+  if (verifyBtn) {
+    verifyBtn.addEventListener('click', async () => {
+      const code = (codeInput?.value || '').trim();
+      if (!code) { msgEl.textContent = 'کد را وارد کنید'; return; }
+      msgEl.textContent = 'در حال تایید...';
+      try {
+        const res = await fetch('{% url "verify_phone_code" %}', {
+          method: 'POST',
+          headers: { 
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+        msgEl.textContent = data.message || (data.success ? 'تایید شد' : 'خطا در تایید');
+        if (data.success) {
+          setTimeout(() => window.location.reload(), 800);
+        }
+      } catch(e) {
+        msgEl.textContent = 'خطا در تایید کد';
+      }
+    });
+  }
+})();
+</script>
 {% endblock %}
