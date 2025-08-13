@@ -49,3 +49,11 @@ ERROR 2025-08-12 11:27:50,275 views 1924 560 Error rendering cart view: The 'ima
 INFO 2025-08-12 11:38:55,435 autoreload 7780 12844 Watching for file changes with StatReloader
 WARNING 2025-08-12 11:39:32,797 log 7780 7612 Not Found: /cart/count/
 WARNING 2025-08-12 11:39:38,327 log 7780 2912 Not Found: /cart/count/
+INFO 2025-08-12 23:46:43,385 autoreload 5412 6872 Watching for file changes with StatReloader
+WARNING 2025-08-12 23:46:48,709 log 5412 7228 Not Found: /favicon.ico
+WARNING 2025-08-12 23:47:51,409 log 5412 4488 Not Found: /cart/count/
+INFO 2025-08-12 23:51:36,220 error_handling 5412 8224 Starting operation: product_detail
+INFO 2025-08-12 23:51:36,222 error_handling 5412 8224 Operation completed: product_detail in 0.00s
+WARNING 2025-08-12 23:51:44,592 log 5412 8224 Not Found: /cart/count/
+WARNING 2025-08-12 23:54:48,319 log 5412 9768 Not Found: /cart/count/
+WARNING 2025-08-12 23:55:32,720 log 5412 11248 Not Found: /cart/count/
