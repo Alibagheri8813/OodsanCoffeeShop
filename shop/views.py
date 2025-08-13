@@ -27,6 +27,8 @@ from django.contrib.admin.views.decorators import user_passes_test
 from django.views.decorators.http import require_http_methods
 from django.db.models import F
 from django.db import transaction as db_transaction
+from random import randint
+from django.utils import timezone as dj_timezone
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -477,6 +479,16 @@ def checkout(request):
     delivery_fee = Decimal('0') if subtotal >= Decimal('500000') else Decimal('50000') if subtotal > 0 else Decimal('0')
     total = subtotal + delivery_fee
 
+    # Compute potential intro margin shown on summary (visual only; applied on order create)
+    intro_margin_preview = 0
+    try:
+        p = request.user.profile
+        p.ensure_intro_margin_awarded()
+        if p.intro_margin_awarded and p.intro_margin_balance and not p.intro_margin_consumed_at:
+            intro_margin_preview = int(min(Decimal(str(p.intro_margin_balance)), total))
+    except Exception:
+        intro_margin_preview = 0
+
     if request.method == 'POST':
         form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
@@ -507,6 +519,7 @@ def checkout(request):
         'delivery_fee': delivery_fee,
         'total': total,
         'user_addresses': list(UserAddress.objects.filter(user=request.user)),
+        'intro_margin_preview': intro_margin_preview,
     }
     return render(request, 'shop/checkout.html', context)
 
@@ -725,6 +738,12 @@ def edit_profile(request):
             form = UserProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
+                # Re-check and possibly award intro margin
+                try:
+                    profile.refresh_from_db()
+                    profile.ensure_intro_margin_awarded()
+                except Exception:
+                    pass
                 messages.success(request, 'پروفایل شما با موفقیت به‌روزرسانی شد.')
                 return redirect('user_profile')
             else:
@@ -1989,3 +2008,65 @@ def _delete_if_expired_unpaid(order: Order) -> bool:
             order.delete()
             return True
     return False
+
+@login_required
+@require_http_methods(["POST"])
+def send_phone_verification_code(request):
+    """Send OTP SMS to user's phone (Iran)."""
+    try:
+        profile, _ = UserProfile.objects.get_or_create(user=request.user)
+        phone = (profile.phone_number or '').strip()
+        if not phone:
+            return JsonResponse({'success': False, 'message': 'ابتدا شماره تلفن خود را در پروفایل ثبت کنید.'}, status=400)
+        if profile.is_phone_verified:
+            return JsonResponse({'success': True, 'message': 'شماره شما قبلاً تایید شده است.'})
+
+        code = f"{randint(100000, 999999)}"
+        profile.phone_verify_code = code
+        profile.phone_verify_expires_at = dj_timezone.now() + timedelta(minutes=5)
+        profile.save(update_fields=['phone_verify_code', 'phone_verify_expires_at'])
+
+        # SMS sending (mock or provider integration)
+        from .sms_provider import send_sms
+        try:
+            send_sms(phone, f"کد تایید شما: {code}")
+        except Exception as e:
+            logger.error(f"SMS send failed: {e}")
+
+        return JsonResponse({'success': True, 'message': 'کد تایید ارسال شد.'})
+    except Exception as e:
+        logger.error(f"send_phone_verification_code error: {e}")
+        return JsonResponse({'success': False, 'message': 'خطا در ارسال کد تایید'}, status=500)
+
+@login_required
+@require_http_methods(["POST"])
+def verify_phone_code(request):
+    """Verify submitted OTP code."""
+    try:
+        data = request.POST or json.loads(request.body.decode('utf-8') or '{}')
+        code = (data.get('code') or '').strip()
+        profile, _ = UserProfile.objects.get_or_create(user=request.user)
+        if not code:
+            return JsonResponse({'success': False, 'message': 'کد تایید را وارد کنید.'}, status=400)
+        if not profile.phone_verify_code or not profile.phone_verify_expires_at:
+            return JsonResponse({'success': False, 'message': 'ابتدا کد تایید را دریافت کنید.'}, status=400)
+        if dj_timezone.now() > profile.phone_verify_expires_at:
+            return JsonResponse({'success': False, 'message': 'مهلت کد تایید به پایان رسیده است.'}, status=400)
+        if code != profile.phone_verify_code:
+            return JsonResponse({'success': False, 'message': 'کد تایید نادرست است.'}, status=400)
+
+        profile.is_phone_verified = True
+        profile.phone_verify_code = ''
+        profile.phone_verify_expires_at = None
+        profile.save(update_fields=['is_phone_verified', 'phone_verify_code', 'phone_verify_expires_at'])
+
+        # Check award after successful verification
+        try:
+            profile.ensure_intro_margin_awarded()
+        except Exception:
+            pass
+
+        return JsonResponse({'success': True, 'message': 'شماره تلفن با موفقیت تایید شد.'})
+    except Exception as e:
+        logger.error(f"verify_phone_code error: {e}")
+        return JsonResponse({'success': False, 'message': 'خطا در تایید کد'}, status=500)

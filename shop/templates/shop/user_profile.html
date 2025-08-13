@@ -491,6 +491,31 @@ body {
         transform: scale(1);
     }
 }
+
+.welcome-credit {
+    margin-top: 12px;
+    background: rgba(40, 167, 69, 0.12);
+    color: #155724;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
+.welcome-credit-cta {
+    margin-top: 12px;
+    background: rgba(212, 175, 55, 0.12);
+    color: #7B3F00;
+    border: 1px dashed rgba(212, 175, 55, 0.6);
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
 </style>
 {% endblock %}
 
@@ -525,6 +550,17 @@ body {
                     </div>
 
                 </div>
+                {% if user.profile.intro_margin_awarded and not user.profile.intro_margin_consumed_at and user.profile.intro_margin_balance %}
+                <div class="welcome-credit">
+                    <i class="fas fa-gift"></i>
+                    اعتبار خوش‌آمدگویی فعال: {{ user.profile.intro_margin_balance|floatformat:0 }} تومان — در اولین پرداخت اعمال می‌شود ✨
+                </div>
+                {% elif not user.profile.is_phone_verified or not user.profile.address %}
+                <a class="welcome-credit-cta" href="{% url 'edit_profile' %}">
+                    <i class="fas fa-bolt"></i>
+                    پروفایل خود را کامل کنید و ۵۰,۰۰۰ تومان اعتبار هدیه بگیرید!
+                </a>
+                {% endif %}
             </div>
             
             <div class="profile-actions">

@@ -53,7 +53,7 @@ class UserProfileForm(forms.ModelForm):
     """Form for editing user profile"""
     class Meta:
         model = UserProfile
-        fields = ['phone_number', 'birth_date', 'avatar', 'bio']
+        fields = ['phone_number', 'birth_date', 'avatar', 'bio', 'city', 'province', 'address', 'postal_code']
         widgets = {
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -71,7 +71,11 @@ class UserProfileForm(forms.ModelForm):
                 'class': 'form-control',
                 'rows': 4,
                 'placeholder': 'درباره خود بنویسید...'
-            })
+            }),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'شهر'}),
+            'province': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'استان'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'آدرس'}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد پستی ۱۰ رقمی'}),
         }
 
 class UserAddressForm(forms.ModelForm):
