@@ -179,3 +179,4 @@ Traceback (most recent call last):
   File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\base.py", line 764, in args_check
     raise TemplateSyntaxError(
 django.template.exceptions.TemplateSyntaxError: add requires 2 arguments, 1 provided
+INFO 2025-08-14 02:30:05,224 autoreload 7296 9120 Watching for file changes with StatReloader
