@@ -489,6 +489,14 @@ def checkout(request):
     except Exception:
         intro_margin_preview = 0
 
+    # Compute final total after applying intro margin preview (for display only)
+    try:
+        final_total = total - Decimal(intro_margin_preview or 0)
+        if final_total < 0:
+            final_total = Decimal('0')
+    except Exception:
+        final_total = total
+
     if request.method == 'POST':
         form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
@@ -520,6 +528,7 @@ def checkout(request):
         'total': total,
         'user_addresses': list(UserAddress.objects.filter(user=request.user)),
         'intro_margin_preview': intro_margin_preview,
+        'final_total': final_total,
     }
     return render(request, 'shop/checkout.html', context)
 
