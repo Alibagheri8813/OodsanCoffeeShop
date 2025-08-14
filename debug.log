@@ -57,3 +57,22 @@ INFO 2025-08-12 23:51:36,222 error_handling 5412 8224 Operation completed: produ
 WARNING 2025-08-12 23:51:44,592 log 5412 8224 Not Found: /cart/count/
 WARNING 2025-08-12 23:54:48,319 log 5412 9768 Not Found: /cart/count/
 WARNING 2025-08-12 23:55:32,720 log 5412 11248 Not Found: /cart/count/
+ERROR 2025-08-14 18:07:53,353 ai_assistant 5329 139739912298752 AI Assistant initialization failed: OpenAI SDK not available
+ERROR 2025-08-14 18:07:53,353 ai_assistant 5329 139739912298752 Speech recognition initialization failed: speech_recognition not available
+WARNING 2025-08-14 18:07:53,354 ai_assistant 5329 139739912298752 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
+ERROR 2025-08-14 18:07:56,136 views 5329 139739912298752 remove_from_cart error: No CartItem matches the given query.
+ERROR 2025-08-14 18:07:56,136 log 5329 139739912298752 Internal Server Error: /shop/cart/remove/
+WARNING 2025-08-14 18:07:57,186 log 5329 139739912298752 Bad Request: /shop/cart/update/
+ERROR 2025-08-14 18:07:58,633 views 5329 139739912298752 update_cart_item error: No CartItem matches the given query.
+WARNING 2025-08-14 18:07:58,983 log 5329 139739912298752 Bad Request: /shop/cart/update/
+WARNING 2025-08-14 18:07:59,330 log 5329 139739912298752 Bad Request: /shop/cart/update/
+ERROR 2025-08-14 18:10:24,802 ai_assistant 5822 139848793436416 AI Assistant initialization failed: OpenAI SDK not available
+ERROR 2025-08-14 18:10:24,802 ai_assistant 5822 139848793436416 Speech recognition initialization failed: speech_recognition not available
+WARNING 2025-08-14 18:10:24,802 ai_assistant 5822 139848793436416 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
+WARNING 2025-08-14 18:10:27,605 log 5822 139848793436416 Not Found: /shop/cart/remove/
+WARNING 2025-08-14 18:10:30,120 log 5822 139848793436416 Not Found: /shop/cart/update/
+ERROR 2025-08-14 18:10:46,336 ai_assistant 6062 139926112817408 AI Assistant initialization failed: OpenAI SDK not available
+ERROR 2025-08-14 18:10:46,336 ai_assistant 6062 139926112817408 Speech recognition initialization failed: speech_recognition not available
+WARNING 2025-08-14 18:10:46,336 ai_assistant 6062 139926112817408 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
+WARNING 2025-08-14 18:10:49,109 log 6062 139926112817408 Not Found: /shop/cart/remove/
+WARNING 2025-08-14 18:10:51,619 log 6062 139926112817408 Not Found: /shop/cart/update/

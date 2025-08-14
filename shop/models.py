@@ -365,10 +365,7 @@ class UserProfile(models.Model):
 
     def has_any_address(self) -> bool:
         from .models import UserAddress
-        return (
-            bool(self.address and self.city and self.province and self.postal_code)
-            or UserAddress.objects.filter(user=self.user).exists()
-        )
+        return UserAddress.objects.filter(user=self.user).exists()
 
     def is_profile_complete(self) -> bool:
         return bool(self.has_any_address())

@@ -27,11 +27,17 @@ class CartViewTestCase(TestCase):
         # Create user profile
         self.profile = UserProfile.objects.create(
             user=self.user,
-            address='Test Address 123',
-            postal_code='1234567890',
-            city='Tehran',
-            province='Tehran',
             phone_number='09123456789'
+        )
+        # Create an address to mark profile as complete under new rules
+        from .models import UserAddress
+        UserAddress.objects.create(
+            user=self.user,
+            title='Home',
+            full_address='Test Address 123',
+            city='Tehran',
+            state='Tehran',
+            is_default=True
         )
         
         # Create test category
@@ -69,6 +75,9 @@ class CartViewTestCase(TestCase):
             product=self.product2,
             quantity=1
         )
+        # Ensure welcome credit is awarded after address creation
+        self.profile.refresh_from_db()
+        self.profile.ensure_intro_margin_awarded()
     
     def test_cart_view_authenticated(self):
         """Test cart view for authenticated user"""
