@@ -208,3 +208,5 @@ WARNING 2025-08-14 04:17:07,509 log 6124 5308 Not Found: /.well-known/appspecifi
 WARNING 2025-08-14 04:24:45,718 log 6124 3592 Not Found: /favicon.ico
 WARNING 2025-08-14 04:24:50,524 log 6124 1352 Not Found: /cart/count/
 WARNING 2025-08-14 04:26:59,081 log 6124 2088 Not Found: /cart/count/
+INFO 2025-08-14 04:50:05,618 autoreload 11320 2488 Watching for file changes with StatReloader
+WARNING 2025-08-14 04:50:09,269 log 11320 12488 Not Found: /cart/count/
