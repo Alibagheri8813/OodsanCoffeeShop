@@ -39,8 +39,7 @@ class OrderStatusFilter(SimpleListFilter):
         return (
             ('pending_payment', _('در انتظار پرداخت')),
             ('preparing', _('در حال آمــاده‌سازی')),
-            ('ready', _('آماده شده')),
-            ('shipping_preparation', _('در حال ارسال به اداره پست')),
+            ('ready_shipping_preparation', _('آماده و در حال آماده‌سازی ارسال')),
             ('in_transit', _('بسته در حال رسیدن به مقصد است')),
             ('delivered', _('تحویل داده شده')),
             ('pickup_ready', _('آماده شده است و لطفاً مراجعه کنید')),
@@ -190,7 +189,7 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at', 'total_amount')
     list_per_page = 30
     ordering = ('-created_at',)
-    actions = ['mark_as_paid', 'mark_as_ready', 'start_shipping_preparation', 'mark_in_transit', 'export_orders', 'send_order_notifications']
+    actions = ['mark_as_paid', 'mark_as_ready', 'mark_in_transit', 'export_orders', 'send_order_notifications']
     
     fieldsets = (
         ('اطلاعات سفارش', {
@@ -213,8 +212,7 @@ class OrderAdmin(admin.ModelAdmin):
         style_map = {
             'pending_payment': 'background: linear-gradient(135deg, #8B4513, #A0522D); color: white; box-shadow: 0 2px 8px rgba(139,69,19,0.3);',
             'preparing': 'background: linear-gradient(135deg, #D2691E, #CD853F); color: white; box-shadow: 0 2px 8px rgba(210,105,30,0.3);',
-            'ready': 'background: linear-gradient(135deg, #CD853F, #DEB887); color: white; box-shadow: 0 2px 8px rgba(205,133,63,0.3);',
-            'shipping_preparation': 'background: linear-gradient(135deg, #A0522D, #8B4513); color: white; box-shadow: 0 2px 8px rgba(160,82,45,0.3);',
+            'ready_shipping_preparation': 'background: linear-gradient(135deg, #CD853F, #DEB887); color: white; box-shadow: 0 2px 8px rgba(205,133,63,0.3);',
             'in_transit': 'background: linear-gradient(135deg, #654321, #8B4513); color: white; box-shadow: 0 2px 8px rgba(101,67,33,0.3);',
             'delivered': 'background: linear-gradient(135deg, #228B22, #32CD32); color: white; box-shadow: 0 2px 8px rgba(34,139,34,0.3);',
             'pickup_ready': 'background: linear-gradient(135deg, #228B22, #32CD32); color: white; box-shadow: 0 2px 8px rgba(34,139,34,0.3);',
@@ -251,15 +249,6 @@ class OrderAdmin(admin.ModelAdmin):
                 updated += 1
         self.message_user(request, f'{updated} سفارش آماده شد.')
     mark_as_ready.short_description = "علامت‌گذاری به عنوان آماده شده"
-    
-    def start_shipping_preparation(self, request, queryset):
-        """Start shipping preparation for postal orders"""
-        updated = 0
-        for order in queryset.filter(delivery_method='post'):
-            if order.start_shipping_preparation(request.user):
-                updated += 1
-        self.message_user(request, f'{updated} سفارش پستی وارد مرحله آماده‌سازی ارسال شد.')
-    start_shipping_preparation.short_description = "شروع آماده‌سازی ارسال (فقط پستی)"
     
     def mark_in_transit(self, request, queryset):
         """Mark orders as in transit"""

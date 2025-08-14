@@ -167,6 +167,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        margin-top: 15px;
     }
     
     .order-item {
@@ -196,55 +197,14 @@
         background: #FFF8F0;
     }
     
-    .item-details {
-        flex: 1;
-    }
-    
-    .item-name {
-        color: #2c3e50;
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-    
-    .item-description {
-        color: #6c757d;
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-    }
-    
-    .item-specs {
-        display: flex;
-        gap: 15px;
-        margin: 8px 0;
-    }
-    
-    .spec-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 4px 8px;
-        background: #f8f9fa;
-        border-radius: 6px;
-        font-size: 0.85em;
-        color: #666;
-    }
-    
-    .spec-item i {
-        color: #4B2E2B;
-    }
-    
-    .item-quantity {
-        color: #4B2E2B;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-    
-    .item-price {
-        color: #2c3e50;
-        font-weight: 700;
-        font-size: 1.1rem;
-    }
+    .item-details { flex: 1; }
+    .item-name { color: #2c3e50; font-size: 1.2rem; font-weight: 600; margin-bottom: 5px; }
+    .item-description { color: #6c757d; font-size: 0.9rem; margin-bottom: 8px; }
+    .item-specs { display: flex; gap: 15px; margin: 8px 0; }
+    .spec-item { display: flex; align-items: center; gap: 5px; padding: 4px 8px; background: #f8f9fa; border-radius: 6px; font-size: 0.85em; color: #666; }
+    .spec-item i { color: #4B2E2B; }
+    .item-quantity { color: #4B2E2B; font-weight: 600; font-size: 0.9rem; }
+    .item-price { color: #2c3e50; font-weight: 700; font-size: 1.1rem; }
     
     .order-summary {
         background: linear-gradient(135deg, #4B2E2B 0%, #7B3F00 100%);
@@ -255,174 +215,34 @@
         top: 20px;
     }
     
-    .summary-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 25px;
-        text-align: center;
-    }
+    .summary-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; text-align: center; }
+    .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+    .summary-item:last-child { border-bottom: none; font-weight: 700; font-size: 1.2rem; margin-top: 10px; padding-top: 20px; border-top: 2px solid rgba(255, 255, 255, 0.3); }
+    .summary-label { color: rgba(255, 255, 255, 0.9); }
+    .summary-value { font-weight: 600; }
+    .action-buttons { display: flex; gap: 15px; margin-top: 30px; }
+    .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: #4B2E2B; color: #FFF8F0; }
+    .btn-primary:hover { background: #7B3F00; transform: translateY(-2px); }
+    .btn-secondary { background: #7B3F00; color: #FFF8F0; }
+    .btn-secondary:hover { background: #C97C5D; transform: translateY(-2px); }
     
-    .summary-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .summary-item:last-child {
-        border-bottom: none;
-        font-weight: 700;
-        font-size: 1.2rem;
-        margin-top: 10px;
-        padding-top: 20px;
-        border-top: 2px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .summary-label {
-        color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .summary-value {
-        font-weight: 600;
-    }
-    
-    .action-buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-    }
-    
-    .btn {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .btn-primary {
-        background: #4B2E2B;
-        color: #FFF8F0;
-    }
-    
-    .btn-primary:hover {
-        background: #7B3F00;
-        transform: translateY(-2px);
-    }
-    
-    .btn-secondary {
-        background: #7B3F00;
-        color: #FFF8F0;
-    }
-    
-    .btn-secondary:hover {
-        background: #C97C5D;
-        transform: translateY(-2px);
-    }
-    
-    .tracking-timeline {
-        background: white;
-        padding: 30px;
-        border-radius: 16px;
-        margin-top: 30px;
-    }
-    
-    .timeline {
-        position: relative;
-        padding-left: 30px;
-    }
-    
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 15px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: #e9ecef;
-    }
-    
-    .timeline-item {
-        position: relative;
-        margin-bottom: 25px;
-        padding-left: 30px;
-    }
-    
-    .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -22px;
-        top: 5px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #4B2E2B;
-        border: 3px solid white;
-        box-shadow: 0 0 0 3px #4B2E2B;
-    }
-    
-    .timeline-item.active::before {
-        background: #28a745;
-        box-shadow: 0 0 0 3px #28a745;
-    }
-    
-    .timeline-content {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #4B2E2B;
-    }
-    
-    .timeline-title {
-        font-weight: 600;
-        color: #2c3e50;
-        margin-bottom: 5px;
-    }
-    
-    .timeline-date {
-        font-size: 0.9rem;
-        color: #6c757d;
-    }
-    
-    .payment-timer {
-        background: #FFF8F0;
-        border: 2px solid #4B2E2B;
-        color: #4B2E2B;
-        padding: 12px 16px;
-        border-radius: 12px;
-        display: inline-block;
-        font-weight: 700;
-        margin: 10px 0;
-    }
+    /* New horizontal tracking bar at top */
+    .tracking-timeline { background: white; padding: 16px 20px; border-radius: 16px; margin-top: 16px; }
+    .timeline-horizontal { display: flex; align-items: center; gap: 18px; overflow-x: auto; padding: 8px 0; }
+    .timeline-step { display: flex; align-items: center; gap: 8px; position: relative; }
+    .timeline-step .dot { width: 14px; height: 14px; border-radius: 50%; background: #e9ecef; border: 3px solid white; box-shadow: 0 0 0 2px #e9ecef; }
+    .timeline-step.active .dot { background: #28a745; box-shadow: 0 0 0 2px #28a745; }
+    .timeline-step .label { font-weight: 600; color: #2c3e50; white-space: nowrap; font-size: 0.95rem; }
+    .timeline-connector { flex: 1 0 24px; height: 2px; background: #e9ecef; }
+    .timeline-connector.active { background: #28a745; }
     
     @media (max-width: 768px) {
-        .order-detail-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .order-detail-header h1 {
-            font-size: 2rem;
-        }
-        
-        .info-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .order-item {
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .action-buttons {
-            flex-direction: column;
-        }
+        .order-detail-grid { grid-template-columns: 1fr; }
+        .order-detail-header h1 { font-size: 2rem; }
+        .info-grid { grid-template-columns: 1fr; }
+        .order-item { flex-direction: column; text-align: center; }
+        .action-buttons { flex-direction: column; }
     }
 </style>
 {% endblock %}
@@ -437,6 +257,45 @@
             </div>
             
             <div class="order-detail-content">
+                <!-- Moved tracking flow to top and horizontal -->
+                <div class="tracking-timeline" id="tracking-timeline">
+                    <div class="timeline-horizontal" id="timeline-steps">
+                        <div class="timeline-step {% if True %}active{% endif %}" data-step="created">
+                            <div class="dot"></div>
+                            <div class="label">سفارش ثبت شد</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status != 'pending_payment' %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status != 'pending_payment' %}active{% endif %}" data-step="paid">
+                            <div class="dot"></div>
+                            <div class="label">پرداخت تایید شد</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status in preparing_or_beyond_statuses %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status in preparing_or_beyond_statuses %}active{% endif %}" data-step="preparing">
+                            <div class="dot"></div>
+                            <div class="label">در حال آماده‌سازی</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status in ready_or_beyond_statuses %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status in ready_or_beyond_statuses %}active{% endif %}" data-step="ready_shipping_preparation">
+                            <div class="dot"></div>
+                            <div class="label">آماده و در حال آماده‌سازی ارسال</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status == 'in_transit' or order.status == 'delivered' %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status == 'in_transit' or order.status == 'delivered' %}active{% endif %}" data-step="in_transit">
+                            <div class="dot"></div>
+                            <div class="label">در حال ارسال</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status == 'delivered' or order.status == 'pickup_ready' %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status == 'delivered' %}active{% endif %}" data-step="delivered">
+                            <div class="dot"></div>
+                            <div class="label">تحویل داده شد</div>
+                        </div>
+                        <div class="timeline-connector {% if order.status == 'pickup_ready' %}active{% endif %}"></div>
+                        <div class="timeline-step {% if order.status == 'pickup_ready' %}active{% endif %}" data-step="pickup_ready">
+                            <div class="dot"></div>
+                            <div class="label">آماده برای دریافت حضوری</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="order-detail-grid">
                     <div class="order-info-section" data-order-id="{{ order.id }}">
                         <h3 class="section-title">
@@ -523,63 +382,7 @@
                             </div>
                         </div>
                         
-                        <div class="tracking-timeline" id="tracking-timeline">
-                            <h3 class="section-title">
-                                <i class="fas fa-route"></i>
-                                وضعیت سفارش
-                            </h3>
-                            
-                            <div class="timeline" id="timeline-steps">
-                                <div class="timeline-item {% if True %}active{% endif %}" data-step="created">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">سفارش ثبت شد</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status != 'pending_payment' %}active{% endif %}" data-step="paid">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">پرداخت تایید شد</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status in preparing_or_beyond_statuses %}active{% endif %}" data-step="preparing">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">در حال آماده‌سازی</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status in ready_or_beyond_statuses %}active{% endif %}" data-step="ready">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">آماده شد</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.delivery_method == 'post' and order.status in shipping_prep_or_transit_statuses %}active{% endif %}" data-step="shipping_preparation">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">در حال ارسال به اداره پست</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status == 'in_transit' or order.status == 'delivered' %}active{% endif %}" data-step="in_transit">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">بسته در حال رسیدن به مقصد است</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status == 'delivered' %}active{% endif %}" data-step="delivered">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">تحویل داده شد</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item {% if order.status == 'pickup_ready' %}active{% endif %}" data-step="pickup_ready">
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">آماده برای دریافت حضوری</div>
-                                        <div class="timeline-date">{{ order.created_at|date:"Y/m/d H:i" }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {# Old vertical timeline removed #}
                     </div>
                     
                     <div class="order-summary">
@@ -766,22 +569,30 @@ window.onclick = function(event) {
 
     function updateTimeline(status, deliveryMethod) {
         if (!timeline) return;
-        const isPost = deliveryMethod === 'post';
         const steps = [
             { key: 'created', active: true },
             { key: 'paid', active: status !== 'pending_payment' },
-            { key: 'preparing', active: ['preparing','ready','shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
-            { key: 'ready', active: ['ready','shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
-            { key: 'shipping_preparation', active: isPost && ['shipping_preparation','in_transit','delivered'].includes(status) },
+            { key: 'preparing', active: ['preparing','ready_shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
+            { key: 'ready_shipping_preparation', active: ['ready_shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
             { key: 'in_transit', active: ['in_transit','delivered'].includes(status) },
             { key: 'delivered', active: status === 'delivered' },
             { key: 'pickup_ready', active: status === 'pickup_ready' },
         ];
+        // Apply step classes
         steps.forEach(({key, active}) => {
-            const el = timeline.querySelector(`.timeline-item[data-step="${key}"]`);
+            const el = timeline.querySelector(`.timeline-step[data-step="${key}"]`);
             if (!el) return;
             if (active) el.classList.add('active'); else el.classList.remove('active');
         });
+        // Activate connectors up to the last active step
+        const connectors = timeline.querySelectorAll('.timeline-connector');
+        let lastActiveIndex = -1;
+        for (let i = 0; i < steps.length; i++) {
+            if (steps[i].active) lastActiveIndex = i;
+        }
+        for (let i = 0; i < connectors.length; i++) {
+            if (i < lastActiveIndex) connectors[i].classList.add('active'); else connectors[i].classList.remove('active');
+        }
     }
 
     let stopped = false;
