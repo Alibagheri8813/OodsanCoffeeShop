@@ -116,12 +116,17 @@ def signup(request):
         return redirect('home')
     
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             try:
                 user = form.save()
                 # Create user profile
-                UserProfile.objects.create(user=user)
+                UserProfile.objects.create(
+                    user=user,
+                    phone_number=form.cleaned_data.get('phone_number', ''),
+                    city=form.cleaned_data.get('city', ''),
+                    province=form.cleaned_data.get('province', ''),
+                )
                 # Create welcome notification
                 Notification.objects.create(
                     user=user,
@@ -149,7 +154,7 @@ def signup(request):
                 elif 'too_common' in str(form.errors['password1']):
                     messages.error(request, 'رمز عبور خیلی ساده است.')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     
     return render(request, 'shop/signup.html', {'form': form})
 
@@ -433,27 +438,6 @@ def cart_count(request):
 
 # ===== AUTH/PROFILE & CHECKOUT (URL compatibility) =====
 
-def register(request):
-    """User registration using the enhanced UserRegistrationForm."""
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            # Create related profile with optional fields
-            UserProfile.objects.create(
-                user=user,
-                phone_number=form.cleaned_data.get('phone_number', ''),
-                city=form.cleaned_data.get('city', ''),
-                province=form.cleaned_data.get('province', ''),
-            )
-            messages.success(request, 'ثبت‌نام با موفقیت انجام شد. لطفاً وارد شوید.')
-            return redirect('login')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'shop/register.html', {'form': form})
 
 @login_required
 def profile(request):
