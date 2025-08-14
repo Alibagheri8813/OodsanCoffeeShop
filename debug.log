@@ -76,3 +76,5 @@ ERROR 2025-08-14 18:10:46,336 ai_assistant 6062 139926112817408 Speech recogniti
 WARNING 2025-08-14 18:10:46,336 ai_assistant 6062 139926112817408 TTS initialization failed (will use text-only mode): No module named 'pyttsx3'
 WARNING 2025-08-14 18:10:49,109 log 6062 139926112817408 Not Found: /shop/cart/remove/
 WARNING 2025-08-14 18:10:51,619 log 6062 139926112817408 Not Found: /shop/cart/update/
+WARNING 2025-08-14 22:58:51,204 log 4393 139675876917504 Not Found: /shop/cart/remove/
+WARNING 2025-08-14 22:59:13,010 log 4450 140401947500800 Not Found: /shop/cart/remove/

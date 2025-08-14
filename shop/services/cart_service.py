@@ -92,6 +92,7 @@ def update_cart_item(user, item_id: int, new_quantity: int) -> Dict:
         product.stock += cart_item.quantity
         product.save(update_fields=['stock'])
         cart_item.delete()
+        item_total_int = 0
     else:
         delta = new_quantity - cart_item.quantity
         if delta > 0:
@@ -109,9 +110,14 @@ def update_cart_item(user, item_id: int, new_quantity: int) -> Dict:
 
         cart_item.quantity = new_quantity
         cart_item.save(update_fields=['quantity'])
+        # Compute updated item total after save
+        try:
+            item_total_int = int(cart_item.get_total_price())
+        except Exception:
+            item_total_int = 0
 
     total, count = _calculate_cart_totals(cart)
-    return {"success": True, "cart_total": total, "cart_count": count}
+    return {"success": True, "cart_total": total, "cart_count": count, "item_total": item_total_int}
 
 
 @transaction.atomic
