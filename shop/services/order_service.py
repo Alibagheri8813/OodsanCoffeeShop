@@ -8,8 +8,6 @@ from shop.models import Cart, CartItem, Order, OrderItem, Notification, UserAddr
 
 
 def _delivery_fee_for_subtotal(subtotal: Decimal) -> Decimal:
-    if subtotal >= Decimal('500000'):
-        return Decimal('0')
     return Decimal('50000') if subtotal > 0 else Decimal('0')
 
 
