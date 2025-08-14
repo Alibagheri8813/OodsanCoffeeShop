@@ -210,3 +210,6 @@ WARNING 2025-08-14 04:24:50,524 log 6124 1352 Not Found: /cart/count/
 WARNING 2025-08-14 04:26:59,081 log 6124 2088 Not Found: /cart/count/
 INFO 2025-08-14 04:50:05,618 autoreload 11320 2488 Watching for file changes with StatReloader
 WARNING 2025-08-14 04:50:09,269 log 11320 12488 Not Found: /cart/count/
+INFO 2025-08-14 04:58:59,281 autoreload 5796 1816 Watching for file changes with StatReloader
+WARNING 2025-08-14 04:59:08,376 log 5796 2080 Not Found: /cart/count/
+WARNING 2025-08-14 04:59:37,222 log 5796 2080 Not Found: /cart/count/
