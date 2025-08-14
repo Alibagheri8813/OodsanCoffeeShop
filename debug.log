@@ -180,3 +180,6 @@ Traceback (most recent call last):
     raise TemplateSyntaxError(
 django.template.exceptions.TemplateSyntaxError: add requires 2 arguments, 1 provided
 INFO 2025-08-14 02:30:05,224 autoreload 7296 9120 Watching for file changes with StatReloader
+INFO 2025-08-14 02:44:55,962 autoreload 11540 10480 Watching for file changes with StatReloader
+WARNING 2025-08-14 02:45:11,281 log 11540 7524 Not Found: /cart/count/
+WARNING 2025-08-14 02:45:12,218 log 11540 7524 Not Found: /cart/count/
