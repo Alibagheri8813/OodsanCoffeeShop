@@ -217,3 +217,17 @@ INFO 2025-08-14 05:05:37,804 autoreload 7648 10932 Watching for file changes wit
 WARNING 2025-08-14 05:05:42,633 log 7648 5652 Not Found: /cart/count/
 INFO 2025-08-14 05:05:58,288 error_handling 7648 5652 Starting operation: product_detail
 INFO 2025-08-14 05:05:58,290 error_handling 7648 5652 Operation completed: product_detail in 0.00s
+INFO 2025-08-14 05:21:50,284 autoreload 10956 10056 Watching for file changes with StatReloader
+WARNING 2025-08-14 05:22:16,983 log 10956 4388 Not Found: /cart/count/
+INFO 2025-08-14 05:22:22,386 error_handling 10956 6904 Starting operation: product_detail
+INFO 2025-08-14 05:22:22,388 error_handling 10956 6904 Operation completed: product_detail in 0.00s
+WARNING 2025-08-14 05:22:27,897 log 10956 6904 Not Found: /cart/count/
+WARNING 2025-08-14 06:53:19,993 log 10956 6820 Not Found: /accounts/login/
+WARNING 2025-08-14 06:54:19,981 log 10956 6820 Not Found: /accounts/login/
+WARNING 2025-08-14 06:55:19,984 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 06:56:19,984 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 06:57:19,989 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 06:58:19,981 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 06:59:19,987 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 07:00:19,992 log 10956 10940 Not Found: /accounts/login/
+WARNING 2025-08-14 07:01:19,984 log 10956 10940 Not Found: /accounts/login/
