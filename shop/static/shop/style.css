@@ -681,7 +681,7 @@ header, main, footer, section, div {
         inset 0 1px 0 rgba(245, 222, 179, 0.3),
         inset 0 -1px 0 rgba(139, 69, 19, 0.5);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     margin: 0;
     z-index: 9999;
     backdrop-filter: blur(15px);
@@ -1174,7 +1174,7 @@ header, main, footer, section, div {
 /* Ensure navbar doesn't create stacking context issues */
 .navbar {
     position: absolute;
-    z-index: 99999999 !important;
+    z-index: 9999 !important;
 }
 
 /* SPECTACULAR OVERLAY NAVBAR FOR HERO SECTION */
@@ -1383,11 +1383,12 @@ header, main, footer, section, div {
     
     .dropdown-menu {
         width: 200px !important;
-        margin-top: 0.3rem !important;
+        margin-top: 0 !important;
     }
     
     .main-content {
-        padding-top: 120px;
+        padding-top: 0;
+        margin-top: 0;
     }
     
     .home-page .main-content {
@@ -1437,7 +1438,8 @@ header, main, footer, section, div {
     }
     
     .main-content {
-        padding-top: 140px;
+        padding-top: 0;
+        margin-top: 0;
     }
 }
 
@@ -1486,9 +1488,9 @@ header, main, footer, section, div {
     padding-top: 0;
 }
 
-/* For other pages, add padding to account for fixed navbar */
+/* Remove extra top spacing under navbar on non-home pages */
 .main-content {
-    padding-top: 80px;
+    padding-top: 0;
 }
 
 /* Override for home page */

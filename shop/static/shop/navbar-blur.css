@@ -4,11 +4,11 @@ body:not(.home-page) .navbar {
   top: 0;
   left: 0;
   right: 0;
-  padding: 1.5rem 3rem;
+  padding: 1.2rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 99999999; /* High z-index for navbar, but still below dropdown */
+  z-index: 1000; /* Keep below dropdown but above content */
   overflow: visible;
 }
 
@@ -166,6 +166,7 @@ body:not(.home-page) .navbar .profile-dropdown {
   position: relative;
   pointer-events: auto;
   z-index: 2147483647 !important;
+  overflow: visible;
 }
 
 body:not(.home-page) .navbar .dropdown-toggle {
@@ -206,7 +207,7 @@ body:not(.home-page) .navbar .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  /* margin-top: 1rem; */
+  margin-top: 0;
   background: rgba(44, 24, 16, 0.95);
   backdrop-filter: blur(20px);
   border: 2px solid rgba(245, 222, 179, 0.3);
@@ -215,7 +216,7 @@ body:not(.home-page) .navbar .dropdown-menu {
   min-width: 250px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-20px);
+  transform: translateY(-10px);
   transition: all 0.3s ease;
   box-shadow: 
     0 15px 50px rgba(0, 0, 0, 0.8),
@@ -328,6 +329,12 @@ body:not(.home-page) .navbar .cart-count {
 
 /* Remove extra gap under navbar on non-home pages */
 body:not(.home-page) .main-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Ensure content starts right under fixed navbar */
+body:not(.home-page) {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
