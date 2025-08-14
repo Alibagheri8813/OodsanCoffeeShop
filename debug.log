@@ -188,3 +188,28 @@ Traceback (most recent call last):
 django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '['in_transit',' from '['in_transit','
 INFO 2025-08-14 11:31:35,561 autoreload 7072 292 Watching for file changes with StatReloader
 WARNING 2025-08-14 11:33:32,955 log 7072 9508 Forbidden (CSRF token from POST incorrect.): /admin/shop/order/
+INFO 2025-08-14 12:11:33,992 autoreload 9780 4336 Watching for file changes with StatReloader
+INFO 2025-08-14 12:11:52,317 autoreload 10412 10036 Watching for file changes with StatReloader
+WARNING 2025-08-14 12:11:58,909 log 10412 10888 Not Found: /shop/order/2/
+WARNING 2025-08-14 12:12:16,125 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:12:18,432 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:12:28,513 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:13:05,307 log 10412 10176 Not Found: /api/orders/2/status/
+WARNING 2025-08-14 12:13:30,436 log 10412 1960 Not Found: /shop/order/2/
+WARNING 2025-08-14 12:13:33,694 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:13:38,263 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:13:40,244 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:13:50,206 log 10412 1960 Not Found: /cart/count/
+WARNING 2025-08-14 12:14:10,049 log 10412 10176 Not Found: /cart/count/
+INFO 2025-08-14 12:14:31,005 error_handling 10412 1700 Starting operation: product_detail
+INFO 2025-08-14 12:14:31,005 error_handling 10412 1700 Operation completed: product_detail in 0.00s
+WARNING 2025-08-14 12:14:49,474 log 10412 1700 Not Found: /cart/count/
+WARNING 2025-08-14 12:16:32,127 log 10412 1700 Not Found: /cart/count/
+WARNING 2025-08-14 12:16:39,840 log 10412 1700 Not Found: /cart/count/
+INFO 2025-08-14 12:16:46,873 error_handling 10412 1700 Starting operation: product_detail
+INFO 2025-08-14 12:16:46,875 error_handling 10412 1700 Operation completed: product_detail in 0.00s
+INFO 2025-08-14 12:16:55,559 error_handling 10412 1700 Starting operation: product_detail
+INFO 2025-08-14 12:16:55,561 error_handling 10412 1700 Operation completed: product_detail in 0.00s
+WARNING 2025-08-14 12:18:34,318 log 10412 1700 Not Found: /api/orders/3/status/
+WARNING 2025-08-14 12:19:32,108 log 10412 1160 Not Found: /cart/count/
+WARNING 2025-08-14 12:19:56,612 log 10412 1160 Not Found: /cart/count/
