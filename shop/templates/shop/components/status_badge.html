@@ -79,6 +79,11 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
     animation: pickup-ready-bounce 2s infinite;
 }
 
+.status-delivered {
+    background: linear-gradient(135deg, #20c997 0%, #17a589 50%, #20c997 100%);
+    color: #ffffff;
+}
+
 /* Sensational Animations */
 @keyframes pulse-brown {
     0%, 100% { 
@@ -206,6 +211,11 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
 
 .status-pickup_ready::after {
     content: '🏪';
+    margin-left: 8px;
+}
+
+.status-delivered::after {
+    content: '📬';
     margin-left: 8px;
 }
 </style>

@@ -156,6 +156,7 @@ class Order(models.Model):
         ('ready', 'آماده شده'),
         ('shipping_preparation', 'در حال ارسال به اداره پست'),
         ('in_transit', 'بسته در حال رسیدن به مقصد است'),
+        ('delivered', 'تحویل داده شده'),
         ('pickup_ready', 'آماده شده است و لطفاً مراجعه کنید'),
     ]
     
@@ -187,7 +188,8 @@ class Order(models.Model):
             'preparing': ['ready'],
             'ready': ['shipping_preparation', 'pickup_ready'],
             'shipping_preparation': ['in_transit'],
-            'in_transit': [],
+            'in_transit': ['delivered'],
+            'delivered': [],
             'pickup_ready': [],
         }
         return new_status in valid_transitions.get(self.status, [])
@@ -241,6 +243,12 @@ class Order(models.Model):
             return self.transition_to('in_transit', user)
         return False
     
+    def mark_delivered(self, user=None):
+        """Mark order as delivered"""
+        if self.status == 'in_transit':
+            return self.transition_to('delivered', user)
+        return False
+    
     def get_status_badge_color(self):
         """Get the appropriate color for status badge"""
         status_colors = {
@@ -249,6 +257,7 @@ class Order(models.Model):
             'ready': '#CD853F',           # Peru brown
             'shipping_preparation': '#A0522D',  # Sienna
             'in_transit': '#654321',      # Dark brown
+            'delivered': '#20c997',       # Teal green for delivered
             'pickup_ready': '#228B22',    # Forest green
         }
         return status_colors.get(self.status, '#8B4513')

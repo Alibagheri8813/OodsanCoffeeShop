@@ -137,4 +137,5 @@ urlpatterns = [
     path('api/orders/<int:order_id>/start-shipping/', views.start_order_shipping_preparation, name='start_order_shipping_preparation'),
     path('api/orders/<int:order_id>/mark-transit/', views.mark_order_in_transit, name='mark_order_in_transit'),
     path('api/orders/<int:order_id>/status/', views.get_order_status, name='get_order_status'),
+    path('api/orders/<int:order_id>/mark-delivered/', views.mark_order_delivered, name='mark_order_delivered'),
 ] 
