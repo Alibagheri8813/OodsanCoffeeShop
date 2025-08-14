@@ -153,8 +153,7 @@ class Order(models.Model):
     STATUS_CHOICES = [
         ('pending_payment', 'در انتظار پرداخت'),
         ('preparing', 'در حال آمــاده‌سازی'),
-        ('ready', 'آماده شده'),
-        ('shipping_preparation', 'در حال ارسال به اداره پست'),
+        ('ready_shipping_preparation', 'آماده و در حال آماده‌سازی ارسال'),
         ('in_transit', 'بسته در حال رسیدن به مقصد است'),
         ('delivered', 'تحویل داده شده'),
         ('pickup_ready', 'آماده شده است و لطفاً مراجعه کنید'),
@@ -165,7 +164,7 @@ class Order(models.Model):
     ]
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='pending_payment')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='pending_payment')
     delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='post')
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -185,9 +184,8 @@ class Order(models.Model):
         """Check if the order can transition to the given status"""
         valid_transitions = {
             'pending_payment': ['preparing'],
-            'preparing': ['ready'],
-            'ready': ['shipping_preparation', 'pickup_ready'],
-            'shipping_preparation': ['in_transit'],
+            'preparing': ['ready_shipping_preparation', 'pickup_ready'],
+            'ready_shipping_preparation': ['in_transit'],
             'in_transit': ['delivered'],
             'delivered': [],
             'pickup_ready': [],
@@ -209,7 +207,7 @@ class Order(models.Model):
             user=self.user,
             notification_type='order_status',
             title=f'تغییر وضعیت سفارش #{self.id}',
-            message=f'وضعیت سفارش شما از "{dict(self.STATUS_CHOICES)[old_status]}" به "{dict(self.STATUS_CHOICES)[new_status]}" تغییر کرد.',
+            message=f'وضعیت سفارش شما از "{dict(self.STATUS_CHOICES).get(old_status, old_status)}" به "{dict(self.STATUS_CHOICES).get(new_status, new_status)}" تغییر کرد.',
             related_object=self
         )
         
@@ -222,24 +220,22 @@ class Order(models.Model):
         return False
     
     def mark_as_ready(self, user=None):
-        """Mark order as ready and handle delivery method logic"""
+        """Mark order as ready; for pickup go to pickup_ready, for post go to combined state"""
         if self.status == 'preparing':
-            if self.transition_to('ready', user):
-                # Auto-transition based on delivery method
-                if self.delivery_method == 'pickup':
-                    return self.transition_to('pickup_ready', user)
-                return True
+            if self.delivery_method == 'pickup':
+                return self.transition_to('pickup_ready', user)
+            return self.transition_to('ready_shipping_preparation', user)
         return False
     
     def start_shipping_preparation(self, user=None):
-        """Start shipping preparation for postal orders"""
-        if self.status == 'ready' and self.delivery_method == 'post':
-            return self.transition_to('shipping_preparation', user)
+        """For postal orders: move from combined state to in_transit"""
+        if self.status == 'ready_shipping_preparation' and self.delivery_method == 'post':
+            return self.transition_to('in_transit', user)
         return False
     
     def mark_in_transit(self, user=None):
-        """Mark order as in transit"""
-        if self.status == 'shipping_preparation':
+        """Mark order as in transit (for combined state)"""
+        if self.status == 'ready_shipping_preparation':
             return self.transition_to('in_transit', user)
         return False
     
@@ -252,13 +248,12 @@ class Order(models.Model):
     def get_status_badge_color(self):
         """Get the appropriate color for status badge"""
         status_colors = {
-            'pending_payment': '#8B4513',  # Coffee brown
-            'preparing': '#D2691E',       # Chocolate brown  
-            'ready': '#CD853F',           # Peru brown
-            'shipping_preparation': '#A0522D',  # Sienna
-            'in_transit': '#654321',      # Dark brown
-            'delivered': '#20c997',       # Teal green for delivered
-            'pickup_ready': '#228B22',    # Forest green
+            'pending_payment': '#8B4513',
+            'preparing': '#D2691E',  
+            'ready_shipping_preparation': '#CD853F',
+            'in_transit': '#654321',
+            'delivered': '#20c997',
+            'pickup_ready': '#228B22',
         }
         return status_colors.get(self.status, '#8B4513')
 
