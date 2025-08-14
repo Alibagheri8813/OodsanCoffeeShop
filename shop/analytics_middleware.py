@@ -7,7 +7,10 @@ from django.core.cache import cache
 from django.db import transaction
 from django.contrib.auth.models import AnonymousUser
 from .models import UserActivity, AnalyticsEvent, SearchQuery
-from .ai_recommendation_engine import ai_engine
+try:
+    from .ai_recommendation_engine import ai_engine
+except Exception:
+    ai_engine = None
 
 logger = logging.getLogger(__name__)
 
@@ -211,7 +214,8 @@ class AnalyticsMiddleware:
         """Update user analytics and segments"""
         try:
             # Update user segment in background
-            ai_engine.update_user_segment(user)
+            if ai_engine:
+                ai_engine.update_user_segment(user)
             
             # Cache user analytics for performance
             cache_key = f"user_analytics_{user.id}"
