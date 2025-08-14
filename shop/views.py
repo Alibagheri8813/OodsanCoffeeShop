@@ -27,8 +27,6 @@ from django.contrib.admin.views.decorators import user_passes_test
 from django.views.decorators.http import require_http_methods
 from django.db.models import F
 from django.db import transaction as db_transaction
-from random import randint
-from django.utils import timezone as dj_timezone
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
@@ -314,12 +312,7 @@ def cart_view(request):
         has_complete_address = False
         profile = getattr(request.user, 'profile', None)
         if profile:
-            has_complete_address = all([
-                bool(profile.address),
-                bool(profile.city),
-                bool(profile.province),
-                bool(profile.postal_code),
-            ])
+            has_complete_address = profile.has_any_address()
 
         context = {
             'cart_items': list(cart_items),
@@ -780,6 +773,10 @@ def add_address(request):
                 address = form.save(commit=False)
                 address.user = request.user
                 address.save()
+                try:
+                    request.user.profile.ensure_intro_margin_awarded()
+                except Exception:
+                    pass
                 messages.success(request, 'آدرس جدید با موفقیت اضافه شد.')
                 return redirect('user_profile')
             else:
@@ -809,6 +806,10 @@ def edit_address(request, address_id):
             form = UserAddressForm(request.POST, instance=address)
             if form.is_valid():
                 form.save()
+                try:
+                    request.user.profile.ensure_intro_margin_awarded()
+                except Exception:
+                    pass
                 messages.success(request, 'آدرس با موفقیت به‌روزرسانی شد.')
                 return redirect('user_profile')
             else:
@@ -1084,12 +1085,7 @@ def address_completion_check(request):
     """Check if user has completed their address information"""
     try:
         profile = request.user.profile
-        has_complete_address = bool(
-            profile.address and profile.address.strip() and
-            profile.postal_code and profile.postal_code.strip() and
-            profile.city and profile.city.strip() and
-            profile.province and profile.province.strip()
-        )
+        has_complete_address = profile.has_any_address()
         return JsonResponse({'has_complete_address': has_complete_address})
     except UserProfile.DoesNotExist:
         return JsonResponse({'has_complete_address': False})
@@ -2019,78 +2015,30 @@ def _delete_if_expired_unpaid(order: Order) -> bool:
 @login_required
 @require_http_methods(["POST"])
 def send_phone_verification_code(request):
-    """Send OTP SMS to user's phone (Iran). Accept a posted phone number and persist it before sending."""
+    """Phone verification is no longer required for the 50,000 تومان profile completion discount."""
     try:
         profile, _ = UserProfile.objects.get_or_create(user=request.user)
-
-        # Read phone number from request (form or JSON)
+        # If a phone was sent, we can still store it optionally, but we won't send OTP
         try:
             data = request.POST or json.loads(request.body.decode('utf-8') or '{}')
         except Exception:
             data = {}
         posted_phone = (data.get('phone_number') or data.get('phone') or '').strip()
-
-        # If a phone number is provided, persist it and reset verification
-        if posted_phone:
-            normalized_phone = posted_phone
-            if normalized_phone != (profile.phone_number or '').strip():
-                profile.phone_number = normalized_phone
-                profile.is_phone_verified = False
-                profile.save(update_fields=['phone_number', 'is_phone_verified'])
-
-        phone = (profile.phone_number or '').strip()
-        if not phone:
-            return JsonResponse({'success': False, 'message': 'ابتدا شماره تلفن خود را در پروفایل ثبت کنید.'}, status=400)
-
-        if profile.is_phone_verified:
-            return JsonResponse({'success': True, 'message': 'شماره شما قبلاً تایید شده است.'})
-
-        code = f"{randint(100000, 999999)}"
-        profile.phone_verify_code = code
-        profile.phone_verify_expires_at = dj_timezone.now() + timedelta(minutes=5)
-        profile.save(update_fields=['phone_verify_code', 'phone_verify_expires_at'])
-
-        # SMS sending (mock or provider integration)
-        from .sms_provider import send_sms
-        try:
-            send_sms(phone, f"کد تایید شما: {code}")
-        except Exception as e:
-            logger.error(f"SMS send failed: {e}")
-
-        return JsonResponse({'success': True, 'message': 'کد تایید ارسال شد.'})
+        if posted_phone and posted_phone != (profile.phone_number or '').strip():
+            profile.phone_number = posted_phone
+            profile.save(update_fields=['phone_number'])
+        return JsonResponse({'success': True, 'message': 'تایید شماره تلفن دیگر لازم نیست. با تکمیل آدرس، اعتبار خوش‌آمدگویی ۵۰,۰۰۰ تومان فعال می‌شود.'})
     except Exception as e:
-        logger.error(f"send_phone_verification_code error: {e}")
-        return JsonResponse({'success': False, 'message': 'خطا در ارسال کد تایید'}, status=500)
+        logger.error(f"send_phone_verification_code (deprecated) error: {e}")
+        return JsonResponse({'success': False, 'message': 'بروزرسانی انجام نشد'}, status=500)
 
 @login_required
 @require_http_methods(["POST"])
 def verify_phone_code(request):
-    """Verify submitted OTP code."""
+    """Deprecated: phone OTP verification no longer required. Kept for compatibility."""
     try:
-        data = request.POST or json.loads(request.body.decode('utf-8') or '{}')
-        code = (data.get('code') or '').strip()
-        profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        if not code:
-            return JsonResponse({'success': False, 'message': 'کد تایید را وارد کنید.'}, status=400)
-        if not profile.phone_verify_code or not profile.phone_verify_expires_at:
-            return JsonResponse({'success': False, 'message': 'ابتدا کد تایید را دریافت کنید.'}, status=400)
-        if dj_timezone.now() > profile.phone_verify_expires_at:
-            return JsonResponse({'success': False, 'message': 'مهلت کد تایید به پایان رسیده است.'}, status=400)
-        if code != profile.phone_verify_code:
-            return JsonResponse({'success': False, 'message': 'کد تایید نادرست است.'}, status=400)
-
-        profile.is_phone_verified = True
-        profile.phone_verify_code = ''
-        profile.phone_verify_expires_at = None
-        profile.save(update_fields=['is_phone_verified', 'phone_verify_code', 'phone_verify_expires_at'])
-
-        # Check award after successful verification
-        try:
-            profile.ensure_intro_margin_awarded()
-        except Exception:
-            pass
-
-        return JsonResponse({'success': True, 'message': 'شماره تلفن با موفقیت تایید شد.'})
+        # No-op: mark as success without changing award logic (award depends on address completion only)
+        return JsonResponse({'success': True, 'message': 'تایید شماره لازم نیست. برای فعال شدن اعتبار خوش‌آمدگویی ۵۰,۰۰۰ تومان، فقط تکمیل آدرس کافی است.'})
     except Exception as e:
-        logger.error(f"verify_phone_code error: {e}")
-        return JsonResponse({'success': False, 'message': 'خطا در تایید کد'}, status=500)
+        logger.error(f"verify_phone_code (deprecated) error: {e}")
+        return JsonResponse({'success': False, 'message': 'بروزرسانی انجام نشد'}, status=500)
