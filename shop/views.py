@@ -308,9 +308,7 @@ def cart_view(request):
         cart, _ = Cart.objects.get_or_create(user=request.user)
         cart_items = CartItem.objects.filter(cart=cart).select_related('product').order_by('-added_at')
         subtotal = sum((item.get_total_price() for item in cart_items), Decimal('0'))
-        delivery_fee = Decimal('0')
-        if subtotal and subtotal < Decimal('500000'):
-            delivery_fee = Decimal('50000')
+        delivery_fee = Decimal('50000') if subtotal > Decimal('0') else Decimal('0')
         total = subtotal + delivery_fee
 
         has_complete_address = False
@@ -476,7 +474,7 @@ def checkout(request):
     cart_items = CartItem.objects.filter(cart=cart).select_related('product')
 
     subtotal = sum((item.get_total_price() for item in cart_items), Decimal('0'))
-    delivery_fee = Decimal('0') if subtotal >= Decimal('500000') else Decimal('50000') if subtotal > 0 else Decimal('0')
+    delivery_fee = Decimal('50000') if subtotal > Decimal('0') else Decimal('0')
     total = subtotal + delivery_fee
 
     # Compute potential intro margin shown on summary (visual only; applied on order create)

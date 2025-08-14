@@ -551,8 +551,8 @@ class CartIntegrationTestCase(TestCase):
         
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['subtotal'], Decimal('600000'))
-        self.assertEqual(response.context['delivery_fee'], 0)  # No delivery fee
-        self.assertEqual(response.context['total'], Decimal('600000'))  # Same as subtotal
+        self.assertEqual(response.context['delivery_fee'], 50000)  # Shipping is fixed
+        self.assertEqual(response.context['total'], Decimal('650000'))  # 600000 + 50000 fixed shipping
 
 
 class CartErrorHandlingTestCase(TestCase):
