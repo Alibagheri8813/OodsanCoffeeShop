@@ -50,7 +50,7 @@
           <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'shop/style.css' %}?v=4.1">
     <link rel="stylesheet" href="{% static 'shop/style-enhancements.css' %}?v=2.0">
-            <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.0">
+            <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.1">
         <link rel="stylesheet" href="{% static 'shop/dropdown-fix.css' %}?v=1.0">
         {% block extra_css %}{% endblock %}
     
@@ -436,6 +436,23 @@
                 img.setAttribute('decoding','async');
             });
         });
+        
+        // Dynamic navbar offset for non-home pages
+        (function() {
+            function applyNavbarOffset() {
+                var navbar = document.querySelector('.navbar');
+                var isHome = document.body.classList.contains('home-page');
+                if (!isHome && navbar) {
+                    var height = navbar.offsetHeight || 80;
+                    document.documentElement.style.setProperty('--navbar-offset', height + 'px');
+                } else {
+                    document.documentElement.style.removeProperty('--navbar-offset');
+                }
+            }
+            document.addEventListener('DOMContentLoaded', applyNavbarOffset);
+            window.addEventListener('load', applyNavbarOffset);
+            window.addEventListener('resize', applyNavbarOffset);
+        })();
     </script>
 
     {% if user.is_authenticated %}
