@@ -231,3 +231,13 @@ WARNING 2025-08-14 06:58:19,981 log 10956 10940 Not Found: /accounts/login/
 WARNING 2025-08-14 06:59:19,987 log 10956 10940 Not Found: /accounts/login/
 WARNING 2025-08-14 07:00:19,992 log 10956 10940 Not Found: /accounts/login/
 WARNING 2025-08-14 07:01:19,984 log 10956 10940 Not Found: /accounts/login/
+INFO 2025-08-14 07:02:18,825 autoreload 9924 3128 Watching for file changes with StatReloader
+WARNING 2025-08-14 07:02:20,533 log 9924 7196 Not Found: /accounts/login/
+WARNING 2025-08-14 07:02:27,911 log 9924 7196 Not Found: /accounts/login/
+WARNING 2025-08-14 07:02:30,499 log 9924 3932 Not Found: /cart/count/
+WARNING 2025-08-14 07:05:32,727 log 9924 3932 Not Found: /cart/count/
+WARNING 2025-08-14 07:06:12,466 log 9924 1056 Not Found: /cart/count/
+WARNING 2025-08-14 07:06:14,280 log 9924 1056 Not Found: /cart/count/
+WARNING 2025-08-14 07:07:12,819 log 9924 1056 Not Found: /cart/count/
+WARNING 2025-08-14 07:07:22,460 log 9924 1056 Not Found: /cart/count/
+WARNING 2025-08-14 07:07:24,248 log 9924 1056 Not Found: /cart/count/
