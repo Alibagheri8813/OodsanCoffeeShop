@@ -241,3 +241,5 @@ WARNING 2025-08-14 07:06:14,280 log 9924 1056 Not Found: /cart/count/
 WARNING 2025-08-14 07:07:12,819 log 9924 1056 Not Found: /cart/count/
 WARNING 2025-08-14 07:07:22,460 log 9924 1056 Not Found: /cart/count/
 WARNING 2025-08-14 07:07:24,248 log 9924 1056 Not Found: /cart/count/
+INFO 2025-08-14 07:21:50,880 autoreload 7900 2920 Watching for file changes with StatReloader
+WARNING 2025-08-14 07:22:52,242 log 7900 11584 Not Found: /cart/count/
