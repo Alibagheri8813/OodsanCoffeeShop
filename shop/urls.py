@@ -23,7 +23,6 @@ urlpatterns = [
     path('cart/count/', views.cart_count, name='cart_count'),
     
     # User Authentication & Profile
-    path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('user-profile/', views.user_profile, name='user_profile'),
     path('login/', views.custom_login, name='login'),
