@@ -9,7 +9,7 @@ body:not(.home-page) .navbar {
   justify-content: space-between;
   align-items: center;
   z-index: 99999999; /* High z-index for navbar, but still below dropdown */
-  overflow: hidden;
+  overflow: visible;
 }
 
 body:not(.home-page) .navbar::before {
@@ -325,3 +325,9 @@ body:not(.home-page) .navbar .cart-count {
     padding-top: 80px;
   }
 } */
+
+/* Remove extra gap under navbar on non-home pages */
+body:not(.home-page) .main-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}

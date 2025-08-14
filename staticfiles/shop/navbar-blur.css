@@ -9,7 +9,7 @@ body:not(.home-page) .navbar {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  overflow: hidden;
+  overflow: visible;
 }
 
 body:not(.home-page) .navbar::before {
@@ -316,12 +316,18 @@ body:not(.home-page) .navbar .cart-count {
 }
 
 /* Ensure content doesn't get hidden behind fixed navbar */
-body:not(.home-page) {
+/* body:not(.home-page) {
   padding-top: 100px;
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   body:not(.home-page) {
     padding-top: 80px;
   }
+} */
+
+/* Remove extra gap under navbar on non-home pages */
+body:not(.home-page) .main-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
