@@ -534,11 +534,7 @@
                             {% endif %}
                             <div class="price-row total">
                                 <span>مبلغ نهایی:</span>
-                                {% if intro_margin_preview and intro_margin_preview > 0 %}
-                                <span id="total-amount">{{ total|add:-intro_margin_preview|floatformat:0 }} تومان</span>
-                                {% else %}
-                                <span id="total-amount">{{ total|floatformat:0 }} تومان</span>
-                                {% endif %}
+                                <span id="total-amount">{{ final_total|floatformat:0 }} تومان</span>
                             </div>
                         </div>
                         
