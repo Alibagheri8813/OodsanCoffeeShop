@@ -28,7 +28,7 @@ class CoffeeRecommendationEngine:
         """
         try:
             # Get user's order history
-            user_orders = Order.objects.filter(user=user, status__in=['ready', 'shipping_preparation', 'in_transit', 'pickup_ready'])
+            user_orders = Order.objects.filter(user=user, status__in=['ready', 'in_transit', 'pickup_ready'])
             ordered_products = []
             for order in user_orders:
                 ordered_products.extend(order.items.all())
@@ -177,7 +177,7 @@ class InventoryManager:
         
         sales_data = OrderItem.objects.filter(
             order__created_at__gte=thirty_days_ago,
-            order__status__in=['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
+            order__status__in=['ready', 'in_transit', 'pickup_ready']
         ).values('product').annotate(
             total_sold=Sum('quantity')
         ).order_by('-total_sold')

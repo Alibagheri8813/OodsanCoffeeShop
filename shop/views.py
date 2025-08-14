@@ -878,9 +878,9 @@ def order_detail(request, order_id):
     feedback = getattr(order, 'feedback', None)
  
     # Provide explicit status lists for template membership checks
-    preparing_or_beyond_statuses = ['preparing', 'ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
-    ready_or_beyond_statuses = ['ready', 'shipping_preparation', 'in_transit', 'pickup_ready']
-    shipping_prep_or_transit_statuses = ['shipping_preparation', 'in_transit']
+    preparing_or_beyond_statuses = ['preparing', 'ready', 'in_transit', 'pickup_ready']
+    ready_or_beyond_statuses = ['ready', 'in_transit', 'pickup_ready']
+    shipping_prep_or_transit_statuses = ['in_transit']
  
     payment_deadline_ts = None
     if order.status == 'pending_payment':
@@ -1733,7 +1733,7 @@ def mark_order_as_ready(request, order_id):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def start_order_shipping_preparation(request, order_id):
-    """API endpoint for starting shipping preparation (staff only)"""
+    """API endpoint for starting shipping (staff only)"""
     try:
         order = get_object_or_404(Order, id=order_id)
         
@@ -1743,13 +1743,13 @@ def start_order_shipping_preparation(request, order_id):
                 'status': order.status,
                 'status_display': order.get_status_display(),
                 'status_color': order.get_status_badge_color(),
-                'message': 'سفارش وارد مرحله آماده‌سازی ارسال شد'
+                'message': 'سفارش وارد مرحله ارسال شد'
             })
         else:
             return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد یا سفارش پستی نیست'}, status=400)
             
     except Exception as e:
-        logger.error(f"Error starting shipping preparation: {e}")
+        logger.error(f"Error starting shipping: {e}")
         return JsonResponse({'error': 'خطا در آماده‌سازی ارسال'}, status=500)
 
 @require_http_methods(["POST"])
@@ -1766,7 +1766,7 @@ def mark_order_in_transit(request, order_id):
                 'status': order.status,
                 'status_display': order.get_status_display(),
                 'status_color': order.get_status_badge_color(),
-                'message': 'سفارش در حال ارسال قرار گرفت'
+                'message': 'سفارش وارد مرحله ارسال شد'
             })
         else:
             return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)

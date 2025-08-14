@@ -154,7 +154,6 @@ class Order(models.Model):
         ('pending_payment', 'در انتظار پرداخت'),
         ('preparing', 'در حال آمــاده‌سازی'),
         ('ready', 'آماده شده'),
-        ('shipping_preparation', 'در حال ارسال به اداره پست'),
         ('in_transit', 'بسته در حال رسیدن به مقصد است'),
         ('delivered', 'تحویل داده شده'),
         ('pickup_ready', 'آماده شده است و لطفاً مراجعه کنید'),
@@ -186,8 +185,7 @@ class Order(models.Model):
         valid_transitions = {
             'pending_payment': ['preparing'],
             'preparing': ['ready'],
-            'ready': ['shipping_preparation', 'pickup_ready'],
-            'shipping_preparation': ['in_transit'],
+            'ready': ['in_transit', 'pickup_ready'],
             'in_transit': ['delivered'],
             'delivered': [],
             'pickup_ready': [],
@@ -232,14 +230,14 @@ class Order(models.Model):
         return False
     
     def start_shipping_preparation(self, user=None):
-        """Start shipping preparation for postal orders"""
+        """Start shipping for postal orders (ready -> in_transit)"""
         if self.status == 'ready' and self.delivery_method == 'post':
-            return self.transition_to('shipping_preparation', user)
+            return self.transition_to('in_transit', user)
         return False
     
     def mark_in_transit(self, user=None):
         """Mark order as in transit"""
-        if self.status == 'shipping_preparation':
+        if self.status == 'ready':
             return self.transition_to('in_transit', user)
         return False
     
@@ -255,7 +253,6 @@ class Order(models.Model):
             'pending_payment': '#8B4513',  # Coffee brown
             'preparing': '#D2691E',       # Chocolate brown  
             'ready': '#CD853F',           # Peru brown
-            'shipping_preparation': '#A0522D',  # Sienna
             'in_transit': '#654321',      # Dark brown
             'delivered': '#20c997',       # Teal green for delivered
             'pickup_ready': '#228B22',    # Forest green

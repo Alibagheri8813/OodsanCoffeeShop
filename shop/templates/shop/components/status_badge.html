@@ -61,12 +61,6 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
     animation: ready-shine 2s infinite;
 }
 
-.status-shipping_preparation {
-    background: linear-gradient(135deg, #A0522D 0%, #8B4513 50%, #A0522D 100%);
-    color: #ffffff;
-    animation: shipping-prep 1.5s infinite;
-}
-
 .status-in_transit {
     background: linear-gradient(135deg, #654321 0%, #8B4513 50%, #654321 100%);
     color: #ffffff;
@@ -118,16 +112,6 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
     50% { 
         box-shadow: 0 6px 25px rgba(205, 133, 63, 0.7);
         transform: scale(1.05);
-    }
-}
-
-@keyframes shipping-prep {
-    0%, 100% { 
-        box-shadow: 0 4px 15px rgba(160, 82, 45, 0.4);
-    }
-    50% { 
-        box-shadow: 0 6px 25px rgba(160, 82, 45, 0.6);
-        transform: translateX(2px);
     }
 }
 
@@ -196,11 +180,6 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
 
 .status-ready::after {
     content: '✅';
-    margin-left: 8px;
-}
-
-.status-shipping_preparation::after {
-    content: '📦';
     margin-left: 8px;
 }
 
