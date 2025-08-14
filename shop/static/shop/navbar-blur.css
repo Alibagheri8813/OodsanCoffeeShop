@@ -329,8 +329,14 @@ body:not(.home-page) .navbar .cart-count {
 
 /* Remove extra gap under navbar on non-home pages */
 body:not(.home-page) .main-content {
-  padding-top: 0 !important;
+  padding-top: var(--navbar-offset, 100px) !important;
   margin-top: 0 !important;
+}
+
+/* Ensure the first content block starts flush with the navbar */
+body:not(.home-page) .main-content > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 /* Ensure content starts right under fixed navbar */
