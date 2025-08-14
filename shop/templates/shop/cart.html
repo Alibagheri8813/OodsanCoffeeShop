@@ -469,7 +469,7 @@
                         </div>
                         
                         <div class="quantity-controls">
-                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)" title="کاهش تعداد">-</button>
+                            <button class="quantity-btn" type="button" onclick="updateQuantity({{ item.id }}, -1)" title="کاهش تعداد">-</button>
                             <input
                                 type="number"
                                 class="quantity-input"
@@ -481,7 +481,7 @@
                                 title="تعداد محصول"
                             />
                                    
-                            <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)" title="افزایش تعداد">+</button>
+                            <button class="quantity-btn" type="button" onclick="updateQuantity({{ item.id }}, 1)" title="افزایش تعداد">+</button>
                         </div>
                         
                         <div class="item-total">
@@ -602,12 +602,13 @@ function updateQuantity(itemId, change, isDirectInput = false) {
         return;
     }
     
+    const originalQuantity = parseInt(quantityInput.value) || 0;
+    
     let newQuantity;
     if (isDirectInput) {
         newQuantity = parseInt(change);
     } else {
-        const currentQuantity = parseInt(quantityInput.value) || 0;
-        newQuantity = currentQuantity + parseInt(change);
+        newQuantity = originalQuantity + parseInt(change);
     }
     
     console.log('📊 Quantity calculation:', { 
@@ -619,6 +620,7 @@ function updateQuantity(itemId, change, isDirectInput = false) {
     if (isNaN(newQuantity) || newQuantity < 1) {
         showMessage('تعداد نمی‌تواند کمتر از 1 باشد', 'error');
         quantityInput.value = Math.max(1, parseInt(quantityInput.value) || 1);
+        quantityInput.setAttribute('value', quantityInput.value);
         return;
     }
     
@@ -626,6 +628,7 @@ function updateQuantity(itemId, change, isDirectInput = false) {
     if (newQuantity > maxStock) {
         showMessage(`حداکثر ${maxStock} عدد قابل انتخاب است`, 'error');
         quantityInput.value = maxStock;
+        quantityInput.setAttribute('value', maxStock);
         return;
     }
     
@@ -672,6 +675,7 @@ function updateQuantity(itemId, change, isDirectInput = false) {
         
         if (data.success) {
             quantityInput.value = newQuantity;
+            quantityInput.setAttribute('value', newQuantity);
             updateCartTotals(data);
             updateCartCount(data.cart_count);
             
@@ -696,9 +700,8 @@ function updateQuantity(itemId, change, isDirectInput = false) {
         } else {
             showMessage(data.message || 'خطا در به‌روزرسانی سبد خرید', 'error');
             // Revert quantity on error
-            if (!isDirectInput) {
-                quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
-            }
+            quantityInput.value = originalQuantity;
+            quantityInput.setAttribute('value', originalQuantity);
             logError('Server returned error', new Error(data.message), data);
         }
     })
@@ -711,9 +714,8 @@ function updateQuantity(itemId, change, isDirectInput = false) {
         logError('Request failed', error, { itemId, newQuantity });
         
         // Revert quantity on error
-        if (!isDirectInput) {
-            quantityInput.value = parseInt(quantityInput.value) - parseInt(change);
-        }
+        quantityInput.value = originalQuantity;
+        quantityInput.setAttribute('value', originalQuantity);
     })
     .finally(() => {
         itemElement.classList.remove('loading');
