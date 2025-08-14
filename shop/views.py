@@ -2038,3 +2038,26 @@ def verify_phone_code(request):
     except Exception as e:
         logger.error(f"verify_phone_code (deprecated) error: {e}")
         return JsonResponse({'success': False, 'message': 'بروزرسانی انجام نشد'}, status=500)
+
+@require_http_methods(["POST"])
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def mark_order_delivered(request, order_id):
+    """API endpoint for marking order as delivered (staff only)"""
+    try:
+        order = get_object_or_404(Order, id=order_id)
+        
+        if order.mark_delivered(request.user):
+            return JsonResponse({
+                'success': True,
+                'status': order.status,
+                'status_display': order.get_status_display(),
+                'status_color': order.get_status_badge_color(),
+                'message': 'سفارش تحویل داده شد'
+            })
+        else:
+            return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)
+            
+    except Exception as e:
+        logger.error(f"Error marking order delivered: {e}")
+        return JsonResponse({'error': 'خطا در علامت‌گذاری تحویل سفارش'}, status=500)

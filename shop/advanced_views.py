@@ -18,7 +18,10 @@ import logging
 from decimal import Decimal
 
 from .models import *
-from .ai_recommendation_engine import ai_engine
+try:
+    from .ai_recommendation_engine import ai_engine
+except Exception:
+    ai_engine = None
 from .error_handling import monitor_performance, safe_transaction, ajax_error_handler
 
 logger = logging.getLogger(__name__)

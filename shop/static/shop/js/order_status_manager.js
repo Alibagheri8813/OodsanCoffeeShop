@@ -228,6 +228,22 @@ class OrderStatusManager {
         return this.makeStatusRequest(orderId, 'mark-transit');
     }
 
+    async markDelivered(orderId) {
+        return this.makeStatusRequest(orderId, 'mark-delivered');
+    }
+
+    async pollOrder(orderId, onUpdate, intervalMs = 1000) {
+        let stopped = false;
+        const tick = async () => {
+            if (stopped) return;
+            const data = await this.getOrderStatus(orderId);
+            if (data && onUpdate) onUpdate(data);
+            if (!stopped) setTimeout(tick, intervalMs);
+        };
+        tick();
+        return () => { stopped = true; };
+    }
+
     async makeStatusRequest(orderId, action) {
         try {
             const response = await fetch(`${this.baseUrl}${orderId}/${action}/`, {
