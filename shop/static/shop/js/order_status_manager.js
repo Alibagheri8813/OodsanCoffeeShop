@@ -120,7 +120,7 @@ class OrderStatusManager {
         const icons = {
             'pending_payment': '💳',
             'preparing': '👨‍🍳',
-            'ready': '✅',
+            'ready_shipping_preparation': '✅',
             'in_transit': '🚛',
             'pickup_ready': '🏪'
         };
@@ -188,7 +188,7 @@ class OrderStatusManager {
 
     startAutoRefresh() {
         // Only refresh for active orders (not completed states)
-        const activeStatuses = ['pending_payment', 'preparing', 'ready', 'in_transit'];
+        const activeStatuses = ['pending_payment', 'preparing', 'ready_shipping_preparation', 'in_transit'];
         
         setInterval(() => {
             const orderElements = document.querySelectorAll('[data-order-id]');

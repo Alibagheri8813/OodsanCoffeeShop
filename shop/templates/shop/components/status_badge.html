@@ -55,7 +55,7 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
     animation: preparing-glow 3s infinite;
 }
 
-.status-ready {
+.status-ready_shipping_preparation {
     background: linear-gradient(135deg, #CD853F 0%, #DEB887 50%, #CD853F 100%);
     color: #ffffff;
     animation: ready-shine 2s infinite;
@@ -178,7 +178,7 @@ Usage: {% include 'shop/components/status_badge.html' with order=order %}
     margin-left: 8px;
 }
 
-.status-ready::after {
+.status-ready_shipping_preparation::after {
     content: '✅';
     margin-left: 8px;
 }

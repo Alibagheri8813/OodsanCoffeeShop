@@ -878,9 +878,8 @@ def order_detail(request, order_id):
     feedback = getattr(order, 'feedback', None)
  
     # Provide explicit status lists for template membership checks
-    preparing_or_beyond_statuses = ['preparing', 'ready', 'in_transit', 'pickup_ready']
-    ready_or_beyond_statuses = ['ready', 'in_transit', 'pickup_ready']
-    shipping_prep_or_transit_statuses = ['in_transit']
+    preparing_or_beyond_statuses = ['preparing', 'ready_shipping_preparation', 'in_transit', 'pickup_ready']
+    ready_or_beyond_statuses = ['ready_shipping_preparation', 'in_transit', 'pickup_ready']
  
     payment_deadline_ts = None
     if order.status == 'pending_payment':
@@ -893,7 +892,6 @@ def order_detail(request, order_id):
         'feedback': feedback,
         'preparing_or_beyond_statuses': preparing_or_beyond_statuses,
         'ready_or_beyond_statuses': ready_or_beyond_statuses,
-        'shipping_prep_or_transit_statuses': shipping_prep_or_transit_statuses,
         'payment_deadline_ts': payment_deadline_ts,
     }
     
@@ -1720,7 +1718,7 @@ def mark_order_as_ready(request, order_id):
                 'status': order.status,
                 'status_display': order.get_status_display(),
                 'status_color': order.get_status_badge_color(),
-                'message': 'سفارش آماده شد'
+                'message': 'سفارش به مرحله آماده/آماده‌سازی ارسال رسید'
             })
         else:
             return JsonResponse({'error': 'امکان تغییر وضعیت وجود ندارد'}, status=400)

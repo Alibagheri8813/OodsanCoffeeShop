@@ -34,7 +34,7 @@ def admin_dashboard(request):
     orders_growth = ((orders_today - orders_yesterday) / orders_yesterday * 100) if orders_yesterday > 0 else 0
     
     # Map legacy concepts (delivered/shipped) to existing statuses
-    revenue_statuses = ['ready', 'in_transit', 'pickup_ready']
+    revenue_statuses = ['ready_shipping_preparation', 'in_transit', 'pickup_ready']
     
     revenue_today = Order.objects.filter(created_at__date=today, status__in=revenue_statuses).aggregate(
         total=Sum('total_amount'))["total"] or 0
@@ -49,7 +49,7 @@ def admin_dashboard(request):
     processing_orders = Order.objects.filter(status='preparing').count()
     shipped_orders = Order.objects.filter(status__in=['in_transit']).count()
     making_orders = Order.objects.filter(status='preparing').count()
-    made_orders = Order.objects.filter(status='ready').count()
+    made_orders = Order.objects.filter(status='ready_shipping_preparation').count()
     
     # Weekly and monthly revenue
     week_ago = today - timedelta(days=7)
@@ -239,7 +239,7 @@ def admin_order_list(request):
     shipped_count = Order.objects.filter(status__in=['in_transit']).count()
     delivered_count = Order.objects.filter(status='pickup_ready').count()
     making_orders = Order.objects.filter(status='preparing').count()
-    made_orders = Order.objects.filter(status='ready').count()
+    made_orders = Order.objects.filter(status='ready_shipping_preparation').count()
     
     context = {
         'orders': orders,
@@ -331,7 +331,7 @@ def admin_analytics_data(request):
         return JsonResponse(cached)
 
     # Map revenue statuses to realized revenue states
-    revenue_statuses = ['ready', 'in_transit', 'pickup_ready']
+    revenue_statuses = ['ready_shipping_preparation', 'in_transit', 'pickup_ready']
 
     # Time series revenue (by day)
     orders_qs = (

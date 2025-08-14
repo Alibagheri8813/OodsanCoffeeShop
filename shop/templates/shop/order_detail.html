@@ -275,9 +275,9 @@
                             <div class="label">در حال آماده‌سازی</div>
                         </div>
                         <div class="timeline-connector {% if order.status in ready_or_beyond_statuses %}active{% endif %}"></div>
-                        <div class="timeline-step {% if order.status in ready_or_beyond_statuses %}active{% endif %}" data-step="ready">
+                        <div class="timeline-step {% if order.status in ready_or_beyond_statuses %}active{% endif %}" data-step="ready_shipping_preparation">
                             <div class="dot"></div>
-                            <div class="label">آماده شد</div>
+                            <div class="label">آماده و در حال آماده‌سازی ارسال</div>
                         </div>
                         <div class="timeline-connector {% if order.status == 'in_transit' or order.status == 'delivered' %}active{% endif %}"></div>
                         <div class="timeline-step {% if order.status == 'in_transit' or order.status == 'delivered' %}active{% endif %}" data-step="in_transit">
@@ -572,8 +572,8 @@ window.onclick = function(event) {
         const steps = [
             { key: 'created', active: true },
             { key: 'paid', active: status !== 'pending_payment' },
-            { key: 'preparing', active: ['preparing','ready','in_transit','delivered','pickup_ready'].includes(status) },
-            { key: 'ready', active: ['ready','in_transit','delivered','pickup_ready'].includes(status) },
+            { key: 'preparing', active: ['preparing','ready_shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
+            { key: 'ready_shipping_preparation', active: ['ready_shipping_preparation','in_transit','delivered','pickup_ready'].includes(status) },
             { key: 'in_transit', active: ['in_transit','delivered'].includes(status) },
             { key: 'delivered', active: status === 'delivered' },
             { key: 'pickup_ready', active: status === 'pickup_ready' },
