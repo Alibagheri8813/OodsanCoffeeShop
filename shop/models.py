@@ -371,7 +371,7 @@ class UserProfile(models.Model):
         )
 
     def is_profile_complete(self) -> bool:
-        return bool(self.is_phone_verified and self.has_any_address())
+        return bool(self.has_any_address())
 
     def ensure_intro_margin_awarded(self) -> bool:
         """Award welcome margin once when profile becomes complete."""

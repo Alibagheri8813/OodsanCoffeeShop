@@ -557,7 +557,7 @@ body {
                     <i class="fas fa-gift"></i>
                     اعتبار خوش‌آمدگویی فعال: {{ user.profile.intro_margin_balance|floatformat:0 }} تومان — در اولین پرداخت اعمال می‌شود ✨
                 </div>
-                {% elif not user.profile.is_phone_verified or not user.profile.address %}
+                {% elif not user.profile.has_any_address %}
                 <a class="welcome-credit-cta" href="{% url 'edit_profile' %}">
                     <i class="fas fa-bolt"></i>
                     پروفایل خود را کامل کنید و ۵۰,۰۰۰ تومان اعتبار هدیه بگیرید!
