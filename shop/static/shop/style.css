@@ -11,8 +11,8 @@ html, body {
     padding: 0;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: overlay;
-    scrollbar-gutter: stable both-edges;
+    overflow-y: auto;
+    scrollbar-gutter: auto;
     overscroll-behavior-x: none;
     touch-action: pan-y;
 }
