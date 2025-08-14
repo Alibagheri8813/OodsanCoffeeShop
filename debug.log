@@ -186,3 +186,5 @@ Traceback (most recent call last):
   File "C:\Users\Mobile Gandom\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\template\base.py", line 706, in __init__
     raise TemplateSyntaxError(
 django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '['in_transit',' from '['in_transit','
+INFO 2025-08-14 11:31:35,561 autoreload 7072 292 Watching for file changes with StatReloader
+WARNING 2025-08-14 11:33:32,955 log 7072 9508 Forbidden (CSRF token from POST incorrect.): /admin/shop/order/
