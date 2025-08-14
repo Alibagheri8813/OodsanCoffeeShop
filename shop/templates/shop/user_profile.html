@@ -549,6 +549,10 @@ body {
                     <div class="stat-item">
                         <span class="stat-number">{{ user.addresses.count }}</span>
                         <span class="stat-label">آدرس</span>
+                        {% if user.profile.intro_margin_awarded and not user.profile.intro_margin_consumed_at and user.profile.intro_margin_balance %}
+                        <span class="stat-number" style="margin-right:12px;">{{ user.profile.intro_margin_balance|floatformat:0 }}</span>
+                        <span class="stat-label">اعتبار</span>
+                        {% endif %}
                     </div>
 
                 </div>
@@ -558,9 +562,9 @@ body {
                     اعتبار خوش‌آمدگویی فعال: {{ user.profile.intro_margin_balance|floatformat:0 }} تومان — در اولین پرداخت اعمال می‌شود ✨
                 </div>
                 {% elif not user.profile.has_any_address %}
-                <a class="welcome-credit-cta" href="{% url 'edit_profile' %}">
+                <a class="welcome-credit-cta" href="{% url 'add_address' %}">
                     <i class="fas fa-bolt"></i>
-                    پروفایل خود را کامل کنید و ۵۰,۰۰۰ تومان اعتبار هدیه بگیرید!
+                    آدرس خود را اضافه کنید و ۵۰,۰۰۰ تومان اعتبار هدیه بگیرید!
                 </a>
                 {% endif %}
             </div>
@@ -568,6 +572,9 @@ body {
             <div class="profile-actions">
                 <a href="{% url 'edit_profile' %}" class="btn-profile">
                     <i class="fas fa-edit"></i> ویرایش پروفایل
+                </a>
+                <a href="{% url 'add_address' %}" class="btn-profile">
+                    <i class="fas fa-map-marker-alt"></i> افزودن آدرس
                 </a>
                 <a href="{% url 'change_password' %}" class="btn-profile">
                     <i class="fas fa-lock"></i> تغییر رمز عبور
@@ -665,6 +672,45 @@ body {
                         </a>
                     </div>
                 {% endfor %}
+            </div>
+
+            <div class="profile-section" style="margin-top:20px;">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-plus section-icon"></i>
+                        افزودن سریع آدرس
+                    </h2>
+                </div>
+                <form method="post" action="{% url 'add_address' %}" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_title" class="form-label">عنوان آدرس</label>
+                        {{ address_form.title }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_full_address" class="form-label">آدرس کامل</label>
+                        {{ address_form.full_address }}
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="id_city" class="form-label">شهر</label>
+                            {{ address_form.city }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_state" class="form-label">استان</label>
+                            {{ address_form.state }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            {{ address_form.is_default }}
+                            <label for="id_is_default" class="form-check-label">تنظیم به عنوان آدرس پیش‌فرض</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-profile" style="padding: 10px 18px; font-size: 0.9rem;">
+                        <i class="fas fa-save"></i> ذخیره آدرس
+                    </button>
+                </form>
             </div>
         </div>
     </div>
