@@ -194,3 +194,7 @@ WARNING 2025-08-14 03:03:38,846 log 5856 9280 Not Found: /cart/count/
 WARNING 2025-08-14 03:04:45,599 log 5856 9280 Not Found: /cart/count/
 WARNING 2025-08-14 03:04:55,070 log 5856 9280 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/notifications/29/read/
 WARNING 2025-08-14 03:04:58,837 log 5856 9280 Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /shop/notifications/read-all/
+INFO 2025-08-14 03:49:04,106 autoreload 6728 9932 Watching for file changes with StatReloader
+WARNING 2025-08-14 03:49:23,452 log 6728 7316 Not Found: /cart/count/
+WARNING 2025-08-14 03:51:43,225 log 6728 3648 Not Found: /cart/count/
+WARNING 2025-08-14 03:55:34,053 log 6728 3648 Not Found: /cart/count/
