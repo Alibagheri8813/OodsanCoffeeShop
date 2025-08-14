@@ -9,7 +9,9 @@ body:not(.home-page) .navbar {
   justify-content: space-between;
   align-items: center;
   z-index: 1000; /* Keep below dropdown but above content */
-  overflow: visible;
+  overflow-y: visible;
+  overflow-x: hidden;
+  contain: paint;
 }
 
 body:not(.home-page) .navbar::before {
@@ -23,6 +25,7 @@ body:not(.home-page) .navbar::before {
   transform: scale(1.1);
   animation: none;
   z-index: -1;
+  overflow-x: clip;
 }
 
 /* Optional tinted overlay */
@@ -37,6 +40,8 @@ body:not(.home-page) .navbar::after {
     transparent 100%
   );
   z-index: -1;
+  animation: none !important;
+  transform: none !important;
 }
 
 /* Navbar content styling */
