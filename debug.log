@@ -1,0 +1,8 @@
+INFO 2025-08-14 12:49:10,606 autoreload 2252 1940 Watching for file changes with StatReloader
+INFO 2025-08-14 12:49:18,206 error_handling 2252 9848 Starting operation: product_detail
+INFO 2025-08-14 12:49:18,206 error_handling 2252 9848 Operation completed: product_detail in 0.00s
+INFO 2025-08-15 09:02:21,393 autoreload 6636 10004 Watching for file changes with StatReloader
+WARNING 2025-08-15 09:03:10,486 log 6636 1464 Not Found: /favicon.ico
+WARNING 2025-08-15 09:04:11,638 log 6636 9508 Not Found: /cart/count/
+INFO 2025-08-15 09:11:11,183 error_handling 6636 11600 Starting operation: product_detail
+INFO 2025-08-15 09:11:11,183 error_handling 6636 11600 Operation completed: product_detail in 0.00s
