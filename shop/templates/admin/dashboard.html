@@ -66,163 +66,34 @@
     }
     
     @media (max-width: 768px) {
-        .chart-grid {
-            grid-template-columns: 1fr;
-        }
+        .chart-grid { grid-template-columns: 1fr; }
     }
     
-    .revenue-chart {
-        background: white;
-        border-radius: 16px;
-        padding: 25px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .chart-placeholder {
-        height: 300px;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6c757d;
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-    
-    .top-products {
-        background: white;
-        border-radius: 16px;
-        padding: 25px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .product-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 15px 0;
-        border-bottom: 1px solid #f8f9fa;
-    }
-    
-    .product-item:last-child {
-        border-bottom: none;
-    }
-    
-    .product-rank {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-    
+    .revenue-chart { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); }
+    .chart-placeholder { height: 300px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #6c757d; font-size: 1.1rem; font-weight: 500; }
+    .top-products { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); }
+    .product-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f8f9fa; }
+    .product-item:last-child { border-bottom: none; }
+    .product-rank { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; }
     .product-rank.gold { background: #ffd700; color: #212529; }
     .product-rank.silver { background: #c0c0c0; color: #212529; }
     .product-rank.bronze { background: #cd7f32; color: white; }
     .product-rank.other { background: #6c757d; color: white; }
-    
-    .product-info {
-        flex: 1;
-    }
-    
-    .product-name {
-        font-weight: 600;
-        color: #2c3e50;
-        margin-bottom: 5px;
-    }
-    
-    .product-stats {
-        font-size: 0.85rem;
-        color: #6c757d;
-    }
-    
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 30px;
-    }
-    
-    .action-btn {
-        background: linear-gradient(135deg, #007bff, #0056b3);
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .action-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
-        color: white;
-        text-decoration: none;
-    }
-    
-    .action-btn.success {
-        background: linear-gradient(135deg, #28a745, #1e7e34);
-    }
-    
-    .action-btn.warning {
-        background: linear-gradient(135deg, #ffc107, #e0a800);
-        color: #212529;
-    }
-    
-    .action-btn.danger {
-        background: linear-gradient(135deg, #dc3545, #c82333);
-    }
-    
-    .notification-badge {
-        position: relative;
-    }
-    
-    .notification-badge::after {
-        content: '{{ unread_notifications }}';
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: #dc3545;
-        color: white;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 600;
-    }
-    
-    .empty-state {
-        text-align: center;
-        padding: 40px 20px;
-        color: #6c757d;
-    }
-    
-    .empty-state i {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        opacity: 0.5;
-    }
-    
-    .empty-state h3 {
-        font-size: 1.3rem;
-        margin-bottom: 10px;
-        color: #495057;
-    }
-    
-    .empty-state p {
-        font-size: 1rem;
-        margin: 0;
-    }
+    .product-info { flex: 1; }
+    .product-name { font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+    .product-stats { font-size: 0.85rem; color: #6c757d; }
+    .action-buttons { display: flex; gap: 10px; margin-top: 30px; }
+    .action-btn { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
+    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3); color: white; text-decoration: none; }
+    .action-btn.success { background: linear-gradient(135deg, #28a745, #1e7e34); }
+    .action-btn.warning { background: linear-gradient(135deg, #ffc107, #e0a800); color: #212529; }
+    .action-btn.danger { background: linear-gradient(135deg, #dc3545, #c82333); }
+    .notification-badge { position: relative; }
+    .notification-badge::after { content: '{{ unread_notifications }}'; position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+    .empty-state { text-align: center; padding: 40px 20px; color: #6c757d; }
+    .empty-state i { font-size: 3rem; margin-bottom: 20px; opacity: 0.5; }
+    .empty-state h3 { font-size: 1.3rem; margin-bottom: 10px; color: #495057; }
+    .empty-state p { font-size: 1rem; margin: 0; }
     .filter-bar { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-bottom: 10px; }
     .filter-bar select, .filter-bar a { padding: 8px 10px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; }
     .card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
@@ -230,12 +101,32 @@
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
     canvas { max-width: 100%; height: 320px; }
+
+    /* Real-time red alert */
+    .live-alert { display: none; align-items: center; justify-content: center; gap: 10px; background: #dc3545; color: #fff; border-radius: 12px; padding: 12px 16px; margin: 0 0 16px 0; font-weight: 700; box-shadow: 0 8px 25px rgba(220,53,69,0.3); }
+    .live-alert.show { display: flex; }
+    .live-alert .dot { width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 0 rgba(255,255,255,0.7); animation: pulseDot 1.4s infinite; }
+    @keyframes pulseDot { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.7);} 70% { transform: scale(1.4); box-shadow: 0 0 0 10px rgba(255,255,255,0);} 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0);} }
+
+    /* Recent orders with item features */
+    .recent-orders-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+    .recent-orders-list { display: grid; gap: 12px; margin-top: 10px; }
+    .recent-order { border: 1px solid #f0f0f0; border-radius: 12px; padding: 12px; display: grid; gap: 8px; }
+    .recent-order-header { display: grid; grid-template-columns: 1fr 2fr 1fr 1fr; gap: 10px; align-items: center; }
+    .status-chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; display: inline-block; }
+    .order-items-mini { display: flex; flex-wrap: wrap; gap: 6px; }
+    .item-badge { background: #f8f9fa; border: 1px solid #eee; color: #555; font-size: 12px; padding: 4px 8px; border-radius: 999px; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
-    <!-- Dashboard Header -->
+    <div id="livePreparingAlert" class="live-alert" role="alert" aria-live="polite">
+        <span class="dot"></span>
+        <span><i class="fas fa-bell"></i> سفارش‌های «در حال آمــاده‌سازی» موجود است</span>
+        <span id="livePreparingCount" style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 999px;"></span>
+    </div>
+
     <div class="dashboard-header">
         <h1><i class="fas fa-coffee"></i> داشبورد کافی شاپ</h1>
         <p>مدیریت کامل کسب‌وکار شما در یک مکان</p>
@@ -260,7 +151,6 @@
         </div>
     </div>
 
-    <!-- Statistics Grid -->
     <div class="stats-grid">
         <div class="stat-card revenue">
             <div class="stat-number">{{ revenue_today|floatformat:0 }}</div>
@@ -283,23 +173,16 @@
         <div class="stat-card users">
             <div class="stat-number">{{ new_users_today }}</div>
             <div class="stat-label">کاربران جدید</div>
-            <div class="stat-change positive">
-                <i class="fas fa-user-plus"></i>
-                امروز
-            </div>
+            <div class="stat-change positive"><i class="fas fa-user-plus"></i> امروز</div>
         </div>
         
         <div class="stat-card products">
             <div class="stat-number">{{ low_stock_products_list.count }}</div>
             <div class="stat-label">محصولات کم موجودی</div>
-            <div class="stat-change warning">
-                <i class="fas fa-exclamation-triangle"></i>
-                نیاز به توجه
-            </div>
+            <div class="stat-change warning"><i class="fas fa-exclamation-triangle"></i> نیاز به توجه</div>
         </div>
     </div>
 
-    <!-- Charts and Analytics -->
     <div class="card">
         <div class="filter-bar">
             <label>بازه:</label>
@@ -332,143 +215,61 @@
         </div>
     </div>
 
-    <!-- Alerts Section -->
+    <div class="recent-orders-card" id="recentOrdersPanel">
+        <h3 style="margin-bottom: 10px;"><i class="fas fa-receipt"></i> آخرین سفارش‌ها</h3>
+        <div id="recentOrdersList" class="recent-orders-list"></div>
+        <div id="recentEmpty" class="empty-state" style="display:none;">
+            <i class="fas fa-shopping-cart"></i>
+            <h3>هنوز سفارشی ثبت نشده</h3>
+            <p>منتظر اولین سفارش باشید</p>
+        </div>
+    </div>
+
     <div class="alerts-section">
         <div class="alert-card urgent">
-            <div class="alert-title">
-                <i class="fas fa-exclamation-triangle"></i>
-                سفارشات فوری
-            </div>
+            <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> سفارشات فوری</div>
             {% if urgent_orders %}
                 <ul class="alert-list">
                     {% for order in urgent_orders %}
-                    <li class="alert-item">
-                        <span>سفارش #{{ order.id }} - {{ order.user.username }}</span>
-                        <span>{{ order.total_amount|floatformat:0 }} تومان</span>
-                    </li>
+                    <li class="alert-item"><span>سفارش #{{ order.id }} - {{ order.user.username }}</span><span>{{ order.total_amount|floatformat:0 }} تومان</span></li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p>هیچ سفارش فوری‌ای وجود ندارد.</p>
-            {% endif %}
+            {% else %}<p>هیچ سفارش فوری‌ای وجود ندارد.</p>{% endif %}
         </div>
-
         <div class="alert-card info">
-            <div class="alert-title">
-                <i class="fas fa-box"></i>
-                محصولات کم موجودی
-            </div>
+            <div class="alert-title"><i class="fas fa-box"></i> محصولات کم موجودی</div>
             {% if low_stock_products %}
                 <ul class="alert-list">
                     {% for product in low_stock_products %}
-                    <li class="alert-item">
-                        <span>{{ product.name }}</span>
-                        <span>{{ product.stock }} عدد باقی‌مانده</span>
-                    </li>
+                    <li class="alert-item"><span>{{ product.name }}</span><span>{{ product.stock }} عدد باقی‌مانده</span></li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p>همه محصولات موجودی کافی دارند.</p>
-            {% endif %}
+            {% else %}<p>همه محصولات موجودی کافی دارند.</p>{% endif %}
         </div>
-
         <div class="alert-card success">
-            <div class="alert-title">
-                <i class="fas fa-comments"></i>
-                آخرین نظرات
-            </div>
+            <div class="alert-title"><i class="fas fa-comments"></i> آخرین نظرات</div>
             {% if recent_feedback %}
                 <ul class="alert-list">
                     {% for feedback in recent_feedback %}
-                    <li class="alert-item">
-                        <span>{{ feedback.order.user.username }} - {{ feedback.rating }}⭐</span>
-                        <span>{{ feedback.comment|truncatechars:30 }}</span>
-                    </li>
+                    <li class="alert-item"><span>{{ feedback.order.user.username }} - {{ feedback.rating }}⭐</span><span>{{ feedback.comment|truncatechars:30 }}</span></li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p>هنوز نظری ثبت نشده است.</p>
-            {% endif %}
+            {% else %}<p>هنوز نظری ثبت نشده است.</p>{% endif %}
         </div>
     </div>
 
-    <!-- Recent Orders -->
-    <div class="recent-orders">
-        <h3><i class="fas fa-shopping-cart"></i> آخرین سفارشات</h3>
-        {% if recent_orders %}
-            <div class="order-item" style="grid-template-columns: 1fr 2fr 1fr 1fr 1fr; background: #f8f9fa; font-weight: 600; color: #495057;">
-                <div>شماره سفارش</div>
-                <div>مشتری</div>
-                <div>وضعیت</div>
-                <div>مبلغ</div>
-                <div>تاریخ</div>
-            </div>
-            {% for order in recent_orders %}
-            <div class="order-item">
-                <div class="order-id">#{{ order.id }}</div>
-                <div class="order-customer">{{ order.user.username }}</div>
-                <div class="order-status {{ order.status }}">{{ order.get_status_display }}</div>
-                <div class="order-amount">{{ order.total_amount|floatformat:0 }} تومان</div>
-                <div class="order-date">{{ order.created_at|date:"Y/m/d" }}</div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="empty-state">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>هنوز سفارشی ثبت نشده</h3>
-                <p>منتظر اولین سفارش باشید</p>
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- Quick Actions -->
     <div class="quick-actions">
-        <a href="{% url 'admin:shop_product_add' %}" class="quick-action-btn">
-            <i class="fas fa-plus"></i>
-            <h4>افزودن محصول</h4>
-            <p>محصول جدید اضافه کنید</p>
-        </a>
-        
-        <a href="{% url 'admin:shop_order_changelist' %}" class="quick-action-btn">
-            <i class="fas fa-shopping-cart"></i>
-            <h4>مدیریت سفارشات</h4>
-            <p>سفارشات را بررسی کنید</p>
-        </a>
-        
-        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="quick-action-btn">
-            <i class="fas fa-users"></i>
-            <h4>مدیریت کاربران</h4>
-            <p>کاربران را مدیریت کنید</p>
-        </a>
-        
-        <a href="{% url 'admin:shop_notification_changelist' %}" class="quick-action-btn notification-badge">
-            <i class="fas fa-bell"></i>
-            <h4>اعلان‌ها</h4>
-            <p>اعلان‌های جدید</p>
-        </a>
+        <a href="{% url 'admin:shop_product_add' %}" class="quick-action-btn"><i class="fas fa-plus"></i><h4>افزودن محصول</h4><p>محصول جدید اضافه کنید</p></a>
+        <a href="{% url 'admin:shop_order_changelist' %}" class="quick-action-btn"><i class="fas fa-shopping-cart"></i><h4>مدیریت سفارشات</h4><p>سفارشات را بررسی کنید</p></a>
+        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="quick-action-btn"><i class="fas fa-users"></i><h4>مدیریت کاربران</h4><p>کاربران را مدیریت کنید</p></a>
+        <a href="{% url 'admin:shop_notification_changelist' %}" class="quick-action-btn notification-badge"><i class="fas fa-bell"></i><h4>اعلان‌ها</h4><p>اعلان‌های جدید</p></a>
     </div>
 
-    <!-- Action Buttons -->
     <div class="action-buttons">
-        <a href="{% url 'admin:shop_order_changelist' %}" class="action-btn">
-            <i class="fas fa-list"></i>
-            مشاهده همه سفارشات
-        </a>
-        
-        <a href="{% url 'admin:shop_product_changelist' %}" class="action-btn success">
-            <i class="fas fa-box"></i>
-            مدیریت محصولات
-        </a>
-        
-        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="action-btn warning">
-            <i class="fas fa-user-cog"></i>
-            مدیریت کاربران
-        </a>
-        
-        <a href="{% url 'admin:shop_notification_changelist' %}" class="action-btn danger">
-            <i class="fas fa-bell"></i>
-            اعلان‌ها ({{ unread_notifications }})
-        </a>
+        <a href="{% url 'admin:shop_order_changelist' %}" class="action-btn"><i class="fas fa-list"></i> مشاهده همه سفارشات</a>
+        <a href="{% url 'admin:shop_product_changelist' %}" class="action-btn success"><i class="fas fa-box"></i> مدیریت محصولات</a>
+        <a href="{% url 'admin:shop_userprofile_changelist' %}" class="action-btn warning"><i class="fas fa-user-cog"></i> مدیریت کاربران</a>
+        <a href="{% url 'admin:shop_notification_changelist' %}" class="action-btn danger"><i class="fas fa-bell"></i> اعلان‌ها ({{ unread_notifications }})</a>
     </div>
 </div>
 
@@ -479,8 +280,19 @@
     const exportBtn = document.getElementById('exportCsvBtn');
     const apiBase = '{% url "admin_analytics_data" %}';
     const exportBase = '{% url "admin_export_orders_csv" %}';
+    const summaryUrl = '{% url "admin_orders_summary" %}';
+    const recentUrl = '{% url "admin_recent_orders_json" %}';
 
     let charts = {};
+    let lastPreparingCount = null;
+    let dingAudio;
+
+    function ensureDing(){
+        if (!dingAudio){
+            dingAudio = new Audio('data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA/////////////////////////////////////////////8AAABDb2ZmZWUgZGluZw==');
+        }
+        return dingAudio;
+    }
 
     function fmt(num){
         try { return new Intl.NumberFormat('fa-IR').format(num); } catch(e){ return num; }
@@ -498,45 +310,91 @@
         const json = await res.json();
 
         // Revenue timeseries
-        buildChart('revenueChart', 'line', {
-            labels: json.revenue_timeseries.labels,
-            datasets: [{ label: 'درآمد (تومان)', data: json.revenue_timeseries.values, tension: 0.3, borderColor: '#4B2E2B', backgroundColor: 'rgba(75,46,43,0.1)', fill: true }]
-        }, { plugins: { legend: { display: true } }, scales: { y: { ticks: { callback: v => fmt(v) }}}});
+        const revLabels = json.revenue_timeseries.labels || [];
+        const revValues = json.revenue_timeseries.values || [];
+        buildChart('revenueChart', 'line', { labels: revLabels, datasets: [{ label: 'درآمد', data: revValues, borderColor: '#4B2E2B', backgroundColor: 'rgba(75,46,43,0.1)', tension: 0.3 }]}, { responsive: true, plugins: { legend: { display: false }}});
 
         // Orders by status
-        const statusLabels = Object.keys(json.orders_by_status);
-        const statusData = Object.values(json.orders_by_status);
-        buildChart('statusChart', 'doughnut', {
-            labels: statusLabels,
-            datasets: [{ data: statusData, backgroundColor: ['#4B2E2B','#7B3F00','#C97C5D','#D2B48C','#8B5E34','#97704F'] }]
-        });
+        const statusData = json.orders_by_status || {};
+        const stLabels = Object.keys(statusData);
+        const stValues = stLabels.map(k => statusData[k]);
+        buildChart('statusChart', 'doughnut', { labels: stLabels, datasets: [{ data: stValues, backgroundColor: ['#8B4513','#D2691E','#CD853F','#654321','#20c997','#228B22'] }]}, { responsive: true });
 
         // Top products
-        const tpLabels = json.top_products.map(p => p.name);
-        const tpValues = json.top_products.map(p => p.total_qty);
-        buildChart('topProductsChart', 'bar', {
-            labels: tpLabels,
-            datasets: [{ label: 'تعداد فروش', data: tpValues, backgroundColor: '#7B3F00' }]
-        }, { indexAxis: 'y', scales: { x: { ticks: { callback: v => fmt(v) }}}});
+        const top = json.top_products || [];
+        buildChart('topProductsChart', 'bar', { labels: top.map(t => t.name), datasets: [{ label: 'تعداد', data: top.map(t => t.total_qty), backgroundColor: '#7B3F00' }]}, { responsive: true, plugins: { legend: { display: false }}});
 
-        // Revenue by category
-        const catLabels = json.revenue_by_category.map(c => c.category);
-        const catValues = json.revenue_by_category.map(c => c.revenue);
-        buildChart('categoryRevenueChart', 'bar', {
-            labels: catLabels,
-            datasets: [{ label: 'درآمد (تومان)', data: catValues, backgroundColor: '#C97C5D' }]
-        }, { scales: { y: { ticks: { callback: v => fmt(v) }}}});
+        // Category revenue
+        const cat = json.revenue_by_category || [];
+        buildChart('categoryRevenueChart', 'bar', { labels: cat.map(c => c.category), datasets: [{ label: 'درآمد', data: cat.map(c => c.revenue), backgroundColor: '#C97C5D' }]}, { responsive: true, plugins: { legend: { display: false }}});
+    }
 
-        // Update export link
-        const today = new Date();
-        const from = new Date(today.getTime() - (parseInt(range) || 30) * 24*60*60*1000);
-        const toStr = today.toISOString().slice(0,10);
-        const fromStr = from.toISOString().slice(0,10);
-        exportBtn.href = `${exportBase}?from=${fromStr}&to=${toStr}`;
+    async function refreshSummary(){
+        try{
+            const res = await fetch(summaryUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const data = await res.json();
+            const alertEl = document.getElementById('livePreparingAlert');
+            const countEl = document.getElementById('livePreparingCount');
+            if (data.has_preparing){
+                alertEl.classList.add('show');
+                countEl.textContent = `(${data.preparing_count})`;
+            } else {
+                alertEl.classList.remove('show');
+                countEl.textContent = '';
+            }
+            if (lastPreparingCount !== null && data.preparing_count > lastPreparingCount){
+                ensureDing().play().catch(()=>{});
+            }
+            lastPreparingCount = data.preparing_count;
+        } catch(e){ /* ignore */ }
+    }
+
+    function renderRecent(orders){
+        const list = document.getElementById('recentOrdersList');
+        const empty = document.getElementById('recentEmpty');
+        list.innerHTML = '';
+        if (!orders || orders.length === 0){ empty.style.display = ''; return; }
+        empty.style.display = 'none';
+        orders.forEach(o => {
+            const wrap = document.createElement('div');
+            wrap.className = 'recent-order';
+            wrap.innerHTML = `
+                <div class="recent-order-header">
+                    <div>#${o.id}</div>
+                    <div>${o.user}</div>
+                    <div><span class="status-chip" style="background:${o.status_color}">${o.status_display}</span></div>
+                    <div>${fmt(o.total_amount)} تومان</div>
+                </div>
+                <div class="order-items-mini">${(o.items||[]).map(it => `<span class="item-badge">${it.product} × ${it.quantity} — ${it.grind} • ${it.weight}</span>`).join(' ')}</div>
+                <div style="font-size:12px;color:#888;">${o.created_at}</div>
+            `;
+            list.appendChild(wrap);
+        });
+    }
+
+    async function refreshRecent(){
+        try{
+            const res = await fetch(recentUrl + '?limit=10', { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const data = await res.json();
+            if (data && data.success){ renderRecent(data.orders); }
+        } catch(e){ /* ignore */ }
     }
 
     rangeSelect.addEventListener('change', loadData);
+    exportBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const today = new Date();
+        const from = new Date(today.getTime() - 30*24*3600*1000);
+        const fmtD = (d) => d.toISOString().slice(0,10);
+        window.location.href = `${exportBase}?from=${fmtD(from)}&to=${fmtD(today)}`;
+    });
+
     loadData();
+    refreshSummary();
+    refreshRecent();
+
+    setInterval(refreshSummary, 5000); // near real-time
+    setInterval(refreshRecent, 10000);
 })();
 </script>
 {% endblock %}

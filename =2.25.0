@@ -1,0 +1,35 @@
+Collecting Django==5.1.1
+  Using cached Django-5.1.1-py3-none-any.whl.metadata (4.2 kB)
+Collecting Pillow==11.0.0
+  Using cached pillow-11.0.0-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+Collecting openai
+  Using cached openai-1.99.9-py3-none-any.whl.metadata (29 kB)
+Collecting requests
+  Using cached requests-2.32.4-py3-none-any.whl.metadata (4.9 kB)
+Collecting pandas==2.0.3
+  Using cached pandas-2.0.3.tar.gz (5.3 MB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: still running...
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting SpeechRecognition==3.10.0
+  Downloading SpeechRecognition-3.10.0-py2.py3-none-any.whl.metadata (28 kB)
+Collecting pyttsx3==2.90
+  Downloading pyttsx3-2.90-py3-none-any.whl.metadata (3.6 kB)
+Collecting PyAudio==0.2.11
+  Downloading PyAudio-0.2.11.tar.gz (37 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting playsound==1.3.0
+  Downloading playsound-1.3.0.tar.gz (7.7 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'error'
