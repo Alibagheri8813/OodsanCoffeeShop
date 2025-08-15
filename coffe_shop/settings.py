@@ -250,10 +250,11 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'debug.log',
             'formatter': 'verbose',
+            'encoding': 'utf-8',
         },
         'console': {
             'level': 'INFO',
-            'class': 'logging.StreamHandler',
+            'class': 'shop.logging_utils.SafeConsoleHandler',
             'formatter': 'simple',
         },
     },
