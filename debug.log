@@ -6,3 +6,17 @@ WARNING 2025-08-15 09:03:10,486 log 6636 1464 Not Found: /favicon.ico
 WARNING 2025-08-15 09:04:11,638 log 6636 9508 Not Found: /cart/count/
 INFO 2025-08-15 09:11:11,183 error_handling 6636 11600 Starting operation: product_detail
 INFO 2025-08-15 09:11:11,183 error_handling 6636 11600 Operation completed: product_detail in 0.00s
+INFO 2025-08-15 09:31:33,744 autoreload 10560 12916 Watching for file changes with StatReloader
+WARNING 2025-08-15 09:45:55,448 log 10560 13284 Not Found: /cart/count/
+WARNING 2025-08-15 09:46:35,826 log 10560 13284 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:47:05,845 log 10560 13284 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:47:35,840 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:48:05,837 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:48:35,825 log 10560 13284 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:49:05,840 log 10560 13284 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:49:35,824 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:50:19,816 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:51:19,835 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:52:19,829 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:53:19,827 log 10560 12016 Not Found: /api/orders/3/status/
+WARNING 2025-08-15 09:54:19,829 log 10560 12016 Not Found: /api/orders/3/status/
