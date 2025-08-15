@@ -531,3 +531,68 @@ def admin_export_orders_csv(request):
         ])
 
     return resp
+
+
+# ===== Real-time Admin Helpers =====
+@staff_member_required
+def admin_orders_summary(request):
+    """Return a lightweight summary of orders for real-time admin indicators.
+    Response: { success, preparing_count, has_preparing, ready_shipping_preparation_count, in_transit_count, updated_at }
+    """
+    preparing_count = Order.objects.filter(status='preparing').count()
+    ready_shipping_preparation_count = Order.objects.filter(status='ready_shipping_preparation').count()
+    in_transit_count = Order.objects.filter(status='in_transit').count()
+    return JsonResponse({
+        'success': True,
+        'preparing_count': preparing_count,
+        'has_preparing': preparing_count > 0,
+        'ready_shipping_preparation_count': ready_shipping_preparation_count,
+        'in_transit_count': in_transit_count,
+        'updated_at': timezone.now().isoformat(),
+    })
+
+
+@staff_member_required
+def admin_recent_orders_json(request):
+    """Return recent orders with item features for the dashboard orders panel.
+    Supports ?limit=N (default 10).
+    """
+    try:
+        limit = int(request.GET.get('limit', 10))
+    except ValueError:
+        limit = 10
+    limit = max(1, min(limit, 50))
+
+    orders_qs = (
+        Order.objects.select_related('user')
+        .prefetch_related('items__product')
+        .order_by('-created_at')[:limit]
+    )
+
+    grind_map = dict(Product.GRIND_TYPE_CHOICES)
+    weight_map = dict(Product.WEIGHT_CHOICES)
+
+    orders_data = []
+    for o in orders_qs:
+        items_data = []
+        for it in o.items.all():
+            items_data.append({
+                'product': it.product.name,
+                'quantity': it.quantity,
+                'grind': grind_map.get(it.grind_type, it.grind_type),
+                'weight': weight_map.get(it.weight, it.weight),
+                'unit_price': float(it.price or 0),
+                'total_price': float(it.get_total_price() or 0),
+            })
+        orders_data.append({
+            'id': o.id,
+            'user': getattr(o.user, 'username', ''),
+            'status': o.status,
+            'status_display': o.get_status_display(),
+            'status_color': o.get_status_badge_color(),
+            'total_amount': float(o.total_amount or 0),
+            'created_at': o.created_at.strftime('%Y-%m-%d %H:%M'),
+            'items': items_data,
+        })
+
+    return JsonResponse({'success': True, 'orders': orders_data})
