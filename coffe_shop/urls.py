@@ -46,6 +46,8 @@ urlpatterns = [
     path('admin/analytics/top-products/', admin_views.admin_analytics_top_products, name='admin_analytics_top_products'),
     path('admin/analytics/category-breakdown/', admin_views.admin_analytics_category_breakdown, name='admin_analytics_category_breakdown'),
     path('admin/users/<int:user_id>/update-tier/', admin_views.admin_update_user_tier, name='admin_update_user_tier'),
+    path('admin/orders/summary/', admin_views.admin_orders_summary, name='admin_orders_summary'),
+    path('admin/orders/recent.json', admin_views.admin_recent_orders_json, name='admin_recent_orders_json'),
     
     # Django Admin (must come after custom admin URLs)
     path('admin/', admin.site.urls),
