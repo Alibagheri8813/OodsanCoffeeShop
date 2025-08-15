@@ -183,7 +183,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 # Enhanced Order Admin
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'status_badge', 'total_amount', 'item_count', 'created_at', 'payment_status', 'has_feedback')
+    list_display = ('id', 'user', 'status', 'status_badge', 'total_amount', 'item_count', 'grind_types', 'weights', 'created_at', 'payment_status', 'has_feedback')
     list_filter = (OrderStatusFilter, 'created_at', 'delivery_method')
     search_fields = ('user__username', 'shipping_address', 'id', 'user__email')
     readonly_fields = ('created_at', 'updated_at', 'total_amount')
@@ -271,6 +271,34 @@ class OrderAdmin(admin.ModelAdmin):
         count = obj.items.count()
         return format_html('<span style="color: #007bff; font-weight: bold;">{}</span>', count)
     item_count.short_description = 'تعداد آیتم'
+    
+    def grind_types(self, obj):
+        grind_display_map = dict(Product.GRIND_TYPE_CHOICES)
+        # Preserve first-seen order
+        seen = set()
+        ordered_codes = []
+        for item in obj.items.all():
+            code = item.grind_type
+            if code not in seen:
+                seen.add(code)
+                ordered_codes.append(code)
+        labels = [grind_display_map.get(code, code) for code in ordered_codes]
+        return '، '.join(labels) if labels else '-'
+    grind_types.short_description = 'نحوه اسیاب'
+    
+    def weights(self, obj):
+        weight_display_map = dict(Product.WEIGHT_CHOICES)
+        # Preserve first-seen order
+        seen = set()
+        ordered_codes = []
+        for item in obj.items.all():
+            code = item.weight
+            if code not in seen:
+                seen.add(code)
+                ordered_codes.append(code)
+        labels = [weight_display_map.get(code, code) for code in ordered_codes]
+        return '، '.join(labels) if labels else '-'
+    weights.short_description = 'وزن'
     
     def payment_status(self, obj):
         if obj.status == 'pending_payment':
