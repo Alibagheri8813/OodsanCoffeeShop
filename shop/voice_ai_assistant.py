@@ -12,6 +12,7 @@ from django.http import JsonResponse
 # from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from .error_handling import rate_limit
 from openai import OpenAI
 
 # Audio processing
@@ -26,7 +27,7 @@ except ImportError:
     logging.warning("Audio libraries not available. Install pydub and pygame for full functionality.")
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, force=True)
 logger = logging.getLogger(__name__)
 
 class VoiceCoffeeExpert:
@@ -131,7 +132,7 @@ class VoiceCoffeeExpert:
         """Initialize OpenAI client with provided API key"""
         try:
             self.api_key = api_key
-            self.client = OpenAI(api_key="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")
+            self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
             # Test the connection
             self.client.models.list()
             self.is_available = True
@@ -148,7 +149,7 @@ class VoiceCoffeeExpert:
         try:
             # if not self.is_available or not self.client:
             #     return "I need an OpenAI API key to provide expert coffee advice. Please provide your API key first."
-            self.client = OpenAI(api_key="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")
+            self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
             # Test the connection
             self.client.models.list()
             self.is_available = True
@@ -282,6 +283,7 @@ class VoiceCoffeeExpert:
 # Initialize the voice coffee expert
 voice_coffee_expert = VoiceCoffeeExpert()
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 def initialize_ai(request):
     """Initialize AI with OpenAI API key"""
@@ -295,7 +297,7 @@ def initialize_ai(request):
         #         'error': 'Please provide your OpenAI API key'
         #     }, status=400)
         
-        success = voice_coffee_expert.initialize_openai("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")
+        success = voice_coffee_expert.initialize_openai(os.getenv('OPENAI_API_KEY', ''))
         
         if success:
             return JsonResponse({
@@ -315,6 +317,7 @@ def initialize_ai(request):
             'error': 'Something went wrong. Please try again.'
         }, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 def voice_chat(request):
     """Handle voice-based chat with coffee expert"""
@@ -349,6 +352,7 @@ def voice_chat(request):
             'error': 'Something went wrong processing your question. Please try again.'
         }, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 def text_chat(request):
     """Handle text-based chat as fallback"""
@@ -377,6 +381,7 @@ def text_chat(request):
             'error': 'Something went wrong. Please try again.'
         }, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 def stop_speech(request):
     """Stop current AI speech"""
