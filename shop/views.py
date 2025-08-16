@@ -89,6 +89,7 @@ def video_intro(request):
     timestamp = int(timezone.now().timestamp())
     return render(request, 'shop/video_intro.html', {'timestamp': timestamp})
 
+@rate_limit(10)
 def custom_login(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -334,8 +335,9 @@ def cart_view(request):
         messages.error(request, 'خطا در نمایش سبد خرید')
         return redirect('product_list')
 
-@login_required
+@rate_limit(12)
 @require_POST
+@login_required
 def add_to_cart(request):
     """Add a product to the user's cart.
     Accepts JSON (application/json) or form-encoded (application/x-www-form-urlencoded) bodies.
@@ -367,6 +369,7 @@ def add_to_cart(request):
         logger.error(f"add_to_cart error: {exc}")
         return JsonResponse({'success': False, 'message': 'خطا در افزودن به سبد خرید'}, status=500)
 
+@rate_limit(12)
 @login_required
 def update_cart_item(request):
     """Update the quantity of a specific cart item. Accepts JSON POST. GET returns invalid request JSON."""
@@ -403,8 +406,9 @@ def update_cart_item(request):
         # Tests expect 200 on malformed JSON or other parse errors with specific message
         return JsonResponse({'success': False, 'message': 'خطا در به‌روزرسانی سبد خرید'})
 
-@login_required
+@rate_limit(12)
 @require_POST
+@login_required
 def remove_from_cart(request):
     """Remove an item from cart and restore product stock."""
     try:
@@ -531,6 +535,7 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
     return render(request, 'shop/change_password.html', {'form': form})
 
+@rate_limit(20)
 @login_required
 @require_POST
 def add_to_favorites(request, product_id):
@@ -553,6 +558,7 @@ def add_to_favorites(request, product_id):
     else:
         return JsonResponse({'status': 'exists', 'message': 'این محصول قبلاً در علاقه‌مندی‌های شما موجود است'})
 
+@rate_limit(20)
 @login_required
 @require_POST
 def remove_from_favorites(request, product_id):
@@ -897,6 +903,7 @@ def order_detail(request, order_id):
     
     return render(request, 'shop/order_detail.html', context)
 
+@rate_limit(8)
 @require_http_methods(["POST"])
 @login_required
 def pay_order(request, order_id):
@@ -946,7 +953,7 @@ def order_list(request):
 
 # ===== SOCIAL FEATURES =====
 
-@rate_limit(requests_per_minute=60)  # Allow more likes per minute
+@rate_limit(60)  # Allow more likes per minute
 @ajax_error_handler
 @safe_transaction
 def toggle_like(request):
@@ -991,7 +998,7 @@ def toggle_like(request):
     
     return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
 
-@rate_limit(requests_per_minute=60)  # Allow more favorites per minute  
+@rate_limit(60)  # Allow more favorites per minute  
 @ajax_error_handler
 @safe_transaction
 def toggle_favorite(request):
@@ -1084,6 +1091,7 @@ def address_completion_check(request):
     except UserProfile.DoesNotExist:
         return JsonResponse({'has_complete_address': False})
 
+@rate_limit(20)
 @login_required
 @require_POST
 def like_product(request, product_id):
@@ -1093,6 +1101,7 @@ def like_product(request, product_id):
     like_count = ProductLike.objects.filter(product=product).count()
     return JsonResponse({'status': 'liked', 'like_count': like_count})
 
+@rate_limit(20)
 @login_required
 @require_POST
 def unlike_product(request, product_id):
@@ -1584,6 +1593,7 @@ def redeem_points(request):
         return JsonResponse({'status': 'error', 'message': 'خطا در رد کردن امتیاز'})
 
 # API Endpoints
+@rate_limit(30)
 @login_required
 @ajax_error_handler
 def api_recommendations(request):
@@ -1612,6 +1622,7 @@ def api_recommendations(request):
         logger.error(f"Error in API recommendations: {e}")
         return JsonResponse({'error': 'خطا در بارگیری پیشنهادات'}, status=500)
 
+@rate_limit(30)
 @login_required
 @ajax_error_handler
 def api_analytics(request):
@@ -1641,6 +1652,7 @@ def api_analytics(request):
         logger.error(f"Error in API analytics: {e}")
         return JsonResponse({'error': 'خطا در بارگیری تحلیلات'}, status=500)
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 @login_required
 def transition_order_status(request, order_id):
@@ -1681,6 +1693,7 @@ def transition_order_status(request, order_id):
         logger.error(f"Error transitioning order status: {e}")
         return JsonResponse({'error': 'خطا در تغییر وضعیت سفارش'}, status=500)
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -1704,6 +1717,7 @@ def mark_order_as_paid(request, order_id):
         logger.error(f"Error marking order as paid: {e}")
         return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -1727,6 +1741,7 @@ def mark_order_as_ready(request, order_id):
         logger.error(f"Error marking order as ready: {e}")
         return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -1750,6 +1765,7 @@ def start_order_shipping_preparation(request, order_id):
         logger.error(f"Error starting shipping: {e}")
         return JsonResponse({'error': 'خطا در آماده‌سازی ارسال'}, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -1773,6 +1789,7 @@ def mark_order_in_transit(request, order_id):
         logger.error(f"Error marking order in transit: {e}")
         return JsonResponse({'error': 'خطا در علامت‌گذاری سفارش'}, status=500)
 
+@rate_limit(15)
 @require_http_methods(["GET"])
 @login_required
 def get_order_status(request, order_id):
@@ -1810,6 +1827,7 @@ def voice_ai_assistant_page(request):
     }
     return render(request, 'shop/voice_ai_assistant.html', context)
 
+@rate_limit(20)
 @require_POST
 @login_required
 def toggle_product_like(request, product_id):
@@ -1848,6 +1866,7 @@ def toggle_product_like(request, product_id):
             'message': 'خطا در پردازش درخواست'
         }, status=500)
 
+@rate_limit(20)
 @require_POST
 @login_required
 def toggle_product_favorite(request, product_id):
@@ -1886,6 +1905,7 @@ def toggle_product_favorite(request, product_id):
             'message': 'خطا در پردازش درخواست'
         }, status=500)
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 @login_required
 @ajax_error_handler
@@ -2037,6 +2057,7 @@ def verify_phone_code(request):
         logger.error(f"verify_phone_code (deprecated) error: {e}")
         return JsonResponse({'success': False, 'message': 'بروزرسانی انجام نشد'}, status=500)
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 @login_required
 @user_passes_test(lambda u: u.is_staff)

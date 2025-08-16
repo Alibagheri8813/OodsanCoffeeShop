@@ -72,6 +72,9 @@ class Product(models.Model):
             models.Index(fields=['featured', '-created_at']),
             models.Index(fields=['price']),
         ]
+        constraints = [
+            models.CheckConstraint(check=models.Q(stock__gte=0), name='product_stock_non_negative'),
+        ]
 
     def __str__(self):
         return self.name
