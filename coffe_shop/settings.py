@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Optional packages availability flags
 try:
@@ -34,11 +35,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-^mmy1%awrcdj)jb_zlmknow@g-nvnk%!e#(5ffpds&ahwko3h(')
+# SECURITY KEY: In production (DEBUG=False) require env var; in dev provide harmless fallback
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+if not DEBUG:
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+    if not SECRET_KEY or SECRET_KEY.startswith('django-insecure-') or len(set(SECRET_KEY)) < 5 or len(SECRET_KEY) < 50:
+        raise ImproperlyConfigured('DJANGO_SECRET_KEY must be a strong, long, random value in production')
+else:
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-only-not-secure-secret-key-change-me-please-0123456789abcdefghijklmnopqrstuvwxyz')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 
