@@ -131,9 +131,9 @@ Thumbs.db
 
 # Media files (you might want to keep some of these)
 # media/
-
+ 
 # Static files (uncomment if you want to ignore collected static files)
-# staticfiles/
+staticfiles/
 
 # Custom log files
 debug.log

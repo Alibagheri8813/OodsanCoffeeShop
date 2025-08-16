@@ -75,6 +75,10 @@ def create_order_from_cart(user, delivery_method: str, address_id: int, postal_c
     items_payload = []
     for item in cart_items:
         unit_price = item.get_unit_price()
+        # Prevent negative stock under concurrency
+        updated = Product.objects.filter(id=item.product_id, stock__gte=item.quantity).update(stock=models.F('stock') - item.quantity)
+        if updated == 0:
+            raise Exception(f"موجودی محصول '{item.product.name}' کافی نیست")
         OrderItem.objects.create(
             order=order,
             product=item.product,
@@ -83,8 +87,6 @@ def create_order_from_cart(user, delivery_method: str, address_id: int, postal_c
             grind_type=item.grind_type,
             weight=item.weight,
         )
-        # decrement stock
-        Product.objects.filter(id=item.product_id).update(stock=models.F('stock') - item.quantity)
         items_payload.append({
             'product': item.product.name,
             'qty': item.quantity,

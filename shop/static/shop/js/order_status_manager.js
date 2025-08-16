@@ -11,6 +11,10 @@ class OrderStatusManager {
     }
 
     getCSRFToken() {
+        // Prefer meta tag injected by Django template
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta && meta.content) return meta.content;
+        // Fallback to cookie if available
         const cookies = document.cookie.split(';');
         for (let cookie of cookies) {
             const [name, value] = cookie.trim().split('=');

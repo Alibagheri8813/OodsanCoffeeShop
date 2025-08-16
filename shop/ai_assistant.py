@@ -25,10 +25,11 @@ except Exception:  # pragma: no cover
 from django.http import JsonResponse
 # from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from .error_handling import rate_limit
 from .ai_config import  AI_MODEL, AI_MAX_TOKENS, AI_TEMPERATURE, AI_TOP_P, FALLBACK_RESPONSES
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, force=True)
 logger = logging.getLogger(__name__)
 
 class CoffeeExpertAI:
@@ -39,7 +40,7 @@ class CoffeeExpertAI:
         try:
             if OpenAI is None:
                 raise RuntimeError("OpenAI SDK not available")
-            self.client = OpenAI(api_key="")
+            self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
             # Light availability check; ignore failures silently
             try:
                 self.client.models.list()
@@ -339,6 +340,7 @@ except Exception as e:  # pragma: no cover
     logger.error(f"Failed to initialize Coffee Expert AI: {str(e)}")
     coffee_ai = None
 
+@rate_limit(20)
 @require_http_methods(["POST"])
 def ai_chat(request):
     """Handle text-based chat with AI assistant"""
@@ -385,6 +387,7 @@ def ai_chat(request):
             'fallback': True
         }, status=500)
 
+@rate_limit(15)
 @require_http_methods(["POST"])
 def voice_chat(request):
     """Enhanced voice chat functionality with speech recognition and TTS"""
@@ -432,6 +435,7 @@ def voice_chat(request):
             'debug_info': f'Voice exception: {str(e)}'
         }, status=500)
 
+@rate_limit(10)
 @require_http_methods(["POST"])
 def speech_to_text(request):
     """Handle speech-to-text conversion"""
@@ -481,6 +485,7 @@ def speech_to_text(request):
             'debug_info': f'STT exception: {str(e)}'
         }, status=500)
 
+@rate_limit(10)
 @require_http_methods(["POST"])
 def text_to_speech(request):
     """Handle text-to-speech conversion"""
