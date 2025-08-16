@@ -38,7 +38,7 @@ import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-^mmy1%awrcdj)jb_zlmknow@g-nvnk%!e#(5ffpds&ahwko3h(')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 
@@ -190,8 +190,9 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 else:
-    # In development, default to not forcing HTTPS unless explicitly enabled
+    # In development, never force HTTPS unless explicitly enabled via env
     SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
+    SECURE_HSTS_SECONDS = 0
 
 # Phase 3: Caching Configuration (Enhanced)
 CACHES = {
