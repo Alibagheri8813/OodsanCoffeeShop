@@ -183,7 +183,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 # Enhanced Order Admin
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'status_badge', 'total_amount', 'item_count', 'grind_types', 'weights', 'created_at', 'payment_status', 'has_feedback')
+    list_display = ('id', 'user', 'status', 'status_badge', 'total_amount', 'item_count', 'products', 'grind_types', 'weights', 'created_at', 'payment_status', 'has_feedback')
     list_filter = (OrderStatusFilter, 'created_at', 'delivery_method')
     search_fields = ('user__username', 'shipping_address', 'id', 'user__email')
     readonly_fields = ('created_at', 'updated_at', 'total_amount')
@@ -272,6 +272,11 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html('<span style="color: #007bff; font-weight: bold;">{}</span>', count)
     item_count.short_description = 'تعداد آیتم'
     
+    def products(self, obj):
+        names = [item.product.name for item in obj.items.all()]
+        return '، '.join(names) if names else '-'
+    products.short_description = 'محصول'
+    
     def grind_types(self, obj):
         grind_display_map = dict(Product.GRIND_TYPE_CHOICES)
         # Preserve first-seen order
@@ -308,7 +313,7 @@ class OrderAdmin(admin.ModelAdmin):
     payment_status.short_description = 'وضعیت پرداخت'
     
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related('user').prefetch_related('items')
+        return super().get_queryset(request).select_related('user').prefetch_related('items', 'items__product')
 
 # Enhanced OrderItem Admin
 class OrderItemAdmin(admin.ModelAdmin):
