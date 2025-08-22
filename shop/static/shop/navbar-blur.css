@@ -11,7 +11,7 @@ body:not(.home-page) .navbar {
   z-index: 1000; /* Keep below dropdown but above content */
   overflow-y: visible;
   overflow-x: hidden;
-  contain: paint;
+  contain: none;
 }
 
 body:not(.home-page) .navbar::before {
