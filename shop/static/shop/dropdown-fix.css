@@ -136,7 +136,7 @@ body:not(.home-page) .navbar .profile-dropdown {
 }
 
 body:not(.home-page) .navbar .dropdown-menu {
-	right: 0 !important;
-	left: auto !important;
+	left: 0 !important;
+	right: auto !important;
 }
 
