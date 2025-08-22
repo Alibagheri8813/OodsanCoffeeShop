@@ -478,7 +478,7 @@ function sendMessage() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCSRFToken()
         },
         body: JSON.stringify({
             message: message
@@ -601,7 +601,7 @@ function processAudio(audioBlob) {
     fetch('/shop/ai/speech-to-text/', {
         method: 'POST',
         headers: {
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCSRFToken()
         },
         body: formData
     })
@@ -616,7 +616,7 @@ function processAudio(audioBlob) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
+                    'X-CSRFToken': getCSRFToken()
                 },
                 body: JSON.stringify({
                     transcribed_text: data.text
@@ -643,14 +643,14 @@ function processAudio(audioBlob) {
     });
 }
 
-function getCookie(name) {
+function getCSRFToken() {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            if (cookie.substring(0, 'csrftoken'.length + 1) === ('csrftoken=')) {
+                cookieValue = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
                 break;
             }
         }

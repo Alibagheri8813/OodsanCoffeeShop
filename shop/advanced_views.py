@@ -102,7 +102,7 @@ def analytics_dashboard(request):
         # Revenue Analytics
         revenue_data = Order.objects.filter(
             created_at__gte=start_date,
-            status__in=['paid', 'processing', 'shipped', 'delivered']
+            status__in=['preparing', 'ready_shipping_preparation', 'in_transit', 'pickup_ready', 'delivered']
         ).aggregate(
             total_revenue=Sum('total_amount'),
             order_count=Count('id'),
@@ -114,7 +114,7 @@ def analytics_dashboard(request):
         prev_revenue_data = Order.objects.filter(
             created_at__gte=prev_start,
             created_at__lt=start_date,
-            status__in=['paid', 'processing', 'shipped', 'delivered']
+            status__in=['preparing', 'ready_shipping_preparation', 'in_transit', 'pickup_ready', 'delivered']
         ).aggregate(
             total_revenue=Sum('total_amount'),
             order_count=Count('id')
@@ -132,7 +132,7 @@ def analytics_dashboard(request):
         # Top Products
         top_products = Product.objects.filter(
             orderitem__order__created_at__gte=start_date,
-            orderitem__order__status__in=['paid', 'processing', 'shipped', 'delivered']
+            orderitem__order__status__in=['preparing', 'ready_shipping_preparation', 'in_transit', 'pickup_ready', 'delivered']
         ).annotate(
             total_sold=Sum('orderitem__quantity'),
             total_revenue=Sum(F('orderitem__quantity') * F('orderitem__price'))

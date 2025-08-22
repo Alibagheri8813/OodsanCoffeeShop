@@ -16,9 +16,10 @@ def _calculate_cart_totals(cart: Cart) -> Tuple[int, int]:
 
 @transaction.atomic
 def add_to_cart(user, product_id: int, quantity: int = 1, grind_type: str = 'whole_bean', weight: str = '250g') -> Dict:
-    """Add product to the user's cart with inventory reservation.
+    """Add product to the user's cart (no stock reservation).
 
-    Decreases product stock when quantity increases; restores when item removed elsewhere.
+    Validates requested quantity against current product stock but does not
+    decrement product.stock at cart time. Final stock decrement occurs at order time.
     Returns a dict suitable for JSON responses.
     """
     if quantity is None:
@@ -40,7 +41,7 @@ def add_to_cart(user, product_id: int, quantity: int = 1, grind_type: str = 'who
     product = get_object_or_404(Product, id=product_id)
     cart, _ = Cart.objects.get_or_create(user=user)
 
-    cart_item, created = CartItem.objects.get_or_create(
+    cart_item, _created = CartItem.objects.get_or_create(
         cart=cart,
         product=product,
         grind_type=grind_type or 'whole_bean',
@@ -52,16 +53,13 @@ def add_to_cart(user, product_id: int, quantity: int = 1, grind_type: str = 'who
     if new_quantity < 0:
         new_quantity = 0
 
-    delta = new_quantity - cart_item.quantity
-    if delta > 0:
-        if product.stock < delta:
-            return {
-                'success': False,
-                'message': 'موجودی کافی نیست',
-                'available_stock': product.stock
-            }
-        product.stock -= delta
-        product.save(update_fields=['stock'])
+    # Validate against current stock without reserving
+    if new_quantity > max(0, product.stock):
+        return {
+            'success': False,
+            'message': 'موجودی کافی نیست',
+            'available_stock': max(0, product.stock)
+        }
 
     if new_quantity == 0 and cart_item.id:
         cart_item.delete()
@@ -75,7 +73,7 @@ def add_to_cart(user, product_id: int, quantity: int = 1, grind_type: str = 'who
 
 @transaction.atomic
 def update_cart_item(user, item_id: int, new_quantity: int) -> Dict:
-    """Set a cart item's quantity, adjusting stock accordingly."""
+    """Set a cart item's quantity (no stock reservation)."""
     cart = Cart.objects.get(user=user)
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
     product = cart_item.product
@@ -88,26 +86,18 @@ def update_cart_item(user, item_id: int, new_quantity: int) -> Dict:
     if new_quantity < 0:
         return {"success": False, "message": "تعداد نامعتبر است"}
 
+    # Validate against current stock without reserving
+    if new_quantity > max(0, product.stock):
+        return {
+            'success': False,
+            'message': 'موجودی کافی نیست',
+            'available_stock': max(0, product.stock)
+        }
+
     if new_quantity == 0:
-        product.stock += cart_item.quantity
-        product.save(update_fields=['stock'])
         cart_item.delete()
         item_total_int = 0
     else:
-        delta = new_quantity - cart_item.quantity
-        if delta > 0:
-            if product.stock < delta:
-                return {
-                    'success': False,
-                    'message': 'موجودی کافی نیست',
-                    'available_stock': product.stock
-                }
-            product.stock -= delta
-            product.save(update_fields=['stock'])
-        elif delta < 0:
-            product.stock += (-delta)
-            product.save(update_fields=['stock'])
-
         cart_item.quantity = new_quantity
         cart_item.save(update_fields=['quantity'])
         # Compute updated item total after save
@@ -122,13 +112,9 @@ def update_cart_item(user, item_id: int, new_quantity: int) -> Dict:
 
 @transaction.atomic
 def remove_from_cart(user, item_id: int) -> Dict:
-    """Remove a cart item and restore its stock."""
+    """Remove a cart item (no stock restoration at cart time)."""
     cart = Cart.objects.get(user=user)
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
-
-    product = cart_item.product
-    product.stock += cart_item.quantity
-    product.save(update_fields=['stock'])
 
     cart_item.delete()
 

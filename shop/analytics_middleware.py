@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.core.cache import cache
 from django.db import transaction
 from django.contrib.auth.models import AnonymousUser
-from .models import UserActivity, AnalyticsEvent, SearchQuery
+from .models import UserActivity, SearchQuery
 try:
     from .ai_recommendation_engine import ai_engine
 except Exception:
@@ -60,22 +60,6 @@ class AnalyticsMiddleware:
                     device_type=device_type,
                     request=request
                 )
-            
-            # Track analytics event
-            self.track_analytics_event(
-                event_type='page_view',
-                user=user if user.is_authenticated else None,
-                session_id=session_id,
-                metadata={
-                    'path': request.path,
-                    'method': request.method,
-                    'device_type': device_type,
-                    'session_duration': session_duration,
-                    'user_agent': request.META.get('HTTP_USER_AGENT', ''),
-                    'referrer': request.META.get('HTTP_REFERER', ''),
-                    'ip_address': self.get_client_ip(request)
-                }
-            )
             
             # Track search queries
             if 'search' in request.path or 'q=' in request.GET:
@@ -157,24 +141,6 @@ class AnalyticsMiddleware:
         except Exception as e:
             logger.error(f"Error tracking user activity: {str(e)}")
     
-    def track_analytics_event(self, event_type, user=None, product=None, category=None, 
-                            order=None, session_id=None, metadata=None):
-        """Track analytics event"""
-        try:
-            AnalyticsEvent.objects.create(
-                event_type=event_type,
-                user=user,
-                product=product,
-                category=category,
-                order=order,
-                session_id=session_id or 'anonymous',
-                metadata=metadata or {},
-                ip_address=metadata.get('ip_address') if metadata else None
-            )
-            
-        except Exception as e:
-            logger.error(f"Error tracking analytics event: {str(e)}")
-    
     def track_search_query(self, request, user):
         """Track search queries for analytics"""
         try:
@@ -191,19 +157,19 @@ class AnalyticsMiddleware:
                     results_count = 10  # Default estimate
             
             # Get applied filters
-            filters_applied = {}
+            filters_used = {}
             filter_params = ['category', 'min_price', 'max_price', 'sort']
             for param in filter_params:
                 value = request.GET.get(param)
                 if value:
-                    filters_applied[param] = value
+                    filters_used[param] = value
             
             # Create search query record
             SearchQuery.objects.create(
                 user=user if user.is_authenticated else None,
                 query=query,
                 results_count=results_count,
-                filters_applied=filters_applied,
+                filters_used=filters_used,
                 session_id=request.session.session_key or 'anonymous'
             )
             
@@ -289,88 +255,4 @@ class PerformanceMonitoringMiddleware:
         return response
 
 # Analytics tracking functions for views
-def track_product_view(request, product):
-    """Track product view for analytics"""
-    try:
-        if request.user.is_authenticated:
-            # Track user activity
-            UserActivity.objects.create(
-                user=request.user,
-                page=f'/product/{product.id}/',
-                action='product_view',
-                product=product,
-                category=product.category
-            )
-            
-            # Track analytics event
-            AnalyticsEvent.objects.create(
-                event_type='product_view',
-                user=request.user,
-                product=product,
-                category=product.category,
-                metadata={
-                    'product_name': product.name,
-                    'product_price': float(product.price),
-                    'product_category': product.category.name
-                }
-            )
-            
-    except Exception as e:
-        logger.error(f"Error tracking product view: {str(e)}")
-
-def track_add_to_cart(request, product, quantity):
-    """Track add to cart event"""
-    try:
-        if request.user.is_authenticated:
-            AnalyticsEvent.objects.create(
-                event_type='add_to_cart',
-                user=request.user,
-                product=product,
-                category=product.category,
-                metadata={
-                    'quantity': quantity,
-                    'product_name': product.name,
-                    'product_price': float(product.price),
-                    'total_value': float(product.price * quantity)
-                }
-            )
-            
-    except Exception as e:
-        logger.error(f"Error tracking add to cart: {str(e)}")
-
-def track_purchase(request, order):
-    """Track purchase event"""
-    try:
-        if request.user.is_authenticated:
-            AnalyticsEvent.objects.create(
-                event_type='purchase',
-                user=request.user,
-                order=order,
-                metadata={
-                    'order_id': order.id,
-                    'total_amount': float(order.total_amount),
-                    'item_count': order.items.count(),
-                    'delivery_method': order.delivery_method
-                }
-            )
-            
-    except Exception as e:
-        logger.error(f"Error tracking purchase: {str(e)}")
-
-def track_recommendation_click(request, product, recommendation_type):
-    """Track recommendation click"""
-    try:
-        if request.user.is_authenticated:
-            AnalyticsEvent.objects.create(
-                event_type='recommendation_click',
-                user=request.user,
-                product=product,
-                category=product.category,
-                metadata={
-                    'recommendation_type': recommendation_type,
-                    'product_name': product.name
-                }
-            )
-            
-    except Exception as e:
-        logger.error(f"Error tracking recommendation click: {str(e)}") 
+# Removed AnalyticsEvent-specific tracking to avoid dependency on missing model. 

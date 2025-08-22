@@ -12,17 +12,29 @@ class SecurityHeadersMiddleware:
 		response = self.get_response(request)
 
 		# Content Security Policy
-		# Allow self and required CDNs used in templates; permit inline styles and JSON-LD.
-		csp_directives = {
-			"default-src": "'self'",
-			"base-uri": "'self'",
-			"frame-ancestors": "'none'",
-			"img-src": "'self' data: blob:",
-			"font-src": "'self' https://fonts.gstatic.com data:",
-			"style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-			"script-src": "'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
-			"connect-src": "'self'",
-		}
+		# Allow self and required CDNs used in templates; permit inline styles/JSON-LD only in DEBUG.
+		if settings.DEBUG:
+			csp_directives = {
+				"default-src": "'self'",
+				"base-uri": "'self'",
+				"frame-ancestors": "'none'",
+				"img-src": "'self' data: blob:",
+				"font-src": "'self' https://fonts.gstatic.com data:",
+				"style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
+				"script-src": "'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+				"connect-src": "'self'",
+			}
+		else:
+			csp_directives = {
+				"default-src": "'self'",
+				"base-uri": "'self'",
+				"frame-ancestors": "'none'",
+				"img-src": "'self' data: blob:",
+				"font-src": "'self' https://fonts.gstatic.com data:",
+				"style-src": "'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
+				"script-src": "'self' https://cdnjs.cloudflare.com",
+				"connect-src": "'self'",
+			}
 		csp = "; ".join(f"{k} {v}" for k, v in csp_directives.items())
 		response.headers.setdefault("Content-Security-Policy", csp)
 
