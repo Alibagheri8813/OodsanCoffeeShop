@@ -33,6 +33,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+###############################################
+# # Set DEBUG = False.
+# Set a strong, unique, and securely stored SECRET_KEY.
+# Configure ALLOWED_HOSTS.
+# Use a production-grade database (PostgreSQL recommended).
+# Set up a web server (Nginx) and a WSGI server (Gunicorn).
+# Configure STATIC_ROOT and MEDIA_ROOT, and serve them with Nginx.
+# Enforce HTTPS using your web server and appropriate Django settings (SECURE_SSL_REDIRECT, HSTS etc.).
+# Implement robust logging.
+# Configure email for production.
+# Implement caching (Redis/Memcached).
+# Use environment variables for all sensitive configurations.
+# Set up error reporting.
+# Establish a backup strategy.
+######################################################
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
@@ -192,7 +207,7 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Production-only secure settings
 if not DEBUG:
-    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'true').lower() == 'true'
+    # SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'true').lower() == 'true'
     SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_SECURE_HSTS_SECONDS', '31536000'))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
@@ -200,7 +215,7 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
 else:
     # In development, never force HTTPS unless explicitly enabled via env
-    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
+    # SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
     SECURE_HSTS_SECONDS = 0
 
 # Phase 3: Caching Configuration (Enhanced)
