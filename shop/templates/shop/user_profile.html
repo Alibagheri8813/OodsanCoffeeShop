@@ -518,6 +518,63 @@ body {
     gap: 8px;
     font-weight: 700;
 }
+
+/* ===== QUICK ADDRESS FORM INPUT STYLES (match login) ===== */
+.quick-address-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.quick-address-form .form-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--primary-coffee);
+}
+
+.quick-address-form input[type="text"],
+.quick-address-form input[type="email"],
+.quick-address-form input[type="tel"],
+.quick-address-form input[type="search"],
+.quick-address-form select,
+.quick-address-form textarea {
+    width: 100%;
+    padding: 1rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    color: var(--primary-coffee);
+}
+
+.quick-address-form input:focus,
+.quick-address-form select:focus,
+.quick-address-form textarea:focus {
+    outline: none;
+    border-color: #8b4513;
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+    transform: translateY(-2px);
+}
+
+.quick-address-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.quick-address-form .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quick-address-form .form-check input[type="checkbox"] {
+    accent-color: #8b4513;
+}
+
+.quick-address-form .form-check-label {
+    color: var(--primary-coffee);
+    font-weight: 600;
+}
 </style>
 {% endblock %}
 
@@ -681,7 +738,7 @@ body {
                         افزودن سریع آدرس
                     </h2>
                 </div>
-                <form method="post" action="{% url 'add_address' %}" novalidate>
+                <form method="post" action="{% url 'add_address' %}" class="quick-address-form" novalidate>
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="id_title" class="form-label">عنوان آدرس</label>
