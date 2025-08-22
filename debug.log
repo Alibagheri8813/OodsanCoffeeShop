@@ -179,3 +179,10 @@ INFO 2025-08-22 04:58:14,191 autoreload 13036 4180 Watching for file changes wit
 INFO 2025-08-22 05:10:42,051 autoreload 9628 2536 Watching for file changes with StatReloader
 INFO 2025-08-22 05:11:44,913 error_handling 9628 10268 Starting operation: product_detail
 INFO 2025-08-22 05:11:44,915 error_handling 9628 10268 Operation completed: product_detail in 0.00s
+INFO 2025-08-22 05:20:26,577 autoreload 10848 8424 Watching for file changes with StatReloader
+INFO 2025-08-22 05:24:25,936 error_handling 10848 5472 Starting operation: product_detail
+INFO 2025-08-22 05:24:25,938 error_handling 10848 5472 Operation completed: product_detail in 0.00s
+WARNING 2025-08-22 05:26:14,377 log 10848 5472 Not Found: /api/orders/7/status/
+WARNING 2025-08-22 05:26:44,363 log 10848 12312 Not Found: /api/orders/7/status/
+WARNING 2025-08-22 05:27:14,365 log 10848 7404 Not Found: /api/orders/7/status/
+WARNING 2025-08-22 05:27:44,362 log 10848 7404 Not Found: /api/orders/7/status/
