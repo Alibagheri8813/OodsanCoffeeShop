@@ -956,6 +956,7 @@ def order_list(request):
 @rate_limit(60)  # Allow more likes per minute
 @ajax_error_handler
 @safe_transaction
+@require_POST
 def toggle_like(request):
     """Toggle product like with AJAX"""
     if not request.user.is_authenticated:
@@ -964,43 +965,35 @@ def toggle_like(request):
             'message': 'برای لایک کردن محصول باید وارد شوید',
             'redirect': '/login/'
         })
-    
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            product_id = data.get('product_id')
-            product = get_object_or_404(Product, id=product_id)
-            
-            like, created = ProductLike.objects.get_or_create(
-                product=product,
-                user=request.user
-            )
-            
-            if not created:
-                like.delete()
-                is_liked = False
-            else:
-                is_liked = True
-            
-            total_likes = product.likes.count()
-            
-            return JsonResponse({
-                'success': True,
-                'is_liked': is_liked,
-                'total_likes': total_likes
-            })
-            
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': str(e)
-            })
-    
-    return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        like, created = ProductLike.objects.get_or_create(
+            product=product,
+            user=request.user
+        )
+        if not created:
+            like.delete()
+            is_liked = False
+        else:
+            is_liked = True
+        total_likes = product.likes.count()
+        return JsonResponse({
+            'success': True,
+            'is_liked': is_liked,
+            'total_likes': total_likes
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        })
 
 @rate_limit(60)  # Allow more favorites per minute  
 @ajax_error_handler
 @safe_transaction
+@require_POST
 def toggle_favorite(request):
     """Toggle product favorite with AJAX"""
     if not request.user.is_authenticated:
@@ -1009,39 +1002,30 @@ def toggle_favorite(request):
             'message': 'برای اضافه کردن به علاقه‌مندی‌ها باید وارد شوید',
             'redirect': '/login/'
         })
-    
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            product_id = data.get('product_id')
-            product = get_object_or_404(Product, id=product_id)
-            
-            favorite, created = ProductFavorite.objects.get_or_create(
-                product=product,
-                user=request.user
-            )
-            
-            if not created:
-                favorite.delete()
-                is_favorited = False
-            else:
-                is_favorited = True
-            
-            total_favorites = product.favorites.count()
-            
-            return JsonResponse({
-                'success': True,
-                'is_favorited': is_favorited,
-                'total_favorites': total_favorites
-            })
-            
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'message': str(e)
-            })
-    
-    return JsonResponse({'success': False, 'message': 'درخواست نامعتبر'})
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        favorite, created = ProductFavorite.objects.get_or_create(
+            product=product,
+            user=request.user
+        )
+        if not created:
+            favorite.delete()
+            is_favorited = False
+        else:
+            is_favorited = True
+        total_favorites = product.favorites.count()
+        return JsonResponse({
+            'success': True,
+            'is_favorited': is_favorited,
+            'total_favorites': total_favorites
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        })
 
 # ===== NOTIFICATION SYSTEM =====
 
@@ -1071,7 +1055,7 @@ def mark_all_notifications_read(request):
     return JsonResponse({'success': True})
 
 @login_required
-@require_POST
+@require_http_methods(["POST", "DELETE"])
 def delete_notification(request, notification_id):
     """Delete a notification (compatible name)"""
     try:
@@ -1210,8 +1194,7 @@ def health_check(request):
             'database': db_health,
             'cache': cache_health,
         },
-        'version': '1.0.0',
-        'environment': 'development' if settings.DEBUG else 'production'
+        'version': '1.0.0'
     }
     
     status_code = 200 if overall_healthy else 503
@@ -1230,16 +1213,10 @@ def system_status(request):
     import platform
     
     with LoggingContext('system_status', request.user):
-        # Database statistics
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM shop_product")
-            product_count = cursor.fetchone()[0]
-            
-            cursor.execute("SELECT COUNT(*) FROM shop_order")
-            order_count = cursor.fetchone()[0]
-            
-            cursor.execute("SELECT COUNT(*) FROM auth_user")
-            user_count = cursor.fetchone()[0]
+        # Database statistics (use ORM for maintainability)
+        product_count = Product.objects.count()
+        order_count = Order.objects.count()
+        user_count = User.objects.count()
         
         # System information
         system_info = {
@@ -1664,7 +1641,10 @@ def transition_order_status(request, order_id):
         if not request.user.is_staff:
             return JsonResponse({'error': 'عدم دسترسی'}, status=403)
  
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'داده نامعتبر است'}, status=400)
         new_status = data.get('status')
  
         if not new_status:

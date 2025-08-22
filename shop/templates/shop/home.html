@@ -1742,20 +1742,16 @@ function toggleHeroDropdown() {
 // Update cart count in hero
 async function updateHeroCartCount() {
     try {
-        const response = await fetch('/cart/count/');
+        const response = await fetch('{% url "cart_count" %}');
         const data = await response.json();
         const cartCountElement = document.getElementById('heroCartCount');
         if (cartCountElement) {
             cartCountElement.textContent = data.count || 0;
             if (data.count > 0) {
-                cartCountElement.style.display = 'inline-block';
-            } else {
-                cartCountElement.style.display = 'none';
+                cartCountElement.classList.add('visible');
             }
         }
-    } catch (error) {
-        console.error('Error updating cart count:', error);
-    }
+    } catch (e) {}
 }
 
 // Update cart count on page load
