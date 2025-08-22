@@ -203,7 +203,7 @@ def rate_limit(requests_per_minute=60):
 def get_client_ip(request):
     """Get client IP address from request"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
+    if getattr(settings, 'TRUST_X_FORWARDED_FOR', False) and x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')

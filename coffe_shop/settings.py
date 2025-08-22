@@ -35,15 +35,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-^mmy1%awrcdj)jb_zlmknow@g-nvnk%!e#(5ffpds&ahwko3h(')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
+# Ensure a secret key is set in production
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+if not SECRET_KEY:
+    if DEBUG:
+        # Provide a dev-only fallback to avoid crashes during local development
+        SECRET_KEY = 'dev-insecure-secret-key'
+    else:
+        raise RuntimeError('DJANGO_SECRET_KEY environment variable must be set in production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
-
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 
 # CSRF trusted origins (for reverse proxies / custom domains)
 CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS') else []
+
+# Whether to trust X-Forwarded-For for client IP resolution (rate limiting, logging)
+TRUST_X_FORWARDED_FOR = os.environ.get('DJANGO_TRUST_X_FORWARDED_FOR', 'false').lower() == 'true'
 
 
 # Application definition
@@ -215,7 +224,7 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_SAVE_EVERY_REQUEST = False  # Performance optimization
 CSRF_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_HTTPONLY = True
 
 # Phase 3: Static Files Configuration
 if _WHITENOISE_AVAILABLE and not DEBUG:

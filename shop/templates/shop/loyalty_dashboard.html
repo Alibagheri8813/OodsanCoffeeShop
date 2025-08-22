@@ -468,15 +468,13 @@ function redeemReward(rewardId) {
         return;
     }
     
-    fetch('/shop/redeem-points/', {
+    fetch('{% url "redeem_points" %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCSRFToken()
         },
-        body: JSON.stringify({
-            reward_id: rewardId
-        })
+        body: JSON.stringify({ reward_type: type, points_required: points })
     })
     .then(response => response.json())
     .then(data => {

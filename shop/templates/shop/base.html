@@ -457,6 +457,14 @@
         })();
     </script>
 
+    <script>
+        // Standard CSRF token accessor from meta tag for fetch calls
+        function getCSRFToken() {
+            var meta = document.querySelector('meta[name="csrf-token"]');
+            return meta && meta.content ? meta.content : '';
+        }
+    </script>
+
     {% if user.is_authenticated %}
     <script>
         // Cart Count Update Function
@@ -469,14 +477,9 @@
                         cartCountElement.textContent = data.count;
                     }
                 })
-                .catch(error => console.error('Error updating cart count:', error));
+                .catch(() => {});
         }
-
-        // Update cart count on page load
-        updateCartCount();
-
-        // Update cart count every 30 seconds
-        setInterval(updateCartCount, 30000);
+        document.addEventListener('DOMContentLoaded', updateCartCount);
     </script>
     {% endif %}
 
