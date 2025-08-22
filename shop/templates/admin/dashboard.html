@@ -116,6 +116,13 @@
     .status-chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; display: inline-block; }
     .order-items-mini { display: flex; flex-wrap: wrap; gap: 6px; }
     .item-badge { background: #f8f9fa; border: 1px solid #eee; color: #555; font-size: 12px; padding: 4px 8px; border-radius: 999px; }
+
+    /* Force black text in charts, recent orders, and alert panels */
+    .card, .card *,
+    .recent-orders-card, .recent-orders-card *,
+    .alerts-section, .alerts-section * { color: #000 !important; }
+    .recent-orders-card .status-chip { color: #000 !important; }
+    .recent-orders-card .item-badge { color: #000 !important; }
 </style>
 {% endblock %}
 
@@ -286,6 +293,10 @@
     let charts = {};
     let lastPreparingCount = null;
     let dingAudio;
+    if (window.Chart) {
+        Chart.defaults.color = '#000';
+        Chart.defaults.borderColor = 'rgba(0,0,0,0.1)';
+    }
 
     function ensureDing(){
         if (!dingAudio){
@@ -312,21 +323,21 @@
         // Revenue timeseries
         const revLabels = json.revenue_timeseries.labels || [];
         const revValues = json.revenue_timeseries.values || [];
-        buildChart('revenueChart', 'line', { labels: revLabels, datasets: [{ label: 'درآمد', data: revValues, borderColor: '#4B2E2B', backgroundColor: 'rgba(75,46,43,0.1)', tension: 0.3 }]}, { responsive: true, plugins: { legend: { display: false }}});
+        buildChart('revenueChart', 'line', { labels: revLabels, datasets: [{ label: 'درآمد', data: revValues, borderColor: '#4B2E2B', backgroundColor: 'rgba(75,46,43,0.1)', tension: 0.3 }]}, { responsive: true, plugins: { legend: { display: false }}, scales: { x: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } }, y: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } } }});
 
         // Orders by status
         const statusData = json.orders_by_status || {};
         const stLabels = Object.keys(statusData);
         const stValues = stLabels.map(k => statusData[k]);
-        buildChart('statusChart', 'doughnut', { labels: stLabels, datasets: [{ data: stValues, backgroundColor: ['#8B4513','#D2691E','#CD853F','#654321','#20c997','#228B22'] }]}, { responsive: true });
+        buildChart('statusChart', 'doughnut', { labels: stLabels, datasets: [{ data: stValues, backgroundColor: ['#8B4513','#D2691E','#CD853F','#654321','#20c997','#228B22'] }]}, { responsive: true, plugins: { legend: { labels: { color: '#000' }}} });
 
         // Top products
         const top = json.top_products || [];
-        buildChart('topProductsChart', 'bar', { labels: top.map(t => t.name), datasets: [{ label: 'تعداد', data: top.map(t => t.total_qty), backgroundColor: '#7B3F00' }]}, { responsive: true, plugins: { legend: { display: false }}});
+        buildChart('topProductsChart', 'bar', { labels: top.map(t => t.name), datasets: [{ label: 'تعداد', data: top.map(t => t.total_qty), backgroundColor: '#7B3F00' }]}, { responsive: true, plugins: { legend: { display: false }}, scales: { x: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } }, y: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } } }});
 
         // Category revenue
         const cat = json.revenue_by_category || [];
-        buildChart('categoryRevenueChart', 'bar', { labels: cat.map(c => c.category), datasets: [{ label: 'درآمد', data: cat.map(c => c.revenue), backgroundColor: '#C97C5D' }]}, { responsive: true, plugins: { legend: { display: false }}});
+        buildChart('categoryRevenueChart', 'bar', { labels: cat.map(c => c.category), datasets: [{ label: 'درآمد', data: cat.map(c => c.revenue), backgroundColor: '#C97C5D' }]}, { responsive: true, plugins: { legend: { display: false }}, scales: { x: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } }, y: { ticks: { color: '#000' }, grid: { color: 'rgba(0,0,0,0.1)' } } }});
     }
 
     async function refreshSummary(){
