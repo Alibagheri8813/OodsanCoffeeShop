@@ -9,8 +9,7 @@ body:not(.home-page) .navbar {
   justify-content: space-between;
   align-items: center;
   z-index: 1000; /* Keep below dropdown but above content */
-  overflow-y: visible;
-  overflow-x: hidden;
+  overflow: visible; /* Allow dropdown to overflow outside navbar */
   contain: none;
 }
 
