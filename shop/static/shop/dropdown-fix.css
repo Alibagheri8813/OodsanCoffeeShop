@@ -104,3 +104,27 @@
     }
 }
 
+/* Stable layering for navbar and dropdown on non-home pages */
+body:not(.home-page) .navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000 !important;
+}
+
+body:not(.home-page) .navbar .profile-dropdown {
+    position: relative !important;
+    z-index: 10001 !important;
+}
+
+body:not(.home-page) .navbar .dropdown-menu {
+    position: absolute !important;
+    z-index: 10002 !important;
+}
+
+.main-content, .container, .content {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
