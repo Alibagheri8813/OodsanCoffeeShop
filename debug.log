@@ -186,3 +186,9 @@ WARNING 2025-08-22 05:26:14,377 log 10848 5472 Not Found: /api/orders/7/status/
 WARNING 2025-08-22 05:26:44,363 log 10848 12312 Not Found: /api/orders/7/status/
 WARNING 2025-08-22 05:27:14,365 log 10848 7404 Not Found: /api/orders/7/status/
 WARNING 2025-08-22 05:27:44,362 log 10848 7404 Not Found: /api/orders/7/status/
+INFO 2025-08-22 05:35:08,851 autoreload 8136 11656 Watching for file changes with StatReloader
+INFO 2025-08-22 05:35:23,635 error_handling 8136 9348 Starting operation: product_detail
+INFO 2025-08-22 05:35:23,636 error_handling 8136 9348 Operation completed: product_detail in 0.00s
+INFO 2025-08-22 05:40:50,454 autoreload 8640 12936 Watching for file changes with StatReloader
+INFO 2025-08-22 05:41:03,553 autoreload 8064 12896 Watching for file changes with StatReloader
+WARNING 2025-08-22 05:41:31,754 log 8064 2680 Not Found: /favicon.ico
