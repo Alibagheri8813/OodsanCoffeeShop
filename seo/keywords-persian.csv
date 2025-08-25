@@ -1,0 +1,121 @@
+keyword,intent
+آسیاب شده,informational
+آسیاب شده ارزان,informational
+آسیاب شده ارسال سریع,informational
+آسیاب شده ارسال فوری تهران,local
+آسیاب شده اصل,informational
+آسیاب شده اودسان کافی,navigational
+آسیاب شده بهترین,informational
+آسیاب شده بهترین آسیاب,informational
+آسیاب شده تحویل در تهران,local
+آسیاب شده تخفیف,transactional
+آسیاب شده تفاوت,informational
+آسیاب شده تماس اودسان,navigational
+آسیاب شده تهران,local
+آسیاب شده خاستگاه,informational
+آسیاب شده خرید,transactional
+آسیاب شده خرید آنلاین,transactional
+آسیاب شده روش دم آوری,informational
+آسیاب شده رُست,informational
+آسیاب شده ریشه,informational
+آسیاب شده سفارش,transactional
+آسیاب شده طعمی,informational
+آسیاب شده فرق,informational
+آسیاب شده فروش,transactional
+آسیاب شده فروشگاه قهوه اودسان,navigational
+آسیاب شده قیمت,transactional
+آسیاب شده مرجوعی,informational
+آسیاب شده نزدیک من,local
+آسیاب شده هزینه,transactional
+آسیاب شده چند,transactional
+آسیاب شده چیست,informational
+آسیاب شده کوپن,transactional
+آسیاب شده گارانتی تازگی,informational
+ارزان آسیاب شده,informational
+ارزان خرید دانه قهوه,transactional
+ارزان دانه,informational
+ارزان دانه قهوه ترکیبی,informational
+ارزان دانه قهوه تک اصل,informational
+ارزان دانه قهوه روبوستا,informational
+ارزان دانه قهوه عربیکا,informational
+ارزان دانۀ اسپشیالتی,informational
+ارزان قهوه,informational
+ارزان قهوه اسپشیالتی اتیوپی,informational
+ارزان قهوه بدون کافئین,informational
+ارزان قهوه ترک,informational
+ارزان قهوه روبوستا اندونزی,informational
+ارزان قهوه عربیکا کلمبیا,informational
+ارزان قهوه فرانسه,informational
+ارزان قهوه فوری,informational
+ارسال سریع آسیاب شده,informational
+ارسال سریع خرید دانه قهوه,transactional
+ارسال سریع دانه,informational
+ارسال سریع دانه قهوه ترکیبی,informational
+ارسال سریع دانه قهوه تک اصل,informational
+ارسال سریع دانه قهوه روبوستا,informational
+ارسال سریع دانه قهوه عربیکا,informational
+ارسال سریع دانۀ اسپشیالتی,informational
+ارسال سریع قهوه,informational
+ارسال سریع قهوه اسپشیالتی اتیوپی,informational
+ارسال سریع قهوه بدون کافئین,informational
+ارسال سریع قهوه ترک,informational
+ارسال سریع قهوه روبوستا اندونزی,informational
+ارسال سریع قهوه عربیکا کلمبیا,informational
+ارسال سریع قهوه فرانسه,informational
+ارسال سریع قهوه فوری,informational
+اصل آسیاب شده,informational
+اصل خرید دانه قهوه,transactional
+اصل دانه,informational
+اصل دانه قهوه ترکیبی,informational
+اصل دانه قهوه تک اصل,informational
+اصل دانه قهوه روبوستا,informational
+اصل دانه قهوه عربیکا,informational
+اصل دانۀ اسپشیالتی,informational
+اصل قهوه,informational
+اصل قهوه اسپشیالتی اتیوپی,informational
+اصل قهوه بدون کافئین,informational
+اصل قهوه ترک,informational
+اصل قهوه روبوستا اندونزی,informational
+اصل قهوه عربیکا کلمبیا,informational
+اصل قهوه فرانسه,informational
+اصل قهوه فوری,informational
+بهترین آسیاب شده,informational
+بهترین آسیاب قهوه خانگی,informational
+بهترین خرید دانه قهوه,transactional
+بهترین دانه,informational
+بهترین دانه قهوه برای اسپرسو,informational
+بهترین دانه قهوه ترکیبی,informational
+بهترین دانه قهوه تک اصل,informational
+بهترین دانه قهوه روبوستا,informational
+بهترین دانه قهوه عربیکا,informational
+بهترین دانۀ اسپشیالتی,informational
+بهترین قهوه,informational
+بهترین قهوه اسپشیالتی اتیوپی,informational
+بهترین قهوه بدون کافئین,informational
+بهترین قهوه ترک,informational
+بهترین قهوه روبوستا اندونزی,informational
+بهترین قهوه عربیکا کلمبیا,informational
+بهترین قهوه فرانسه,informational
+بهترین قهوه فوری,informational
+تحویل در تهران آسیاب شده,local
+تحویل در تهران خرید دانه قهوه,local
+تحویل در تهران دانه,local
+تحویل در تهران دانه قهوه ترکیبی,local
+تحویل در تهران دانه قهوه تک اصل,local
+تحویل در تهران دانه قهوه روبوستا,local
+تحویل در تهران دانه قهوه عربیکا,local
+تحویل در تهران دانۀ اسپشیالتی,local
+تحویل در تهران قهوه,local
+تحویل در تهران قهوه اسپشیالتی اتیوپی,local
+تحویل در تهران قهوه بدون کافئین,local
+تحویل در تهران قهوه ترک,local
+تحویل در تهران قهوه روبوستا اندونزی,local
+تحویل در تهران قهوه عربیکا کلمبیا,local
+تحویل در تهران قهوه فرانسه,local
+تحویل در تهران قهوه فوری,local
+تخفیف آسیاب شده,transactional
+تخفیف خرید دانه قهوه,transactional
+تخفیف دانه,transactional
+تخفیف دانه قهوه ترکیبی,transactional
+تخفیف دانه قهوه تک اصل,transactional
+تخفیف دانه قهوه روبوستا,transactional
