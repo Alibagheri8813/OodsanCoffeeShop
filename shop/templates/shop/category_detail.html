@@ -1,7 +1,11 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}{{ category.name }} | کافی شاپ{% endblock %}
+{% block title %}خرید {{ category.name }} | قیمت و انواع | اودسان کافی{% endblock %}
+{% block meta_description %}خرید آنلاین {{ category.name }} با تازه‌برشت‌ترین دانه‌ها، آسیاب سفارشی و ارسال سریع. مشاهده قیمت، مشخصات و موجودی در اودسان کافی.{% endblock %}
+{% block meta_keywords %}{{ category.name }}, خرید {{ category.name }}, قیمت {{ category.name }}, بهترین {{ category.name }}, دانه قهوه, قهوه, خرید قهوه آنلاین{% endblock %}
+{% block og_title %}{{ category.name }} | خرید آنلاین در اودسان کافی{% endblock %}
+{% block og_description %}مشاهده انواع {{ category.name }} با قیمت، مشخصات و امکان سفارش آنلاین با آسیاب دلخواه.{% endblock %}
 
 {% block extra_head %}
 <style>
@@ -207,7 +211,10 @@
 
 {% block content %}
 <div class="category-detail-container">
-    <div class="category-detail-title">{{ category.name }}</div>
+    <h1 class="category-detail-title">{{ category.name }}</h1>
+    <div aria-label="breadcrumb" style="text-align:center; margin-bottom: 1rem; color:#7B3F00;">
+        <nav><span><a href="/home/" style="color:#7B3F00;">خانه</a></span> › <span>{{ category.name }}</span></nav>
+    </div>
     
     {% if subcategories %}
         <div class="subcategory-list">
@@ -232,7 +239,7 @@
                 {% else %}
                     <img src="https://placehold.co/120x120/4B2E2B/FFF8F0?text=☕" alt="بدون تصویر">
                 {% endif %}
-                <h4>{{ product.name }}</h4>
+                <h2 style="font-size:1.2rem;" aria-level="2">{{ product.name }}</h2>
                 <p>{{ product.description|truncatewords:15 }}</p>
                 <div class="price">{{ product.price|floatformat:0 }} تومان</div>
                 <a href="{{ product.get_absolute_url }}">مشاهده جزئیات</a>
@@ -243,5 +250,9 @@
             </div>
         {% endfor %}
     </div>
+    <section style="margin-top:2rem; background:#FFF8F0; padding:1rem; border-radius:12px; border:1px solid #F3E9DC;">
+        <h2 style="font-size:1.3rem; margin-bottom:.5rem; color:#4B2E2B;">راهنمای انتخاب {{ category.name }}</h2>
+        <p style="color:#4B2E2B;">برای انتخاب بهتر، به نوع رُست، خاستگاه دانه و روش دم‌آوری توجه کنید. <strong>TODO (تحریریه):</strong> افزودن ۲–۳ پاراگراف معرفی دسته و لینک‌های داخلی به محصولات منتخب.</p>
+    </section>
 </div>
 {% endblock %} 
