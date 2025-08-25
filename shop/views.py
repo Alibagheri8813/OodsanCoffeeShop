@@ -174,6 +174,11 @@ def category_detail(request, category_id=None, slug=None):
         category = get_object_or_404(Category, slug=slug)
     else:
         category = get_object_or_404(Category, id=category_id)
+        # 301 redirect to canonical slug URL
+        try:
+            return redirect(category.get_absolute_url(), permanent=True)
+        except Exception:
+            pass
     subcategories = Category.objects.filter(parent=category)
     products = Product.objects.filter(category=category)
     return render(request, 'shop/category_detail.html', {
@@ -198,6 +203,11 @@ def product_detail(request, product_id=None, slug=None):
                 Product.objects.select_related('category'),
                 id=product_id
             )
+            # 301 redirect to canonical slug URL
+            try:
+                return redirect(product.get_absolute_url(), permanent=True)
+            except Exception:
+                pass
         
         # Optimize comments query
         comments = optimize_queryset(
