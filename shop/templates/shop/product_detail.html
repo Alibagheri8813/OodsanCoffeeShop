@@ -3,6 +3,7 @@
 
 {% block title %}خرید {{ product.name }} | قیمت، مشخصات و آسیاب دلخواه | اودسان کافی{% endblock %}
 {% block meta_description %}خرید آنلاین {{ product.name }} با آسیاب سفارشی، وزن‌های مختلف و ارسال سریع. مشخصات، خاستگاه، رُست و پیشنهاد دم‌آوری را ببینید.{% endblock %}
+{% block meta_keywords %}{{ product.name }}, خرید {{ product.name }}, قیمت {{ product.name }}, {{ product.category.name }}, خرید {{ product.category.name }}, دانه قهوه, قهوه{% endblock %}
 {% block og_title %}{{ product.name }}{% endblock %}
 {% block og_description %}{{ product.description|truncatechars:160 }}{% endblock %}
 {% block og_image %}{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endif %}{% endblock %}
