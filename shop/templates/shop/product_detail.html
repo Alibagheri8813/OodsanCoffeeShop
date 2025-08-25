@@ -1339,9 +1339,9 @@
         <div class="product-image-side">
             <div class="main-image-container">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image" loading="lazy" decoding="async" width="800" height="800" sizes="(max-width: 768px) 90vw, 800px" srcset="{{ product.image.url }} 800w">
                 {% else %}
-                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image" loading="lazy" width="800" height="800">
+                    <img src="{% static 'shop/images/default-coffee.jpg' %}" alt="{{ product.name }}" class="main-image" loading="lazy" decoding="async" width="800" height="800" sizes="(max-width: 768px) 90vw, 800px" srcset="{% static 'shop/images/default-coffee.jpg' %} 800w">
                 {% endif %}
                 <div class="image-overlay"></div>
                 <div class="steam-effect"></div>
@@ -1374,6 +1374,35 @@
         </div>
     </div>
 
+    <!-- Product JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ product.name|escapejs }}",
+      "image": [{% if product.image %}"{{ product.image.url }}"{% else %}"{% static 'shop/images/default-coffee.jpg' %}"{% endif %}],
+      "description": "{{ product.description|truncatechars:200|escapejs }}",
+      "sku": "TODO:SKU-{{ product.id }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "اودسان کافی"
+      },
+      "category": "{{ product.category.name|escapejs }}",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "IRR",
+        "price": "{{ product.price }}",
+        "availability": "{% if product.stock > 0 %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+        "url": "{{ canonical_url|default:request.build_absolute_uri }}",
+        "priceValidUntil": "TODO:2025-12-31"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "TODO:4.8",
+        "reviewCount": "TODO:156"
+      }
+    }
+    </script>
     <!-- Comments Section -->
     <div class="comments-section">
         <div class="comments-header">
