@@ -214,3 +214,27 @@ WARNING 2025-08-22 06:55:43,430 log 10916 13208 Not Found: /api/orders/11/status
 WARNING 2025-08-22 06:56:13,423 log 10916 13208 Not Found: /api/orders/11/status/
 WARNING 2025-08-22 06:56:43,422 log 10916 13208 Not Found: /api/orders/11/status/
 INFO 2025-08-22 08:07:16,022 autoreload 6628 12660 Watching for file changes with StatReloader
+INFO 2025-08-26 04:39:15,506 autoreload 10928 11824 Watching for file changes with StatReloader
+WARNING 2025-08-26 04:39:41,813 log 10928 9252 Not Found: /favicon.ico
+WARNING 2025-08-26 04:39:46,137 log 10928 5580 Not Found: /static/shop/js/site.js
+WARNING 2025-08-26 04:39:46,172 log 10928 12284 Not Found: /media/roast-bg.jpg
+WARNING 2025-08-26 04:39:54,152 log 10928 3880 Not Found: /media/categories/takdon.png
+WARNING 2025-08-26 04:39:54,168 log 10928 3880 Not Found: /media/categories/gold_coffee.png
+WARNING 2025-08-26 04:39:54,185 log 10928 3880 Not Found: /media/categories/powder_.png
+WARNING 2025-08-26 04:39:54,365 log 10928 3880 Not Found: /media/categories/blend.png
+WARNING 2025-08-26 04:39:54,435 log 10928 3880 Not Found: /media/categories/syrup_.png
+WARNING 2025-08-26 04:39:54,459 log 10928 3880 Not Found: /media/categories/ChatGPT_Image_Aug_15_2025_09_02_58_AM.png
+WARNING 2025-08-26 04:40:09,238 log 10928 3880 Not Found: /static/shop/js/site.js
+WARNING 2025-08-26 04:40:09,334 log 10928 3880 Not Found: /media/categories/takdon.png
+WARNING 2025-08-26 04:40:09,335 log 10928 9252 Not Found: /media/categories/gold_coffee.png
+WARNING 2025-08-26 04:40:09,336 log 10928 12284 Not Found: /media/categories/blend.png
+WARNING 2025-08-26 04:40:09,337 log 10928 5580 Not Found: /media/categories/ChatGPT_Image_Aug_15_2025_09_02_58_AM.png
+WARNING 2025-08-26 04:40:09,338 log 10928 4732 Not Found: /media/categories/syrup_.png
+WARNING 2025-08-26 04:40:09,339 log 10928 7116 Not Found: /media/categories/powder_.png
+WARNING 2025-08-26 04:40:09,340 log 10928 3880 Not Found: /media/products/Saffron-1-600x600.png
+WARNING 2025-08-26 04:40:09,342 log 10928 9252 Not Found: /media/products/Mojito-600x600.png
+WARNING 2025-08-26 04:40:09,343 log 10928 12284 Not Found: /media/products/Lemonade-600x600.png
+WARNING 2025-08-26 04:40:14,351 log 10928 12284 Not Found: /media/products/Blue-berry-600x600.png
+WARNING 2025-08-26 04:40:14,351 log 10928 9252 Not Found: /media/products/Green-apple-600x600.png
+WARNING 2025-08-26 04:40:15,117 log 10928 9252 Not Found: /media/products/Coconut-600x600.png
+WARNING 2025-08-26 04:40:15,117 log 10928 12284 Not Found: /media/products/Irish-600x600.png
