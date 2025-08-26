@@ -52,7 +52,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
 # Ensure a secret key is set in production
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 if not SECRET_KEY:
     if DEBUG:
         # Provide a dev-only fallback to avoid crashes during local development

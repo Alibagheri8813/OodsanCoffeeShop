@@ -20,8 +20,8 @@ class SecurityHeadersMiddleware:
 				"frame-ancestors": "'none'",
 				"img-src": "'self' data: blob:",
 				"font-src": "'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
-				"style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-				"script-src": "'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+				"style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
+				"script-src": "'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
 				"connect-src": "'self'",
 			}
 		else:
@@ -31,8 +31,8 @@ class SecurityHeadersMiddleware:
 				"frame-ancestors": "'none'",
 				"img-src": "'self' data: blob:",
 				"font-src": "'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
-				"style-src": "'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-				"script-src": "'self' https://cdnjs.cloudflare.com",
+				"style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
+				"script-src": "'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
 				"connect-src": "'self'",
 			}
 		csp = "; ".join(f"{k} {v}" for k, v in csp_directives.items())
