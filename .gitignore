@@ -138,3 +138,8 @@ staticfiles/
 # Custom log files
 debug.log
 *.log
+# Ignore compiled python and venv
+__pycache__/
+*.pyc
+venv/
+
