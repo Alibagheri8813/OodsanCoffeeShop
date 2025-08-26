@@ -684,6 +684,7 @@ def product_list(request, category_id=None):
         'search_query': query,  # Support both variable names
         'selected_category': (selected_category_obj.id if selected_category_obj else (request.GET.get('category') or None)),
         'selected_category_name': (selected_category_obj.name if selected_category_obj else None),
+        'selected_category_url': (selected_category_obj.get_absolute_url() if selected_category_obj else None),
         'user_favorites': user_favorites,
         'sort_options': [
             ('featured', 'پیشنهادی'),

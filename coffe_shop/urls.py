@@ -23,13 +23,15 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from shop import views as shop_views
 from shop import admin_views as admin_views
 from django.contrib.sitemaps.views import sitemap
-from shop.sitemaps import ProductSitemap, CategorySitemap
+from shop.sitemaps import ProductSitemap, CategorySitemap, StaticViewSitemap
 from django.http import HttpResponse
+from django.shortcuts import redirect
 # from shop.ai_assistant import ai_chat, voice_chat
 
 sitemaps = {
     'products': ProductSitemap,
     'categories': CategorySitemap,
+    'static': StaticViewSitemap,
 }
 
 urlpatterns = [
@@ -55,7 +57,7 @@ urlpatterns = [
     
     # Main site URLs
     path('', shop_views.home, name='home'),
-    path('home/', shop_views.home, name='home'),
+    path('home/', lambda request: redirect('home', permanent=True), name='home_redirect'),
     path('shop/', include('shop.urls')),
     
     # User notification URLs
@@ -72,10 +74,13 @@ urlpatterns = [
 ]
 
 # Simple robots.txt
+
 def robots_txt(_request):
     lines = [
         "User-agent: *",
-        "Disallow:",
+        "Allow: /static/",
+        "Allow: /media/",
+        "Disallow: /admin/",
         "Sitemap: " + _request.build_absolute_uri('/sitemap.xml')
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")

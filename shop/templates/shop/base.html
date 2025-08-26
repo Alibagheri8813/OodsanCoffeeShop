@@ -60,6 +60,21 @@
         <link rel="stylesheet" href="{% static 'shop/dropdown-fix.css' %}?v=1.0">
         {% block extra_css %}{% endblock %}
     
+    <!-- Site-wide Structured Data: WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "اودسان کافی",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_list' %}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
     <!-- Page-specific Structured Data -->
     {% block structured_data %}{% endblock %}
     

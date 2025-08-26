@@ -3,6 +3,7 @@
 
 {% block title %}{{ product.name }} | خرید آنلاین | ارسال سریع{% endblock %}
 {% block meta_description %}خرید {{ product.name }} با عطر و طعم بی‌نظیر، ارسال سریع و تضمین کیفیت.{% endblock %}
+{% block meta_keywords %}{{ product.name }}, {{ product.category.name }}, قهوه, قهوه تازه, دانه قهوه, coffee beans, خرید قهوه, {{ product.category.name }} قهوه{% endblock %}
 {% block og_type %}<meta property="og:type" content="product">{% endblock %}
 {% block og_title %}{{ product.name }}{% endblock %}
 {% block og_description %}{{ product.description|striptags|truncatechars:160 }}{% endblock %}
@@ -20,6 +21,7 @@
   "image": "{{ request.scheme }}://{{ request.get_host }}{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endif %}",
   "sku": "{{ product.id }}",
   "brand": {"@type": "Brand", "name": "اودسان کافی"},
+  "category": "{{ product.category.name|escape }}",
   "offers": {
     "@type": "Offer",
     "priceCurrency": "IRR",
