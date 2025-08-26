@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # Explicit imports to prevent namespace clashes between user-facing and admin views
 from shop import views as shop_views
 from shop import admin_views as admin_views
@@ -64,7 +65,7 @@ urlpatterns = [
     
     # AI Assistant URLs
     # path('ai/chat/', ai_chat, name='ai_chat'),
-    # path('ai/voice/', voice_chat, name='voice_chat'),
+    # path('ai/voice/', voice_chat, name='ai_voice'),
 
     # SEO
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
@@ -85,4 +86,4 @@ urlpatterns += [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += staticfiles_urlpatterns()
