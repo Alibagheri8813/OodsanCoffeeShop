@@ -1,7 +1,24 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}فروشگاه قهوه{% endblock %}
+{% block title %}
+{% if selected_category_name %}
+خرید {{ selected_category_name }} | فروشگاه قهوه
+{% elif query %}
+نتایج جستجو: {{ query }} | فروشگاه قهوه
+{% else %}
+فروشگاه قهوه | خرید آنلاین
+{% endif %}
+{% endblock %}
+{% block meta_description %}
+{% if selected_category_name %}
+خرید {{ selected_category_name }} با ارسال سریع و تضمین کیفیت.
+{% elif query %}
+جستجو برای "{{ query }}" در فروشگاه قهوه؛ نتایج و قیمت‌ها.
+{% else %}
+فروشگاه قهوه با بهترین قیمت‌ها و ارسال سریع.
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <style>

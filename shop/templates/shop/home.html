@@ -5,6 +5,21 @@
 
 
 
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "اودسان کافی",
+  "url": "{{ request.build_absolute_uri }}",
+  "address": {"@type": "PostalAddress", "addressLocality": "تهران", "addressCountry": "IR"},
+  "telephone": "+98-21-12345678",
+  "servesCuisine": ["Coffee", "Desserts", "Beverages"],
+  "priceRange": "$$"
+}
+</script>
+{% endblock %}
+
 {% block extra_head %}
 <link rel="preload" as="image" href="/media/roast-bg.jpg">
 <!-- GSAP and Three.js only for home page -->

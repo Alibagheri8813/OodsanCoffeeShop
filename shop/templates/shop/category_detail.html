@@ -1,7 +1,21 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}{{ category.name }} | کافی شاپ{% endblock %}
+{% block title %}{{ category.name }} | خرید | قیمت و انواع{% endblock %}
+{% block meta_description %}خرید {{ category.name }}، معرفی و قیمت. ارسال سریع و تضمین کیفیت.{% endblock %}
+{% block canonical_href %}{{ request.scheme }}://{{ request.get_host }}{{ category.get_absolute_url }}{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "خانه", "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}"},
+    {"@type": "ListItem", "position": 2, "name": "{{ category.name|escape }}", "item": "{{ request.scheme }}://{{ request.get_host }}{{ category.get_absolute_url }}"}
+  ]
+}
+</script>
+{% endblock %}
 
 {% block extra_head %}
 <style>

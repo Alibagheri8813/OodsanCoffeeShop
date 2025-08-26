@@ -25,6 +25,13 @@ class CategorySitemap(Sitemap):
     def items(self):
         return Category.objects.only('id', 'slug')
 
+    def lastmod(self, obj: Category):
+        try:
+            latest_product = Product.objects.filter(category=obj).order_by('-updated_at').only('updated_at').first()
+            return latest_product.updated_at if latest_product else None
+        except Exception:
+            return None
+
     def location(self, obj: Category):
         try:
             return obj.get_absolute_url()
