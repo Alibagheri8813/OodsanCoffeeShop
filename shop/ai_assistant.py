@@ -27,6 +27,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .error_handling import rate_limit
 from .ai_config import  AI_MODEL, AI_MAX_TOKENS, AI_TEMPERATURE, AI_TOP_P, FALLBACK_RESPONSES
+from django.conf import settings
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, force=True)
@@ -346,46 +347,52 @@ def ai_chat(request):
     """Handle text-based chat with AI assistant"""
     try:
         if coffee_ai is None:
-            return JsonResponse({
+            payload = {
                 'error': 'دستیار هوشمند در دسترس نیست. لطفاً بعداً تلاش کنید.',
-                'debug_info': 'AI Assistant not initialized',
                 'fallback': True
-            }, status=503)
+            }
+            if settings.DEBUG:
+                payload['debug_info'] = 'AI Assistant not initialized'
+            return JsonResponse(payload, status=503)
         
         # Parse request body
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError as e:
-            return JsonResponse({
-                'error': 'داده‌های ارسالی نامعتبر است',
-                'debug_info': f'JSON decode error: {str(e)}'
-            }, status=400)
+            payload = {'error': 'داده‌های ارسالی نامعتبر است'}
+            if settings.DEBUG:
+                payload['debug_info'] = f'JSON decode error: {str(e)}'
+            return JsonResponse(payload, status=400)
         
         user_message = data.get('message', '')
         
         if not user_message:
-            return JsonResponse({
-                'error': 'پیام خالی است',
-                'debug_info': 'Empty message received'
-            }, status=400)
+            payload = {'error': 'پیام خالی است'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'Empty message received'
+            return JsonResponse(payload, status=400)
         
         # Generate AI response
         ai_response = coffee_ai.generate_response(user_message)
         
-        return JsonResponse({
+        payload = {
             'response': ai_response,
             'success': True,
-            'debug_info': 'Response generated successfully',
             'ai_available': coffee_ai.is_available if coffee_ai else False
-        })
+        }
+        if settings.DEBUG:
+            payload['debug_info'] = 'Response generated successfully'
+        return JsonResponse(payload)
         
     except Exception as e:  # pragma: no cover
         logger.error(f"AI chat error: {str(e)}")
-        return JsonResponse({
+        payload = {
             'error': str(e),
-            'debug_info': f'Exception: {str(e)}, Type: {type(e).__name__}',
             'fallback': True
-        }, status=500)
+        }
+        if settings.DEBUG:
+            payload['debug_info'] = f'Exception: {str(e)}, Type: {type(e).__name__}'
+        return JsonResponse(payload, status=500)
 
 @rate_limit(15)
 @require_http_methods(["POST"])
@@ -396,18 +403,18 @@ def voice_chat(request):
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError as e:
-            return JsonResponse({
-                'error': 'داده‌های صوتی نامعتبر است',
-                'debug_info': f'JSON decode error: {str(e)}'
-            }, status=400)
+            payload = {'error': 'داده‌های صوتی نامعتبر است'}
+            if settings.DEBUG:
+                payload['debug_info'] = f'JSON decode error: {str(e)}'
+            return JsonResponse(payload, status=400)
         
         transcribed_text = data.get('transcribed_text', '')
         
         if not transcribed_text:
-            return JsonResponse({
-                'error': 'متن ترجمه شده خالی است',
-                'debug_info': 'Empty transcribed text'
-            }, status=400)
+            payload = {'error': 'متن ترجمه شده خالی است'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'Empty transcribed text'
+            return JsonResponse(payload, status=400)
         
         # Generate AI response
         if coffee_ai:
@@ -419,21 +426,23 @@ def voice_chat(request):
             intent = coffee_ai.detect_intent(transcribed_text) if coffee_ai else None
             ai_response = coffee_ai.get_fallback_response(intent) if coffee_ai else FALLBACK_RESPONSES['error']
         
-        return JsonResponse({
+        payload = {
             'response': ai_response,
             'success': True,
             'transcribed_text': transcribed_text,
-            'debug_info': 'Voice response generated successfully',
             'tts_available': coffee_ai.tts_available if coffee_ai else False,
             'stt_available': coffee_ai.stt_available if coffee_ai else False
-        })
+        }
+        if settings.DEBUG:
+            payload['debug_info'] = 'Voice response generated successfully'
+        return JsonResponse(payload)
         
     except Exception as e:
         logger.error(f"Voice chat error: {str(e)}")
-        return JsonResponse({
-            'error': 'خطا در پردازش صدا. لطفاً دوباره تلاش کنید.',
-            'debug_info': f'Voice exception: {str(e)}'
-        }, status=500)
+        payload = {'error': 'خطا در پردازش صدا. لطفاً دوباره تلاش کنید.'}
+        if settings.DEBUG:
+            payload['debug_info'] = f'Voice exception: {str(e)}'
+        return JsonResponse(payload, status=500)
 
 @rate_limit(10)
 @require_http_methods(["POST"])
@@ -441,24 +450,24 @@ def speech_to_text(request):
     """Handle speech-to-text conversion"""
     try:
         if coffee_ai is None:
-            return JsonResponse({
-                'error': 'دستیار صوتی در دسترس نیست',
-                'debug_info': 'AI Assistant not initialized'
-            }, status=503)
+            payload = {'error': 'دستیار صوتی در دسترس نیست'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'AI Assistant not initialized'
+            return JsonResponse(payload, status=503)
         
         if not coffee_ai.stt_available:
-            return JsonResponse({
-                'error': 'تشخیص صدا در دسترس نیست',
-                'debug_info': 'Speech recognition not available'
-            }, status=503)
+            payload = {'error': 'تشخیص صدا در دسترس نیست'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'Speech recognition not available'
+            return JsonResponse(payload, status=503)
         
         # Get audio data from request
         audio_file = request.FILES.get('audio')
         if not audio_file:
-            return JsonResponse({
-                'error': 'فایل صوتی ارسال نشده',
-                'debug_info': 'No audio file provided'
-            }, status=400)
+            payload = {'error': 'فایل صوتی ارسال نشده'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'No audio file provided'
+            return JsonResponse(payload, status=400)
         
         # Convert audio to speech recognition format
         try:
@@ -467,23 +476,23 @@ def speech_to_text(request):
                 text = coffee_ai.speech_to_text(audio_data)
         except Exception as e:
             logger.error(f"Audio processing error: {str(e)}")
-            return JsonResponse({
-                'error': 'خطا در پردازش فایل صوتی',
-                'debug_info': f'Audio processing error: {str(e)}'
-            }, status=500)
+            payload = {'error': 'خطا در پردازش فایل صوتی'}
+            if settings.DEBUG:
+                payload['debug_info'] = f'Audio processing error: {str(e)}'
+            return JsonResponse(payload, status=500)
         
         return JsonResponse({
             'text': text,
             'success': True,
-            'debug_info': 'Speech to text conversion successful'
+            'debug_info': 'Speech to text conversion successful' if settings.DEBUG else None
         })
         
     except Exception as e:
         logger.error(f"Speech to text error: {str(e)}")
-        return JsonResponse({
-            'error': 'خطا در تبدیل صدا به متن',
-            'debug_info': f'STT exception: {str(e)}'
-        }, status=500)
+        payload = {'error': 'خطا در تبدیل صدا به متن'}
+        if settings.DEBUG:
+            payload['debug_info'] = f'STT exception: {str(e)}'
+        return JsonResponse(payload, status=500)
 
 @rate_limit(10)
 @require_http_methods(["POST"])
@@ -491,39 +500,39 @@ def text_to_speech(request):
     """Handle text-to-speech conversion"""
     try:
         if coffee_ai is None or not coffee_ai.tts_available:
-            return JsonResponse({
-                'error': 'سرویس تبدیل متن به صدا در دسترس نیست',
-                'debug_info': 'TTS not available'
-            }, status=503)
+            payload = {'error': 'سرویس تبدیل متن به صدا در دسترس نیست'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'TTS not available'
+            return JsonResponse(payload, status=503)
         
         # Parse request body
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError as e:
-            return JsonResponse({
-                'error': 'داده‌های ارسالی نامعتبر است',
-                'debug_info': f'JSON decode error: {str(e)}'
-            }, status=400)
+            payload = {'error': 'داده‌های ارسالی نامعتبر است'}
+            if settings.DEBUG:
+                payload['debug_info'] = f'JSON decode error: {str(e)}'
+            return JsonResponse(payload, status=400)
         
         text = data.get('text', '')
         
         if not text:
-            return JsonResponse({
-                'error': 'متن خالی است',
-                'debug_info': 'Empty text provided'
-            }, status=400)
+            payload = {'error': 'متن خالی است'}
+            if settings.DEBUG:
+                payload['debug_info'] = 'Empty text provided'
+            return JsonResponse(payload, status=400)
         
         # Convert text to speech
         success = coffee_ai.text_to_speech(text)
         
-        return JsonResponse({
-            'success': success,
-            'debug_info': 'Text to speech conversion completed'
-        })
+        payload = {'success': success}
+        if settings.DEBUG:
+            payload['debug_info'] = 'Text to speech conversion completed'
+        return JsonResponse(payload)
         
     except Exception as e:
         logger.error(f"Text to speech error: {str(e)}")
-        return JsonResponse({
-            'error': 'خطا در تبدیل متن به صدا',
-            'debug_info': f'TTS exception: {str(e)}'
-        }, status=500) 
+        payload = {'error': 'خطا در تبدیل متن به صدا'}
+        if settings.DEBUG:
+            payload['debug_info'] = f'TTS exception: {str(e)}'
+        return JsonResponse(payload, status=500) 

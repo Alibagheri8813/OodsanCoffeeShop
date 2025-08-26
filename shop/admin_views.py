@@ -484,53 +484,47 @@ def admin_analytics_category_breakdown(request):
 
 @staff_member_required
 def admin_export_orders_csv(request):
-    """Export orders within a date range as CSV. Supports ?from=YYYY-MM-DD&to=YYYY-MM-DD"""
-    date_from = request.GET.get('from')
-    date_to = request.GET.get('to')
+	"""Export orders within a date range as CSV. Supports ?from=YYYY-MM-DD&to=YYYY-MM-DD"""
+	date_from = request.GET.get('from')
+	date_to = request.GET.get('to')
 
-    today = timezone.now().date()
-    if not date_from:
-        date_from = (today - timedelta(days=30)).strftime('%Y-%m-%d')
-    if not date_to:
-        date_to = today.strftime('%Y-%m-%d')
+	today = timezone.now().date()
+	if not date_from:
+		date_from = (today - timedelta(days=30)).strftime('%Y-%m-%d')
+	if not date_to:
+		date_to = today.strftime('%Y-%m-%d')
 
-    try:
-        start = datetime.strptime(date_from, '%Y-%m-%d').date()
-        end = datetime.strptime(date_to, '%Y-%m-%d').date()
-    except ValueError:
-        return JsonResponse({'error': 'Invalid date format, expected YYYY-MM-DD'}, status=400)
+	try:
+		start = datetime.strptime(date_from, '%Y-%m-%d').date()
+		end = datetime.strptime(date_to, '%Y-%m-%d').date()
+	except ValueError:
+		return JsonResponse({'error': 'Invalid date format, expected YYYY-MM-DD'}, status=400)
 
-    qs = (
-        Order.objects.filter(created_at__date__gte=start, created_at__date__lte=end)
-        .select_related('user')
-        .order_by('-created_at')
-    )
+	qs = (
+		Order.objects.filter(created_at__date__gte=start, created_at__date__lte=end)
+		.select_related('user')
+		.order_by('-created_at')
+	)
 
-    response = redirect('/')  # placeholder to make type checker happy
-    # Build CSV response
-    response = render(request, 'admin/index.html')
-    response = JsonResponse({'ok': True})
+	from django.http import HttpResponse
+	resp = HttpResponse(content_type='text/csv')
+	filename = f"orders_{date_from}_to_{date_to}.csv"
+	resp['Content-Disposition'] = f'attachment; filename="{filename}"'
 
-    # Rebuild as HttpResponse CSV
-    from django.http import HttpResponse
-    resp = HttpResponse(content_type='text/csv')
-    filename = f"orders_{date_from}_to_{date_to}.csv"
-    resp['Content-Disposition'] = f'attachment; filename="{filename}"'
+	writer = csv.writer(resp)
+	writer.writerow(['Order ID', 'User', 'Status', 'Subtotal', 'Delivery Fee', 'Total', 'Created At'])
+	for o in qs:
+		writer.writerow([
+			o.id,
+			getattr(o.user, 'username', ''),
+			o.status,
+			o.subtotal,
+			o.delivery_fee,
+			o.total_amount,
+			o.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+		])
 
-    writer = csv.writer(resp)
-    writer.writerow(['Order ID', 'User', 'Status', 'Subtotal', 'Delivery Fee', 'Total', 'Created At'])
-    for o in qs:
-        writer.writerow([
-            o.id,
-            getattr(o.user, 'username', ''),
-            o.status,
-            o.subtotal,
-            o.delivery_fee,
-            o.total_amount,
-            o.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-        ])
-
-    return resp
+	return resp
 
 
 # ===== Real-time Admin Helpers =====

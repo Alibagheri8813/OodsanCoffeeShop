@@ -438,7 +438,10 @@ function getCookie(name) {
 }
 
 function updateCartCount() {
-    fetch('/shop/cart/count/')
+    const meta = document.querySelector('meta[name="cart-count-url"]');
+    const url = meta && meta.content ? meta.content : null;
+    if (!url) return;
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             const cartCountElement = document.getElementById('cart-count');
