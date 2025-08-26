@@ -37,3 +37,17 @@ class CategorySitemap(Sitemap):
             return obj.get_absolute_url()
         except Exception:
             return reverse('category_detail', args=[obj.id])
+
+class StaticViewSitemap(Sitemap):
+    changefreq = 'weekly'
+    priority = 0.5
+
+    def items(self):
+        # Named URL patterns for static pages and key lists
+        return ['home', 'product_list', 'about', 'contact']
+
+    def location(self, item):
+        try:
+            return reverse(item)
+        except Exception:
+            return '/'
