@@ -255,3 +255,135 @@ WARNING 2025-08-26 05:38:48,035 log 10300 2616 Not Found: /accounts/login/
 WARNING 2025-08-26 05:39:12,970 log 10300 5644 Not Found: /accounts/login/
 INFO 2025-08-26 05:39:27,449 error_handling 10300 4368 Starting operation: product_detail
 INFO 2025-08-26 05:39:27,449 error_handling 10300 4368 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 09:47:43,944 autoreload 4472 11060 Watching for file changes with StatReloader
+INFO 2025-08-26 09:50:36,090 autoreload 6444 68 Watching for file changes with StatReloader
+ERROR 2025-08-26 09:50:53,173 views 6444 11816 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 09:50:53,186 log 6444 11816 Internal Server Error: /
+ERROR 2025-08-26 09:52:48,347 views 6444 11816 Unexpected error in home view: Invalid block tag on line 1847: 'endblock'. Did you forget to register or load this tag?
+ERROR 2025-08-26 09:52:48,347 log 6444 11816 Internal Server Error: /
+INFO 2025-08-26 09:53:14,022 autoreload 9464 1816 Watching for file changes with StatReloader
+ERROR 2025-08-26 09:53:24,161 views 9464 11788 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 09:53:24,162 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 09:56:43,605 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 09:56:43,605 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 09:58:20,268 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 09:58:20,268 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 09:58:21,201 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 09:58:21,201 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:00,027 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:00,027 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:01,064 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:01,064 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:01,674 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:01,674 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:02,088 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:02,103 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:02,311 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:02,312 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:02,465 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:02,466 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:02,645 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:02,646 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:44,790 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:44,790 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:03:45,778 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_title' appears more than once
+ERROR 2025-08-26 10:03:45,778 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:05:11,987 views 9464 11788 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 10:05:11,987 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:05:12,977 views 9464 11788 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 10:05:12,977 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:05:33,869 views 9464 11788 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 10:05:33,869 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:05:34,514 views 9464 11788 Unexpected error in home view: 'block' tag with name 'title' appears more than once
+ERROR 2025-08-26 10:05:34,514 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:06:54,816 views 9464 11788 Unexpected error in home view: 'block' tag with name 'meta_description' appears more than once
+ERROR 2025-08-26 10:06:54,816 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:06:55,967 views 9464 11788 Unexpected error in home view: 'block' tag with name 'meta_description' appears more than once
+ERROR 2025-08-26 10:06:55,968 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:07:39,098 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_description' appears more than once
+ERROR 2025-08-26 10:07:39,098 log 9464 11788 Internal Server Error: /
+ERROR 2025-08-26 10:08:01,784 views 9464 11788 Unexpected error in home view: 'block' tag with name 'og_image' appears more than once
+ERROR 2025-08-26 10:08:01,784 log 9464 11788 Internal Server Error: /
+WARNING 2025-08-26 10:08:38,720 log 9464 5432 Not Found: /accounts/login/
+INFO 2025-08-26 10:09:04,760 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:04,762 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,836 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,838 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,841 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,842 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,847 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,848 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,852 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,853 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,856 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,858 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,862 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,863 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,867 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,868 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,872 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,873 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,877 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,879 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,883 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,884 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,888 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,889 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,892 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,894 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,898 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,899 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,902 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,903 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,906 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,907 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,911 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,912 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,916 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,917 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,920 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,921 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,924 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,925 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:05,930 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:05,931 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,958 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,958 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,958 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,967 error_handling 9464 6400 Operation completed: product_detail in 0.01s
+INFO 2025-08-26 10:09:10,970 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,971 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,975 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,976 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,980 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,981 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,984 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,984 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,990 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,992 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:10,995 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:10,996 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,000 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,001 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,005 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,007 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,010 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,013 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,017 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,018 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,021 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,022 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,025 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,027 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,030 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,031 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,034 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,035 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,039 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,040 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,043 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,044 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,047 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,048 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 10:09:11,051 error_handling 9464 6400 Starting operation: product_detail
+INFO 2025-08-26 10:09:11,053 error_handling 9464 6400 Operation completed: product_detail in 0.00s

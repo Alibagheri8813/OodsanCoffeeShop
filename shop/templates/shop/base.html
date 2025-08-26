@@ -20,8 +20,8 @@
     
     <!-- Open Graph Meta Tags -->
     {% block og_type %}<meta property="og:type" content="website">{% endblock %}
-    <meta property="og:title" content="{% block og_title %}{% block title %}کافی شاپ | بهترین قهوه‌های تهران{% endblock %}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{% block meta_description %}{% endblock %}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}کافی شاپ | بهترین قهوه‌های تهران{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri|default:request.get_full_path }}">
     <meta property="og:image" content="{% block og_image %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endblock %}">
     <meta property="og:locale" content="fa_IR">
@@ -29,9 +29,9 @@
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{% block og_title %}{% endblock %}{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}{% block og_description %}{% endblock %}{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{% block og_image %}{% endblock %}{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% endblock %}">
     
     <!-- Canonical URL (overridable) -->
     <link rel="canonical" href="{% block canonical_href %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
@@ -59,21 +59,6 @@
             <link rel="stylesheet" href="{% static 'shop/navbar-blur.css' %}?v=1.2">
         <link rel="stylesheet" href="{% static 'shop/dropdown-fix.css' %}?v=1.0">
         {% block extra_css %}{% endblock %}
-    
-    <!-- Site-wide Structured Data: WebSite with SearchAction -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "اودسان کافی",
-      "url": "{{ request.scheme }}://{{ request.get_host }}/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_list' %}?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
     
     <!-- Page-specific Structured Data -->
     {% block structured_data %}{% endblock %}
