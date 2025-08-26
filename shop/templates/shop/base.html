@@ -85,6 +85,7 @@
     }
     </script>
     
+    {% block head %}{% endblock %}
     {% block extra_head %}{% endblock %}
 </head>
 <body{% if user.is_authenticated %} class="authenticated"{% endif %}>
