@@ -54,7 +54,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Main site URLs
-    path('', shop_views.video_intro, name='video_intro'),  # Show video intro first
+    path('', shop_views.home, name='home'),
     path('home/', shop_views.home, name='home'),
     path('shop/', include('shop.urls')),
     
