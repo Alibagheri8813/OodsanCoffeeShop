@@ -238,3 +238,12 @@ WARNING 2025-08-26 04:40:14,351 log 10928 12284 Not Found: /media/products/Blue-
 WARNING 2025-08-26 04:40:14,351 log 10928 9252 Not Found: /media/products/Green-apple-600x600.png
 WARNING 2025-08-26 04:40:15,117 log 10928 9252 Not Found: /media/products/Coconut-600x600.png
 WARNING 2025-08-26 04:40:15,117 log 10928 12284 Not Found: /media/products/Irish-600x600.png
+INFO 2025-08-26 05:00:10,685 autoreload 8896 6028 Watching for file changes with StatReloader
+WARNING 2025-08-26 05:00:22,822 log 8896 4520 Not Found: /static/shop/js/site.js
+WARNING 2025-08-26 05:00:22,840 log 8896 4520 Not Found: /media/roast-bg.jpg
+WARNING 2025-08-26 05:00:25,906 log 8896 4520 Not Found: /media/categories/takdon.png
+WARNING 2025-08-26 05:00:25,923 log 8896 4520 Not Found: /media/categories/gold_coffee.png
+WARNING 2025-08-26 05:00:25,945 log 8896 4520 Not Found: /media/categories/powder_.png
+WARNING 2025-08-26 05:00:25,956 log 8896 4520 Not Found: /media/categories/blend.png
+WARNING 2025-08-26 05:00:25,973 log 8896 4520 Not Found: /media/categories/syrup_.png
+WARNING 2025-08-26 05:00:26,236 log 8896 4520 Not Found: /media/categories/ChatGPT_Image_Aug_15_2025_09_02_58_AM.png
