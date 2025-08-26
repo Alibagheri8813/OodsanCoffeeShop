@@ -12,7 +12,7 @@ urlpatterns = [
     path('', views.product_list, name='shop_home'),
     path('products/', views.product_list, name='product_list'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('p/<slug:slug>/', views.product_detail, name='product_detail_slug'),
+    path('p/<str:slug>/', views.product_detail, name='product_detail_slug'),
     
     # Shopping Cart System
     path('cart/', views.cart_view, name='cart'),
@@ -111,7 +111,7 @@ urlpatterns = [
     # Existing URLs (keep them for compatibility)
     path('categories/', views.category_list, name='category_list'),
     path('category/<int:category_id>/', views.category_detail, name='category_detail'),
-    path('c/<slug:slug>/', views.category_detail, name='category_detail_slug'),
+    path('c/<str:slug>/', views.category_detail, name='category_detail_slug'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('order-history/', views.order_history, name='order_history'),
