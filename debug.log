@@ -247,3 +247,11 @@ WARNING 2025-08-26 05:00:25,945 log 8896 4520 Not Found: /media/categories/powde
 WARNING 2025-08-26 05:00:25,956 log 8896 4520 Not Found: /media/categories/blend.png
 WARNING 2025-08-26 05:00:25,973 log 8896 4520 Not Found: /media/categories/syrup_.png
 WARNING 2025-08-26 05:00:26,236 log 8896 4520 Not Found: /media/categories/ChatGPT_Image_Aug_15_2025_09_02_58_AM.png
+INFO 2025-08-26 05:31:09,483 autoreload 10300 5168 Watching for file changes with StatReloader
+WARNING 2025-08-26 05:31:31,495 log 10300 10304 Not Found: /accounts/login/
+WARNING 2025-08-26 05:31:37,608 log 10300 5344 Not Found: /accounts/login/
+WARNING 2025-08-26 05:31:46,549 log 10300 5344 Not Found: /accounts/login/
+WARNING 2025-08-26 05:38:48,035 log 10300 2616 Not Found: /accounts/login/
+WARNING 2025-08-26 05:39:12,970 log 10300 5644 Not Found: /accounts/login/
+INFO 2025-08-26 05:39:27,449 error_handling 10300 4368 Starting operation: product_detail
+INFO 2025-08-26 05:39:27,449 error_handling 10300 4368 Operation completed: product_detail in 0.00s
