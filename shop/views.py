@@ -83,12 +83,6 @@ def home(request):
         from django.http import HttpResponse
         return HttpResponse("خطای سیستمی رخ داده است. لطفاً بعداً تلاش کنید.", status=500)
 
-def video_intro(request):
-    """Video intro page that shows for 6 seconds then redirects to home"""
-    from django.utils import timezone
-    timestamp = int(timezone.now().timestamp())
-    return render(request, 'shop/video_intro.html', {'timestamp': timestamp})
-
 @rate_limit(10)
 def custom_login(request):
     if request.user.is_authenticated:
@@ -174,6 +168,15 @@ def category_detail(request, category_id=None, slug=None):
         category = get_object_or_404(Category, slug=slug)
     else:
         category = get_object_or_404(Category, id=category_id)
+    # Canonicalize to slug URL on GET
+    if request.method == 'GET':
+        try:
+            if category_id is not None:
+                return redirect(category.get_absolute_url(), permanent=True)
+            if slug and slug != category.slug:
+                return redirect(category.get_absolute_url(), permanent=True)
+        except Exception:
+            pass
     subcategories = Category.objects.filter(parent=category)
     products = Product.objects.filter(category=category)
     return render(request, 'shop/category_detail.html', {
@@ -198,6 +201,15 @@ def product_detail(request, product_id=None, slug=None):
                 Product.objects.select_related('category'),
                 id=product_id
             )
+        # Canonicalize to slug URL on GET
+        if request.method == 'GET':
+            try:
+                if product_id is not None:
+                    return redirect(product.get_absolute_url(), permanent=True)
+                if slug and slug != product.slug:
+                    return redirect(product.get_absolute_url(), permanent=True)
+            except Exception:
+                pass
         
         # Optimize comments query
         comments = optimize_queryset(
@@ -250,7 +262,7 @@ def product_detail(request, product_id=None, slug=None):
                     text=text
                 )
                 messages.success(request, 'نظر شما با موفقیت ثبت شد.')
-                return redirect('product_detail', product_id=product_id)
+                return redirect(product.get_absolute_url())
             else:
                 messages.error(request, 'نظر نمی‌تواند خالی باشد.')
         
@@ -261,7 +273,7 @@ def product_detail(request, product_id=None, slug=None):
             )
             if not created:
                 like.delete()
-            return redirect('product_detail', product_id=product_id)
+            return redirect(product.get_absolute_url())
     
     # Prepare default weight multipliers if not set
     default_multipliers = {
@@ -600,13 +612,16 @@ def product_list(request, category_id=None):
     # Optimize product queries with select_related and prefetch_related
     products = Product.objects.select_related('category').prefetch_related('likes', 'favorites')
     
+    selected_category_obj = None
+
     # Category filter (support both URL parameter and GET parameter)
     if category_id:
-        category = get_object_or_404(Category, id=category_id)
-        products = products.filter(category=category)
+        selected_category_obj = get_object_or_404(Category, id=category_id)
+        products = products.filter(category=selected_category_obj)
     elif request.GET.get('category'):
         try:
             cat_id = int(request.GET.get('category'))
+            selected_category_obj = Category.objects.filter(id=cat_id).first()
             products = products.filter(category_id=cat_id)
         except (ValueError, TypeError):
             pass
@@ -667,7 +682,8 @@ def product_list(request, category_id=None):
         'categories': categories,
         'query': query,
         'search_query': query,  # Support both variable names
-        'selected_category': category_id or request.GET.get('category'),
+        'selected_category': (selected_category_obj.id if selected_category_obj else (request.GET.get('category') or None)),
+        'selected_category_name': (selected_category_obj.name if selected_category_obj else None),
         'user_favorites': user_favorites,
         'sort_options': [
             ('featured', 'پیشنهادی'),
