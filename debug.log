@@ -387,3 +387,8 @@ INFO 2025-08-26 10:09:11,047 error_handling 9464 6400 Starting operation: produc
 INFO 2025-08-26 10:09:11,048 error_handling 9464 6400 Operation completed: product_detail in 0.00s
 INFO 2025-08-26 10:09:11,051 error_handling 9464 6400 Starting operation: product_detail
 INFO 2025-08-26 10:09:11,053 error_handling 9464 6400 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 20:54:15,027 autoreload 2508 140419308110080 Watching for file changes with StatReloader
+INFO 2025-08-26 20:54:45,985 error_handling 2508 140419179648704 Starting operation: product_detail
+INFO 2025-08-26 20:54:45,986 error_handling 2508 140419179648704 Operation completed: product_detail in 0.00s
+INFO 2025-08-26 20:54:45,992 error_handling 2508 140419179648704 Starting operation: product_detail
+INFO 2025-08-26 20:54:45,993 error_handling 2508 140419179648704 Operation completed: product_detail in 0.00s

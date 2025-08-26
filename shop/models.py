@@ -27,10 +27,10 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        try:
+        # Prefer slug URL only when a valid slug exists; otherwise use numeric URL
+        if getattr(self, 'slug', None):
             return reverse('category_detail_slug', args=[self.slug])
-        except Exception:
-            return reverse('category_detail', args=[self.id])
+        return reverse('category_detail', args=[self.id])
 
 class Product(models.Model):
     GRIND_TYPE_CHOICES = [
@@ -91,10 +91,10 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        try:
+        # Prefer slug URL only when a valid slug exists; otherwise use numeric URL
+        if getattr(self, 'slug', None):
             return reverse('product_detail_slug', args=[self.slug])
-        except Exception:
-            return reverse('product_detail', args=[self.id])
+        return reverse('product_detail', args=[self.id])
     
     def get_price_for_weight(self, weight):
         """Get price for specific weight"""
