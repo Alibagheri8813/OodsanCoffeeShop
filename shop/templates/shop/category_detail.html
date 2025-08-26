@@ -4,6 +4,7 @@
 {% block title %}{{ category.name }} | خرید | قیمت و انواع{% endblock %}
 {% block meta_description %}خرید {{ category.name }}، معرفی و قیمت. ارسال سریع و تضمین کیفیت.{% endblock %}
 {% block canonical_href %}{{ request.scheme }}://{{ request.get_host }}{{ category.get_absolute_url }}{% endblock %}
+{% block meta_keywords %}{{ category.name }}, خرید {{ category.name }}, قیمت {{ category.name }}, قهوه, دانه قهوه, coffee beans, دسته‌بندی قهوه{% endblock %}
 {% block structured_data %}
 <script type="application/ld+json">
 {
@@ -12,6 +13,17 @@
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "خانه", "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}"},
     {"@type": "ListItem", "position": 2, "name": "{{ category.name|escape }}", "item": "{{ request.scheme }}://{{ request.get_host }}{{ category.get_absolute_url }}"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {% for p in products %}
+    {"@type": "ListItem", "position": {{ forloop.counter }}, "url": "{{ request.scheme }}://{{ request.get_host }}{{ p.get_absolute_url }}", "name": "{{ p.name|escape }}"}{% if not forloop.last %},{% endif %}
+    {% endfor %}
   ]
 }
 </script>

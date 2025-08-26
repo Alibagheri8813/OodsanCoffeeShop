@@ -19,6 +19,38 @@
 فروشگاه قهوه با بهترین قیمت‌ها و ارسال سریع.
 {% endif %}
 {% endblock %}
+{% block meta_keywords %}
+{% if selected_category_name %}
+{{ selected_category_name }}, خرید {{ selected_category_name }}, قیمت {{ selected_category_name }}, قهوه, دانه قهوه, coffee beans
+{% elif query %}
+{{ query }}, جستجوی قهوه, نتایج جستجو, قهوه, دانه قهوه, coffee beans
+{% else %}
+فروشگاه قهوه, خرید قهوه, دانه قهوه, coffee beans
+{% endif %}
+{% endblock %}
+{% block canonical_href %}
+{% if query or min_price or max_price or sort_by or selected_category %}
+{{ request.scheme }}://{{ request.get_host }}{% url 'product_list' %}
+{% else %}
+{{ request.scheme }}://{{ request.get_host }}{{ request.path }}
+{% endif %}
+{% endblock %}
+{% block head %}
+{% if query %}<meta name="robots" content="noindex, follow">{% endif %}
+{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {% for p in products %}
+    {"@type": "ListItem", "position": {{ forloop.counter }}, "url": "{{ request.scheme }}://{{ request.get_host }}{{ p.get_absolute_url }}", "name": "{{ p.name|escape }}"}{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
 
 {% block extra_css %}
 <style>
