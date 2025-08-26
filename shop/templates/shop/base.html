@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% csrf_token %}
     <meta name="csrf-token" content="{{ csrf_token }}">
+    {% if user.is_authenticated %}<meta name="cart-count-url" content="{% url 'cart_count' %}">{% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -21,7 +22,7 @@
     <meta property="og:title" content="{% block og_title %}{{ block.super }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ block.meta_description }}{% endblock %}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri|default:request.get_full_path }}">
     <meta property="og:image" content="{% block og_image %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endblock %}">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:site_name" content="کافی شاپ">
@@ -33,7 +34,7 @@
     <meta name="twitter:image" content="{% block twitter_image %}{{ block.og_image }}{% endblock %}">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'shop/images/favicon.ico' %}">
@@ -86,7 +87,7 @@
     
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body{% if user.is_authenticated %} class="authenticated"{% endif %}>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
@@ -343,160 +344,9 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Performance and UX Scripts -->
-    <script>
-        // Loading Screen
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.style.display = 'block';
-            } else {
-                backToTopBtn.style.display = 'none';
-            }
-        });
-
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Dropdown Toggle
-        function toggleDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
-            const toggle = document.querySelector('.dropdown-toggle');
-            
-            dropdown.classList.toggle('show');
-            toggle.classList.toggle('active');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const toggle = document.querySelector('.dropdown-toggle');
-            
-            if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('show');
-                toggle.classList.remove('active');
-            }
-        });
-
-        // Newsletter Form
-        const newsletterForm = document.getElementById('newsletterForm');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = this.querySelector('.newsletter-input').value;
-                const consent = this.querySelector('#newsletterConsent').checked;
-                
-                if (email && consent) {
-                    // Show success message
-                    alert('با موفقیت در خبرنامه عضو شدید!');
-                    this.reset();
-                } else {
-                    alert('لطفاً ایمیل را وارد کنید و موافقت خود را اعلام کنید.');
-                }
-            });
-        }
-
-        // Lazy Loading for Images
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-
-        // Ensure lazy loading and async decoding for images
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('img:not([loading])').forEach(function(img){
-                img.setAttribute('loading','lazy');
-            });
-            document.querySelectorAll('img:not([decoding])').forEach(function(img){
-                img.setAttribute('decoding','async');
-            });
-        });
-        
-        // Dynamic navbar offset for non-home pages
-        (function() {
-            function applyNavbarOffset() {
-                var navbar = document.querySelector('.navbar');
-                var isHome = document.body.classList.contains('home-page');
-                if (!isHome && navbar) {
-                    var height = navbar.offsetHeight || 80;
-                    document.documentElement.style.setProperty('--navbar-offset', height + 'px');
-                } else {
-                    document.documentElement.style.removeProperty('--navbar-offset');
-                }
-            }
-            document.addEventListener('DOMContentLoaded', applyNavbarOffset);
-            window.addEventListener('load', applyNavbarOffset);
-            window.addEventListener('resize', applyNavbarOffset);
-        })();
-    </script>
-
-    <script>
-        // Standard CSRF token accessor from meta tag for fetch calls
-        function getCSRFToken() {
-            var meta = document.querySelector('meta[name="csrf-token"]');
-            return meta && meta.content ? meta.content : '';
-        }
-    </script>
-
-    {% if user.is_authenticated %}
-    <script>
-        // Cart Count Update Function
-        function updateCartCount() {
-            fetch('{% url "cart_count" %}')
-                .then(response => response.json())
-                .then(data => {
-                    const cartCountElement = document.getElementById('cartCount');
-                    if (cartCountElement) {
-                        cartCountElement.textContent = data.count;
-                    }
-                })
-                .catch(() => {});
-        }
-        document.addEventListener('DOMContentLoaded', updateCartCount);
-    </script>
-    {% endif %}
-
     <script src="{% static 'shop/js/order_status_manager.js' %}"></script>
+    <script src="{% static 'shop/js/site.js' %}?v=1.0"></script>
 
     {% block extra_scripts %}{% endblock %}
-
-    <script>
-    (function(){
-        if (!document.body.classList.contains('home-page')) {
-            window.addEventListener('scroll', function(){
-                if (window.scrollX !== 0) {
-                    window.scrollTo(0, window.scrollY);
-                }
-            }, { passive: true });
-        }
-    })();
-    </script>
 </body>
 </html> 
