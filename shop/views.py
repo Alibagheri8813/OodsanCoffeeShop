@@ -296,6 +296,14 @@ def product_detail(request, product_id=None, slug=None):
     if not product.weight_multipliers:
         product.weight_multipliers = {k: v for k, v in default_multipliers.items() if product.available_weights and k in product.available_weights}
 
+    # Aggregate product rating from order feedback entries that include this product
+    rating_stats = OrderFeedback.objects.filter(order__items__product=product).aggregate(
+        avg_rating=Avg('rating'),
+        review_count=Count('id')
+    )
+    avg_rating = rating_stats.get('avg_rating') or 0
+    review_count = rating_stats.get('review_count') or 0
+
     context = {
         'product': product,
         'comments': comments,
@@ -317,6 +325,8 @@ def product_detail(request, product_id=None, slug=None):
         'available_weights': product.available_weights,
         'weight_multipliers': product.weight_multipliers or default_multipliers,
         'base_price': product.price,
+        'avg_rating': avg_rating,
+        'review_count': review_count,
     }
     return render(request, 'shop/product_detail.html', context)
 
