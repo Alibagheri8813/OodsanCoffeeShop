@@ -23,7 +23,7 @@
     <meta property="og:title" content="{% block og_title %}کافی شاپ | بهترین قهوه‌های تهران{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri|default:request.get_full_path }}">
-    <meta property="og:image" content="{% block og_image %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}/media/roast-bg.jpg{% endblock %}">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:site_name" content="کافی شاپ">
     

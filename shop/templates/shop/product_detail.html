@@ -7,7 +7,7 @@
 {% block og_type %}<meta property="og:type" content="product">{% endblock %}
 {% block og_title %}{{ product.name }}{% endblock %}
 {% block og_description %}{{ product.description|striptags|truncatechars:160 }}{% endblock %}
-{% block og_image %}{% if product.image %}{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}{% else %}{% static 'shop/images/coffee-shop-og.jpg' %}{% endif %}{% endblock %}
+{% block og_image %}{% if product.image %}{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}/media/roast-bg.jpg{% endif %}{% endblock %}
 {% block twitter_title %}{{ product.name }}{% endblock %}
 {% block twitter_description %}{{ product.description|striptags|truncatechars:160 }}{% endblock %}
 {% block canonical_href %}{{ request.scheme }}://{{ request.get_host }}{{ product.get_absolute_url }}{% endblock %}
