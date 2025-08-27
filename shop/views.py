@@ -13,6 +13,7 @@ from django.db.models import Q, Sum, Count, Avg, F, Min, Max
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.utils.encoding import iri_to_uri
 from .models import *
 from .forms import *
 from .error_handling import (
@@ -173,7 +174,9 @@ def category_detail(request, category_id=None, slug=None):
         try:
             canonical_path = category.get_absolute_url()
             # Only redirect when we're not already at the canonical path
-            if canonical_path and request.path != canonical_path:
+            request_uri = iri_to_uri(request.path)
+            canonical_uri = iri_to_uri(canonical_path) if canonical_path else None
+            if canonical_uri and request_uri != canonical_uri:
                 return redirect(canonical_path, permanent=True)
         except Exception:
             pass
@@ -205,7 +208,9 @@ def product_detail(request, product_id=None, slug=None):
         if request.method == 'GET':
             try:
                 canonical_path = product.get_absolute_url()
-                if canonical_path and request.path != canonical_path:
+                request_uri = iri_to_uri(request.path)
+                canonical_uri = iri_to_uri(canonical_path) if canonical_path else None
+                if canonical_uri and request_uri != canonical_uri:
                     return redirect(canonical_path, permanent=True)
             except Exception:
                 pass
