@@ -392,3 +392,7 @@ INFO 2025-08-26 20:54:45,985 error_handling 2508 140419179648704 Starting operat
 INFO 2025-08-26 20:54:45,986 error_handling 2508 140419179648704 Operation completed: product_detail in 0.00s
 INFO 2025-08-26 20:54:45,992 error_handling 2508 140419179648704 Starting operation: product_detail
 INFO 2025-08-26 20:54:45,993 error_handling 2508 140419179648704 Operation completed: product_detail in 0.00s
+INFO 2025-08-27 08:22:54,289 autoreload 11848 7708 Watching for file changes with StatReloader
+INFO 2025-08-27 08:26:31,727 autoreload 10228 7740 Watching for file changes with StatReloader
+WARNING 2025-08-27 08:26:41,732 log 10228 9308 Not Found: /accounts/login/
+WARNING 2025-08-27 08:26:47,499 log 10228 8136 Not Found: /favicon.ico

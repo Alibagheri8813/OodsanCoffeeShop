@@ -1,0 +1,3438 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$qmB3LIWsC1k1nnZ9KacaFl$Lncz1+9oVsMrBWU69O0d7c1/7ku/bxn8yPvAoYrJTDg=",
+    "last_login": "2025-08-14T14:07:12.398Z",
+    "is_superuser": false,
+    "username": "Alib",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-03T11:40:58.346Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$ItoyxBI3NPpCXPJYKPzXPY$KOZfSGbxdu4MexTMAazOwAa0ZBYN9wUJ8wubF5X5oQg=",
+    "last_login": "2025-08-22T11:04:13.098Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "e@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-08-03T11:45:33.896Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$9wfeyGDolSvRdaPXFbX6iI$bEsW6Pq8D59iU6JXH7zAcwkqqzCqLio0pAU/0vkni9k=",
+    "last_login": "2025-08-14T19:13:49.870Z",
+    "is_superuser": false,
+    "username": "ali",
+    "first_name": "",
+    "last_name": "",
+    "email": "esmaiel@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-14T14:22:38.569Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 6,
+  "fields": {
+    "name": "قهوه تک دان",
+    "description": "",
+    "image": "categories/takdon.png",
+    "parent": null,
+    "slug": "قهوه-تک-دان"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 7,
+  "fields": {
+    "name": "قهوه گلد",
+    "description": "",
+    "image": "categories/gold_coffee.png",
+    "parent": null,
+    "slug": "قهوه-گلد"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 8,
+  "fields": {
+    "name": "پودریجات",
+    "description": "",
+    "image": "categories/powder_.png",
+    "parent": null,
+    "slug": "پودریجات"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 9,
+  "fields": {
+    "name": "قهوه های ترکیب شده(بلند)",
+    "description": "",
+    "image": "categories/blend.png",
+    "parent": null,
+    "slug": "قهوه-های-ترکیب-شدهبلند"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 10,
+  "fields": {
+    "name": "سیروپ ها",
+    "description": "",
+    "image": "categories/syrup_.png",
+    "parent": null,
+    "slug": "سیروپ-ها"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 11,
+  "fields": {
+    "name": "فروش عمده",
+    "description": "فروش عمده",
+    "image": "categories/ChatGPT_Image_Aug_15_2025_09_02_58_AM.png",
+    "parent": null,
+    "slug": "فروش-عمده"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 5,
+  "fields": {
+    "name": "عربیکا کلمبیا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "385000.00",
+    "image": "products/arabica_colombia.png",
+    "category": 6,
+    "stock": 98,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.381Z",
+    "updated_at": "2025-08-13T06:52:44.323Z",
+    "slug": "عربیکا-کلمبیا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 6,
+  "fields": {
+    "name": "عربیکا اتیوپی",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "299000.00",
+    "image": "products/arabica_etivpi.png",
+    "category": 6,
+    "stock": 98,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.499Z",
+    "updated_at": "2025-08-13T06:47:35.102Z",
+    "slug": "عربیکا-اتیوپی"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 7,
+  "fields": {
+    "name": "عربیکا کنیا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "357000.00",
+    "image": "products/arabica_kenya.png",
+    "category": 6,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.570Z",
+    "updated_at": "2025-08-13T06:47:47.401Z",
+    "slug": "عربیکا-کنیا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 8,
+  "fields": {
+    "name": "عربیکا برزیل",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "282000.00",
+    "image": "products/arabica_brazil.png",
+    "category": 6,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.652Z",
+    "updated_at": "2025-08-13T06:48:21.450Z",
+    "slug": "عربیکا-برزیل"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 9,
+  "fields": {
+    "name": "ربستا اندونزی",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "385000.00",
+    "image": "products/arabica_andonzi.png",
+    "category": 6,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.733Z",
+    "updated_at": "2025-08-13T06:48:50.532Z",
+    "slug": "ربستا-اندونزی"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 10,
+  "fields": {
+    "name": "ربستا اوگاندا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "299000.00",
+    "image": "products/robesta_oganda.png",
+    "category": 6,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:44.810Z",
+    "updated_at": "2025-08-13T06:49:10.429Z",
+    "slug": "ربستا-اوگاندا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 11,
+  "fields": {
+    "name": "گلد اکوادور",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "264000.00",
+    "image": "products/gold_ekvador.png",
+    "category": 7,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "100g",
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "100g": 1.0,
+      "250g": 2.5,
+      "500g": 5.0
+    },
+    "created_at": "2025-08-12T16:17:44.908Z",
+    "updated_at": "2025-08-13T06:49:23.331Z",
+    "slug": "گلد-اکوادور"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 12,
+  "fields": {
+    "name": "گلد هند",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "210000.00",
+    "image": "products/gold_hend.png",
+    "category": 7,
+    "stock": 97,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "100g",
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "100g": 1.0,
+      "250g": 2.5,
+      "500g": 5.0
+    },
+    "created_at": "2025-08-12T16:17:44.986Z",
+    "updated_at": "2025-08-13T06:49:36.380Z",
+    "slug": "گلد-هند"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 13,
+  "fields": {
+    "name": "گلد برزیل",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "210000.00",
+    "image": "products/gold_brazil.png",
+    "category": 7,
+    "stock": 99,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "100g",
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "100g": 1.0,
+      "250g": 2.5,
+      "500g": 5.0
+    },
+    "created_at": "2025-08-12T16:17:45.065Z",
+    "updated_at": "2025-08-13T06:49:49.147Z",
+    "slug": "گلد-برزیل"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 14,
+  "fields": {
+    "name": "کاپوچینو",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "155000.00",
+    "image": "products/kapochino.png",
+    "category": 8,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "250g": 1.0,
+      "500g": 2.0
+    },
+    "created_at": "2025-08-12T16:17:45.131Z",
+    "updated_at": "2025-08-13T06:49:59.763Z",
+    "slug": "کاپوچینو"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 15,
+  "fields": {
+    "name": "هات چاکلت",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "155000.00",
+    "image": "products/hot_chockolate.png",
+    "category": 8,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "250g": 1.0,
+      "500g": 2.0
+    },
+    "created_at": "2025-08-12T16:17:45.214Z",
+    "updated_at": "2025-08-13T06:50:17.357Z",
+    "slug": "هات-چاکلت"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 16,
+  "fields": {
+    "name": "ماسالا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "155000.00",
+    "image": "products/masala.png",
+    "category": 8,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "250g": 1.0,
+      "500g": 2.0
+    },
+    "created_at": "2025-08-12T16:17:45.281Z",
+    "updated_at": "2025-08-13T06:50:27.613Z",
+    "slug": "ماسالا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 17,
+  "fields": {
+    "name": "کافی میت",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "87000.00",
+    "image": "products/coffee_meat.png",
+    "category": 8,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [
+      "250g",
+      "500g"
+    ],
+    "weight_multipliers": {
+      "250g": 1.0,
+      "500g": 2.0
+    },
+    "created_at": "2025-08-12T16:17:45.371Z",
+    "updated_at": "2025-08-13T06:50:37.694Z",
+    "slug": "کافی-میت"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 18,
+  "fields": {
+    "name": "فول کافئین",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "287000.00",
+    "image": "products/full_cofeein.png",
+    "category": 9,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.452Z",
+    "updated_at": "2025-08-13T06:50:48.621Z",
+    "slug": "فول-کافئین"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 19,
+  "fields": {
+    "name": "70*30 پایه ربستا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "299000.00",
+    "image": "products/7030paye_robesta.png",
+    "category": 9,
+    "stock": 97,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.584Z",
+    "updated_at": "2025-08-13T06:51:05.861Z",
+    "slug": "7030-پایه-ربستا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 20,
+  "fields": {
+    "name": "50*50",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "327000.00",
+    "image": "products/5050.png",
+    "category": 9,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.698Z",
+    "updated_at": "2025-08-13T06:51:19.205Z",
+    "slug": "5050"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 21,
+  "fields": {
+    "name": "100 عربیکا",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "390000.00",
+    "image": "products/100arabica.png",
+    "category": 9,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [
+      "whole_bean",
+      "coarse",
+      "medium_coarse",
+      "medium",
+      "medium_fine",
+      "fine"
+    ],
+    "available_weights": [
+      "250g",
+      "500g",
+      "1kg"
+    ],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.773Z",
+    "updated_at": "2025-08-13T06:51:28.773Z",
+    "slug": "100-عربیکا"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 22,
+  "fields": {
+    "name": "سیروپ کارامل",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Caramel-600x600.png",
+    "category": 10,
+    "stock": 96,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.865Z",
+    "updated_at": "2025-08-14T09:14:16.724Z",
+    "slug": "سیروپ-کارامل"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 23,
+  "fields": {
+    "name": "سیروپ ایریش",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Irish-600x600.png",
+    "category": 10,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:45.948Z",
+    "updated_at": "2025-08-14T09:14:08.843Z",
+    "slug": "سیروپ-ایریش"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 24,
+  "fields": {
+    "name": "سیروپ نارگیل",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Coconut-600x600.png",
+    "category": 10,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.031Z",
+    "updated_at": "2025-08-14T09:13:58.939Z",
+    "slug": "سیروپ-نارگیل"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 25,
+  "fields": {
+    "name": "سیروپ سیب",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Green-apple-600x600.png",
+    "category": 10,
+    "stock": 98,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.112Z",
+    "updated_at": "2025-08-14T09:13:40.539Z",
+    "slug": "سیروپ-سیب"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 26,
+  "fields": {
+    "name": "سیروپ بلوبری",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Blue-berry-600x600.png",
+    "category": 10,
+    "stock": 94,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.198Z",
+    "updated_at": "2025-08-14T09:13:31.169Z",
+    "slug": "سیروپ-بلوبری"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 27,
+  "fields": {
+    "name": "سیروپ لیمو",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Lemonade-600x600.png",
+    "category": 10,
+    "stock": 90,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.282Z",
+    "updated_at": "2025-08-14T09:13:22.973Z",
+    "slug": "سیروپ-لیمو"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 28,
+  "fields": {
+    "name": "سیروپ موهیتو",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Mojito-600x600.png",
+    "category": 10,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.365Z",
+    "updated_at": "2025-08-14T09:13:06.422Z",
+    "slug": "سیروپ-موهیتو"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 29,
+  "fields": {
+    "name": "سیروپ زعفران",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "products/Saffron-1-600x600.png",
+    "category": 10,
+    "stock": 92,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.449Z",
+    "updated_at": "2025-08-14T09:12:58.362Z",
+    "slug": "سیروپ-زعفران"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 30,
+  "fields": {
+    "name": "سیروپ آناناس",
+    "description": "محصول ثبت شده به صورت خودکار",
+    "price": "477000.00",
+    "image": "",
+    "category": 10,
+    "stock": 100,
+    "featured": false,
+    "available_grinds": [],
+    "available_weights": [],
+    "weight_multipliers": {},
+    "created_at": "2025-08-12T16:17:46.524Z",
+    "updated_at": "2025-08-12T16:17:46.524Z",
+    "slug": "سیروپ-آناناس"
+  }
+},
+{
+  "model": "shop.cart",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "created_at": "2025-08-03T13:58:08.171Z",
+    "updated_at": "2025-08-03T13:58:08.171Z"
+  }
+},
+{
+  "model": "shop.cart",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "created_at": "2025-08-14T14:46:40.791Z",
+    "updated_at": "2025-08-14T14:46:40.791Z"
+  }
+},
+{
+  "model": "shop.order",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "status": "in_transit",
+    "delivery_method": "post",
+    "delivery_fee": "50000.00",
+    "subtotal": "598000.00",
+    "total_amount": "648000.00",
+    "created_at": "2025-08-22T12:57:06.316Z",
+    "updated_at": "2025-08-22T12:59:10.488Z",
+    "shipping_address": "خانه - آدرس کامل شامل خیابان، کوچه، پلاک و واحد - تهران - تهران",
+    "postal_code": "1493763931",
+    "phone_number": "09108087593",
+    "notes": "",
+    "intro_margin_applied_amount": "0"
+  }
+},
+{
+  "model": "shop.order",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "status": "in_transit",
+    "delivery_method": "post",
+    "delivery_fee": "50000.00",
+    "subtotal": "770000.00",
+    "total_amount": "820000.00",
+    "created_at": "2025-08-22T13:03:17.152Z",
+    "updated_at": "2025-08-22T13:05:00.223Z",
+    "shipping_address": "خانه - آدرس کامل شامل خیابان، کوچه، پلاک و واحد - تهران - تهران",
+    "postal_code": "1493763931",
+    "phone_number": "09108087593",
+    "notes": "",
+    "intro_margin_applied_amount": "0"
+  }
+},
+{
+  "model": "shop.order",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "status": "ready_shipping_preparation",
+    "delivery_method": "post",
+    "delivery_fee": "50000.00",
+    "subtotal": "954000.00",
+    "total_amount": "1004000.00",
+    "created_at": "2025-08-22T13:54:29.121Z",
+    "updated_at": "2025-08-22T13:55:04.126Z",
+    "shipping_address": "خانه - آدرس کامل شامل خیابان، کوچه، پلاک و واحد - تهران - تهران",
+    "postal_code": "1493763931",
+    "phone_number": "09108087593",
+    "notes": "",
+    "intro_margin_applied_amount": "0"
+  }
+},
+{
+  "model": "shop.orderitem",
+  "pk": 20,
+  "fields": {
+    "order": 9,
+    "product": 6,
+    "quantity": 2,
+    "price": "299000.00",
+    "grind_type": "medium_coarse",
+    "weight": "1kg"
+  }
+},
+{
+  "model": "shop.orderitem",
+  "pk": 21,
+  "fields": {
+    "order": 10,
+    "product": 5,
+    "quantity": 2,
+    "price": "385000.00",
+    "grind_type": "medium_coarse",
+    "weight": "500g"
+  }
+},
+{
+  "model": "shop.orderitem",
+  "pk": 22,
+  "fields": {
+    "order": 11,
+    "product": 29,
+    "quantity": 2,
+    "price": "477000.00",
+    "grind_type": "whole_bean",
+    "weight": "250g"
+  }
+},
+{
+  "model": "shop.comment",
+  "pk": 5,
+  "fields": {
+    "product": 29,
+    "user": [
+      "admin"
+    ],
+    "text": "hxdfghdfhd",
+    "created_at": "2025-08-22T13:51:36.495Z"
+  }
+},
+{
+  "model": "shop.productlike",
+  "pk": 7,
+  "fields": {
+    "product": 28,
+    "user": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "shop.productfavorite",
+  "pk": 4,
+  "fields": {
+    "product": 26,
+    "user": [
+      "ali"
+    ],
+    "created_at": "2025-08-14T14:56:06.220Z"
+  }
+},
+{
+  "model": "shop.productfavorite",
+  "pk": 5,
+  "fields": {
+    "product": 28,
+    "user": [
+      "admin"
+    ],
+    "created_at": "2025-08-22T13:00:57.599Z"
+  }
+},
+{
+  "model": "shop.productfavorite",
+  "pk": 6,
+  "fields": {
+    "product": 29,
+    "user": [
+      "admin"
+    ],
+    "created_at": "2025-08-22T13:51:18.229Z"
+  }
+},
+{
+  "model": "shop.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Alib"
+    ],
+    "phone_number": "09107049107",
+    "birth_date": "2025-08-11",
+    "avatar": "",
+    "bio": "",
+    "city": "",
+    "province": "",
+    "address": "",
+    "postal_code": "",
+    "created_at": "2025-08-03T11:40:59.127Z",
+    "updated_at": "2025-08-03T11:43:08.000Z",
+    "is_phone_verified": false,
+    "phone_verify_code": "",
+    "phone_verify_expires_at": null,
+    "profile_completed_at": null,
+    "intro_margin_awarded": false,
+    "intro_margin_balance": "0",
+    "intro_margin_consumed_at": null
+  }
+},
+{
+  "model": "shop.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "phone_number": "09108087593",
+    "birth_date": null,
+    "avatar": "",
+    "bio": "",
+    "city": "",
+    "province": "",
+    "address": "",
+    "postal_code": "",
+    "created_at": "2025-08-03T14:11:20.035Z",
+    "updated_at": "2025-08-03T14:11:20.035Z",
+    "is_phone_verified": false,
+    "phone_verify_code": "965929",
+    "phone_verify_expires_at": "2025-08-13T11:03:07.606Z",
+    "profile_completed_at": "2025-08-14T19:17:34.213Z",
+    "intro_margin_awarded": true,
+    "intro_margin_balance": "0",
+    "intro_margin_consumed_at": "2025-08-14T19:17:53.681Z"
+  }
+},
+{
+  "model": "shop.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "phone_number": "09127047537",
+    "birth_date": null,
+    "avatar": "",
+    "bio": "",
+    "city": "tehran",
+    "province": "Tehran (تهران)",
+    "address": "",
+    "postal_code": "",
+    "created_at": "2025-08-14T14:22:39.345Z",
+    "updated_at": "2025-08-14T14:22:39.345Z",
+    "is_phone_verified": false,
+    "phone_verify_code": "",
+    "phone_verify_expires_at": null,
+    "profile_completed_at": "2025-08-14T14:46:03.060Z",
+    "intro_margin_awarded": true,
+    "intro_margin_balance": "0",
+    "intro_margin_consumed_at": "2025-08-14T17:49:03.340Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Alib"
+    ],
+    "title": "خانه",
+    "full_address": "ااذذیبرایبریهذریذبارذیاذرایبر",
+    "city": "تهران",
+    "state": "تهران",
+    "is_default": false,
+    "created_at": "2025-08-03T11:43:41.473Z",
+    "updated_at": "2025-08-03T11:43:41.473Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Alib"
+    ],
+    "title": "مدسه",
+    "full_address": "ریبریبریبربیریرییبر",
+    "city": "شاهرود",
+    "state": "سمنان",
+    "is_default": true,
+    "created_at": "2025-08-03T11:44:05.753Z",
+    "updated_at": "2025-08-03T11:44:05.753Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "title": "خانه",
+    "full_address": "آدرس کامل شامل خیابان، کوچه، پلاک و واحد",
+    "city": "تهران",
+    "state": "تهران",
+    "is_default": true,
+    "created_at": "2025-08-04T09:46:54.969Z",
+    "updated_at": "2025-08-04T12:43:16.396Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "title": "محل کار",
+    "full_address": "dfhdfgnfnfgnfgnfnfn",
+    "city": "شاهرود",
+    "state": "سمنان",
+    "is_default": false,
+    "created_at": "2025-08-04T12:43:03.130Z",
+    "updated_at": "2025-08-04T12:43:03.131Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "title": "خانه",
+    "full_address": "سقسیلقبریبریبریربریبریبریب",
+    "city": "تهران",
+    "state": "تهران",
+    "is_default": true,
+    "created_at": "2025-08-14T14:46:02.982Z",
+    "updated_at": "2025-08-14T14:46:02.982Z"
+  }
+},
+{
+  "model": "shop.useraddress",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "title": "کارخانه",
+    "full_address": "اذیابرهایهراخعیبرهایبهرذیهابراهیرتخی",
+    "city": "تهران",
+    "state": "تهران",
+    "is_default": false,
+    "created_at": "2025-08-14T17:47:29.197Z",
+    "updated_at": "2025-08-14T17:47:29.197Z"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "Alib"
+    ],
+    "notification_type": "system",
+    "title": "خوش آمدید!",
+    "message": "به کافی شاپ خوش آمدید! لطفاً پروفایل خود را تکمیل کنید.",
+    "is_read": false,
+    "created_at": "2025-08-03T11:40:59.244Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order",
+    "title": "سفارش جدید ثبت شد",
+    "message": "سفارش شما با شماره 1 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-04T09:50:47.838Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order",
+    "title": "سفارش جدید ثبت شد",
+    "message": "سفارش شما با شماره 2 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-04T12:44:08.377Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #3",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:19.871Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #3 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:20.020Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order",
+    "title": "سفارش جدید ثبت شد",
+    "message": "سفارش شما با شماره 3 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:20.354Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #2 به \"در انتظار پرداخت\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:57.860Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "سفارش #2 اکنون \"در انتظار پرداخت\" است.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:57.861Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #1 به \"در انتظار پرداخت\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:57.863Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #1",
+    "message": "سفارش #1 اکنون \"در انتظار پرداخت\" است.",
+    "is_read": false,
+    "created_at": "2025-08-09T10:32:57.864Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #1",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:22:16.109Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #1 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:22:16.281Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order",
+    "title": "سفارش جدید ثبت شد",
+    "message": "سفارش شما با شماره 1 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:22:16.757Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #2",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:24:12.855Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #2 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:24:12.988Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order",
+    "title": "سفارش جدید ثبت شد",
+    "message": "سفارش شما با شماره 2 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T11:24:13.577Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #3",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T15:54:43.624Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #3 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T15:54:43.624Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#3)",
+    "message": "سفارش شما با مبلغ 230000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-09T15:54:43.624Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #3",
+    "message": "کاربر admin سفارشی به مبلغ 230000 ثبت کرد.",
+    "is_read": false,
+    "created_at": "2025-08-09T15:54:43.624Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #4",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T12:40:25.918Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #4 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T12:40:25.919Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 23,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#4)",
+    "message": "سفارش شما با مبلغ 230000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T12:40:25.919Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 24,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #4",
+    "message": "کاربر admin سفارشی به مبلغ 230000 ثبت کرد.",
+    "is_read": false,
+    "created_at": "2025-08-12T12:40:25.919Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 25,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #5",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T13:33:18.517Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 26,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #5 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T13:33:18.517Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 27,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#5)",
+    "message": "سفارش شما با مبلغ 230000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-12T13:33:18.517Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 28,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #5",
+    "message": "کاربر admin سفارشی به مبلغ 230000 ثبت کرد.",
+    "is_read": false,
+    "created_at": "2025-08-12T13:33:18.517Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 29,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #1",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T09:30:49.130Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 30,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #1 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T09:30:49.130Z",
+    "related_object_id": 1,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 31,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#1)",
+    "message": "سفارش شما با مبلغ 2004000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T09:30:49.130Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 32,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #1",
+    "message": "کاربر admin سفارشی به مبلغ 2004000 ثبت کرد. (قبل از اعتبار: 2004000)",
+    "is_read": false,
+    "created_at": "2025-08-14T09:30:49.130Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 33,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "system",
+    "title": "خوش آمدید!",
+    "message": "به کافی شاپ خوش آمدید! لطفاً پروفایل خود را تکمیل کنید.",
+    "is_read": false,
+    "created_at": "2025-08-14T14:22:39.445Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 34,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "system",
+    "title": "هدیه خوش‌آمدگویی فعال شد 🎉",
+    "message": "با تکمیل پروفایل، ۵۰,۰۰۰ تومان اعتبار هدیه برای اولین پرداخت شما فعال شد!",
+    "is_read": false,
+    "created_at": "2025-08-14T14:46:03.129Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 35,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #2",
+    "message": "سفارش جدید توسط ali ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:03.340Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 36,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #2 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:03.340Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 37,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#2)",
+    "message": "سفارش شما با مبلغ 2385000 تومان با 50000 تومان اعتبار خوش‌آمدگویی ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:03.340Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 38,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #2",
+    "message": "کاربر ali سفارشی به مبلغ 2385000 ثبت کرد. (قبل از اعتبار: 2435000)",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:03.340Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 39,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #2 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:42.939Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 40,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "سفارش #2 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:43.122Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 41,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:43.289Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 42,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #2 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:49:43.490Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 43,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #2 به \"آماده شده\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:51:42.585Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 44,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "سفارش #2 اکنون \"آماده شده\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:51:42.768Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 45,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "وضعیت سفارش شما از \"در حال آمــاده‌سازی\" به \"آماده شده\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T17:51:43.019Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 46,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #2 به \"بسته در حال رسیدن به مقصد است\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:13:24.038Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 47,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "سفارش #2 اکنون \"بسته در حال رسیدن به مقصد است\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:13:24.226Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 48,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #2",
+    "message": "وضعیت سفارش شما از \"آماده و در حال آماده‌سازی ارسال\" به \"بسته در حال رسیدن به مقصد است\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:13:24.424Z",
+    "related_object_id": 2,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 49,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "system",
+    "title": "هدیه خوش‌آمدگویی فعال شد 🎉",
+    "message": "با تکمیل پروفایل، ۵۰,۰۰۰ تومان اعتبار هدیه برای اولین پرداخت شما فعال شد!",
+    "is_read": false,
+    "created_at": "2025-08-14T19:17:34.279Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 50,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #3",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:17:53.681Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 51,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #3 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:17:53.681Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 52,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#3)",
+    "message": "سفارش شما با مبلغ 2385000 تومان با 50000 تومان اعتبار خوش‌آمدگویی ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:17:53.681Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 53,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #3",
+    "message": "کاربر admin سفارشی به مبلغ 2385000 ثبت کرد. (قبل از اعتبار: 2435000)",
+    "is_read": false,
+    "created_at": "2025-08-14T19:17:53.681Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 54,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #3 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:02.926Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 55,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "سفارش #3 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:03.109Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 56,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:03.360Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 57,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #3 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:03.543Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 58,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #3 به \"آماده و در حال آماده‌سازی ارسال\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:37.276Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 59,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "سفارش #3 اکنون \"آماده و در حال آماده‌سازی ارسال\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:37.442Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 60,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "وضعیت سفارش شما از \"در حال آمــاده‌سازی\" به \"آماده و در حال آماده‌سازی ارسال\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:18:37.641Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 61,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #3 به \"بسته در حال رسیدن به مقصد است\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:19:16.707Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 62,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "سفارش #3 اکنون \"بسته در حال رسیدن به مقصد است\" است.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:19:16.891Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 63,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #3",
+    "message": "وضعیت سفارش شما از \"آماده و در حال آماده‌سازی ارسال\" به \"بسته در حال رسیدن به مقصد است\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-14T19:19:17.056Z",
+    "related_object_id": 3,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 64,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #4",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:27.472Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 65,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #4 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:27.472Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 66,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#4)",
+    "message": "سفارش شما با مبلغ 527000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:27.472Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 67,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #4",
+    "message": "کاربر admin سفارشی به مبلغ 527000 ثبت کرد. (قبل از اعتبار: 527000)",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:27.472Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 68,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #4 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:33.171Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 69,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #4",
+    "message": "سفارش #4 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:33.288Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 70,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #4",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:33.421Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 71,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #4 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:10:33.572Z",
+    "related_object_id": 4,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 72,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #5",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:32.252Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 73,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #5 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:32.252Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 74,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#5)",
+    "message": "سفارش شما با مبلغ 1004000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:32.252Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 75,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #5",
+    "message": "کاربر admin سفارشی به مبلغ 1004000 ثبت کرد. (قبل از اعتبار: 1004000)",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:32.252Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 76,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #5 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:48.153Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 77,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #5",
+    "message": "سفارش #5 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:48.319Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 78,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #5",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:48.468Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 79,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #5 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:11:48.637Z",
+    "related_object_id": 5,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 80,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #6",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:46.263Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 81,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #6 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:46.263Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 82,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#6)",
+    "message": "سفارش شما با مبلغ 260000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:46.263Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 83,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #6",
+    "message": "کاربر admin سفارشی به مبلغ 260000 ثبت کرد. (قبل از اعتبار: 260000)",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:46.263Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 84,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #6 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:52.463Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 85,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #6",
+    "message": "سفارش #6 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:52.598Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 86,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #6",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:52.732Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 87,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #6 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-16T12:13:52.881Z",
+    "related_object_id": 6,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 88,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #7",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:21.241Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 89,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #7 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:21.242Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 90,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#7)",
+    "message": "سفارش شما با مبلغ 947000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:21.243Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 91,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #7",
+    "message": "کاربر admin سفارشی به مبلغ 947000 ثبت کرد. (قبل از اعتبار: 947000)",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:21.244Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 92,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #7 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:43.185Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 93,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #7",
+    "message": "سفارش #7 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:43.326Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 94,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #7",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:43.501Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 95,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #7 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:25:43.760Z",
+    "related_object_id": 7,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 96,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #8",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:36.091Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 97,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #8 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:36.091Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 98,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#8)",
+    "message": "سفارش شما با مبلغ 260000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:36.091Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 99,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #8",
+    "message": "کاربر admin سفارشی به مبلغ 260000 ثبت کرد. (قبل از اعتبار: 260000)",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:36.091Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 100,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #8 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:40.774Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 101,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #8",
+    "message": "سفارش #8 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:40.943Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 102,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #8",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:41.125Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 103,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #8 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:35:41.279Z",
+    "related_object_id": 8,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 104,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #9",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:06.322Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 105,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #9 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:06.323Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 106,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#9)",
+    "message": "سفارش شما با مبلغ 648000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:06.325Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 107,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #9",
+    "message": "کاربر admin سفارشی به مبلغ 648000 ثبت کرد. (قبل از اعتبار: 648000)",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:06.326Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 108,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #9 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:39.607Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 109,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "سفارش #9 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:39.764Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 110,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:39.939Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 111,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #9 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:57:40.134Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 112,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #9 به \"آماده و در حال آماده‌سازی ارسال\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:58:44.405Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 113,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "سفارش #9 اکنون \"آماده و در حال آماده‌سازی ارسال\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:58:44.566Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 114,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "وضعیت سفارش شما از \"در حال آمــاده‌سازی\" به \"آماده و در حال آماده‌سازی ارسال\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:58:44.745Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 115,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #9 به \"بسته در حال رسیدن به مقصد است\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:59:10.562Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 116,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "سفارش #9 اکنون \"بسته در حال رسیدن به مقصد است\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:59:10.727Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 117,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #9",
+    "message": "وضعیت سفارش شما از \"آماده و در حال آماده‌سازی ارسال\" به \"بسته در حال رسیدن به مقصد است\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T12:59:10.909Z",
+    "related_object_id": 9,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 118,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #10",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:17.160Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 119,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #10 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:17.161Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 120,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#10)",
+    "message": "سفارش شما با مبلغ 820000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:17.163Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 121,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #10",
+    "message": "کاربر admin سفارشی به مبلغ 820000 ثبت کرد. (قبل از اعتبار: 820000)",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:17.164Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 122,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #10 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:44.222Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 123,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "سفارش #10 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:44.396Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 124,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:44.562Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 125,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #10 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:03:44.729Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 126,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #10 به \"آماده و در حال آماده‌سازی ارسال\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:04:30.497Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 127,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "سفارش #10 اکنون \"آماده و در حال آماده‌سازی ارسال\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:04:30.653Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 128,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "وضعیت سفارش شما از \"در حال آمــاده‌سازی\" به \"آماده و در حال آماده‌سازی ارسال\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:04:30.802Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 129,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #10 به \"بسته در حال رسیدن به مقصد است\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:05:00.304Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 130,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "سفارش #10 اکنون \"بسته در حال رسیدن به مقصد است\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:05:00.499Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 131,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #10",
+    "message": "وضعیت سفارش شما از \"آماده و در حال آماده‌سازی ارسال\" به \"بسته در حال رسیدن به مقصد است\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:05:00.772Z",
+    "related_object_id": 10,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 132,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #11",
+    "message": "سفارش جدید توسط admin ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:29.123Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 133,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "ثبت سفارش",
+    "message": "سفارش شما با شماره #11 با موفقیت ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:29.123Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 134,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید ثبت شد (#11)",
+    "message": "سفارش شما با مبلغ 1004000 تومان ثبت شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:29.123Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 135,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_new",
+    "title": "سفارش جدید #11",
+    "message": "کاربر admin سفارشی به مبلغ 1004000 ثبت کرد. (قبل از اعتبار: 1004000)",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:29.123Z",
+    "related_object_id": null,
+    "related_object_type": null
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 136,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #11 به \"در حال آمــاده‌سازی\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:34.492Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 137,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #11",
+    "message": "سفارش #11 اکنون \"در حال آمــاده‌سازی\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:34.641Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 138,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #11",
+    "message": "وضعیت سفارش شما از \"در انتظار پرداخت\" به \"در حال آمــاده‌سازی\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:34.804Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 139,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "پرداخت سفارش #11 تایید شد",
+    "message": "پرداخت شما با موفقیت انجام شد و سفارش وارد مرحله آماده‌سازی شد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:54:34.989Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 140,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "به‌روزرسانی وضعیت سفارش",
+    "message": "وضعیت سفارش #11 به \"آماده و در حال آماده‌سازی ارسال\" تغییر یافت.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:55:04.197Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 141,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #11",
+    "message": "سفارش #11 اکنون \"آماده و در حال آماده‌سازی ارسال\" است.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:55:04.363Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.notification",
+  "pk": 142,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "notification_type": "order_status",
+    "title": "تغییر وضعیت سفارش #11",
+    "message": "وضعیت سفارش شما از \"در حال آمــاده‌سازی\" به \"آماده و در حال آماده‌سازی ارسال\" تغییر کرد.",
+    "is_read": false,
+    "created_at": "2025-08-22T13:55:04.513Z",
+    "related_object_id": 11,
+    "related_object_type": "Order"
+  }
+},
+{
+  "model": "shop.loyaltyprogram",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "points": 0,
+    "tier": "bronze",
+    "total_earned_points": 0,
+    "total_redeemed_points": 0,
+    "tier_achieved_date": "2025-08-09T15:53:59.409Z",
+    "next_tier_points_needed": 500
+  }
+},
+{
+  "model": "shop.loyaltyprogram",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "Alib"
+    ],
+    "points": 0,
+    "tier": "bronze",
+    "total_earned_points": 0,
+    "total_redeemed_points": 0,
+    "tier_achieved_date": "2025-08-14T14:07:15.277Z",
+    "next_tier_points_needed": 500
+  }
+},
+{
+  "model": "shop.loyaltyprogram",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "ali"
+    ],
+    "points": 0,
+    "tier": "bronze",
+    "total_earned_points": 0,
+    "total_redeemed_points": 0,
+    "tier_achieved_date": "2025-08-14T14:22:54.314Z",
+    "next_tier_points_needed": 500
+  }
+}
+]
