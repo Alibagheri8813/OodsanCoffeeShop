@@ -171,10 +171,10 @@ def category_detail(request, category_id=None, slug=None):
     # Canonicalize to slug URL on GET
     if request.method == 'GET':
         try:
-            if category_id is not None:
-                return redirect(category.get_absolute_url(), permanent=True)
-            if slug and slug != category.slug:
-                return redirect(category.get_absolute_url(), permanent=True)
+            canonical_path = category.get_absolute_url()
+            # Only redirect when we're not already at the canonical path
+            if canonical_path and request.path != canonical_path:
+                return redirect(canonical_path, permanent=True)
         except Exception:
             pass
     subcategories = Category.objects.filter(parent=category)
@@ -201,13 +201,12 @@ def product_detail(request, product_id=None, slug=None):
                 Product.objects.select_related('category'),
                 id=product_id
             )
-        # Canonicalize to slug URL on GET
+        # Canonicalize to slug URL on GET without causing loops
         if request.method == 'GET':
             try:
-                if product_id is not None:
-                    return redirect(product.get_absolute_url(), permanent=True)
-                if slug and slug != product.slug:
-                    return redirect(product.get_absolute_url(), permanent=True)
+                canonical_path = product.get_absolute_url()
+                if canonical_path and request.path != canonical_path:
+                    return redirect(canonical_path, permanent=True)
             except Exception:
                 pass
         
