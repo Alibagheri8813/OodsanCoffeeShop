@@ -29,6 +29,8 @@
 </script>
 {% endblock %}
 
+{% block head %}{% endblock %}
+
 {% block extra_head %}
 <style>
 .category-detail-container {
@@ -234,6 +236,11 @@
 {% block content %}
 <div class="category-detail-container">
     <div class="category-detail-title">{{ category.name }}</div>
+    {% if category.description %}
+    <div class="category-intro" style="max-width: 900px; margin: 0 auto 2rem auto; color: #4B2E2B; line-height: 1.9; text-align: center;">
+        {{ category.description }}
+    </div>
+    {% endif %}
     
     {% if subcategories %}
         <div class="subcategory-list">

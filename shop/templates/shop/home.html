@@ -18,6 +18,18 @@
   "priceRange": "$$"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_list' %}?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_head %}
