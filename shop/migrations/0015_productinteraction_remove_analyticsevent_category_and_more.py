@@ -102,16 +102,6 @@ class Migration(migrations.Migration):
             name='updated_at',
         ),
         migrations.AddField(
-            model_name='cartitem',
-            name='grind_type',
-            field=models.CharField(choices=[('whole_bean', 'دانه کامل'), ('coarse', 'درشت (فرنچ پرس)'), ('medium_coarse', 'متوسط درشت (کمکس)'), ('medium', 'متوسط (دریپ)'), ('medium_fine', 'متوسط ریز (اروپرس)'), ('fine', 'ریز (اسپرسو)'), ('extra_fine', 'فوق ریز (ترک)')], default='whole_bean', max_length=20),
-        ),
-        migrations.AddField(
-            model_name='cartitem',
-            name='weight',
-            field=models.CharField(choices=[('250g', '250 گرم'), ('500g', '500 گرم'), ('1kg', '1 کیلوگرم'), ('5kg', '5 کیلوگرم'), ('10kg', '10 کیلوگرم')], default='250g', max_length=10),
-        ),
-        migrations.AddField(
             model_name='customersegment',
             name='engagement_score',
             field=models.FloatField(default=0.0),
