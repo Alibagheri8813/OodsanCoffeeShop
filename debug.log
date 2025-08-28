@@ -396,3 +396,9 @@ INFO 2025-08-27 08:22:54,289 autoreload 11848 7708 Watching for file changes wit
 INFO 2025-08-27 08:26:31,727 autoreload 10228 7740 Watching for file changes with StatReloader
 WARNING 2025-08-27 08:26:41,732 log 10228 9308 Not Found: /accounts/login/
 WARNING 2025-08-27 08:26:47,499 log 10228 8136 Not Found: /favicon.ico
+INFO 2025-08-27 08:37:38,534 autoreload 2732 8540 Watching for file changes with StatReloader
+INFO 2025-08-27 08:37:56,605 error_handling 2732 7808 Starting operation: product_detail
+INFO 2025-08-27 08:37:56,653 error_handling 2732 7808 Operation completed: product_detail in 0.05s
+WARNING 2025-08-27 08:38:12,386 log 2732 7808 Not Found: /accounts/login/
+INFO 2025-08-27 10:16:27,548 error_handling 2732 11168 Starting operation: product_detail
+INFO 2025-08-27 10:16:27,556 error_handling 2732 11168 Operation completed: product_detail in 0.05s
