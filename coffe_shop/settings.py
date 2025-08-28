@@ -61,15 +61,15 @@ if not SECRET_KEY:
         raise RuntimeError('DJANGO_SECRET_KEY environment variable must be set in production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
+ALLOWED_HOSTS = ["odsancoffee.ir","www.odsancoffee.ir"]
 
 # CSRF trusted origins (for reverse proxies / custom domains)
-CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS') else []
+CSRF_TRUSTED_ORIGINS = ["https://odsancoffee.ir","https://www.odsancoffee.ir"]
 
 # Whether to trust X-Forwarded-For for client IP resolution (rate limiting, logging)
-TRUST_X_FORWARDED_FOR = os.environ.get('DJANGO_TRUST_X_FORWARDED_FOR', 'false').lower() == 'true'
+TRUST_X_FORWARDED_FOR = True
 
-
+ 
 # Application definition
 
 INSTALLED_APPS = [
@@ -221,15 +221,15 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Production-only secure settings
 if not DEBUG:
-    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'true').lower() == 'true'
-    SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_SECURE_HSTS_SECONDS', '31536000'))
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 else:
     # In development, never force HTTPS unless explicitly enabled via env
-    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
+    SECURE_SSL_REDIRECT = False
     SECURE_HSTS_SECONDS = 0
 
 # Phase 3: Caching Configuration (Enhanced)

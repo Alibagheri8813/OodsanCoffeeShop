@@ -402,3 +402,10 @@ INFO 2025-08-27 08:37:56,653 error_handling 2732 7808 Operation completed: produ
 WARNING 2025-08-27 08:38:12,386 log 2732 7808 Not Found: /accounts/login/
 INFO 2025-08-27 10:16:27,548 error_handling 2732 11168 Starting operation: product_detail
 INFO 2025-08-27 10:16:27,556 error_handling 2732 11168 Operation completed: product_detail in 0.05s
+INFO 2025-08-27 22:25:49,117 autoreload 9872 10056 Watching for file changes with StatReloader
+WARNING 2025-08-27 22:25:56,170 log 9872 9472 Not Found: /favicon.ico
+INFO 2025-08-27 22:26:03,756 error_handling 9872 9472 Starting operation: product_detail
+INFO 2025-08-27 22:26:03,759 error_handling 9872 9472 Operation completed: product_detail in 0.00s
+WARNING 2025-08-27 22:26:49,485 log 9872 9472 Not Found: /accounts/login/
+WARNING 2025-08-27 22:26:52,189 log 9872 9472 Not Found: /accounts/login/
+WARNING 2025-08-27 22:54:06,664 log 9872 12160 Not Found: /accounts/login/

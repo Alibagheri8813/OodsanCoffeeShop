@@ -11,6 +11,10 @@ class OrderStatusManager {
     }
 
     getCSRFToken() {
+        // Prefer meta tag injected by Django template
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta && meta.content) return meta.content;
+        // Fallback to cookie if available
         const cookies = document.cookie.split(';');
         for (let cookie of cookies) {
             const [name, value] = cookie.trim().split('=');
@@ -225,6 +229,22 @@ class OrderStatusManager {
 
     async markInTransit(orderId) {
         return this.makeStatusRequest(orderId, 'mark-transit');
+    }
+
+    async markDelivered(orderId) {
+        return this.makeStatusRequest(orderId, 'mark-delivered');
+    }
+
+    async pollOrder(orderId, onUpdate, intervalMs = 1000) {
+        let stopped = false;
+        const tick = async () => {
+            if (stopped) return;
+            const data = await this.getOrderStatus(orderId);
+            if (data && onUpdate) onUpdate(data);
+            if (!stopped) setTimeout(tick, intervalMs);
+        };
+        tick();
+        return () => { stopped = true; };
     }
 
     async makeStatusRequest(orderId, action) {
