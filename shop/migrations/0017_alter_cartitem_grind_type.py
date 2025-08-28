@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0016_merge'),
+        ('shop', '0016_cartitem_add_grind_weight_and_unique'),
     ]
 
     operations = [

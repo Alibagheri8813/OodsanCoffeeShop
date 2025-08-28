@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0001_initial'),  # Adjust this to the latest migration number
+        ('shop', '0007_video_order_delivery_fee_order_delivery_method_and_more'),
     ]
 
     operations = [

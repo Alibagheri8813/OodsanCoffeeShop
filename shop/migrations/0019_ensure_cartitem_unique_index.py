@@ -5,4 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
      dependencies = [ ('shop', '0018_merge_20250809_0301'), ] 
-     operations = [ migrations.RunSQL( "CREATE UNIQUE INDEX IF NOT EXISTS shop_cartitem_unique " "ON shop_cartitem (cart_id, product_id, grind_type, weight);", "DROP INDEX IF EXISTS shop_cartitem_unique;", ), ] 
+     # This migration used to add a redundant unique index overlapping unique_together.
+     # It is now a no-op to avoid duplicate indexes while retaining migration order.
+     operations = []
